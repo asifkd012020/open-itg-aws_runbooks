@@ -1,1 +1,4 @@
-*   @aws_playbook_core
+* @aws_playbook_core
+
+# ECS playbook reviewer
+/ecs/ @aws_playbook_core @DRCP
