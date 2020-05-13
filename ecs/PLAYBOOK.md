@@ -109,6 +109,7 @@ NIST CSF:
 |-----------|------------------------|
 |PR.DS-1|Data-at-rest is protected|
 |PR.DS-2|Data-in-transit is protected|
+
 **Why?** Data should be protected within the AWS Service using NIST-approved encryption mechanisms. Some features of ECS employ automatic encryption, but other measures can be taken in other services to ensure all data is protected.
 
 **How?** Amazon ECS can be integrated with Amazon Elastic Container Registry (ECR). ECR transfers your container images over HTTPS and automatically encrypts your images at rest.  
