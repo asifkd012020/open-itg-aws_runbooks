@@ -46,6 +46,7 @@ NIST CSF:
 |PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
 |PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
 |PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+
 **Why?** With IAM roles for Amazon ECS tasks, you can specify an IAM role that can be used by the containers in a task. Having overly permissive IAM Roles for Tasks can lead to unauthorized access to resources not in scope of your application.
 
 **How?** Evaluate task to determine required access. Create a role with an attached policy that grants only that level of access. Review these roles and policies on a regular basis (at least annually).
@@ -62,6 +63,7 @@ NIST CSF:
 |PR.DS-5|Protections against data leaks are implemented|
 |PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
 |PR.PT-4|Communications and control networks are protected|
+
 **Why?** Amazon Elastic Container Registry (Amazon ECR) is a managed AWS Docker registry service that is secure, scalable, and reliable. Amazon ECR supports private Docker repositories with resource-based permissions using AWS IAM so that specific users or roles can access repositories and images. Developers can use the Docker CLI to push, pull, and manage images within ECR. Images stored in ECR are encrypted at-rest and in-transit.
 
 **How?** Authenticate your docker agent with ECR in your AWS account. Create an initial repository in ECR. Store images in ECR. Use ECR images whenever possible to limit use of potentially dangerous public repositories. 
@@ -78,6 +80,7 @@ NIST CSF:
 |PR.DS-5|Protections against data leaks are implemented|
 |PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
 |PR.PT-4|Communications and control networks are protected|
+
 **Why?** You can improve the security posture of your VPC by configuring Amazon ECR to use an interface VPC endpoint. VPC endpoints are powered by AWS PrivateLink, a technology that enables you to privately access Amazon ECR APIs through private IP addresses. AWS PrivateLink restricts all network traffic between your VPC and Amazon ECR to the Amazon network. Also, you don't need an internet gateway, a NAT device, or a virtual private gateway. For Amazon ECS tasks using the Fargate launch type, the VPC endpoint enables the task to pull private images from Amazon ECR without assigning a public IP address to the task. If using EC2 launch types for your ECS tasks, you will need to have both ECS and ECR Endpoints.
 
 **How?** If using the Fargate launch type for instances, create a VPC Endpoint for only the Docker Repository API. If using the EC2 launch type, create a VPC Endpoint for the ECR API as well. Create endpoints for S3 (for image file retrieval) and CloudWatch Logs. If tasks only use Internet access for images, that access to the Internet can now be disabled. For more details, see [Endnote 1](#endnote-1)
@@ -95,6 +98,7 @@ NIST CSF:
 |PR.DS-5|Protections against data leaks are implemented|
 |PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
 |PR.IP-7|Protection processes are improved|
+
 **Why?** When you register a task definition, you must specify a list of container definitions that are passed to the Docker daemon on a container instance, such as Name, Image, Memory and Port Mappings. The environment section of the container definition lists the environment variables to pass to a container. This parameter maps to the --env option for **docker run**. We do not recommend using plaintext environment variables for sensitive information, such as credential data. Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in either AWS Secrets Manager or AWS Systems Manager Parameter Store, and then referencing them in your container definition. 
 
 **How?** During the creation of a container, expand the Advanced Container Configuration section to specify your Environment Variables. For the value of the variable, enter the ARN of the secret or parameter. For more information on creating and injecting AWS Secrets Manager secrets, see [Endnote 2](#endnote-2). For more information on creating and injecting AWS Systems Manager Parameter Store parameters, see [Endnote 3](#endnote-3).
@@ -120,6 +124,7 @@ NIST CSF:
 |DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
 |DE.AE-4|Impact of events is determined|
 |DE.CM-1|The network is monitored to detect potential cybersecurity events|
+
 **Why?** You can configure your container instances to send log information to CloudWatch Logs. This enables your security team the ability to monitor, store and access different logs from your various container instances in one convenient location. You can use ECS logs as a security tool to monitor the traffic that is reaching your containers. Once configured the logs can be utilized to establish network baselines, help determine event impacts and detect anomalous activity.  
 
 **How?** By enabling the awslogs Log Driver and specifying it in your container's task definitions. For additional details see [Endnote 5](#endnote-5)
@@ -133,6 +138,7 @@ NIST CSF:
 |DE.CM-1|The network is monitored to detect potential cybersecurity events|
 |DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
 |DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
+
 **Why?** Amazon ECS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon ECS. CloudTrail captures all API calls for Amazon ECS as events, including calls from the Amazon ECS console and from code calls to the Amazon ECS API operations. Using the information collected by CloudTrail, you can determine the request that was made to Amazon ECS, the IP address from which the request was made, who made the request, when it was made, and additional details.
 
 **How?** For an ongoing record of events in your AWS account, including events for Amazon ECS, create a trail. A trail enables CloudTrail to deliver log files to an Amazon S3 bucket. By default, when you create a trail in the console, the trail applies to all regions. The trail logs events from all Regions in the AWS partition and delivers the log files to the Amazon S3 bucket that you specify. Additionally, you can configure other AWS services to further analyze and act upon the event data collected in CloudTrail logs. 
@@ -145,6 +151,7 @@ NIST CSF:
 |DE.CM-5|Unauthorized mobile code is detected|
 |DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
 |DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
+
 **Why?** X-Ray provides an end-to-end view of requests as they travel through your application, and shows a map of your application’s underlying components. You can use X-Ray to analyze both applications in development and in production, from simple three-tier applications to complex microservices applications consisting of thousands of services. AWS X-Ray is a service that collects data about requests that your application serves, and provides tools you can use to view, filter, and gain insights into that data to identify issues and opportunities for optimization. For any traced request to your application, you can see detailed information not only about the request and response, but also about calls that your application makes to downstream AWS resources, microservices, databases and HTTP web APIs. 
 
 **How?** X-Ray can automatically highlight bugs or errors in your application code by analyzing the response code for each request made to your application. This enables easy debugging of application code without requiring you to reproduce the bug or error.
@@ -156,6 +163,7 @@ NIST CSF:
 |DE.CM-5|Unauthorized mobile code is detected|
 |DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
 |DE.AE-4|Impact of events is determined|
+
 **Why?** CloudWatch Container Insights collects, aggregates, and summarizes metrics and logs from your containerized applications and microservices. The metrics include utilization for resources such as CPU, memory, disk, and network. Network metrics are only available for tasks that use the bridge network mode. The metrics are available in CloudWatch automatic dashboards. Operational data is collected as performance log events. These are entries that use a structured JSON schema that enables high-cardinality data to be ingested and stored at scale. From this data, CloudWatch creates higher-level aggregated metrics at the cluster and service level as CloudWatch metrics.
 
 **How?** Container Insights can be enabled for all new clusters created by opting in to the container Insights account setting, on individual clusters by enabling it using the cluster settings during cluster creation, or on existing clusters by using the Update Cluster Settings API. Opting in to the container Insights account setting can be done with both the Amazon ECS console and the AWS CLI. You must be running version 1.16.200 or later of the AWS CLI to use this feature
@@ -168,6 +176,7 @@ NIST CSF:
 |DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
 |DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
 |DE.DP-4|Event detection information is communicated to appropriate parties|
+
 **Why?** VPC Flow logs can help you with a number of tasks; for example, to troubleshoot why specific traffic is not reaching an instance, which in turn helps you diagnose overly restrictive security group rules. You can also use flow logs as a security tool to monitor the traffic that is reaching your instance. 
 
 **How?** VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow log data can be published to Amazon CloudWatch Logs and Amazon S3. After you've created a flow log, you can retrieve and view its data in the chosen destination.
@@ -183,6 +192,7 @@ NIST CSF:
 |RS.AN-5|Processes are established to receive, analyze and respond to vulnerabilities disclosed to the organization from internal and external sources (e.g. internal testing, security bulletins, or security researchers)|
 |RS.CO-2|Events are reported consistent with established criteria|
 |RS.CO-3|Information is shared consistent with response plans|
+
 **Why?** Amazon EventBridge enables you to automate your AWS services and respond automatically to system events such as application availability issues or resource changes. Events from AWS services are delivered to EventBridge in near real time. You can write simple rules to indicate which events are of interest to you and what automated actions to take when an event matches a rule.
 
 **How?** You can use Amazon ECS events for EventBridge to receive near real-time notifications regarding the current state of your Amazon ECS clusters. If your tasks are using the Fargate launch type, you can see the state of your tasks. If your tasks are using the EC2 launch type, you can see the state of both the container instances and the current state of all tasks running on those container instances. For services, you can see events related to the health of your service. Using EventBridge, you can build custom schedulers on top of Amazon ECS that are responsible for orchestrating tasks across clusters and monitoring the state of clusters in near real time.
