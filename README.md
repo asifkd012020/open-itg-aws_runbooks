@@ -1,7 +1,17 @@
 # aws_runbooks
-AWS runbooks deliver a set of consumable and repeatable templates for teams to use when deploying various AWS resources that will ensure services are secured from deployment and during life of the service.
+AWS runbooks is aset of consumable and repeatable templates for teams to use when deploying various AWS resources aligned to the NIST Cybersecurity Framework (CSF) that will ensure services are secured from deployment and during life of the service.
 
-The runbooks will be built off of playbooks that align with NIST Cyber Security Frame work and establish guardrails for teams to develop the runbooks. 
+# Playbooks
+Playbooks are risk requirement documents that outline NIST (CSF) controls that are applicable to a particular AWS service and how an AWS service can meet those controls from the mapping provided in the document. Included in each playbook:
+
+ - What the AWS service is capable of achieving
+ - What actions should be done to align the service to the controls in the NIST CSF. 
+ - highlight gaps for controls for the service it is written for. Details for address gaps are in the runbook. 
+ 
+ A playbook is not a technical document, implementation guide nor does it map to Capital Group internal controls.   
+
+# Runbooks
+Runbooks are design documents for implementation of an AWS service for how to meet the NIST CSF requirements that are outlined in the associated playbook. Runbooks should address gaps in controls that have been highlighted in the playbook by providing steps for addressing the gap, advise against feature sets of the service if the gap cannot be addressed as well as advising the Capital Group governing body for exception requests. 
 
 ## Contributing
 While AWS, PDS, and Risk will continue to build out playbooks, in the spirit of OpenITG, individual contributions to updates or creation of playbooks is available to everyone. 
