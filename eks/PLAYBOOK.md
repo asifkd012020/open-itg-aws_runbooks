@@ -47,7 +47,7 @@ NIST CSF:
 Before creating an Amazon EKS cluster, create an IAM role that the Kubernetes service can assume to create AWS resources; for example, when a load balancer is created, Kubernetes assumes the role to create an Elastic Load Balancing load balancer in the account. (Note, this only needs to be done one time and can be used for multiple EKS clusters in a given account.)  
 Once the cluster is created and configured, you can to configure IAM role-based permissions within the cluster using kubectl. (Note, in order to manage your cluster with IAM users/roles, you will need to configure kubectl, create/update kubconfig, and edit the aws-auth ConfigMap within Kubernetes.)
 
-### 2. Take measures to ensure data is protected
+### 2. Data is protected
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -83,7 +83,7 @@ NIST CSF:
 To prevent clusters from being accessed from outside private VPC endpoint, there are two options: (1) EventBridge rule when create_cluster() is called and endpointPublicAccess is set to True; reaction to Lambda to delete the cluster; and, (2) EventBridge rule when update_cluster_config() is called and endpointPublicAccess is set to True; reaction to to Lambda to set endpointPublicAccess to False.
 
 ## Detective
-### 1. Establish Config rules to monitor for deviations from normal configuration
+### 1. Establish configuration management rules to monitor for deviations from normal configuration
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -104,7 +104,7 @@ NIST CSF:
 |Detect unauthorized node creation|Detect when worker node is running an unauthorized AMI; reaction to Terminate node|
 |Confirm network connectivity is restricted between working and cluster node|Detect when worker node OR security plane security group deviates from AWS recommended minimum inbound and outbound traffic restriction; reaction to Reset security group|
 
-### 2. Utilize vulnerability scanning via Amazon Inspector
+### 2. Utilize vulnerability scanning
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -117,7 +117,7 @@ NIST CSF:
 **How?** Amazon Inspector can be leveraged to check for unintended network accessibility of your worker nodes and for vulnerabilities on those Amazon EC2 instances.  
 
 ## Respond/Recover
-### 1. Utilize Amazon EventBridge for automated incident response
+### 1. Utilize an event-based solution for automated incident response
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -126,8 +126,8 @@ NIST CSF:
 |RS.AN-3|Forensics are performed|
 |RS.AN-4|Incidents are categorized consistent with response plans|
 |RS.AN-5|Processes are established to receive, analyze and respond to vulnerabilities disclosed to the organization from internal and external sources (e.g. internal testing, security bulletins, or security researchers)|  
-**Why?** Using Amazon EventBridge, you can automatically report and respond to incidents, including EC2 actions taken on worker nodes, or EKS API Calls via CloudTrail.
+**Why?** Using an event-based solution, you can automatically report and respond to incidents, including EC2 actions taken on worker nodes, or EKS API Calls via CloudTrail.
 
-**How?** For various incident types, an appropriate response rule should be determined and added to EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases.
+**How?** For various incident types, an appropriate response rule should be determined and added to Amazon EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases.
 
 ## Endnotes
