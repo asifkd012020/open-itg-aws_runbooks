@@ -47,7 +47,7 @@ NIST CSF:
 Leverage IAM Policy Conditions to achieve fine-grained access control in ECR, which allows you to specify conditions that determine how a permissions policy takes effect. See [Endnote 1](#endnote-1).  
 Using IAM Roles to authenticate access to ECR is best practice, which enables temporary access keys (removing any reliance on long-term credentials that may not be automatically rotated).
 
-### 2. Take measures to ensure data is protected
+### 2. Data is protected
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -63,7 +63,7 @@ NIST CSF:
 Use CloudTrail to monitor for anomalous API activity, including calls to/from external IPs or accounts.  
 Use AWS Config to track for any configuration drift within ECR and its supporting services, like IAM and CloudTrail.
 
-### 3. Implement strong infrastructure controls using VPC Endpoints, data management, and monitoring
+### 3. Infrastructure must be secured for monitoring, audit, availability, and access control
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -74,7 +74,7 @@ NIST CSF:
 |PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
 |PR.DS-4|Adequate capacity to ensure availability is maintained|
 
-**Why?** Images stored within ECR are backed by S3. The data is highly available, thanks to built-in replication. Integrity, however can be improved through the use of VPC Endpoints and AWS Config and CloudTrail.
+**Why?** Images stored within ECR are backed by S3. The data is highly available, thanks to built-in replication. Integrity, however can be improved through the use of VPC Endpoints, CloudTrail, and a configuration management tool.
 
 **How?** AWS PrivateLink endpoints allow your ECS instances to pull images without traversing through the public internet. Amazon Elastic Container Registry (ECR) now supports PrivateLink Endpoint Policies, a capability that enables customers to better control access to Amazon ECR repositories and images using private endpoints. For more information on setting up VPC Endpoints on ECR, see [Endnote 2](#endnote-2).  
 Use AWS Config to track for any configuration drift to VPC Subnet ACL's.  
@@ -108,7 +108,7 @@ NIST CSF:
 **How?** You can manually scan container images stored in Amazon ECR, or you can configure your repositories to scan images when you push them to a repository. The last completed image scan findings can be retrieved for each image. Amazon ECR sends an event to Amazon EventBridge when an image scan is completed. For details on how to set up scans on an image or repository, see [Endnote 3](#endnote-3).
 
 ## Respond/Recover
-### 1. Utilize Amazon EventBridge for automated incident response
+### 1. Utilize an event-based solution for automated incident response
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -118,9 +118,9 @@ NIST CSF:
 |RS.AN-4|Incidents are categorized consistent with response plans|
 |RS.AN-5|Processes are established to receive, analyze and respond to vulnerabilities disclosed to the organization from internal and external sources (e.g. internal testing, security bulletins, or security researchers)|
 
-**Why?** Using Amazon EventBridge, you can automatically report and respond to incidents of almost any kind, including ECR actions, Image Scans, or API Calls via CloudTrail.
+**Why?** Using an event-based solution, you can automatically report and respond to incidents of almost any kind, including ECR actions, Image Scans, or API Calls via CloudTrail.
 
-**How?** For various incident types, an appropriate response rule should be determined and added to EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases. For information on setting up EventBridge with ECR, as well as some sample events, see [Endnote 4](#endnote-4).
+**How?** For various incident types, an appropriate response rule should be determined and added to Amazon EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases. For information on setting up EventBridge with ECR, as well as some sample events, see [Endnote 4](#endnote-4).
 
 ## Endnotes
 ### Endnote 1 <!-- omit in toc -->
