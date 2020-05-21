@@ -8,7 +8,9 @@ Playbooks are risk requirement documents that outline NIST (CSF) controls that a
  - What actions should be done to align the service to the controls in the NIST CSF. 
  - highlight gaps for controls for the service it is written for. Details for address gaps are in the runbook. 
  
- A playbook is not a technical document, implementation guide nor does it map to Capital Group internal controls.   
+Control statements and 'why' statements for the controls are to be technology agnostic. The 'how' statements for control objectives is where examples of AWS technology that can meet the control objective can be mentioned. 
+
+Additionally a playbook is not a technical document, implementation guide nor does it map to Capital Group internal controls.   
 
 # Runbooks
 Runbooks are design documents for implementation of an AWS service for how to meet the NIST CSF requirements that are outlined in the associated playbook. Runbooks should address gaps in controls that have been highlighted in the playbook by providing steps for addressing the gap, advise against feature sets of the service if the gap cannot be addressed as well as advising the Capital Group governing body for exception requests. 
