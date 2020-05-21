@@ -2,3 +2,5 @@
 
 # ECS playbook reviewer
 /ecs/ @open-itg/aws_playbook_core @drcpcg
+# EKS playbook reviewer
+/eks/ @open-itg/aws_playbook_core @drcpcg
