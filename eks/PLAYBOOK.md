@@ -60,9 +60,9 @@ NIST CSF:
 **Why?** Data should be protected in-transit between the customer and AWS, as well as within AWS Services using NIST-approved encryption mechanism.
 
 **How?** Communication with the Amazon EKS API endpoint enforces HTTPS and Kubernetes default management communications on EKS are TLS encrypted between kubectl, kubelet, AWS IAM Auth and the kubernetes cluster API.  
-Master Servers in the Control Plane are EBS-encrypted volumes with AWS-managed KMS encryption by default; encryption of Worker node volumes is managed at customer’s discretion, but encryption is possible.  
+Master Servers in the Control Plane are EBS-encrypted volumes with AWS-managed KMS encryption by default; encryption of Worker node volumes is managed by customers, and therefore can use customer-managed KMS keys.  
 The Amazon EKS-optimized AMI is not encrypted by default; however, encryption can be accomplished through AMI customization as with other EC2 instances and images.  
-When creating Kubernetes storage classes within your cluster, you are available to specify that the EBS storage class is encrypted, and you are able to set a defined storage class as a default. Kubernetes storage classes on EBS are encrypted with AWS KMS keys.  
+When creating Kubernetes storage classes within your cluster, you are available to specify that the EBS storage class is encrypted, and you are able to set a defined storage class as a default. Kubernetes storage classes on EBS are encrypted with AWS-managed or customer-managed KMS keys.  
 Encryption can be implemented as a preventative control by leveraging a CFN_nag rule to prevent a worker node from being created with an unencrypted EBS volume.  
 Enable Envelope Encryption for Secrets in EKS. This allows you to encrypt your secrets with a separate key, inside of the encrypted EBS volume.
 
@@ -79,8 +79,8 @@ NIST CSF:
 
 **Why?** When creating a new cluster, Amazon EKS creates an endpoint for the managed Kubernetes API server used to communicate with the cluster (using Kubernetes management tools such as kubectl). By default, this API server endpoint is public to the internet, and access to the API server is secured using a combination of AWS Identity and Access Management (IAM) and native Kubernetes Role Based Access Control
 
-**How?** Private access can be enabled to the Kubernetes API server so that all communication between worker nodes and the API server stays within the VPC; public access to the API can also be entirely disabled to remove all accessibility from the internet. If you only need to manage the Kubernetes cluster from within a VPC, a private Cluster API endpoint can be leveraged, which prevents traffic from traversing the open internet.  
-To prevent clusters from being accessed from outside private VPC endpoint, there are two options: (1) EventBridge rule when create_cluster() is called and endpointPublicAccess is set to True; reaction to Lambda to delete the cluster; and, (2) EventBridge rule when update_cluster_config() is called and endpointPublicAccess is set to True; reaction to to Lambda to set endpointPublicAccess to False.
+**How?** Private access can be enabled to the Kubernetes API server so that all communication between worker nodes and the API server stays within the VPC; public access to the API can also be entirely disabled to remove all accessibility from the internet. This is done by either adjusting Security Groups and NACLs to not allow access, or removing the Internet-bound route from the VPC's route table. If you only need to manage the Kubernetes cluster from within a VPC, a private Cluster API endpoint can be leveraged, which prevents traffic from traversing the open internet.  
+To prevent clusters from being accessed from outside private VPC endpoint, there are two options: (1) EventBridge rule when create_cluster() is called and endpointPublicAccess is set to True; reaction to Lambda to delete the cluster or set endpointPublicAccess to False; and, (2) EventBridge rule when update_cluster_config() is called and endpointPublicAccess is set to True; reaction to Lambda to set endpointPublicAccess to False.
 
 ## Detective
 ### 1. Establish configuration management rules to monitor for deviations from normal configuration
@@ -128,6 +128,7 @@ NIST CSF:
 |RS.AN-5|Processes are established to receive, analyze and respond to vulnerabilities disclosed to the organization from internal and external sources (e.g. internal testing, security bulletins, or security researchers)|  
 **Why?** Using an event-based solution, you can automatically report and respond to incidents, including EC2 actions taken on worker nodes, or EKS API Calls via CloudTrail.
 
-**How?** For various incident types, an appropriate response rule should be determined and added to Amazon EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases.
+**How?** For various incident types, an appropriate response rule should be determined and added to Amazon EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases.  
+A few examples of some events worth triggering on include; Updates to, or removal of, EC2 instances. Changes to Security Groups or NACLs. The unauthorized creation or deletion of a cluster.
 
 ## Endnotes
