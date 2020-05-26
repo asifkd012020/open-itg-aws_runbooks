@@ -31,6 +31,16 @@ AWS provides a number of security features for Amazon Elastic Container Service 
 
 These NIST Controls and Subcategories are not applicable to this service: PR.AT, PR.MA, PR.IP  (Unless stated), PR.AC-2, PR.AC-3, PR.DS-3, PR.DS-8, PR.PT-2, PR.PT-5, DE.DP1, DE.DP-2. DE.DP-3, DE.CM-3, DE.AE-5, RC, RS.MI.
 
+## Preventative Controls
+## 1. Implement least privilege IAM Roles for Tasks
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+___
 ## 1. Implement least privilege IAM Roles for Tasks
 ### IAM Roles for Tasks
 
@@ -225,6 +235,19 @@ This option is required if you want to use IAM task roles in an Amazon ECS servi
 In addition to the standard Amazon ECS permissions required to run tasks and services, IAM users also require `iam:PassRole` permissions to use IAM roles for tasks\.
 
 ## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
+|PR.IP-7|Protection processes are improved|
+|PR.DS-1|Data-at-rest is protected|
+|PR.DS-2|Data-in-transit is protected|
+|PR.DS-4|Adequate capacity to ensure availability is maintained|
+|PR.DS-5|Protections against data leaks are implemented|
+|PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
+|PR.PT-4|Communications and control networks are protected|
+___
+## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
 
 ### Using Amazon ECR Images with Amazon ECS
 
@@ -253,6 +276,19 @@ You can use your ECR images with Amazon ECS, but you need to satisfy the followi
   If you use the `AmazonEC2ContainerServiceforEC2Role` managed policy for your container instances, then your role has the proper permissions\. To check that your role supports Amazon ECR, see [Amazon ECS Container Instance IAM Role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html) in the *Amazon Elastic Container Service Developer Guide*\.
 + In your ECS task definitions, make sure that you are using the full `registry/repository:tag` naming for your ECR images\. For example, `aws_account_id.dkr.ecr.region.amazonaws.com``/my-web-app:latest`\.
 
+## 3. Configuring VPC Endpoints for ECR/ECS
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
+|PR.IP-7|Protection processes are improved|
+|PR.DS-1|Data-at-rest is protected|
+|PR.DS-2|Data-in-transit is protected|
+|PR.DS-4|Adequate capacity to ensure availability is maintained|
+|PR.DS-5|Protections against data leaks are implemented|
+|PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
+|PR.PT-4|Communications and control networks are protected|
+___
 ## 3. Configuring VPC endpoint for ECS 
 
 ### Amazon ECS Interface VPC Endpoints \(AWS PrivateLink\)
@@ -753,6 +789,20 @@ You can modify the following attributes of an interface endpoint:
 + [untag\-resource](https://docs.aws.amazon.com/cli/latest/reference/directconnect/untag-resource.html) \(AWS CLI\) 
 + [TagResource](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_UntagResource.html) \(AWS Tools for Windows PowerShell\)
 
+## 4. Consider using AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
+|PR.DS-1|Data-at-rest is protected|
+|PR.DS-2|Data-in-transit is protected|
+|PR.DS-5|Protections against data leaks are implemented|
+|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
+|PR.IP-7|Protection processes are improved|
+___
 ## 4. Configuring AWS Systems Manager Parameter Store and AWS Secrets Manager for reference of secrets into Container Definitions
 
 ### Amazon EC2 Systems Manager Parameter Store
@@ -1007,6 +1057,20 @@ http://<ec2-instance-public-DNS-name>/ecs.html
 ```
 
 You should see the results of running different access tests from the container after a short duration.
+
+## 5. Specifying sensative data using AWS secrets manager
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
+|PR.DS-1|Data-at-rest is protected|
+|PR.DS-2|Data-in-transit is protected|
+|PR.DS-5|Protections against data leaks are implemented|
+|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
+|PR.IP-7|Protection processes are improved|
 
 ## 5. Specifying sensative data using AWS secrets manager 
 
@@ -1321,6 +1385,15 @@ If the **Task execution role** field does not appear, choose **Configure via JSO
 7.  When your containers are added, choose **Create.**
 
 ## 6.  Using the awslogs Log Driver
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|DE.AE-1|A baseline of network operations and expected data flows for users and systems is established and managed|
+|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
+|DE.AE-4|Impact of events is determined|
+|DE.CM-1|The network is monitored to detect potential cybersecurity events|
+___
+## 6.  Using the awslogs Log Driver
 
 You can configure the containers in your tasks to send log information to CloudWatch Logs\. If you are using the Fargate launch type for your tasks, this allows you to view the logs from your containers\. If you are using the EC2 launch type, this enables you to view different logs from your containers in one convenient location, and it prevents your container logs from taking up disk space on your container instances\. This topic helps you get started using the `awslogs` log driver in your task definitions\.
 
@@ -1495,6 +1568,16 @@ For tasks using the EC2 launch type, after your container instance role has the 
 1. Choose a log stream to view\.  
 ![\[awslogs console metrics view\]](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/awslogs-log-stream.png) 
 
+## 7.  Creating a Trail to log ECS API calls
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|DE.AE-1|A baseline of network operations and expected data flows for users and systems is established and managed|
+|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
+|DE.CM-1|The network is monitored to detect potential cybersecurity events|
+|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
+|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
+___
 ## 7.  Creating a Trail to log ECS API calls
 
 Follow the procedure to create a trail that applies to all Regions\. A trail that applies to all Regions delivers log files from all Regions to an S3 bucket\. After you create the trail, CloudTrail automatically starts logging the events that you specified\. 
@@ -1672,6 +1755,16 @@ If you create a trail with the CloudTrail API, you can specify an existing Amazo
 
 For more information about Amazon SNS topics and about subscribing to them, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/)\.
 
+
+## 8. Running the X\-Ray Daemon 
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|DE.CM-4|Malicious code is detected|
+|DE.CM-5|Unauthorized mobile code is detected|
+|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
+|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
+___
 ### Utilizing X-Ray to capture distrubted traces from container applications
 ## 8. Running the X\-Ray Daemon 
 
@@ -1810,7 +1903,14 @@ Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
 ```
 ~/xray-daemon$ nohup ./xray_mac &
 ```
-
+## 9. Utilizing AWS CloudWatch Container Insights
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|DE.CM-5|Unauthorized mobile code is detected|
+|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
+|DE.AE-4|Impact of events is determined|
+___
 ## 9. Utilizing AWS CloudWatch Container Insights
 
 ### Setting Up Container Insights on Amazon ECS for Cluster\- and Service\-Level Metrics
@@ -1897,7 +1997,18 @@ To disable Container Insights on an existing Amazon ECS cluster, enter the follo
 ```
 aws ecs update-cluster-settings --cluster myCICluster --settings name=containerInsights,value=disabled
 ```
-
+## Respond/Recover
+## 10. Utilize Amazon ECS Events and EventBridge
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|RS.AN-1|Notifications from detection systems are investigated |
+|RS.AN-2|The impact of the incident is understood|
+|RS.AN-4|Incidents are categorized consistent with response plans|
+|RS.AN-5|Processes are established to receive, analyze and respond to vulnerabilities disclosed to the organization from internal and external sources (e.g. internal testing, security bulletins, or security researchers)|
+|RS.CO-2|Events are reported consistent with established criteria|
+|RS.CO-3|Information is shared consistent with response plans
+___
 ## 10. Utilize Amazon ECS Events and Eventbridge
 
 ### Creating an Event Bus
@@ -2515,6 +2626,15 @@ When you tag EventBridge rules, you can grant an IAM policy to a user to allow a
 }
 ```
 
+## 11. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|DE.CM-1|The network is monitored to detect potential cybersecurity events|
+|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
+|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
+|DE.DP-4|Event detection information is communicated to appropriate parties|
+___
 ## 11. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only) 
 
 ### Working with flow logs
@@ -2709,4 +2829,3 @@ You can perform the tasks described on this page using the command line or API\.
 + [delete\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-flow-logs.html) \(AWS CLI\)
 + [Remove\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
 + [DeleteFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteFlowLogs.html) \(Amazon EC2 Query API\)
-
