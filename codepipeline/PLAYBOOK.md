@@ -67,7 +67,8 @@ NIST CSF:
 
 **Why?** Data should be protected in-transit between the customer and AWS, as well as within AWS Services using NIST-approved encryption mechanism.
 
-**How?** Data in CodePipeline is encrypted at rest using service-owned KMS keys. Code artifacts are stored in a customer-owned S3 bucket and encrypted with either the default AWS-managed KMS key or a customer-managed KMS key.  
+**How?** Data in CodePipeline is encrypted at rest using service-owned KMS keys. Code artifacts are stored in a customer-owned S3 bucket and encrypted with either the default AWS-managed KMS key or a customer-managed KMS key. For information on setting up encryption on S3 buckets, including customer-managed KMS keys, see [Endnote 4](#endnote-4).  
+Set up a rule in AWS Config to monitor the S3 bucket to ensure it is encrypted.  
 All service to service communication is encrypted in transit using TLS.  
 Use AWS Secrets Manager to rotate, manage, and retrieve database credentials, API keys, and other secrets referenced by CodePipeline.
 
@@ -102,7 +103,7 @@ NIST CSF:
 
 **How?** Leverage AWS CloudTrail for a record of actions taken by a user, role, or an AWS service in AWS CodePipeline. Using the information collected by CloudTrail, you can determine the request that was made, the IP address from which the request was made, who made the request, when it was made, and additional details.  
 Monitor Amazon CloudWatch to understand and improve performance of CodePipeline.  
-Use file integrity validation to evidence whether a log file was modified, deleted, or unchanged after CloudTrail delivered it.
+Use file integrity validation to evidence whether a log file was modified, deleted, or unchanged after CloudTrail delivered it. For instruction on setting up log file integrity validation, see [Endnote 5](#endnote-5).
 
 ## Respond/Recover
 ### 1. Utilize an event-based solution for automated incident response
@@ -128,4 +129,7 @@ See [Endnote 3](#endnote-3) for more information.
 [https://docs.aws.amazon.com/codepipeline/latest/userguide/vpc-support.html](https://docs.aws.amazon.com/codepipeline/latest/userguide/vpc-support.html)
 ### Endnote 3 <!-- omit in toc -->
 [https://docs.aws.amazon.com/codepipeline/latest/userguide/detect-state-changes-cloudwatch-events.html](https://docs.aws.amazon.com/codepipeline/latest/userguide/detect-state-changes-cloudwatch-events.html)
-
+### Endnote 4 <!-- omit in toc -->
+[https://docs.aws.amazon.com/AmazonS3/latest/user-guide/default-bucket-encryption.html](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/default-bucket-encryption.html)
+### Endnote 5 <!-- omit in toc -->
+[https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-validation-intro.html](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-log-file-validation-intro.html)
