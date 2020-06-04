@@ -4,3 +4,10 @@
 /ecs/ @open-itg/aws_playbook_core @drcpcg
 # EKS playbook reviewer
 /eks/ @open-itg/aws_playbook_core @drcpcg
+# ECR playbook reviewer
+/ecr @open-itg/aws_playbook_core @drcpcg 
+# CodePipeline playbook reviewer
+codepipeline @open-itg/codepipeline @drcpcg
+# CodeDeploy playbook reviewer
+# CloudFormation playbook reviewer
+
