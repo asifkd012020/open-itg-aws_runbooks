@@ -46,6 +46,25 @@ NIST CSF:
 
 **How?** When creating roles for CloudFormation stack deployers, do not assign sweeping, admin-level policies to them. It's best to have multiple roles with varying levels of permissions. CloudFormation users can then be granted the ability to pass roles that align to their trusted level of access within AWS. For information on how to create these roles, and how to allow users to pass them, see [Endnote 1](#endnote-1) and [Endnote 2](#endnote-2).
 
+To prevent users from being able to use uploaded templates (meaning templates not uploaded to S3 prior to stack creation), there are two options, in the user's IAM policies, include a statement to deny the `cloudformation:CreateUploadBucket` action, or specify a bucket that is allowed for storing template files. For example:
+```json
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+      "Effect" : "Allow",
+      "Action" : [ "cloudformation:CreateStack", "cloudformation:UpdateStack" ],
+      "Resource" : "*",
+      "Condition" : {
+        "ForAllValues:StringEquals" : {
+          "cloudformation:TemplateUrl" : [ "https://s3.amazonaws.com/templatebucket/*" ]
+        }
+      }
+    }
+  ]
+}
+```
+
 ### 2. Limit public access to CloudFormation using VPC Endpoints
 NIST CSF:
 |NIST Subcategory Control|Description|
