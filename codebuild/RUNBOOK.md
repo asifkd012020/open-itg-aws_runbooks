@@ -17,18 +17,21 @@ Tony DeMarco
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
   - [1. Permissions within the service are established in line with individual need and least-privilege is enforced](#1-permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced)
-  - [2. Data is protected](#2-data-is-protected)
+  - [2. Data is protected All Data at rest must be encrypted and use a CG BYOK encryption key|](#2-data-is-protected-all-data-at-rest-must-be-encrypted-and-use-a-cg-byok-encryption-key)
   - [3. Inter-network traffic privacy](#3-inter-network-traffic-privacy)
 - [Detective](#detective)
   - [1. Auditing of all interactions with AWS CodeBuild](#1-auditing-of-all-interactions-with-aws-codebuild)
 - [Respond/Recover](#respondrecover)
   - [1. Utilize an event-based solution for automated incident response](#1-utilize-an-event-based-solution-for-automated-incident-response)
 - [Endnotes](#endnotes)
+- [Capital Group Control Statements](#capital-group-control-statements)
 
 ## Overview
 AWS provides a number of security features for AWS CodeBuild which help you comply with the NIST Cybersecurity Framework. The following playbook will outline what the AWS best practices are, how they align to NIST, and how to implement these best practices within your organization.
 
 These NIST Controls and Subcategories are not applicable to this service: ID, PR.AC-2, PR.AT, PR.DS (Unless stated), PR.IP (Unless Stated), PR.MA, PR.PT-2, PR.PT-3, DE.AE-4, DE.AE-5, DE.CM-2, DE.CM-6, DE.DP, RS.RP, RS.CO, RS.MI, RS.IM, RC
+
+These Capital Group control statements are not applicable to this service: 5, 7, 8, 9, 10
 
 ## Preventative Controls
 ### 1. Permissions within the service are established in line with individual need and least-privilege is enforced
@@ -54,12 +57,22 @@ arn:aws:codebuild:us-east-2:123456789012:project/my*
 
 For more information on setting up IAM permissions for CodeBuild, including examples, see [Endnote 1](#endnote-1).
 
-### 2. Data is protected
+### 2. Data is protected All Data at rest must be encrypted and use a CG BYOK encryption key|
+
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
 |PR.DS-1|Data-at-rest is protected|
 |PR.DS-2|Data-in-transit is protected|
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|1|All Data-at-rest must be encrypted and use a Capital Group BYOK encryption key|
+|2|All Data-in-transit must be encrypted using certificates using Capital Group Certificate Authority.|
+|3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
+
+*All data-in-transit will be encrypted according to the AWS standard (TLS 1.2 and AES-256), which meets Capital Group's encryption standard, however, all AWS service to service communication utilizes AWS generated certificates.*
 
 **Why?** Encryption is an important part of CodeBuild security. Some encryption, such as for data in-transit, is provided by default and does not require you to do anything. Other encryption, such as for data at-rest, you can configure when you create your project or build. 
 
@@ -127,9 +140,10 @@ To configure a CMK for use by CodeBuild, follow the instructions in the "How to 
 }
 ```
 
-The EBS volumes of the build fleet are encrypted by default using the AWS-managed CMK for EBS. **This key cannot be changed**.  
+The EBS volumes of the build fleet are encrypted by default using the AWS-managed CMK for EBS. **This key cannot be changed and a Capital Group Key cannot be used (no BYOK)**.  
 EFS file systems attached to the build fleet can be encrypted with customer-managed keys.  
 All communication between customers and CodeBuild and between CodeBuild and its downstream dependencies are encrypted using TLS.  
+
 For more information about data encryption within CodeBuild, see [Endnote 2](#endnote-2).
 
 ### 3. Inter-network traffic privacy
@@ -140,6 +154,11 @@ NIST CSF:
 |PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
 |PR.AC-3|Remote access is managed|
 |PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
 
 **Why?** Traffic between services and between regions on AWS uses the AWS backbone by default. In the event of network interruption, though, the traffic will traverse the public Internet. In addition to this, access to services like CodeBuild that don't reside within a VPC is done using publicly-routeable IP addresses. These measures will help isolate your traffic by ensuring it stays on the AWS backbone at all times, and by setting up private IP addresses to communicate between services.
 
@@ -184,6 +203,11 @@ NIST CSF:
 |DE.CM-1|The network is monitored to detect potential cybersecurity events|
 |DE.CM-3|Personnel activity is monitored to detect potential cybersecurity events|
 |DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed| 
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
 
 **Why?** Monitoring is an important part of maintaining the reliability, availability, and performance of AWS CodeBuild and your AWS solutions. You should collect monitoring data from all of the parts of your AWS solution so that you can more easily debug a multi-point failure, if one occurs. AWS provides the following tools for monitoring your CodeBuild resources and builds and for responding to potential incidents. 
 
@@ -305,3 +329,16 @@ The following metrics can be tracked per AWS account or build project.
 [https://docs.aws.amazon.com/codebuild/latest/userguide/monitoring-metrics.html](https://docs.aws.amazon.com/codebuild/latest/userguide/monitoring-metrics.html)
 ### Endnote 5 <!-- omit in toc -->
 [https://docs.aws.amazon.com/codebuild/latest/userguide/monitoring-alarms.html](https://docs.aws.amazon.com/codebuild/latest/userguide/monitoring-alarms.html)
+
+## Capital Group Control Statements 
+
+1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
+2. All Data-in-transit must be encrypted using certificates using CG Certificate Authority.
+3. Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.
+4. AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.
+5. Local AWS IAM accounts are restricted to services and no user accounts are to be provisioned including IaaS resources.
+6. Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.
+7. Use of AWS IAM accounts are restricted to CG networks.
+8. Local IAM secrets are rotated every 90 days, including accounts IaaS resources.
+9. Encryption keys are rotated annually.
+10. Root accounts must have 2FA/MFA enabled.
