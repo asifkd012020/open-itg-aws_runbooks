@@ -1783,7 +1783,6 @@ NIST CSF:
 |DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
 |DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
 ___
-
 ## 8. Running the X\-Ray Daemon 
 
 You can run the AWS X\-Ray daemon locally on Linux, MacOS, Windows, or in a Docker container\. Run the daemon to relay trace data to X\-Ray when you are developing and testing your instrumented application\. Download and extract the daemon by using the instructions [here](xray-daemon.md#xray-daemon-downloading)\.
