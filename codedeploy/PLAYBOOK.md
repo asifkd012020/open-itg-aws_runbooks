@@ -19,10 +19,9 @@ Tony DeMarco
   - [1.Use CodeDeploy Identity-based policies to ensure least-privilege is enforced to create, delete, or update deployment configurations and deployment groups.](#1-use-codedeploy-identity-based-policies-to-ensure-least-privilege-is-enforced-to-create-delete-or-update-deployment-configurations-and-deployment-groups)
 - [Detective](#detective)
   - [1. Audit and monitor all interactions with AWS CodeDeploy using AWS Cloudtrail](#1-Audit-and-monitor-all-interactions-with-AWS-CodeDeploy-using-AWS-Cloudtrail)
-- [Respond/Recover](#respondrecover)
 -[Respond/Recover](#respond-recover)
   -[Utilize AWS CloudWatch alarm actions to automatically stop, terminate, reboot, or recover EC2 instances when a deployment or instance event you specify occurs](#1-utilize-aws-cloudWatch-alarm-actions-to-automatically-stop-terminate-reboot-or-recover-ec-instances-when-a-deployment-or-instance-event-you-specify-occurs)
- - [Endnotes](#endnotes)
+- [Endnotes](#endnotes)
 
 ## Overview
 AWS provides a number of security features for AWS CodeDeploy which help you comply with the NIST Cybersecurity Framework. The following playbook will outline what the AWS best practices are, how they align to NIST, and how to implement these best practices within your organization.
