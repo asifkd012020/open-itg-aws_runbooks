@@ -19,8 +19,8 @@ Tony DeMarco
   - [1.Use CodeDeploy Identity-based policies to ensure least-privilege is enforced to create, delete, or update deployment configurations and deployment groups.](#1-use-codedeploy-identity-based-policies-to-ensure-least-privilege-is-enforced-to-create-delete-or-update-deployment-configurations-and-deployment-groups)
 - [Detective](#detective)
   - [1. Audit and monitor all interactions with AWS CodeDeploy using AWS Cloudtrail](#1-Audit-and-monitor-all-interactions-with-AWS-CodeDeploy-using-AWS-Cloudtrail)
--[Respond/Recover](#respondrecover)
-  -[Utilize AWS CloudWatch alarm actions to automatically stop, terminate, reboot, or recover EC2 instances when a deployment or instance event you specify occurs](#1-utilize-aws-cloudWatch-alarm-actions-to-automatically-stop-terminate-reboot-or-recover-ec-instances-when-a-deployment-or-instance-event-you-specify-occurs)
+- [Respond/Recover](#respondrecover)
+  - [Utilize AWS CloudWatch alarm actions to automatically stop, terminate, reboot, or recover EC2 instances when a deployment or instance event you specify occurs](#1-utilize-aws-cloudWatch-alarm-actions-to-automatically-stop-terminate-reboot-or-recover-ec-instances-when-a-deployment-or-instance-event-you-specify-occurs)
 - [Endnotes](#endnotes)
 
 ## Overview
