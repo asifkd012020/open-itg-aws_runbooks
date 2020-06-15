@@ -164,6 +164,8 @@ Capital Group:
 
 **How?** You can improve the security of your builds by configuring AWS CodeBuild to use an interface VPC endpoint. Interface endpoints are powered by PrivateLink, a technology that enables you to privately access Amazon EC2 and CodeBuild by using private IP addresses. PrivateLink restricts all network traffic between your managed instances, CodeBuild, and Amazon EC2 to the Amazon network. Also, you don't need an internet gateway, NAT device, or virtual private gateway.
 
+To create a VPC endpoint, a network administrator must follow the instructions in [Creating an interface endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-interface.html#create-interface-endpoint) to create the endpoint `com.amazonaws.`_`region`_`.codebuild`. This is a VPC endpoint for AWS CodeBuild.
+
 Endpoint policies allow you to control which principals are allowed to use the endpoint, and what they are allowed to do through the endpoint. These policies do not override any IAM policies. The following example policy specifies that all principals can only start and view builds for the `project-name` project.
 ```json
 {
@@ -211,7 +213,7 @@ Capital Group:
 
 **Why?** Monitoring is an important part of maintaining the reliability, availability, and performance of AWS CodeBuild and your AWS solutions. You should collect monitoring data from all of the parts of your AWS solution so that you can more easily debug a multi-point failure, if one occurs. AWS provides the following tools for monitoring your CodeBuild resources and builds and for responding to potential incidents. 
 
-**How?** AWS CodeBuild is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in CodeBuild. CloudTrail captures all API calls for CodeBuild as events, including calls from the CodeBuild console and from code calls to the CodeBuild APIs. If you create a trail, you can enable continuous delivery of CloudTrail events to an Amazon S3 bucket, including events for CodeBuild. If you don't configure a trail, you can still view the most recent events in the CloudTrail console in Event history. Using the information collected by CloudTrail, you can determine the request that was made to CodeBuild, the IP address from which the request was made, who made the request, when it was made, and additional details.  
+**How?** AWS CodeBuild is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in CodeBuild. As long as CloudTrail is enabled in your AWS account, there are no additional steps required to send logs to it. CloudTrail captures all API calls for CodeBuild as events, including calls from the CodeBuild console and from code calls to the CodeBuild APIs. If you create a trail, you can enable continuous delivery of CloudTrail events to an Amazon S3 bucket, including events for CodeBuild. If you don't configure a trail, you can still view the most recent events in the CloudTrail console in Event history. Using the information collected by CloudTrail, you can determine the request that was made to CodeBuild, the IP address from which the request was made, who made the request, when it was made, and additional details.  
 To protect sensitive information, AWS access key IDs, strings specified using the Parameter Store, and strings specified using AWS Secrets Manager are hidden in CodeBuild logs.
 
 The following example shows a CloudTrail log entry that demonstrates creating a build project in CodeBuild.
