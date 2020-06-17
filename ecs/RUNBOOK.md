@@ -18,7 +18,7 @@ Tony DeMarco
 - [2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images](#2-using-elastic-container-registry-ecr-for-storing-and-retrieving-docker-images)
 - [3. Configuring VPC endpoint for ECS](#3-configuring-vpc-endpoint-for-ecs)
 - [4. Configuring AWS Systems Manager Parameter Store and AWS Secrets Manager for reference of secrets into Container Definitions](#4-configuring-aws-systems-manager-parameter-store-and-aws-secrets-manager-for-reference-of-secrets-into-container-definitions)
-- [5. Specifying sensative data using AWS secrets manager](#5-specifying-sensative-data-using-aws-secrets-manager)
+- [5. Specifying sensitive data using AWS secrets manager](#5-specifying-sensitive-data-using-aws-secrets-manager)
 - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
 - [7. Creating a Trail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
 - [8. Running the X\-Ray Daemon](#8-running-the-x-ray-daemon)
@@ -42,7 +42,7 @@ NIST CSF:
 |PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
 |PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
 ___
-## 1. Implement least privilege IAM Roles for Tasks
+
 ### IAM Roles for Tasks
 
 With IAM roles for Amazon ECS tasks, you can specify an IAM role that can be used by the containers in a task\. Applications must sign their AWS API requests with AWS credentials, and this feature provides a strategy for managing credentials for your applications to use, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances\. Instead of creating and distributing your AWS credentials to the containers or using the EC2 instance’s role, you can associate an IAM role with an ECS task definition or `RunTask` API operation\. The applications in the task’s containers can then use the AWS SDK or CLI to make API requests to authorized AWS services\.
@@ -248,7 +248,6 @@ NIST CSF:
 |PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
 |PR.PT-4|Communications and control networks are protected|
 ___
-## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
 
 ### Using Amazon ECR Images with Amazon ECS
 
@@ -294,8 +293,6 @@ Capital Group:
 |Control Statement|Description|
 |------|----------------------|
 |6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.| 
-
-## 3. Configuring VPC endpoint for ECS 
 
 ### Amazon ECS Interface VPC Endpoints \(AWS PrivateLink\)
 
@@ -809,7 +806,6 @@ NIST CSF:
 |PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
 |PR.IP-7|Protection processes are improved|
 ___
-## 4. Configuring AWS Systems Manager Parameter Store and AWS Secrets Manager for reference of secrets into Container Definitions
 
 ### Amazon EC2 Systems Manager Parameter Store
 
@@ -1064,7 +1060,7 @@ http://<ec2-instance-public-DNS-name>/ecs.html
 
 You should see the results of running different access tests from the container after a short duration.
 
-## 5. Specifying sensative data using AWS secrets manager
+## 5. Specifying sensitive data using AWS secrets manager
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -1084,8 +1080,6 @@ Capital Group:
 |1|All Data at rest must be encrypted and use a CG BYOK encryption key.| 
 |2|All Data in transit must be encrypted using certificates using CG Certificate Authority.|
 |3|Keys storied in a Key Management System (KMS) should be created by Capital Groups hardware security module (HSM) and are a minimum of AES-256.|
-
-## 5. Specifying sensative data using AWS secrets manager 
 
 Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Secrets Manager secrets and then referencing them in your container definition. Sensitive data stored in Secrets Manager secrets can be exposed to a container as environment variables or as part of the log configuration.
 
@@ -1411,8 +1405,6 @@ Capital Group:
 |------|----------------------|
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
 
-## 6.  Using the awslogs Log Driver
-
 You can configure the containers in your tasks to send log information to CloudWatch Logs\. If you are using the Fargate launch type for your tasks, this allows you to view the logs from your containers\. If you are using the EC2 launch type, this enables you to view different logs from your containers in one convenient location, and it prevents your container logs from taking up disk space on your container instances\. This topic helps you get started using the `awslogs` log driver in your task definitions\.
 
 **Note**  
@@ -1596,7 +1588,6 @@ NIST CSF:
 |DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
 |DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
 ___
-## 7.  Creating a Trail to log ECS API calls
 
 Follow the procedure to create a trail that applies to all Regions\. A trail that applies to all Regions delivers log files from all Regions to an S3 bucket\. After you create the trail, CloudTrail automatically starts logging the events that you specified\. 
 
@@ -1783,7 +1774,6 @@ NIST CSF:
 |DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
 |DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
 ___
-## 8. Running the X\-Ray Daemon 
 
 You can run the AWS X\-Ray daemon locally on Linux, MacOS, Windows, or in a Docker container\. Run the daemon to relay trace data to X\-Ray when you are developing and testing your instrumented application\. Download and extract the daemon by using the instructions [here](xray-daemon.md#xray-daemon-downloading)\.
 
@@ -1928,7 +1918,6 @@ NIST CSF:
 |DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
 |DE.AE-4|Impact of events is determined|
 ___
-## 9. Utilizing AWS CloudWatch Container Insights
 
 ### Setting Up Container Insights on Amazon ECS for Cluster\- and Service\-Level Metrics
 
@@ -2030,8 +2019,6 @@ Capital Group:
 |Control Statement|Description|
 |------|----------------------|
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
-
-## 10. Utilize Amazon ECS Events and Eventbridge
 
 ### Creating an Event Bus
 
@@ -2661,8 +2648,6 @@ Capital Group:
 |Control Statement|Description|
 |------|----------------------|
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
-
-## 11. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only) 
 
 ### Working with flow logs
 
