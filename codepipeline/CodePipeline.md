@@ -1703,18 +1703,6 @@ Server access logging provides detailed records for the requests that are made t
 **Note**  
 Server access logs do not log information regarding wrong\-region redirect errors for Regions that launched after March 20, 2019\. Wrong\-region redirect errors occur when a request for an object/bucket is made to an endpoint other than the endpoint of the Region in which the bucket exists\. 
 
-**Topics**
-+ [How to enable server access logging](#server-access-logging-overview)
-+ [Log object key format](#server-log-keyname-format)
-+ [How are logs delivered?](#how-logs-delivered)
-+ [Best effort server log delivery](#LogDeliveryBestEffort)
-+ [Bucket logging status changes take effect over time](#BucketLoggingStatusChanges)
-+ [Enabling logging using the console](enable-logging-console.md)
-+ [Enabling logging programmatically](enable-logging-programming.md)
-+ [Amazon S3 Server Access Log Format](LogFormat.md)
-+ [Deleting Amazon S3 log files](deleting-log-files-lifecycle.md)
-+ [Using Amazon S3 access logs to identify requests](using-s3-access-logs-to-identify-requests.md)
-
 ## How to enable server access logging<a name="server-access-logging-overview"></a>
 
 To track requests for access to your bucket, you can enable server access logging\. Each access log record provides details about a single access request, such as the requester, bucket name, request time, request action, response status, and an error code, if relevant\. 
