@@ -19,12 +19,11 @@ Tony DeMarco
   - [1. Leverage AWS managed policies for CodePipeline](#1-leverage-aws-managed-policies-for-codepipeline)
   - [2. Grant Approval permissions to an IAM User in CodePipeline](#2-grant-approval-permissions-to-an-iam-user-in-codepipeline)
   - [3. Leverage tags to restrict user access based on tag value](#3-leverage-tags-to-restrict-user-access-based-on-tag-value)
-  - [4. Use GitHub OAuth tokens and personal access tokens to access your GitHub repositories and retrieve the latest changes](#4-use-github-oauth-tokens-and-personal-access-tokens-to-access-your-github-repositories-and-retrieve-the-latest-changes)
-  - [5. Configure Server\-Side Encryption for Artifacts Stored in Amazon S3 for CodePipeline](#5-configure-server-side-encryption-for-artifacts-stored-in-amazon-s3-for-codepipeline)
-  - [6. Limit sensitive functions (for both console and CLI access) to authorized individuals](#6-limit-sensitive-functions-for-both-console-and-cli-access-to-authorized-individuals)
-  - [7. Employ MFA for sensitive S3 resources repositories](#7-employ-mfa-for-sensitive-s3-resources-repositories)
-  - [8. Implement versioning for Code Respositories and implement MFA Delete](#8-implement-versioning-for-code-respositories-and-implement-mfa-delete)
-  - [9. Connect your VPC to CodePipeline by defining an interface VPC endpoint for CodePipeline](#9-connect-your-vpc-to-codepipeline-by-defining-an-interface-vpc-endpoint-for-codepipeline)
+  - [4. Configure Server\-Side Encryption for Artifacts Stored in Amazon S3 for CodePipeline](#4-configure-server-side-encryption-for-artifacts-stored-in-amazon-s3-for-codepipeline)
+  - [5. Limit sensitive functions (for both console and CLI access) to authorized individuals](#5-limit-sensitive-functions-for-both-console-and-cli-access-to-authorized-individuals)
+  - [6. Employ MFA for sensitive S3 resources repositories](#6-employ-mfa-for-sensitive-s3-resources-repositories)
+  - [7. Implement versioning for Code Respositories and implement MFA Delete](#7-implement-versioning-for-code-respositories-and-implement-mfa-delete)
+  - [8. Connect your VPC to CodePipeline by defining an interface VPC endpoint for CodePipeline](#8-connect-your-vpc-to-codepipeline-by-defining-an-interface-vpc-endpoint-for-codepipeline)
 - [Detective](#detective)
   - [1. Use file Integrity validation](#1-use-file-integrity-validation)
   - [2. Leverage S3 Access Logging2](#2-leverage-s3-access-logging)
@@ -327,123 +326,8 @@ To do that, it allows specific actions if the pipeline has a tag named `Project`
   ]
 }
 ```
-### 4. Use GitHub OAuth tokens and personal access tokens to access your GitHub repositories and retrieve the latest changes.
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
-|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
-|PR.DS-5|Protections against data leaks are implemented|
-|PR.PT-3|Access to systems and assets is controlled, incorporating the principle of least functionality|
 
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|#|Not applicable|
-
-**Why?** 
-Access controls provide reasonable assurance that logical access to programs, data, and compute resources is restricted to authorized and appropriate users, and such users are restricted to performing authorized and appropriate actions.
-
-**How?** 
-# Configure GitHub Authentication<a name="GitHub-authentication"></a>
-
-CodePipeline uses GitHub OAuth tokens and personal access tokens to access your GitHub repositories and retrieve the latest changes\. There are two ways to configure authentication in GitHub:
-+ AWS creates a default AWS\-managed OAuth token when you use the console to create or update pipelines\. 
-+ You can create and manage your own customer\-generated personal access tokens\. You need personal access tokens when you use the CLI, SDK, or AWS CloudFormation to create or update your pipeline\. 
-
-**Topics**
-+ [View Your Authorized OAuth Apps](#GitHub-view-oauth-token)
-+ [Configure Your Pipeline to Use a Personal Access Token \(GitHub and CLI\)](GitHub-create-personal-token-CLI.md)
-+ [Use GitHub and the CodePipeline CLI to Create and Rotate Your GitHub Personal Access Token on a Regular Basis](#GitHub-rotate-personal-token-CLI)
-
-### View Your Authorized OAuth Apps<a name="GitHub-view-oauth-token"></a>
-
-CodePipeline uses OAuth tokens to integrate with GitHub\. GitHub tracks the permissions of the OAuth token for CodePipeline\.
-
-**To view your authorized integrations in GitHub**
-
-1. In GitHub, from the drop\-down option on your profile photo, choose **Settings**\.
-
-1. Choose **Applications**, and then choose **Authorized OAuth Apps**\.
-
-1. Review your authorized apps\.  
-![\[Review authorized apps in GitHub.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/images/oauth-apps.png)![\[Review authorized apps in GitHub.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/)![\[Review authorized apps in GitHub.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/)
-
-### Use GitHub and the CodePipeline CLI to Create and Rotate Your GitHub Personal Access Token on a Regular Basis<a name="GitHub-rotate-personal-token-CLI"></a>
-
-The advantage of using tokens instead of passwords in a script is that tokens can be revoked or rotated\. You can also grant specific privileges and permissions to a personal access token\. Tokens should be stored securely and rotated or regenerated routinely\. Token rotation is recommended by [RFC\-6819 \(OAuth 2\.0 Threat Model and Security Considerations\), section 5\.1\.5\.3](https://tools.ietf.org/html/rfc6819#section-5.1.5.3)\.
-
-For more information, see [Creating a personal access token for the command line](https://help.github.com/articles/creating-an-access-token-for-command-line-use/) on the GitHub website\. 
-
-After you have regenerated a new personal access token, you can rotate it by using the AWS CLI or API or by using AWS CloudFormation and calling `UpdatePipeline`\.
-
-**Note**  
- You might have to update other applications if they are using the same personal access token\. As a security best practice, do not share a single token across multiple applications\. Create a new personal access token for each application\.
-
-Use these steps to rotate your GitHub personal access token and then update the pipeline structure with the new token\.
-
-**Note**  
-After you rotate your personal access token, remember to update any AWS CLI scripts or AWS CloudFormation templates that contain the old token information\.
-
-1. In GitHub, from the drop\-down option on your profile photo, choose **Settings**\. 
-
-1. Choose **Developer settings**, and then choose **Personal access tokens**\.
-
-1. Next to your GitHub personal access token, choose **Edit**\.  
-
-
-1. Choose **Regenerate token**\.  
-
-
-1. Next to the regenerated token, choose the copy icon\.  
-
-1. At a terminal \(Linux, macOS, or Unix\) or command prompt \(Windows\), run the get\-pipeline command on the pipeline where you want to change the personal access token, and then copy the output of the command to a JSON file\. For example, for a pipeline named MyFirstPipeline, you would type something similar to the following:
-
-   ```
-   aws codepipeline get-pipeline --name MyFirstPipeline >pipeline.json
-   ```
-
-   The output of the command is sent to the `pipeline.json` file\.
-
-1. Open the file in a plain\-text editor and edit the value in the `OAuthTokenField` of your GitHub action\.
-
-   When you use the AWS CLI to create the pipeline, you can pass your GitHub personal access token in this field\. Replace the asterisks \(\*\*\*\*\) with the token you copied from GitHub\. When you run `get-pipeline` to view the action configuration, the four\-asterisk mask is displayed for this value\. For example, for a personal access token with the value `111222333444555666777888EXAMPLE`:
-
-   ```
-   "configuration": {
-           "Owner": "MyGitHubUserName",
-           "Repo": "test-repo",
-           "Branch": "master",
-           "OAuthToken": "111222333444555666777888EXAMPLE"
-       }
-   ```
-**Note**  
-When you use an AWS CloudFormation template to update the pipeline, you must first store the token as a secret in AWS Secrets Manager\. You include the value for this field as a dynamic reference to the stored secret in Secrets Manager\. For an example, see [GitHub](action-reference-GitHub.md)\.
-
-1. If you are working with the pipeline structure retrieved using the `get-pipeline` command, you must modify the structure in the JSON file by removing the `metadata` lines from the file\. Otherwise, the `update-pipeline` command cannot use it\. Remove the section from the pipeline structure in the JSON file \(the `"metadata": { }` lines and the `"created"`, `"pipelineARN"`, and `"updated"` fields\)\.
-
-   For example, remove the following lines from the structure: 
-
-   ```
-   "metadata": {  
-     "pipelineArn": "arn:aws:codepipeline:region:account-ID:pipeline-name",
-     "created": "date",
-     "updated": "date"
-     }
-   ```
-
-1. Save the file, and then run update\-pipeline with the `--cli-input-json` parameter to specify the JSON file you just edited\. For example, to update a pipeline named MyFirstPipeline, you would type something similar to the following:
-**Important**  
-Be sure to include `file://` before the file name\. It is required in this command\.
-
-   ```
-   aws codepipeline update-pipeline --cli-input-json file://pipeline.json
-   ```
-
-1. When you have finished updating your pipelines, delete the JSON files\.
-
-
-### 5. Configure Server\-Side Encryption for Artifacts Stored in Amazon S3 for CodePipeline
+### 4. Configure Server\-Side Encryption for Artifacts Stored in Amazon S3 for CodePipeline
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -635,7 +519,7 @@ The following is an overview for setting up and using manual approvals\.
    If no response is submitted within seven days, the action is marked as "Failed\."
 
 
-### 7. Employ MFA for sensitive S3 resources repositories.
+### 6. Employ MFA for sensitive S3 resources repositories.
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -741,7 +625,7 @@ You can optionally use a numeric condition to limit the duration for which the `
 28.     ]
 29.  }
 ```
-### 8. Implement versioning for Code Respositories and implement MFA Delete. 
+### 7. Implement versioning for Code Respositories and implement MFA Delete. 
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -986,7 +870,7 @@ namespace s3.amazon.com.docsamples
 
 For information about using other AWS SDKs, see [Sample Code and Libraries](https://aws.amazon.com/code/)\. 
 
-### 9. Connect your VPC to CodePipeline by defining an interface VPC endpoint for CodePipeline. 
+### 8. Connect your VPC to CodePipeline by defining an interface VPC endpoint for CodePipeline. 
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
