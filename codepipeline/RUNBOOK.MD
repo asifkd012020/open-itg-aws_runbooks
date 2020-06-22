@@ -390,13 +390,12 @@ After you rotate your personal access token, remember to update any AWS CLI scri
 1. Choose **Developer settings**, and then choose **Personal access tokens**\.
 
 1. Next to your GitHub personal access token, choose **Edit**\.  
-![\[Edit the personal access token.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/images/personal-token1.png)![\[Edit the personal access token.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/)![\[Edit the personal access token.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/)
+
 
 1. Choose **Regenerate token**\.  
-![\[Edit the personal access token by regenerating it.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/images/personal-token2.png)![\[Edit the personal access token by regenerating it.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/)![\[Edit the personal access token by regenerating it.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/)
+
 
 1. Next to the regenerated token, choose the copy icon\.  
-![\[Copy the rotated token.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/images/personal-token3.png)![\[Copy the rotated token.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/)![\[Copy the rotated token.\]](http://docs.aws.amazon.com/codepipeline/latest/userguide/)
 
 1. At a terminal \(Linux, macOS, or Unix\) or command prompt \(Windows\), run the get\-pipeline command on the pipeline where you want to change the personal access token, and then copy the output of the command to a JSON file\. For example, for a pipeline named MyFirstPipeline, you would type something similar to the following:
 
