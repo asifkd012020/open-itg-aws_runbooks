@@ -144,7 +144,9 @@ NIST CSF:
 
 **Why?** Vulnerability scanning helps ensure that software running on the worker nodes is not susceptible to new or existing threats. 
 
-**How?** Amazon Inspector can be leveraged to check for unintended network accessibility of your worker nodes and for vulnerabilities on those Amazon EC2 instances. Amazon Inspector can run assessments on up to 500 EC2 instances simultaneously per AWS account. 
+**How?** _This is not applicable to Fargate Pods, only EC2 Worker Nodes._
+
+Amazon Inspector can be leveraged to check for unintended network accessibility of your worker nodes and for vulnerabilities on those Amazon EC2 instances. Amazon Inspector can run assessments on up to 500 EC2 instances simultaneously per AWS account. 
 
 The Amazon Inspector agent is installed when the target EC2 instances are chosen during Inspector assessment creation. It is also possible to install the Amazon Inspector agent on multiple EC2 instances at once using the Systems Manager Run Command.  
 Within the Systems Manager console, select Instances & Nodes, and then select Run Command. There is a pre-defined command document named **AmazonInspector-ManageAWSAgent** that scripts out the installation of the Inspector agent. For the targets of the Run Command, select the EC2 instances in your EKS worker nodes cluster, or select a common tag (recommended).
