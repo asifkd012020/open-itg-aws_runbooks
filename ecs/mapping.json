@@ -1,0 +1,180 @@
+{
+    "servicename": [
+        "AWS::ECS::*"
+    ],
+    "phase": "discovery",
+    "mapping": [
+        {
+            "name": "ECS - Disable Public IP Access",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_DisablePubAPIAccess",
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#63",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#73"
+                    ],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [
+                        "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/ecs.py#L5"
+                    ],
+                    "type": "prevent"
+                }
+            ],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - Resource Tagging",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_Tagging",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - Logdriver Forwarding",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_AWSLogDriver",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - Cloud Watch Logging",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_CloudWatchlLogging",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - Cloud Trail Logging",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_CloudTraillLogging",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - Security Group scoped for Cluster-only Communications",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_ClusterCommScope",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - Secrets Managed by CG BYOK",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_SecretsBYOK",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - EC2 Instances IAM Roles Defined",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_EC2_IAM",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - EC2 Instances Encrypted with CG KMS",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_EC2_KMS",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - EC2 Instance resources tagged",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_EC2_Tag",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - Fargate Managed Docker Read-Only Filesystem",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_FGate_RO_FS",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        },
+        {
+            "name": "ECS - Fargate Managed with no Volume Mounts",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_No_VolumeMounts",
+            "severity": [
+                {
+                    "Prod": "high",
+                    "SNP": "high",
+                    "NP": "medium"
+                }
+            ],
+            "implementations": [],
+            "control_mapping": []
+        }
+    ]
+}
