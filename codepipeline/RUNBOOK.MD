@@ -885,6 +885,14 @@ Capital Group:
 |------|----------------------|
 |5|Local AWS IAM accounts are restricted to services and no user accounts are to be provisioned including IaaS resources.|
 
+**Limitations**
+* The following services integrate with CodePipeline, but they must communicate with the internet:
+  * CodeCommit, which might be a source repository
+  * GitHub webhooks	
+  * Active Directory
+* The following services are enabled for VPC support, but they must communicate with the internet, and cannot be connected to CodePipeline using VPC endpoints:	
+  * Amazon ECR, which might be used with a custom Docker image
+  * Amazon CloudWatch Events and Amazon CloudWatch Logs
 
 **Why?** 
 CodePipeline supports Amazon VPC endpoints powered by AWS PrivateLink, an AWS technology that facilitates private communication between AWS services using an elastic network interface with private IP addresses. This means you can connect directly to CodePipeline through a private endpoint in your VPC, keeping all traffic inside your VPC and the AWS network.
