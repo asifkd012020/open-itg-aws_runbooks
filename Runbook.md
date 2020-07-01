@@ -50,7 +50,7 @@ NIST CSF:
 **How?** Specify custom IAM Roles when creating the cluster. A User account is not authorized to call EC2 instances from EMR a service role is needed to acces the EC2 instance. When creating the cluster specifiy a custom service role for Amazon EMR along with a custom role for EC2 instances when creating a cluster. 
 
 Potential Required Rules
-* Custom autoscaling role required if cluster in EMR uses automatic scaling **[KNDJ]** `--auto-scaling-role`
+* Custom autoscaling role required if cluster in EMR uses automatic scaling `--auto-scaling-role`
 * Custom service role for EMR Notebooks required if using EMR Notebooks
 
  
@@ -71,7 +71,6 @@ emr =
 ```                
 
 
-**[KNDJ start]**
 **Configure IAM Roles for EMRFS Request to Amazon S3 buckets**
 When an application running on an Amazon EMR cluster references data using the s3://mydata format, Amazon EMR uses EMRFS to make the request. To interact with Amazon S3, EMRFS assumes the permissions policies attached to the Service Role for Cluster EC2 Instances (EC2 Instance Profile) specified when the cluster was created. The same service role for cluster EC2 instances is used regardless of the user or group using the application or the location of the data in Amazon S3. If you have clusters with multiple users who need different levels of access to data in Amazon S3 through EMRFS, you can set up a security configuration with IAM roles for EMRFS. EMRFS can assume a different service role for cluster EC2 instances based on the user or group making the request, or based on the location of data in Amazon S3. Each IAM role for EMRFS can have different permissions for data access in Amazon S3.
 NOTE: IAM roles for EMRFS are available with Amazon EMR release version 5.10.0 and later. 
@@ -119,7 +118,6 @@ When using resource-based policies to limit access to AWS Glue from within Amazo
 
 ```json arn:aws:iam::acct-id:role/EMR_EC2_DefaultRole```
 
-**[KNDJ END]**
 ### 2. Data must be encrypted at all times using a CG BYOK for encryption where possible 
 
 NIST CSF:
@@ -141,7 +139,6 @@ Capital Group:
 
 **How?** AWS EC2 instances deployed into CG private subnets and allow for BYOK. 
 
-**[KNDJ start]**
 **Use Security Configurations to Set Up Cluster Security**
  
 Beginning with Amazon EMR version 4.8.0, you can use Amazon EMR security configurations to configure data encryption settings for clusters more easily. Security configurations offer settings to enable security for data in-transit and data at-rest in Amazon Elastic Block Store (Amazon EBS) volumes and EMRFS on Amazon S3. Each security configuration that you create is stored in Amazon EMR rather than in the cluster configuration, so you can easily reuse a configuration to specify data encryption settings whenever you create a cluster.
@@ -261,7 +258,6 @@ All communication between EMR cluster nodes is encrypted via use of TLS custom c
 **Use a Customer Key Provider for Amazon S3 Encryption wiht EMRFS**
 When Amazon EMR fetches the encryption materials from the EncryptionMaterialsProvider class to perform encryption, EMRFS optionally populates the materialsDescription argument with two fields: the Amazon S3 URI for the object and the JobFlowId of the cluster, which can be used by the EncryptionMaterialsProvider class to return encryption materials selectively.
 
-**[KNDJ END]**
 
 ```java  
 import com.amazonaws.services.s3.model.EncryptionMaterials;
@@ -331,7 +327,7 @@ Capital Group:
 **Why?** You can improve the security posture of your VPC by configuring Amazon EMR to use an interface VPC endpoint. Interface endpoints are powered by AWS PrivateLink. PrivateLink restricts all network traffic between your VPC and Amazon EMR to the Amazon network. You don't need an internet gateway, a NAT device, or a virtual private gateway. The instances in your VPC don't need public IP addresses to communicate with the Amazon EMR API. Capital Group VPCs communication occurs through the tranist gateway. 
 
 **How?** To use Amazon EMR through your VPC, you must connect from an instance that is inside the VPC or connect your private network to your VPC by using an Amazon Virtual Private Network (VPN) or AWS Direct Connect. 
-**KNDJ Start**
+
 After you create an interface VPC endpoint, if you enable private DNS hostnames for the endpoint, the default Amazon EMR endpoint resolves to your VPC endpoint. The default service name endpoint for Amazon EMR is in the following format.
 
       elasticmapreduce.Region.amazonaws.com
@@ -341,8 +337,6 @@ If you do not enable private DNS hostnames, Amazon VPC provides a DNS endpoint n
 
 Additionally Amazon EMR supports making calls to all of its API Actions inside your VPC.
 
-**KNDJ End**
-
 **Create a VPC Endpoint Policy for Amazon EMR**
 You can create a policy for Amazon VPC endpoints for Amazon EMR to specify the following:
   * The principal that can or cannot perform actions
@@ -350,7 +344,6 @@ You can create a policy for Amazon VPC endpoints for Amazon EMR to specify the f
   * The resources on which actions can be performed 
 <br>https://docs.aws.amazon.com/emr/latest/ManagementGuide/interface-vpc-endpoint.html 
 
-**[KNDJ Start]**
 Example – VPC Endpoint Policy to Deny All Access From a Specified AWS Account. e.g. '123456789012`
 ```json
 {
@@ -453,7 +446,6 @@ The following VPC endpoint policy allows full access for all accounts and princi
 ```
 
 
-**[KNDJ end]**
 
 #### 3.2. Enable SSH Access to EMR Cluster Instances 
 **Why?** 
@@ -465,7 +457,6 @@ Amazon EMR cluster nodes run on Amazon EC2 instances. You can connect to cluster
 EMR cluster consists of EC2 instances deployed in CG Private subsets in CDD AWS accounts. Every cluster has its SSH key, and this key is secured using AWS secrets manager. This key is introduced into AWS Secrets manager via Automation
 
 * <b>Capital Group Control</b>: Interactive access to the cluster is via SSH key vaulted in CyberArk or Secrets manager. User access to these keys is limited based on user role managed in the CG User domain (AD).  
-**[KNDJ start]**
 
 #### 3.2. Enable Logging to Cloudtrails & Cloudtrail to Splunk 
 * Side Note -- Loggers 
@@ -478,7 +469,6 @@ EMR cluster consists of EC2 instances deployed in CG Private subsets in CDD AWS 
 * You can also audit the S3 objects that EMR accesses by using S3 access logs. AWS CloudTrail provides logs only for AWS API calls. Thus, if a user runs a job that reads and writes data to S3, the S3 data that was accessed by EMR doesn't show up in CloudTrail. By using S3 access logs, you can comprehensively monitor and audit access against your data in S3 from anywhere, including EMR.
 
 **How?**
-**[KNDJ start]**
 Every event or log entry contains information about who generated the request. The identity information helps you determine the following:
 
 * Whether the request was made with root or AWS Identity and Access Management (IAM) user credentials.
