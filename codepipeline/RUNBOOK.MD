@@ -30,6 +30,7 @@ Tony DeMarco
   - [3. Log CodePipeline API calls with AWS CloudTrail](#3-log-codepipeline-api-calls-with-aws-cloudtrail)
 - [Respond/Recover](#respondrecover)
   - [1. Detect and React to changes in Pipeline State with Amazon CloudWatch Events](#1-detect-and-react-to-changes-in-pipeline-state-with-amazon-cloudwatch-events)
+  - [2. Detect and React to use of non CG organization GitHub repositories for Source](#2-detect-and-react-to-use-of-non-CG-organization-github-repositories-for-source)
 - [Endnotes](#endnotes)
 
 ## Overview
@@ -1797,6 +1798,27 @@ The following example shows a CloudTrail log entry for an update pipeline event,
 }
 ```
 
+### 4. Detect and React to use of non CG organization GitHub repositories for Source
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+
+**Why?**
+GitHub is a high risk ingress points for promotion of inappropriate code, not being monitored or managed as Capital Group resource. It also is a data egress risk, though with CodePipeline's implicit GitHub use that risk is not particularly applicable for Source configuration. CodePipeline doesn't allow the attachment of a VPC for the source actions, so we cannot block this using CG Network Resources.
+
+**How?**
+AWS Config can scan, in the background, for use of non-CG organization GitHub repositories, allowing for detection of inappropriate ingress. 
+
+Using a custom AWS Config rule, check the Source configuration to ensure the organization is one of the following:
+- https://github.com/capgroup-cxt/*
+- https://github.com/capgroup-ict/*
+- https://github.com/capgroup-idea/*
+- https://github.com/capgroup-igtech/*
+- https://github.com/capgroup-tso/*
+- https://github.com/open-itg/*
+- https://github.com/The-Capital-Group-Companies-Inc/* 
 
 ## Respond/Recover
 ### 1. Detect and React to changes in Pipeline State with Amazon CloudWatch Events 
@@ -2100,7 +2122,6 @@ To use the AWS CLI to create a rule, call the put\-rule command, specifying:
    ```
 
 1. Add permissions for Amazon CloudWatch Events to use the designated target service to invoke the notification\. 
-
 
 ## Endnotes
 ### Endnote 1 <!-- omit in toc -->
