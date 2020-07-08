@@ -35,7 +35,7 @@ AWS provides a number of security features for Amazon Elastic Compute Cloud (EC2
 
 These NIST Controls and Subcategories are not applicable to this service: ID, PR.AC-2, PR.AT, PR.DS (Unless stated), PR.IP (Unless Stated), PR.MA, PR.PT-2, DE.AE-4, DE.AE-5, DE.CM-2, DE.CM-6, DE.DP, RS.RP, RS.CO, RS.MI, RS.IM, RC
 
-These Capital Group Control Statement is not applicable to this service: 9
+This Capital Group Control Statement is not applicable to this service: [9](#capital-group-control-statements)
 
 ## Preventative Controls
 ### 1. Enforce strict boundaries for access to _and_ from EC2 instances
