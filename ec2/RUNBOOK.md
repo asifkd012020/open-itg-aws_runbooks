@@ -313,7 +313,7 @@ A *security group* acts as a virtual firewall for your instance to control incom
           - If you choose any other type, the protocol and port range are configured automatically.
      2. For **Source**, do one of the following.
           - Choose **Custom** and then enter an IP address in CIDR notation, a CIDR block, or another security group from which to allow inbound traffic.
-          - Choose **Anywhere** to allow all inbound traffic of the specified protocol to reach your instance. This option automatically adds the 0.0.0.0/0 IPv4 CIDR block as an allowed source. This is acceptable for a short time in a test environment, but it's unsafe for production environments. In production, authorize only a specific IP address or range of addresses to access your instance.
+          - Choose **Anywhere** to allow all inbound traffic of the specified protocol to reach your instance. This option automatically adds the 0.0.0.0/0 IPv4 CIDR block as an allowed source. **This is acceptable for a short time in a test environment, but is unacceptable for production environments.** In production, authorize only a specific IP address or range of addresses to access your instance.
           - If your security group is in a VPC that's enabled for IPv6, this option automatically adds a second rule for IPv6 traffic (::/0).
           - Choose **My IP** to allow inbound traffic from only your local computer's public IPv4 address.
      3. For Description, optionally specify a brief description for the rule.
@@ -371,6 +371,29 @@ Capital Group:
 
 Use AWS Systems Manager Session Manager for shell access to EC2. Session Manager helps you improve your security posture by letting you close these inbound ports, freeing you from managing SSH keys and certificates, bastion hosts, and jump boxes. Session Manager is a fully managed AWS Systems Manager capability that lets you manage your Amazon EC2 instances through an interactive one-click browser-based shell or through the AWS CLI. Session Manager provides secure and auditable instance management without the need to open inbound ports, maintain bastion hosts, or manage SSH keys. Session Manager also makes it easy to comply with policies that require controlled access to instances, strict security practices, and fully auditable logs with instance access details, while still providing end users with simple one-click cross-platform access to your Amazon EC2 instances.
 
+**Setting up the SSM Agent**
+In order to communicate with an instance, it needs to have the SSM Agent installed. This is pre-installed on Amazon Linux 2 and Windows Server AMIs, but is not currently pre-installed on RHEL AMIs.  
+
+1. To install the agent
+```
+sudo dnf install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
+```
+2. Get the current status of the SSM Agent service
+```
+sudo systemctl status amazon-ssm-agent
+```
+3. If the service is not started, start the service:
+```
+sudo systemctl enable amazon-ssm-agent
+```
+```
+sudo systemctl start amazon-ssm-agent
+```
+4. Check the status of the service
+```
+sudo systemctl status amazon-ssm-agent
+```
+
 **There are two ways to access instances through Session Manager within the Console:**  
 *Option 1:*  
 1. Open the Amazon EC2 console at [https://console.aws.amazon.com/ec2/](https://console.aws.amazon.com/ec2/).
@@ -394,6 +417,19 @@ If an instance you want to connect to is not in the list, or is listed but an er
 aws ssm start-session --target instance-id
 ```
 *instance-id* represents of the ID of an instance configured for use with AWS Systems Manager and its Session Manager capability, such as `i-02573cafcfEXAMPLE`. 
+
+### 5. Patch Management and Vulnerability Management
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.IP-12|A vulnerability management plan is developed and implemented|
+|DE.CM-8|Vulnerability scans are performed|
+
+**Why** Vulnerabilities are weaknesses in software that can expose a system to unwanted malicious activity. By applying regular patches and performing regular vulnerability scans, you help to ensure the safety and integrity of a system.
+
+**How** Refer to Internal Documentation on the setup of Capital Group's vulnerability management software. If you are deploying an EC2 instance from an image that does not already have this software installed and configured, you will need to include it in the initial deployment.
+
+For patch management, the best way to manage a fleet of instances is using AWS Systems Manager. Systems Manager offers options for performing patch management on individual, or multiple, instances. In order for AWS Systems Manager to communicate with your instance, you will need to install the SSM Agent on the instance. Refer to [Endnote 3](#endnote-3) for details on setting up patch management on specific types of instances. Refer to the previous section for instructions on installing the SSM Agent.
 
 ## Detective
 ### 1. Monitor EC2 instance activity
@@ -1226,6 +1262,9 @@ Create an alarm that terminates an instance that runs batch jobs when it is no l
 
 ### Endnote 2 <!-- omit in toc -->
 [https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-examples](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-examples)
+
+### Endnote 3 <!-- omit in toc -->
+[https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-patch.html](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-patch.html)
 
 ## Capital Group Control Statements 
 1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
