@@ -1,13 +1,22 @@
 *        @open-itg/aws_playbook_core
 
-# ECS playbook reviewer
+# ECS runbook reviewer
 /ecs/ @open-itg/aws_playbook_core @drcpcg
-# EKS playbook reviewer
+# EKS runbook reviewer
 /eks/ @open-itg/aws_playbook_core @drcpcg
 # ECR playbook reviewer
 /ecr @open-itg/aws_playbook_core @drcpcg 
-# CodePipeline playbook reviewer
-codepipeline @open-itg/codepipeline @drcpcg
-# CodeDeploy playbook reviewer
-# CloudFormation playbook reviewer
-
+# CodePipeline runbook reviewer
+/codepipeline/ @open-itg/aws_playbook_core  @drcpcg
+# CodeDeploy runbook reviewer
+/codedeploy/ @open-itg/aws_playbook_core  @drcpcg
+# CloudFormation runbook reviewer
+/codedeformation/ @open-itg/aws_playbook_core  @drcpcg
+# EC2 runbook reviewer
+/ec2/ @open-itg/aws_playbook_core @shnccg
+# EMR runbook reviewer
+/emr/ @open-itg/aws_playbook_core @chppcg
+# RDS runbook reviewer
+/rds/ @open-itg/aws_playbook_core  @dpl-cg
+# DynamoDB runbook reviewer
+/dynamodb/ @open-itg/aws_playbook_core @dpl-cg
