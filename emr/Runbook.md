@@ -1,5 +1,3 @@
-<img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" alt="AWS" width="250"/>
-
 # EMR - Security Runbook <!-- omit in toc -->
 ## NIST Cybersecurity Framework Alignment <!-- omit in toc -->
 
@@ -7,18 +5,14 @@
 Josh Lutrell
 Ken Jeanis
 
-*AWS Professional Services*
-
-## Disclaimer
-> The following applies to this document and all other documents, information, data, and responses (written or verbal) provided by Amazon Web Services, Inc. or any of its affiliates (collectively, "**AWS**") in connection with responding to this request and other related requests (collectively, this "**Response**"): This Response is expressly (a) informational only and provided solely for discussion purposes, (b) non-binding and not an offer to contract that can be accepted by any party, (c) provided "as is" with no representations or warranties whatsoever, and (d) based on AWS's current knowledge and may change at any time due to a variety of factors such as changes to your requirements or changes to AWS's service offerings. All obligations must be set forth in a separate, definitive written agreement between the parties. Neither party will have any liability for any failure or refusal to enter into a definitive agreement. All use of AWS's service offerings will be governed by the AWS Customer Agreement available at [http://aws.amazon.com/agreement/](http://aws.amazon.com/agreement/) (or other definitive written agreement between the parties governing the use of AWS's service offerings) (as applicable, the "**Agreement**"). If the parties have an applicable Nondisclosure Agreement ("**NDA**"), then the NDA will apply to all Confidential Information (as defined in the NDA) disclosed in connection with this Response. AWS's pricing is publicly available and subject to change in accordance with the Agreement. Pricing information (if any) provided in this Response is only an estimate and is expressly not a binding quote. Fees and charges will be based on actual usage of AWS services, which may vary from the estimates provided. Nothing in this Response will modify or supplement the terms of the Agreement or the NDA. No part of this Response may be disclosed without AWS's prior written consent. 
-
 ## Table of Contents <!-- omit in toc -->
 - [Disclaimer](#disclaimer)
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
   - [1. Permissions within the service are established in line with individual need and least-privilege is enforced](#1-preventative-item-1)
   - [2. Data must be encrypted at all times using a CG BYOK for encryption where possible ](#2-preventative-item-2)
-  - [3Infrastructure must be secured for monitoring, audit, availability, and access control](#3-preventative-item-3)
+  - [3. Infrastructure must be secured for monitoring, audit, availability, and access control](#3-preventative-item-3)
+  - [4. Patch Management and Vulnerability Management](#4-preventative-item-4)
 - [Detective](#detective)
   - [1. Establish Config rules to monitor for deviations from normal configuration](#1-detective-item-1)
 - [Respond/Recover](#respondrecover)
@@ -43,6 +37,12 @@ NIST CSF:
 |PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
 |PR.PT-3|The principle of least frunctionality is incorporated by configuring systems to rpovide only essential capabilities|
 
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
 
 **Why?** Different users/services will require different levels of access within the service. Having clearly defined policies and limiters will ensure that a user is not able to manage build projects in ways that they shouldn't be able to.
 * Amazon EMR and applications such as Hadoop and Spark need permissions to access other AWS resources and perform actions when they run. Each cluster in Amazon EMR must have a service role and a role for the Amazon EC2 instance profile. 
@@ -131,7 +131,7 @@ NIST CSF:
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|1|All Data-at-rest must be enccrypted and use a Capital Group BYOK encryption key|
+|1|All Data-at-rest must be encrypted and use a Capital Group BYOK encryption key|
 |2|All Data-in-transit must be encrypted using certificates using Capital Group Certificate Authority|
 |3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256|
 
@@ -158,7 +158,7 @@ JSON
     
     
 YAML
-```ymal
+```yaml
 Type: AWS::EMR::SecurityConfiguration
 Properties: 
   Name: String
@@ -169,7 +169,7 @@ The example below illustrates the following scenario:
 * CSE-Custom is used for Amazon S3 data.
 * Local disk encryption uses a custom key provider.
 
-```
+```json
 aws emr create-security-configuration --name "MySecConfig" --security-configuration '{
     "EncryptionConfiguration": {
         "EnableInTransitEncryption" : "true",
@@ -534,6 +534,19 @@ The following example shows a CloudTrail log entry that demonstrates the RunJobF
   ]
 }
 ```
+
+### 4. Patch Management and Vulnerability Management
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.IP-12|A vulnerability management plan is developed and implemented|
+|DE.CM-8|Vulnerability scans are performed|
+
+**Why** Vulnerabilities are weaknesses in software that can expose a system to unwanted malicious activity. By applying regular patches and performing regular vulnerability scans, you help to ensure the safety and integrity of a system.
+
+**How** Refer to Internal Documentation on the setup of Capital Group's vulnerability management software. If you are deploying an EC2 instance from an image that does not already have this software installed and configured, you will need to include it in the initial deployment.
+
+For patch management, the best way to manage a fleet of instances is using AWS Systems Manager. Systems Manager offers options for performing patch management on individual, or multiple, instances. In order for AWS Systems Manager to communicate with your instance, you will need to install the SSM Agent on the instance. Refer to [Endnote 3](#endnote-3) for details on setting up patch management on specific types of instances. Refer to the previous section for instructions on installing the SSM Agent.
 
 ## Detective
 ### 1. Establish Config rules to monitor for deviations from normal configuration
