@@ -24,6 +24,13 @@
                     "type": "detect"
                 },
                 {
+                    "provider": "aws config",
+                    "implementation": [
+                        "https://confluence.capgroup.com/display/HCEA/Operational+Best+Practices+-+Detect+Publicly+Accessible+Resources"
+                    ],
+                    "type": "detect"
+                },
+                {
                     "provider": "panoptes",
                     "implementation": [
                         "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/ecs.py#L5"
@@ -134,7 +141,15 @@
                     "NP": "medium"
                 }
             ],
-            "implementations": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#83"
+                    ],
+                    "type": "detect"
+                }
+            ],
             "control_mapping": []
         },
         {
