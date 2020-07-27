@@ -2,6 +2,7 @@
     "servicerequirement_name": [
         "AWS::ECS::*"
     ],
+    "servicedisplay_name": "ECS (Elastic Container Service)",
     "phase": "discovery",
     "mapping": [
         {
