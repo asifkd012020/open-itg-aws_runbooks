@@ -962,7 +962,7 @@ NIST CSF:
 |-----------|------------------------|
 |DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
 |DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
-|DE.CM-4|Malicious code is detetcted|
+|DE.CM-4|Malicious code is detected|
 |DE.CM-3|Personnel activity is monitored to detect potential cybersecurity events|
 |DE.CM-1|The network is monitored to detect potential cybersecurity events|
 |DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
@@ -1162,7 +1162,7 @@ Capital Group:
 Amazon RDS uses the Amazon Simple Notification Service \(Amazon SNS\) to provide notification when an Amazon RDS event occurs\. These notifications can be in any notification form supported by Amazon SNS for an AWS Region, such as an email, a text message, or a call to an HTTP endpoint\.
 
 **How?** 
-SUbscribe to Amazon RDS Event Notofcations 
+Subscribe to Amazon RDS Event Notofcations 
 
 Amazon RDS groups these events into categories that you can subscribe to so that you can be notified when an event in that category occurs\. You can subscribe to an event category for a DB instance, DB snapshot,  DB parameter group, or DB security group\. For example, if you subscribe to the Backup category for a given DB instance, you are notified whenever a backup\-related event occurs that affects the DB instance\. If you subscribe to a configuration change category for a DB security group, you are notified when the DB security group is changed\. You also receive notification when an event notification subscription changes\.
 
@@ -1682,7 +1682,7 @@ Capital Group:
 AWS Config continuously detects when any resource of a supported type is created, changed, or deleted\. AWS Config records these events as configuration items\. You can customize AWS Config to record changes for all supported types of resources including RDS or for only those types that are relevant to you at Capital Group\.
 
 **How?** 
-Ensure RDS is a selected resource that is recorded in AWS Config records. Specefically, ensure you are monitoring the following AWS Config rules (1) rds-snapshots-public-prohibited to ensure the RDS instance is not enabled public, and (2) rds-instance-public-access-check, which verifies that the publiclyAccessible field is true in the instance configuration item. 
+Ensure RDS is a selected resource that is recorded in AWS Config records. Specifically, ensure you are monitoring the following AWS Config rules (1) rds-snapshots-public-prohibited to ensure the RDS instance is not enabled public, and (2) rds-instance-public-access-check, which verifies that the publiclyAccessible field is true in the instance configuration item. 
 
 #### rds\-enhanced\-monitoring\-enabled <!-- omit in toc -->
 
@@ -1754,7 +1754,7 @@ Capital Group:
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
 
 **Why?** 
-Understanding instance behavior and having the ability to be notified of anomalies to that behavior is key to securin your RDS deployments
+Understanding instance behavior and having the ability to be notified of anomalies to that behavior is key to securing your RDS deployments
 
 **How?** 
 Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS
