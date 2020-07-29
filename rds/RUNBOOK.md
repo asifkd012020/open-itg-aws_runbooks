@@ -1162,7 +1162,7 @@ Capital Group:
 Amazon RDS uses the Amazon Simple Notification Service \(Amazon SNS\) to provide notification when an Amazon RDS event occurs\. These notifications can be in any notification form supported by Amazon SNS for an AWS Region, such as an email, a text message, or a call to an HTTP endpoint\.
 
 **How?** 
-Subscribe to Amazon RDS Event Notofcations 
+Subscribe to Amazon RDS Event Notifications 
 
 Amazon RDS groups these events into categories that you can subscribe to so that you can be notified when an event in that category occurs\. You can subscribe to an event category for a DB instance, DB snapshot,  DB parameter group, or DB security group\. For example, if you subscribe to the Backup category for a given DB instance, you are notified whenever a backup\-related event occurs that affects the DB instance\. If you subscribe to a configuration change category for a DB security group, you are notified when the DB security group is changed\. You also receive notification when an event notification subscription changes\.
 
