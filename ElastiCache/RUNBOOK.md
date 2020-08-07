@@ -69,7 +69,7 @@ You can apply the AUTH token when creating the cluster.
 **Key Parameters**
 
 * **--engine** – Must be redis.
-* **--engine-version** – Must be 3.2.6, 4.0.10, or later.
+* **--engine-version** – Must be 5.x or later.
 * **--transit-encryption-enabled** – Required for authentication 
 * **--auth-token** – This value must be the correct token for this token-protected Redis server.
 * **--cache-subnet-group** – Required 
@@ -136,7 +136,7 @@ Capital Group:
 
 
 
-### 3. Data must be encrypted using CG BYOK for encyprtion where possible 
+### 3. Data must be encrypted using CG BYOK for encyprtion
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
