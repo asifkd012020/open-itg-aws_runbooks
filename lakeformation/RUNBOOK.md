@@ -57,7 +57,8 @@ These settings effectively cause access to Data Catalog resources and Amazon S3 
 
 The `IAMAllowedPrincipals` group includes any IAM users and roles that are allowed access to your Data Catalog resources by your IAM policies. The `Super` permission enables a principal to perform every supported Lake Formation operation on the database or table on which it is granted.
 
-**How?**  
+**How?**  The owner of the underlying S3 data is to be the only role allowed to edit permissions in Lake Formation. 
+
 1. Change the default security settings for new resources.
    1. Continue in the Lake Formation console at <https://console.aws.amazon.com/lakeformation/>. Ensure that you are signed in as an IAM user or role with the `AdministratorAccess` AWS managed policy.
    2. In the navigation pane, under **Data catalog**, choose **Settings**.
@@ -162,7 +163,15 @@ If that object is missing, add it with the permissions shown in the example. The
 6. Choose **Register location**.
 
 ## Detective
-### 1. Log AWS CLoudformation API Calls with AWS CloudTrail
+### 1. Monitor for Changes to Data Lake Administrators
+**Why?**  
+Capital Group follows an access model in which the owner of data is charged with granting or restricting permissions to that data. This control ensures that any changes to permissions are monitored.
+
+**How?**  
+Using AWS Config, set up a rule to monitor all roles in the account to ensure that none have the `AWSLakeFormationDataAdmin` policy attached, with the exception of the role used by the data owner to set up Lake Formation permissions.  
+This rule should be set up to alarm the security team in the event of a compliance failure.
+
+### 2. Log AWS CLoudformation API Calls with AWS CloudTrail
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
