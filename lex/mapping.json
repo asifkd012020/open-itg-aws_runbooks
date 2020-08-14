@@ -7,7 +7,7 @@
     "mapping": [
         {
             "requirement_requirement_name": "Ensure that CG data is not used by AWS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lex/RUNBOOK.md#ensure-that-cg-data-is-not-used-by-aws",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lex/RUNBOOK.md#https://github.com/open-itg/aws_runbooks/blob/lex/lex/RUNBOOK.md#2-ensure-that-cg-data-is-not-used-by-aws",
             "tags":[],
             "severity": [
                 {
@@ -29,7 +29,7 @@
         },
         {
             "requirement_name": "Deny public access to Lex",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lex/RUNBOOK.md#deny-public-access-to-lex",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lex/RUNBOOK.md#1-deny-public-access-to-lex",
             "tags":[],
             "severity": [
                 {

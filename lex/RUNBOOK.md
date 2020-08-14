@@ -35,7 +35,7 @@ Capital Group:
 **Why?** Lex lacks the ability to be attached to CG VPC's and is routable and accessible publically is misconfigured. 
 
 **How?** By using the Organization Principal condition on all Lex resources, non-CG access can be prevented. Further least-privileged adjustments should be implemented per (when we do a complete runbook do it here), but will provide at least a baseline boundary to limit exposure to Capital Group.
-
+```
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -55,6 +55,7 @@ Capital Group:
         }
     ]
  }
+```
 
 ### 2. Ensure that CG data is not used by AWS
 Capital Group:
