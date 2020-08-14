@@ -1,0 +1,45 @@
+{
+    "servicerequirement_name": [
+        "AWS::Lex::*"
+    ],
+    "servicedisplay_name": "Lex",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_requirement_name": "Ensure that CG data is not used by AWS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lex/RUNBOOK.md#ensure-that-cg-data-is-not-used-by-aws",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "aws",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/tree/master/AIServicesOptOut"
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Deny public access to Lex",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lex/RUNBOOK.md#deny-public-access-to-lex",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "critical"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
