@@ -544,7 +544,7 @@ NIST CSF:
 
 **Why** Vulnerabilities are weaknesses in software that can expose a system to unwanted malicious activity. By applying regular patches and performing regular vulnerability scans, you help to ensure the safety and integrity of a system.
 
-**How** Refer to Internal Documentation,[Endnote 3](#endnote-3), on how to install the Qualys Agent (Capital Group's vulnerability management software). If you are deploying an EC2 instance from an image that does not already have this software installed and configured, you will need to include it in the initial deployment.
+**How** Refer to Internal Documentation,[Endnote 5](#endnote-5), on how to install the Qualys Agent (Capital Group's vulnerability management software). If you are deploying an EC2 instance from an image that does not already have this software installed and configured, you will need to include it in the initial deployment.
 
 For patch management, the best way to manage a fleet of instances is using AWS Systems Manager. Systems Manager offers options for performing patch management on individual, or multiple, instances. In order for AWS Systems Manager to communicate with your instance, you will need to install the SSM Agent on the instance. Refer to [Endnote 3](#endnote-3) for details on setting up patch management on specific types of instances. Refer to the previous section for instructions on installing the SSM Agent.
 
