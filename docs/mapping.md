@@ -13,10 +13,48 @@ The GRC mapping files, as with the runbooks should be present for each service t
 Now that we have a good understanding of the what and why around GRC Mapping files, the next step is to delve into the structure of the files as below.
 
 ### Service requirement name
-This section of code will list the service that this mapping file was created for.
+This section of code will list the service that this mapping file was created for, in the example below AWS's ECS (Elastic Container Service).
 
 ```json
-"servicerequirement_name": [
-        "AWS::ECS::*"
+    "servicerequirement_name": [
+          "AWS::ECS::*"
     ],
+```
+
+### Service display name
+This field provides a friendly name for the service, in the example ECS (Elastic Container Service).
+
+```json
+   "servicedisplay_name": "ECS (Elastic Container Service)",
+```
+
+### Phase
+This field provides the current CG lifecycle phase for the service e.g. Discovery, Prefered etc.
+
+```json
+   "phase": "discovery",
+```
+
+### Phase
+This field provides the current CG lifecycle phase for the service e.g. Discovery, Prefered etc.
+
+```json
+    "mapping": [
+        {
+            "requirement_requirement_name": "ECS - Disable Public IP Access",
+            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_DisablePubAPIAccess",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+```
+
+### Final product
+
+```json
+
 ```
