@@ -9,3 +9,14 @@ We now know that our GRC tool allows for a better place to store and lookup our 
 
 The GRC mapping files, as with the runbooks should be present for each service that a cloud provider offers and allows a platform that teams can utilize to show how they are meeting the control objectives set out in the runbook for the specific service as seen in the diagram below.
 
+## Structure of a Mapping File
+Now that we have a good understanding of the what and why around GRC Mapping files, the next step is to delve into the structure of the files as below.
+
+### Service requirement name
+This section of code will list the service that this mapping file was created for.
+
+```json
+"servicerequirement_name": [
+        "AWS::ECS::*"
+    ],
+```
