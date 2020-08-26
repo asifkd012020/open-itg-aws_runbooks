@@ -81,6 +81,9 @@ Example manage function policy permissions:
             "Condition": {
                 "StringEquals": {
                     "lambda:Principal": "sns.amazonaws.com"
+                },
+                "StringEquals": {
+                    "AWS:SourceAccount": "123456789012"
                 }
             }
         }
@@ -388,6 +391,30 @@ To see the definition of a graph in CloudWatch, choose **View in metrics** from 
 The console also shows reports from CloudWatch Logs Insights that are compiled from information in your function's logs\. You can add these reports to a custom dashboard in the CloudWatch Logs console\. Use the queries as a starting point for your own reports\.
 
 To view a query, choose **View in CloudWatch Logs Insights** from the menu in the top right of the report\.
+
+### 4. Attach Lambda to VPC
+NIST CSF:
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+
+**Why?** 
+When Lambdas are not attached to CG VPC's, it reduces traffic traversal of CG managed data through the public internet to reach CG assets. 
+
+As it routes through the CXDC, it allows CG network controls to be enforced, and provides an additional layer of prevention to erroneous public exposure / publishing of data, while allowing IAM permissions limiting access to only CG sourced traffic to be viable. 
+
+**How?** 
+You can attach a VPC at creation or update an existing function with a VPC. 
+
+```aws lambda create-function --function-name my-function \
+--runtime nodejs12.x --handler index.js --zip-file fileb://function.zip \
+--role arn:aws:iam::123456789012:role/lambda-role \
+--vpc-config SubnetIds=subnet-071f712345678e7c8,subnet-07fd123456788a036,SecurityGroupIds=sg-085912345678492fb```
+
+```aws lambda update-function-configuration --function-name my-function \
+--vpc-config SubnetIds=subnet-071f712345678e7c8,subnet-07fd123456788a036,SecurityGroupIds=sg-085912345678492fb```
 
 
 ## Endnotes
