@@ -408,14 +408,17 @@ As it routes through the CXDC, it allows CG network controls to be enforced, and
 **How?** 
 You can attach a VPC at creation or update an existing function with a VPC. 
 
-```aws lambda create-function --function-name my-function \
+```
+aws lambda create-function --function-name my-function \
 --runtime nodejs12.x --handler index.js --zip-file fileb://function.zip \
 --role arn:aws:iam::123456789012:role/lambda-role \
---vpc-config SubnetIds=subnet-071f712345678e7c8,subnet-07fd123456788a036,SecurityGroupIds=sg-085912345678492fb```
+--vpc-config SubnetIds=subnet-071f712345678e7c8,subnet-07fd123456788a036,SecurityGroupIds=sg-085912345678492fb
+```
 
-```aws lambda update-function-configuration --function-name my-function \
---vpc-config SubnetIds=subnet-071f712345678e7c8,subnet-07fd123456788a036,SecurityGroupIds=sg-085912345678492fb```
-
+```
+aws lambda update-function-configuration --function-name my-function \
+--vpc-config SubnetIds=subnet-071f712345678e7c8,subnet-07fd123456788a036,SecurityGroupIds=sg-085912345678492fb
+```
 
 ## Endnotes
 ### Endnote 1 <!-- omit in toc -->
