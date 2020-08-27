@@ -29,7 +29,7 @@ This field provides a friendly name for the service, in the example ECS (Elastic
 ```
 
 ### Phase
-This field provides the current CG lifecycle phase for the service e.g. Discovery, Prefered etc.
+This field provides the current CG lifecycle phase for the service e.g. *Discovery, Prefered* etc.
 
 ```json
    "phase": "discovery",
