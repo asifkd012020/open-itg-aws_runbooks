@@ -7,7 +7,7 @@ Our new GRC (Global Risk and Compliance) module in ServiceNow has allowed for a 
 ## What are GRC Mapping Files?
 We now know that our GRC tool allows for a better place to store and lookup our controls, but how do we ensure we adhere to them correctly across all the Cloud resources we have out there?  This is where the GRC mapping files come into play. Each service, in each cloud provider should have a runbook associated with it. The runbooks give exaples of how CG expects a specific service to be built, including which detective and preventative controls should be present. 
 
-The GRC mapping files, as with the runbooks should be present for each service that a cloud provider offers and allows a platform that teams can utilize to show how they are meeting the control objectives set out in the runbook for the specific service as seen in the diagram below.
+The GRC mapping files, as with the runbooks should be present for each service that a cloud provider offers and allows a platform that teams can utilize to show how they are meeting the control objectives set out in the runbook for the specific service.
 
 ## Structure of a Mapping File
 Now that we have a good understanding of the what and why around GRC Mapping files, the next step is to delve into the structure of the files as below.
@@ -45,12 +45,12 @@ This field provides the actual mapping of each runbok requirement and all the as
 
 ### Requirement Mapping
 Under the mapping there can be multiple requirements mapping for the service selected, each requirement mapping will contain the following fields:
-1. requirement_name: This field will be the actual requirement name.
-2. policy: This field contains a link to the runbook policy for the requirement.
-3. tags[]: This field is a placeholder that will be used in future.
-4. severity: This field and subfields allow us to set the severity of a violation in each environment.
-5. control_mapping[]: This field will contain all the GRC control ID's associated with the specific requirement.
-6. implementations[]: This field and subfields contain the implementation provider, links tothe implementation code, and the type of control e.g. detective or preventative.
+1. **requirement_name**: This field will be the actual requirement name.
+2. **policy**: This field contains a link to the runbook policy for the requirement.
+3. **tags[]**: This field is a placeholder that will be used in future.
+4. **severity**: This field and subfields allow us to set the severity of a violation in each environment.
+5. **control_mapping[]**: This field will contain all the GRC control ID's associated with the specific requirement.
+6. **implementations[]**: This field and subfields contain the implementation provider, links tothe implementation code, and the type of control e.g. detective or preventative.
 
 ```json
             "requirement_requirement_name": "ECS - Disable Public IP Access",
