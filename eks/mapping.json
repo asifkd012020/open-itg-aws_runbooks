@@ -1,0 +1,219 @@
+{
+    "servicerequirement_name": [
+        "AWS::EKS::*"
+    ],
+    "servicedisplay_name": "EKS (Elastic Kubernetes Service)",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Implement strict IAM policies around who/what is allowed to use the service",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#1-implement-strict-iam-policies-around-whowhat-is-allowed-to-use-the-service",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "aws config",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Data is protected",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#2-data-is-protected",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "aws config",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Disable public API access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#3-disable-public-api-access",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "aws config",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Establish configuration management rules to monitor for deviations from normal configuration",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#1-establish-configuration-management-rules-to-monitor-for-deviations-from-normal-configuration",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "aws config",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Utilize vulnerability scanning on EC2 worker nodes",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#2-utilize-vulnerability-scanning-on-ec2-worker-nodes",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "aws config",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Auditing of all interactions with Amazon EKS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#3-auditing-of-all-interactions-with-amazon-eks",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "aws config",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Utilize an event-based solution for automated incident response",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#1-utilize-an-event-based-solution-for-automated-incident-response",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "aws config",
+                    "implementation": [],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [],
+                    "type": "prevent"
+                }
+            ]
+        }
+    ]
+}
