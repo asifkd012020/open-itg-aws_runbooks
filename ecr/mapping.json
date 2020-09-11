@@ -17,23 +17,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Data is protected",
@@ -47,23 +31,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Infrastructure must be secured for monitoring, audit, availability, and access control",
@@ -77,23 +45,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Establish network/application monitoring controls",
@@ -107,23 +59,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Run vulnerability scans on images stored in ECR",
@@ -137,23 +73,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Utilize an event-based solution for automated incident response",
@@ -167,23 +87,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         }
     ]
 }

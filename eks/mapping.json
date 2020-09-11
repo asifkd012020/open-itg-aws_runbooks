@@ -17,23 +17,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Data is protected",
@@ -47,23 +31,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Disable public API access",
@@ -77,23 +45,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Establish configuration management rules to monitor for deviations from normal configuration",
@@ -107,23 +59,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Utilize vulnerability scanning on EC2 worker nodes",
@@ -137,23 +73,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Auditing of all interactions with Amazon EKS",
@@ -169,19 +89,11 @@
             "control_mapping": [],
             "implementations": [
                 {
-                    "provider": "dome9",
-                    "implementation": [],
+                    "provider": "aws_config",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/ekspipeline/ekslogginglambdafunction"
+                    ],
                     "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
                 }
             ]
         },
@@ -197,23 +109,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         }
     ]
 }

@@ -27,13 +27,18 @@
                     "type": "detect"
                 },
                 {
-                    "provider": "aws config",
-                    "implementation": [],
+                    "provider": "aws_config",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/ecs-td-ro-root-filsystem",
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/ecs-td-ephe-vol-filsystem"
+                    ],
                     "type": "detect"
                 },
                 {
                     "provider": "panoptes",
-                    "implementation": [],
+                    "implementation": [
+                        "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/ecs.py"
+                    ],
                     "type": "prevent"
                 }
             ]
@@ -50,23 +55,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Configuring VPC endpoint for ECS",
@@ -87,16 +76,6 @@
                         "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#43"
                     ],
                     "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
                 }
             ]
         },
@@ -112,23 +91,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Specifying sensitive data using AWS secrets manager",
@@ -149,16 +112,6 @@
                         "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#83"
                     ],
                     "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
                 }
             ]
         },
@@ -174,23 +127,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Creating a Trail to log ECS API calls",
@@ -204,23 +141,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Running the X-Ray Daemon",
@@ -234,23 +155,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Utilizing AWS CloudWatch Container Insights",
@@ -264,23 +169,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Utilize Amazon ECS Events and EventBridge",
@@ -294,23 +183,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)",
@@ -324,23 +197,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         }
     ]
 }

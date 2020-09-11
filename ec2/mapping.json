@@ -29,16 +29,6 @@
                         "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#93"
                     ],
                     "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
                 }
             ]
         },
@@ -65,13 +55,10 @@
                     "type": "detect"
                 },
                 {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
+                    "provider": "aws_scp",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/AddOn-CGBaseSecControl/AddOn-CGBaseSecControlPolicy.json"
+                    ],
                     "type": "prevent"
                 }
             ]
@@ -102,13 +89,10 @@
                     "type": "detect"
                 },
                 {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
                     "provider": "panoptes",
-                    "implementation": [],
+                    "implementation": [
+                        "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/ec2.py"
+                    ],
                     "type": "prevent"
                 }
             ]
@@ -137,16 +121,6 @@
                         "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#93"
                     ],
                     "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
                 }
             ]
         },
@@ -162,23 +136,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Log Amazon EC2 and Amazon EBS API calls",
@@ -192,23 +150,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Monitor EC2 Instance metrics for anomalous behavior",
@@ -222,23 +164,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         },
         {
             "requirement_name": "Utilize Amazon cloudWatch alarm actions",
@@ -252,23 +178,7 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "aws config",
-                    "implementation": [],
-                    "type": "detect"
-                },
-                {
-                    "provider": "panoptes",
-                    "implementation": [],
-                    "type": "prevent"
-                }
-            ]
+            "implementations": []
         }
     ]
 }
