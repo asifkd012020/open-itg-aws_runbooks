@@ -1,0 +1,101 @@
+{
+    "servicerequirement_name": [
+        "AWS::DynamoDB::*"
+    ],
+    "servicedisplay_name": "DynamoDB",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Enforce least privilege for all DynamoDB users and roles",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#1-enforce-least-privilege-for-all-dynamodb-users-and-roles",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data Protection Standards are Enforced",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#2-data-protection-standards-are-enforced",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-Database.json#3"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Create a VPC Endpoint for DynamoDB",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#3-create-a-vpc-endpoint-for-dynamodb",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize DynamoDB streams to support data-plane logging",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#1-utilize-dynamodb-streams-to-support-data-plane-logging",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Log DynamoDB Operations with AWS CloudTrail",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#2-log-dynamodb-operations-with-aws-cloudtrail",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Create CloudWatch Alarms to monitor DynamoDB",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#1-create-cloudwatch-alarms-to-monitor-dynamodb",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
