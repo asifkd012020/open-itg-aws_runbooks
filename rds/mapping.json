@@ -75,6 +75,13 @@
                         "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-Database.json#23"
                     ],
                     "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [
+                        "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/rds.py"
+                    ],
+                    "type": "prevent"
                 }
             ]
         },
