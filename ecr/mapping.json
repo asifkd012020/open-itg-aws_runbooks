@@ -1,0 +1,93 @@
+{
+    "servicerequirement_name": [
+        "AWS::ECR::*"
+    ],
+    "servicedisplay_name": "ECR (Elastic Container Registry)",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Implement strict IAM policies around who/what is allowed to use the service",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#1-implement-strict-iam-policies-around-whowhat-is-allowed-to-use-the-service",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data is protected",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#2-data-is-protected",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Infrastructure must be secured for monitoring, audit, availability, and access control",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#3-infrastructure-must-be-secured-for-monitoring-audit-availability-and-access-control",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Establish network/application monitoring controls",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#1-establish-networkapplication-monitoring-controls",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Run vulnerability scans on images stored in ECR",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#2-run-vulnerability-scans-on-images-stored-in-ecr",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize an event-based solution for automated incident response",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#1-utilize-amazon-eventbridge-for-automated-incident-response",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

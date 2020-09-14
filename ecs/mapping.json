@@ -6,8 +6,8 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_requirement_name": "ECS - Disable Public IP Access",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_DisablePubAPIAccess",
+            "requirement_name": "Implement least privilege IAM Roles for Tasks",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#1-implement-least-privilege-iam-roles-for-tasks",
             "tags":[],
             "severity": [
                 {
@@ -27,29 +27,30 @@
                     "type": "detect"
                 },
                 {
-                    "provider": "aws config",
+                    "provider": "aws_config",
                     "implementation": [
-                        "https://confluence.capgroup.com/display/HCEA/Operational+Best+Practices+-+Detect+Publicly+Accessible+Resources"
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/ecs-td-ro-root-filsystem",
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/ecs-td-ephe-vol-filsystem"
                     ],
                     "type": "detect"
                 },
                 {
                     "provider": "panoptes",
                     "implementation": [
-                        "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/ecs.py#L5"
+                        "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/ecs.py"
                     ],
                     "type": "prevent"
                 }
             ]
         },
         {
-            "requirement_name": "ECS - Resource Tagging",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_Tagging",
+            "requirement_name": "Using Elastic Container Registry (ECR) for storing and retrieving Docker images",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#2-using-elastic-container-registry-ecr-for-storing-and-retrieving-docker-images",
             "tags":[],
             "severity": [
                 {
-                    "Prod": "high",
-                    "SNP": "high",
+                    "Prod": "critical",
+                    "SNP": "critical",
                     "NP": "medium"
                 }
             ],
@@ -57,13 +58,35 @@
             "implementations": []
         },
         {
-            "requirement_name": "ECS - Logdriver Forwarding",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_AWSLogDriver",
+            "requirement_name": "Configuring VPC endpoint for ECS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#3-configuring-vpc-endpoint-for-ecs",
             "tags":[],
             "severity": [
                 {
-                    "Prod": "high",
-                    "SNP": "high",
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#43"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Configuring AWS Systems Manager Parameter Store and AWS Secrets Manager for reference of secrets into Container Definitions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#4-configuring-aws-systems-manager-parameter-store-and-aws-secrets-manager-for-reference-of-secrets-into-container-definitions",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
                     "NP": "medium"
                 }
             ],
@@ -71,83 +94,13 @@
             "implementations": []
         },
         {
-            "requirement_name": "ECS - Cloud Watch Logging",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_CloudWatchlLogging",
+            "requirement_name": "Specifying sensitive data using AWS secrets manager",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#5-specifying-sensitive-data-using-aws-secrets-manager",
             "tags":[],
             "severity": [
                 {
-                    "Prod": "high",
-                    "SNP": "high",
-                    "NP": "medium"
-                }
-            ],
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "ECS - Cloud Trail Logging",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_CloudTraillLogging",
-            "tags":[],
-            "severity": [
-                {
-                    "Prod": "high",
-                    "SNP": "high",
-                    "NP": "medium"
-                }
-            ],
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "ECS - Security Group scoped for Cluster-only Communications",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_ClusterCommScope",
-            "tags":[],
-            "severity": [
-                {
-                    "Prod": "high",
-                    "SNP": "high",
-                    "NP": "medium"
-                }
-            ],
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "ECS - Secrets Managed by CG BYOK",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_SecretsBYOK",
-            "tags":[],
-            "severity": [
-                {
-                    "Prod": "high",
-                    "SNP": "high",
-                    "NP": "medium"
-                }
-            ],
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "ECS - EC2 Instances IAM Roles Defined",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_EC2_IAM",
-            "tags":[],
-            "severity": [
-                {
-                    "Prod": "high",
-                    "SNP": "high",
-                    "NP": "medium"
-                }
-            ],
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "ECS - EC2 Instances Encrypted with CG KMS",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_EC2_KMS",
-            "tags":[],
-            "severity": [
-                {
-                    "Prod": "high",
-                    "SNP": "high",
+                    "Prod": "critical",
+                    "SNP": "critical",
                     "NP": "medium"
                 }
             ],
@@ -163,13 +116,13 @@
             ]
         },
         {
-            "requirement_name": "ECS - EC2 Instance resources tagged",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_EC2_Tag",
+            "requirement_name": "Using the awslogs Log Driver",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#6-using-the-awslogs-log-driver",
             "tags":[],
             "severity": [
                 {
-                    "Prod": "high",
-                    "SNP": "high",
+                    "Prod": "critical",
+                    "SNP": "critical",
                     "NP": "medium"
                 }
             ],
@@ -177,13 +130,13 @@
             "implementations": []
         },
         {
-            "requirement_name": "ECS - Fargate Managed Docker Read-Only Filesystem",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_FGate_RO_FS",
+            "requirement_name": "Creating a Trail to log ECS API calls",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#7-creating-a-trail-to-log-ecs-api-calls",
             "tags":[],
             "severity": [
                 {
-                    "Prod": "high",
-                    "SNP": "high",
+                    "Prod": "critical",
+                    "SNP": "critical",
                     "NP": "medium"
                 }
             ],
@@ -191,13 +144,55 @@
             "implementations": []
         },
         {
-            "requirement_name": "ECS - Fargate Managed with no Volume Mounts",
-            "policy": "https://confluence.capgroup.com/display/HCEA/AWS+Services+Security+Checklist+for+CG+Deployments#AWSServicesSecurityChecklistforCGDeployments-ECS_No_VolumeMounts",
+            "requirement_name": "Running the X-Ray Daemon",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#8-running-the-x-ray-daemon",
             "tags":[],
             "severity": [
                 {
-                    "Prod": "high",
-                    "SNP": "high",
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilizing AWS CloudWatch Container Insights",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#9-utilizing-aws-cloudwatch-container-insights",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize Amazon ECS Events and EventBridge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#10-utilize-amazon-ecs-events-and-eventbridge",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#11-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
                     "NP": "medium"
                 }
             ],

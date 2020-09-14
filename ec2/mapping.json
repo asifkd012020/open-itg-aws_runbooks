@@ -1,0 +1,184 @@
+{
+    "servicerequirement_name": [
+        "AWS::EC2::*"
+    ],
+    "servicedisplay_name": "EC2 (Elastic Compute Cloud)",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Enforce strict boundaries for access to and from EC2 instances",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#1-enforce-strict-boundaries-for-access-to-and-from-ec2-instances",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#23",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#33",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#43",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#53",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#83",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#93"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Data Protection standards are enforced",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#23",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#53"
+
+                    ],
+                    "type": "detect"
+                },
+                {
+                    "provider": "aws_scp",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/AddOn-CGBaseSecControl/AddOn-CGBaseSecControlPolicy.json"
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Network access to EC2 instances and API is restricted",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#3-network-access-to-ec2-instances-and-api-is-restricted",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#23",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#33",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#43",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#53",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#83",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#93"
+                    ],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [
+                        "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/ec2.py"
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Close unnecessary administrative access ports to instances",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#4-close-unnecessary-administrative-access-ports-to-instances",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#23",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#33",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#43",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#53",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#83",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#93"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Monitor EC2 instance activity",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#1-monitor-ec2-instance-activity",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Log Amazon EC2 and Amazon EBS API calls",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-log-amazon-ec2-and-amazon-ebs-api-calls",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Monitor EC2 Instance metrics for anomalous behavior",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#3-monitor-ec2-instance-metrics-for-anomalous-behavior",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize Amazon cloudWatch alarm actions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#1-utilize-amazon-cloudwatch-alarm-actions",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
