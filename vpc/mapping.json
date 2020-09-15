@@ -1,0 +1,129 @@
+{
+    "servicerequirement_name": [
+        "AWS::VPC::*"
+    ],
+    "servicedisplay_name": "VPC (Virtual Private Cloud)",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Implement Access Controls to Enforce Least Privilege",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md#1-implement-access-controls-to-enforce-least-privilege",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enforce Data Protection Standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md#2-enforce-data-protection-standards",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Change the Default Security Group for the VPC",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md#3-change-the-default-security-group-for-the-vpc",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Control Access to VPC Endpoints",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md#4-control-access-to-vpc-endpoints",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#43"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Utilize VPC Flow logs with Amazon CloudWatch",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md#1-utilize-vpc-flow-logs-with-amazon-cloudwatch",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Create and Manage notifications for your endpoint service",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md#1-create-and-manage-notifications-for-your-endpoint-service",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Monitor NAT gateway metrics using Amazon CloudWatch",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md#2-monitor-nat-gateway-metrics-using-amazon-cloudwatch",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Publish flow logs to Amazon S3",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md#3-publish-flow-logs-to-amazon-s3",
+            "tags":[],
+            "severity": [
+                {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                }
+            ],
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
