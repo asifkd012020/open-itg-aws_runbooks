@@ -45,7 +45,15 @@
                 }
             ],
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#73"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         },
         {
             "requirement_name": "Establish Config rules to monitor for deviations from normal configuration",
