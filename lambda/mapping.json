@@ -9,13 +9,11 @@
             "requirement_name": "Enforce Strict Access Policies for Lambda Users and Roles",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#1-enforce-strict-access-policies-for-lambda-users-and-roles",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": [
                 {
@@ -38,13 +36,11 @@
             "requirement_name": "Data Protection",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#2-data-protection",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -52,13 +48,11 @@
             "requirement_name": "Log AWS Lambda API Calls with AWS CloudTrail",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#1-log-aws-lambda-api-calls-with-aws-cloudtrail",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -66,13 +60,11 @@
             "requirement_name": "Utilize Amazon CloudWatch logs for AWS Lambda",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#2-utilize-amazon-cloudwatch-logs-for-aws-lambda",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -80,13 +72,11 @@
             "requirement_name": "Monitor AWS Lambda Function metrics in AWS CLoudwatch",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#3-monitor-aws-lambda-function-metrics-in-aws-cloudwatch",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         }

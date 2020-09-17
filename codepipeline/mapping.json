@@ -9,13 +9,11 @@
             "requirement_name": "Leverage AWS managed Policies for CodePipeline",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#1-leverage-aws-managed-policies-for-codepipeline",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity":{
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -23,13 +21,11 @@
             "requirement_name": "Grant Approval permissions to an IAM User in CodePipeline",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#2-grant-approval-permissions-to-an-iam-user-in-codepipeline",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -37,13 +33,11 @@
             "requirement_name": "Leverage tags to restrict user access based on tag value",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#3-leverage-tags-to-restrict-user-access-based-on-tag-value",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -51,13 +45,11 @@
             "requirement_name": "Configure Server-Side Encryption for Artifacts Stored in Amazon S3 for CodePipeline",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#4-configure-server-side-encryption-for-artifacts-stored-in-amazon-s3-for-codepipeline",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -65,13 +57,11 @@
             "requirement_name": "Limit sensitive functions (for both console and CLI access) to authorized individuals",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#6-limit-sensitive-functions-for-both-console-and-cli-access-to-authorized-individuals",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -79,13 +69,11 @@
             "requirement_name": "Employ MFA for sensitive S3 resources repositories.",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#6-employ-mfa-for-sensitive-s3-resources-repositories",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -93,13 +81,11 @@
             "requirement_name": "Implement versioning for Code Respositories and implement MFA Delete.",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#7-implement-versioning-for-code-respositories-and-implement-mfa-delete",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -107,13 +93,11 @@
             "requirement_name": "Connect your VPC to CodePipeline by defining an interface VPC endpoint for CodePipeline.",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#8-connect-your-vpc-to-codepipeline-by-defining-an-interface-vpc-endpoint-for-codepipeline",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -121,13 +105,11 @@
             "requirement_name": "Use file Integrity validation",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#1-use-file-integrity-validation",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -135,13 +117,11 @@
             "requirement_name": "Leverage S3 Access Logging",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#2-leverage-s3-access-logging",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -149,13 +129,11 @@
             "requirement_name": "Log CodePipeline API calls with AWS CloudTrail",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#3-log-codepipeline-api-calls-with-aws-cloudtrail",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -163,13 +141,11 @@
             "requirement_name": "Detect and React to changes in Pipeline State with Amazon CloudWatch Events",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#1-detect-and-react-to-changes-in-pipeline-state-with-amazon-cloudwatch-events",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -177,13 +153,11 @@
             "requirement_name": "Detect and React to use of non CG organization GitHub repositories for Source",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#4-detect-and-react-to-use-of-non-cg-organization-github-repositories-for-source",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         }

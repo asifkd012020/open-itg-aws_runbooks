@@ -9,13 +9,11 @@
             "requirement_name": "Permissions within the service are established in line with individual need and least-privilege is enforced",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#1-preventative-item-1",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -23,13 +21,11 @@
             "requirement_name": "Data must be encrypted at all times using a CG BYOK for encryption where possible",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#2-preventative-item-2",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -37,13 +33,11 @@
             "requirement_name": "Infrastructure must be secured for monitoring, audit, availability, and access control",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#3-preventative-item-3",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -51,13 +45,11 @@
             "requirement_name": "Patch Management and Vulnerability Management",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#4-preventative-item-4",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -65,13 +57,11 @@
             "requirement_name": "Establish Config rules to monitor for deviations from normal configuration",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#1-detective-item-1",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -79,13 +69,11 @@
             "requirement_name": "Utilize Amazon EventBridge for automated incident response",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#1-respondrecover-item-1",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         }
