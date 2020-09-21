@@ -777,6 +777,21 @@ NIST CSF:
 
 **How?** Using AWS Config, you can review changes in configurations and relationships between AWS resources, investigate detailed resource configuration histories, and determine your overall compliance against the configurations specified in your internal guidelines. This can help you simplify compliance auditing, security analysis, change management, and operational troubleshooting. For more information, see [Setting Up AWS Config with the Console](https://docs.aws.amazon.com/config/latest/developerguide/gs-console.html). When specifying the resource types to record, ensure that you include Systems Manager resources.
 
+## Respond/Recover
+### 1. Utilize Amazon EventBridge for automated incident response
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|RS.AN-1|Notifications from detection systems are investigated|
+|RS.AN-2|The impact of the incident is understood|
+|RS.AN-3|Forensics are performed|
+|RS.AN-4|Incidents are categorized consistent with response plans|
+|RS.AN-5|Processes are established to receive, analyze and respond to vulnerabilities disclosed to the organization from internal and external sources (e.g. internal testing, security bulletins, or security researchers)|
+
+**Why?** Using Amazon EventBridge, you can automatically report and respond to incidents, including actions taken on worker nodes, or EMR API Calls via CloudTrail.
+
+**How?** For various incident types, an appropriate response rule should be determined and added to EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases.
+
 For example, EventBridge lets you set up rules to detect when changes happen to AWS resources. You can create a rule to detect when a user in your organization starts or ends a session, and then, for example, receive a notification through Amazon SNS about the event.
 
 **Monitoring session activity using Amazon EventBridge (console)**
@@ -796,21 +811,6 @@ The following steps outline how to trigger notifications through Amazon Simple N
     * ForTargets, choose SNS topic. For Topic, choose the name of the Amazon SNS topic you created in Step 1
 
 For additional details, see [Monitoring session activity using Amazon EventBridge](https://docs.aws.amazon.com/systems-manager/latest/userguide/session-manager-logging-auditing.html)
-
-## Respond/Recover
-### 1. Utilize Amazon EventBridge for automated incident response
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|RS.AN-1|Notifications from detection systems are investigated|
-|RS.AN-2|The impact of the incident is understood|
-|RS.AN-3|Forensics are performed|
-|RS.AN-4|Incidents are categorized consistent with response plans|
-|RS.AN-5|Processes are established to receive, analyze and respond to vulnerabilities disclosed to the organization from internal and external sources (e.g. internal testing, security bulletins, or security researchers)|
-
-**Why?** Using Amazon EventBridge, you can automatically report and respond to incidents, including actions taken on worker nodes, or EMR API Calls via CloudTrail.
-
-**How?** For various incident types, an appropriate response rule should be determined and added to EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases.
 
 ## Capital Group Control Statements
 1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
