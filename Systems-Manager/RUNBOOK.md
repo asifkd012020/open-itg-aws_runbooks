@@ -668,13 +668,7 @@ The Patch Manager capability does not support all the same operating systems ver
 1. Supported Linux Operating Systems and Versions
     * Amazon Linux 2012.03 - 2018.03
     * Amazon Linux 2 2 - 2.0
-    * CentOS 6.5 - 7.8, 8.0-8.1
-    * Debian 8.x and 9.x
-    * Oracle Linux 7.5-7.8
-    * Red Hat Enterprise Linux (RHEL) 6.5 - 8.2
-    * SUSE Linux Enterprise Server (SLES) 12.0 and later 12.x versions, 15.0 and 15.1
-    * Ubuntu Server 14.04 LTS, 16.04 LTS, 18.04 LTS, and 20.04 LTS
-
+    
 2. Supported Windows OS Versions
     * Windows Server 2008 through Windows Server 2019, including R2 versions
 
