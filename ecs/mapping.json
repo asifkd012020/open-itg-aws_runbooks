@@ -9,13 +9,11 @@
             "requirement_name": "Implement least privilege IAM Roles for Tasks",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#1-implement-least-privilege-iam-roles-for-tasks",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": [
                 {
@@ -47,13 +45,11 @@
             "requirement_name": "Using Elastic Container Registry (ECR) for storing and retrieving Docker images",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#2-using-elastic-container-registry-ecr-for-storing-and-retrieving-docker-images",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -61,13 +57,11 @@
             "requirement_name": "Configuring VPC endpoint for ECS",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#3-configuring-vpc-endpoint-for-ecs",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": [
                 {
@@ -83,13 +77,11 @@
             "requirement_name": "Configuring AWS Systems Manager Parameter Store and AWS Secrets Manager for reference of secrets into Container Definitions",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#4-configuring-aws-systems-manager-parameter-store-and-aws-secrets-manager-for-reference-of-secrets-into-container-definitions",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -97,13 +89,11 @@
             "requirement_name": "Specifying sensitive data using AWS secrets manager",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#5-specifying-sensitive-data-using-aws-secrets-manager",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": [
                 {
@@ -119,13 +109,11 @@
             "requirement_name": "Using the awslogs Log Driver",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#6-using-the-awslogs-log-driver",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -133,13 +121,11 @@
             "requirement_name": "Creating a Trail to log ECS API calls",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#7-creating-a-trail-to-log-ecs-api-calls",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -147,13 +133,11 @@
             "requirement_name": "Running the X-Ray Daemon",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#8-running-the-x-ray-daemon",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -161,13 +145,11 @@
             "requirement_name": "Utilizing AWS CloudWatch Container Insights",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#9-utilizing-aws-cloudwatch-container-insights",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -175,13 +157,11 @@
             "requirement_name": "Utilize Amazon ECS Events and EventBridge",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#10-utilize-amazon-ecs-events-and-eventbridge",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         },
@@ -189,13 +169,11 @@
             "requirement_name": "Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#11-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only",
             "tags":[],
-            "severity": [
-                {
-                    "Prod": "critical",
-                    "SNP": "critical",
-                    "NP": "medium"
-                }
-            ],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
             "control_mapping": [],
             "implementations": []
         }

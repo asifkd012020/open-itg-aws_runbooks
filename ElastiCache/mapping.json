@@ -1,0 +1,77 @@
+{
+    "servicerequirement_name": [
+        "AWS::ElastiCache::*"
+    ],
+    "servicedisplay_name": "ElastiCache",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Permissions within the service are established in line with individual need and least-privilege is enforced",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#1-permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enable Security Groups to limit access to ElastiCache instances",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#2-enable-security-groups-to-limit-access-to-elasticache-instances",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data must be encrypted using CG BYOK for encyprtion",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#3-data-must-be-encrypted-using-cg-byok-for-encyprtion",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#73"
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Establish Config rules to monitor for deviations from normal configuration",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#1-establish-config-rules-to-monitor-for-deviations-from-normal-configuration",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize Amazon EventBridge for automated incident response",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#1-utilize-amazon-eventbridge-for-automated-incident-response",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

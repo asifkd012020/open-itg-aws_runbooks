@@ -1,0 +1,93 @@
+{
+    "servicerequirement_name": [
+        "AWS::Glue::*"
+    ],
+    "servicedisplay_name": "Glue (AWS ETL)",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Enforce least privilege for all Glue users and roles",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/glue/RUNBOOK.md#1-enforce-least-privilege-for-all-glue-users-and-roles",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data Protection Standards are Enforced",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/glue/RUNBOOK.md#2-data-protection-standards-are-enforced",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Isolate Glue Access from the Internet Using VPC Endpoint",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/glue/RUNBOOK.md#3-isolate-glue-access-from-the-internet-using-vpc-endpoint",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enable continuous logging for AWS Glue jobs",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/glue/RUNBOOK.md#1-enable-continuous-logging-for-aws-glue-jobs",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize CloudWatch to monitor AWS Glue metrics",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/glue/RUNBOOK.md#2-utilize-cloudwatch-to-monitor-aws-glue-metrics",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize AWS Cloudtrail to log AWS Glue API calls",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/glue/RUNBOOK.md#3-utilize-aws-cloudtrail-to-log-aws-glue-api-calls",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Automate AWS Glue with AWS Cloudwatch Events",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/glue/RUNBOOK.md#1-automate-aws-glue-with-aws-cloudwatch-events",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

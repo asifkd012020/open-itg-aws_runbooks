@@ -74,7 +74,7 @@ Under the mapping there can be multiple requirements mapping for the service sel
                     "type": "detect"
                 },
                 {
-                    "provider": "aws config",
+                    "provider": "aws_config",
                     "implementation": [
                         "https://confluence.capgroup.com/display/HCEA/Operational+Best+Practices+-+Detect+Publicly+Accessible+Resources"
                     ],
@@ -124,7 +124,7 @@ Below is a full example of what a mapping file might look like.
                     "type": "detect"
                 },
                 {
-                    "provider": "aws config",
+                    "provider": "aws_config",
                     "implementation": [
                         "https://confluence.capgroup.com/display/HCEA/Operational+Best+Practices+-+Detect+Publicly+Accessible+Resources"
                     ],

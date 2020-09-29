@@ -1,0 +1,69 @@
+{
+    "servicerequirement_name": [
+        "AWS::CodeBuild::*"
+    ],
+    "servicedisplay_name": "CodeBuild",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Permissions within the service are established in line with individual need and least-privilege is enforced",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codebuild/RUNBOOK.md#1-permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data is protected All Data at rest must be encrypted and use a CG BYOK encryption key",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codebuild/RUNBOOK.md#2-data-is-protected-all-data-at-rest-must-be-encrypted-and-use-a-cg-byok-encryption-key",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Inter-network traffic privacy",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codebuild/RUNBOOK.md#3-inter-network-traffic-privacy",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Auditing of all interactions with AWS CodeBuild",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codebuild/RUNBOOK.md#1-auditing-of-all-interactions-with-aws-codebuild",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize an event-based solution for automated incident response",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codebuild/RUNBOOK.md#1-utilize-an-event-based-solution-for-automated-incident-response",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

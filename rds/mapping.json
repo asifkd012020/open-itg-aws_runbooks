@@ -1,0 +1,153 @@
+{
+    "servicerequirement_name": [
+        "AWS::RDS::*"
+    ],
+    "servicedisplay_name": "RDS (Cloud Relational Database)",
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Implement access controls to enforce least privilege",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#1-implement-access-controls-to-enforce-least-privilege",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data is protected at-rest and in-transit",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#2-data-is-protected-at-rest-and-in-transit",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#33"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Database instances are configured for high-availability",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#3-database-instances-are-configured-for-high-availability",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Network controls are restrictive",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#4-network-controls-are-restrictive",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-Database.json#13",
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-Database.json#23"
+                    ],
+                    "type": "detect"
+                },
+                {
+                    "provider": "panoptes",
+                    "implementation": [
+                        "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/rds.py"
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Store database secrets in a vault for automatic rotation",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#5-store-database-secrets-in-a-vault-for-automatic-rotation",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Monitor RDS DB instances status",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#1-monitor-rds-db-instances-status",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Log Amazon RDS API calls",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#2-log-amazon-rds-api-calls",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize Amazon RDS Event Notifications utilizing Amazon SNS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#3-utilize-amazon-rds-event-notifications-utilizing-amazon-sns",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize AWS Config rules to monitor RDS for control compliance",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#4-utilize-aws-config-rules-to-monitor-rds-for-control-compliance",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#1-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
