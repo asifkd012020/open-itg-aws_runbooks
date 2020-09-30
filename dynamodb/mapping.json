@@ -1,8 +1,14 @@
 {
+    "serviceprovider":"aws",
     "servicerequirement_name": [
         "AWS::DynamoDB::*"
     ],
     "servicedisplay_name": "DynamoDB",
+    "serviceaproval_status": {
+        "Prod": "aproved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
     "phase": "discovery",
     "mapping": [
         {
