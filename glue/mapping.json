@@ -1,8 +1,14 @@
 {
+    "serviceprovider":"aws",
     "servicerequirement_name": [
         "AWS::Glue::*"
     ],
     "servicedisplay_name": "Glue (AWS ETL)",
+    "serviceaproval_status": {
+        "Prod": "aproved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
     "phase": "discovery",
     "mapping": [
         {

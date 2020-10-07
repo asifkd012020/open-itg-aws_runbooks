@@ -1,8 +1,14 @@
 {
+    "serviceprovider":"aws",
     "servicerequirement_name": [
         "AWS::EKS::*"
     ],
     "servicedisplay_name": "EKS (Elastic Kubernetes Service)",
+    "serviceaproval_status": {
+        "Prod": "aproved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
     "phase": "discovery",
     "mapping": [
         {

@@ -1,8 +1,14 @@
 {
+    "serviceprovider":"aws",
     "servicerequirement_name": [
         "AWS::Lambda::*"
     ],
     "servicedisplay_name": "Lambda (Serverless Compute)",
+    "serviceaproval_status": {
+        "Prod": "aproved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
     "phase": "discovery",
     "mapping": [
         {

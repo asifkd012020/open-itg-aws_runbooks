@@ -1,8 +1,14 @@
 {
+    "serviceprovider":"aws",
     "servicerequirement_name": [
         "AWS::ElastiCache::*"
     ],
     "servicedisplay_name": "ElastiCache",
+    "serviceaproval_status": {
+        "Prod": "aproved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
     "phase": "discovery",
     "mapping": [
         {
