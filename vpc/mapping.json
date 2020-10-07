@@ -4,8 +4,8 @@
         "AWS::VPC::*"
     ],
     "servicedisplay_name": "VPC (Virtual Private Cloud)",
-    "serviceaproval_status": {
-        "Prod": "aproved",
+    "serviceapproval_status": {
+        "Prod": "approved",
         "SNP": "approved",
         "NP": "approved"
     },

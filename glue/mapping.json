@@ -4,8 +4,8 @@
         "AWS::Glue::*"
     ],
     "servicedisplay_name": "Glue (AWS ETL)",
-    "serviceaproval_status": {
-        "Prod": "aproved",
+    "serviceapproval_status": {
+        "Prod": "approved",
         "SNP": "approved",
         "NP": "approved"
     },
