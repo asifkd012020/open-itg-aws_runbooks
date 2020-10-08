@@ -4,8 +4,8 @@
         "AWS::CodePipeline::*"
     ],
     "servicedisplay_name": "CodePipeline",
-    "serviceaproval_status": {
-        "Prod": "aproved",
+    "serviceapproval_status": {
+        "Prod": "approved",
         "SNP": "approved",
         "NP": "approved"
     },

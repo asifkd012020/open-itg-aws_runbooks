@@ -4,8 +4,8 @@
         "AWS::ECR::*"
     ],
     "servicedisplay_name": "ECR (Elastic Container Registry)",
-    "serviceaproval_status": {
-        "Prod": "aproved",
+    "serviceapproval_status": {
+        "Prod": "approved",
         "SNP": "approved",
         "NP": "approved"
     },

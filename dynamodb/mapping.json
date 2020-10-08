@@ -4,8 +4,8 @@
         "AWS::DynamoDB::*"
     ],
     "servicedisplay_name": "DynamoDB",
-    "serviceaproval_status": {
-        "Prod": "aproved",
+    "serviceapproval_status": {
+        "Prod": "approved",
         "SNP": "approved",
         "NP": "approved"
     },

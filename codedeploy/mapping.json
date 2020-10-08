@@ -4,8 +4,8 @@
         "AWS::CodeDeploy::*"
     ],
     "servicedisplay_name": "CodeDeploy",
-    "serviceaproval_status": {
-        "Prod": "aproved",
+    "serviceapproval_status": {
+        "Prod": "approved",
         "SNP": "approved",
         "NP": "approved"
     },
