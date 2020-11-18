@@ -1,0 +1,87 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::SES::*"
+    ],
+    "servicedisplay_name": "Simple Email Service",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Configure with dedicated AWS IP address groups, provide to TSO Messaging team",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Configure with 'cgaws.capgroup.com' email sub-domain",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Only allow messages to be sent to CG Exchange platform",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enable TLS 1.2 or higher for communication sessions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

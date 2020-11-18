@@ -1,0 +1,39 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::Route53::*"
+    ],
+    "servicedisplay_name": "Route53",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Baseline configuration will create Private Hosted Zone with naming convention of' 'sub-domain+capgroup.com'",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Consumers with appropriate access management privileges will create individual host records (e.g., 'host1.scarif.aws-dev.capgroup.com')",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

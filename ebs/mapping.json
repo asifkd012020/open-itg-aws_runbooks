@@ -1,0 +1,63 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::EC2::Volume"
+    ],
+    "servicedisplay_name": "Elastic Block Store",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Encryption enabled using CG KMS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Resource tagged",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Snapshot permissions are set to Private",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Snapshots will only be shared with CG accounts",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

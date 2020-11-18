@@ -1,0 +1,39 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::CloudTrail::*"
+    ],
+    "servicedisplay_name": "CloudTrail",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Logs encrypted using CG KMS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudtrail/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Logs forwarded to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudtrail/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

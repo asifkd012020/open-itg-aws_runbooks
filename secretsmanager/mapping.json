@@ -1,0 +1,99 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::SecretsManager::*"
+    ],
+    "servicedisplay_name": "Secrets Manager",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Secrets will be generated, vaulted and managed securely",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Secrets manager will enforce the Enterprise Password Management requirements",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Secrets will be encrypted at rest using CG KMS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Access to secrets are allowed following the least privileged access model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Secrets will be rotated if it has been exposed",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Only application secrets will be stored in Secrets Manager",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Disable cross account access to secrets",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

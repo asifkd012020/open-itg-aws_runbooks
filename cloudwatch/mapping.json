@@ -1,0 +1,88 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::CloudWatch::MetricStream",
+        "AWS::Logs::*"
+    ],
+    "servicedisplay_name": "CloudWatch",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "CloudWatch Metrics: Enable TLS1.2 or higher for communication sessions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch Metrics: Pre-defined services are enabled and forwarded to Splunk.",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch Metrics: Metrics for new services will be submitted to the SIRI team to be enabled and forwarded to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch Log Groups: Logs encrypted using CG KMS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch Log Groups: Pre-defined log groups are enabled and forwarded to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch Log Groups: Log groups for new services will be submitted to the SIRI team to be enabled and forwarded to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

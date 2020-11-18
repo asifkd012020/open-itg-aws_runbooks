@@ -1,0 +1,88 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::ElasticLoadBalancingV2::*",
+        "AWS::ElasticLoadBalancing::*"
+    ],
+    "servicedisplay_name": "Elastic Load Balancing",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Enforce TLS 1.2 using cert signed by CG CA",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "HTTP requests will be redirected to HTTP/S",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Resource tagged",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "ALB scheme will bet set to 'internal'",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "critical"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

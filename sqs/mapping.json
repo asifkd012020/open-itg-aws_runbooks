@@ -1,0 +1,27 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::SQS::*"
+    ],
+    "servicedisplay_name": "Simple Queue Service",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Enable TLS1.2 or higher for communication sessions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

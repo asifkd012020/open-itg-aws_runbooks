@@ -1,0 +1,87 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::Config::*"
+    ],
+    "servicedisplay_name": "Config",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Config is automatically enabled at the member account level.",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Cannot be disabled by member account owner.",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Only enabled for the US regions (us-west-1, us-west-2, us-east-1, us-east-2)",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Logs forwarded to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enable TLS 1.2 or higher for log forwarding sessions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Logs at rest on CG managed S3 buckets are encrypted by default",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

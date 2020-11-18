@@ -1,0 +1,39 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::KMS::*"
+    ],
+    "servicedisplay_name": "Amazon Key Management System",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "KMS roles defined following least privilege model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kms/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Third party keys will not be introduced into the CG KMS solution",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kms/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

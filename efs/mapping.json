@@ -1,0 +1,123 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::EFS::*"
+    ],
+    "servicedisplay_name": "Elastic File System",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "IAM access roles defined following least privileged model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Provide EFS access via a CG VPC interface endpoint",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Encryption enabled using CG KMS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Disable root access by default",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Disable root access by default",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enforce in-transit encryption for clients",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Create access points following least privileged principle",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Resource tagged",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

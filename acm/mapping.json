@@ -1,0 +1,51 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::CertificateManager::*"
+    ],
+    "servicedisplay_name": "AWS Certificate Manager",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Encryption keys and digital certificates will be managed by CG",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/acm/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Self-signed certs will not be used in ACM",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/acm/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Access to the certificate key materials are allowed following the least privileged access model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/acm/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

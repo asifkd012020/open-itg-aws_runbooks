@@ -1,0 +1,39 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::Kinesis::*"
+    ],
+    "servicedisplay_name": "Amazon Kinesis",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Logs encrypted using CG KMS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enable TLS1.2 or higher for communication sessions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
