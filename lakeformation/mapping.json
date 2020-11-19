@@ -1,0 +1,39 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::LakeFormation::*"
+    ],
+    "servicedisplay_name": "LakeFormation",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Establish Fine-Grained Access Controls",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lakeformation/Runbook.md#1-establish-fine-grained-access-controls",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Register Encrypted S3 Locations for Underlying Data",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lakeformation/Runbook.md#2-register-encrypted-s3-locations-for-underlying-data",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
