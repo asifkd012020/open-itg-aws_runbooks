@@ -1,0 +1,99 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::Route53::*"
+    ],
+    "servicedisplay_name": "Route53",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Manage Strict Access Controls to Protect Data from Unauthorized Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/Runbook.md#1-manage-strict-access-controls-to-protect-data-from-unauthorized-access",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Employ MFA for Sensitive S3 Resources",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/Runbook.md#2-employ-mfa-for-sensitive-s3-resources",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enforce Data Protection Measures",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/Runbook.md#3-enforce-data-protection-measures",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enhance Durability of Critical Data",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/Runbook.md#4-enhance-durability-of-critical-data",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Prevent S3 Bucket Sniping",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/Runbook.md#5-prevent-s3-bucket-sniping",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Isolate S3 Bucket Access from the Internet",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/Runbook.md#6-isolate-s3-bucket-access-from-the-internet",
+            "tags": [],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "critical"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enable Amazon S3 server access logging",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/Runbook.md#2-enable-amazon-s3-server-access-logging",
+            "tags": [],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "high"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
