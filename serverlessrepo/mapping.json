@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::Serverless::*"
     ],
-    "servicedisplay_name": "Serverless Repository",
+    "servicedisplay_name": "Serverless Application Repository",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",
