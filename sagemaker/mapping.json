@@ -1,9 +1,9 @@
 {
     "serviceprovider": "aws",
     "servicerequirement_name": [
-        "AWS::Route53::*"
+        "AWS::SageMaker::*"
     ],
-    "servicedisplay_name": "Route53",
+    "servicedisplay_name": "SageMaker",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

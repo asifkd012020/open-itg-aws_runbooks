@@ -1,9 +1,9 @@
 {
     "serviceprovider":"aws",
     "servicerequirement_name": [
-        "AWS::Serverless::*"
+        "AWS::Lambda::Function.TracingConfig"
     ],
-    "servicedisplay_name": "Serverless Repository",
+    "servicedisplay_name": "X-Ray",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",
@@ -13,7 +13,7 @@
     "mapping": [
         {
             "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md",
             "tags":[],
             "severity": {
                 "Prod": "medium",

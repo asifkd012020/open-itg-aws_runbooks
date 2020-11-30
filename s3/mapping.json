@@ -1,9 +1,9 @@
 {
     "serviceprovider": "aws",
     "servicerequirement_name": [
-        "AWS::Route53::*"
+        "AWS::S3::*"
     ],
-    "servicedisplay_name": "Route53",
+    "servicedisplay_name": "S3",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",
