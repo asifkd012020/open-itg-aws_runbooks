@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::Support::*"
     ],
-    "servicedisplay_name": "Support (Foundation)",
+    "servicedisplay_name": "Trusted Advisor (Foundation)",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

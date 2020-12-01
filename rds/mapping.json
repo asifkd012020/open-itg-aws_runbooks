@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::RDS::*"
     ],
-    "servicedisplay_name": "RDS (Cloud Relational Database)",
+    "servicedisplay_name": "RDS",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

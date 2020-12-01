@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::ECS::*"
     ],
-    "servicedisplay_name": "ECS (Elastic Container Service)",
+    "servicedisplay_name": "ECS",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

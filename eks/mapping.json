@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::EKS::*"
     ],
-    "servicedisplay_name": "EKS (Elastic Kubernetes Service)",
+    "servicedisplay_name": "EKS",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

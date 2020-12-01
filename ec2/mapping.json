@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::EC2::*"
     ],
-    "servicedisplay_name": "EC2 (Elastic Compute Cloud)",
+    "servicedisplay_name": "EC2",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

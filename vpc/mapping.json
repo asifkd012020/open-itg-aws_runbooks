@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::VPC::*"
     ],
-    "servicedisplay_name": "VPC (Virtual Private Cloud)",
+    "servicedisplay_name": "VPC",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

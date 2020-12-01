@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::Glue::*"
     ],
-    "servicedisplay_name": "Glue (AWS ETL)",
+    "servicedisplay_name": "Glue",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

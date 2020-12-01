@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::EMR::*"
     ],
-    "servicedisplay_name": "EMR (Elastic Map Reduce)",
+    "servicedisplay_name": "EMR",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

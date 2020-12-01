@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::Lambda::*"
     ],
-    "servicedisplay_name": "Lambda (Serverless Compute)",
+    "servicedisplay_name": "Lambda",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",
