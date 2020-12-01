@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::KMS::*"
     ],
-    "servicedisplay_name": "Amazon Key Management System",
+    "servicedisplay_name": "KMS (Foundation)",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

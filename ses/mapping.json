@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::SES::*"
     ],
-    "servicedisplay_name": "Simple Email Service",
+    "servicedisplay_name": "SES (Foundation)",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",
