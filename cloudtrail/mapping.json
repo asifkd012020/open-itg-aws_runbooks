@@ -3,7 +3,7 @@
     "servicerequirement_name": [
         "AWS::CloudTrail::*"
     ],
-    "servicedisplay_name": "CloudTrail",
+    "servicedisplay_name": "CloudTrail (Foundation)",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",
