@@ -10,9 +10,10 @@ Robert Goss (RMG)
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
-- [Detective](#detective)
+- [Detective Controls](#detective)
 - [Respond/Recover](#respondrecover)
-  - [1. Utilize Amazon cloudWatch alarm actions](#1-utilize-amazon-cloudwatch-alarm-actions)
+    - [1. Utilize Amazon cloudWatch alarm actions](#1-utilize-amazon-cloudwatch-alarm-actions)
+- [Build Walkthough](#build-walkthrough-details)    
 - [Endnotes](#endnotes)
 - [Capital Group Control Statements](#capital-group-control-statements)
 - [Glossary](#glossary)
@@ -24,3 +25,12 @@ These NIST Controls and Subcategories are not applicable to this service: ID, PR
 
 This Capital Group Control Statement is not applicable to this service: [9](#capital-group-control-statements)
 
+## Preventative Controls
+
+## Detective Controls
+
+## Respond / Recover
+
+## Build Walkthrough
+
+## Endnotes
