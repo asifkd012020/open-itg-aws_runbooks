@@ -9,17 +9,10 @@ Robert Goss (RMG)
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-- [Preventative Controls](#preventative-controls)
-- [Detective Controls](#detective)
-- [Respond/Recover](#respondrecover)
-    - [1. Utilize Amazon cloudWatch alarm actions](#1-utilize-amazon-cloudwatch-alarm-actions)
-- [Build Walkthough](#build-walkthrough-details)    
-- [Endnotes](#endnotes)
-- [Capital Group Control Statements](#capital-group-control-statements)
-- [Glossary](#glossary)
+
 
 ## Overview
-AWS provides a number of security features for Amazon QuickSight which 
+Amazon QuickSight is a cloud-scale business intelligence (BI) service that you can use to deliver easy-to-understand insights to the people who you work with, wherever they are. Amazon QuickSight connects to your data in the cloud and combines data from many different sources. In a single data dashboard, QuickSight can include AWS data, third-party data, big data, spreadsheet data, SaaS data, B2B data, and more. As a fully managed cloud-based service, Amazon QuickSight provides enterprise-grade security, global availability, and built-in redundancy. AWS also provides a number of security features for Amazon QuickSight which, when correctly implemented will enable the service to meet CG's current security controls for cloud workloads.
 
 ## IAM roles defined following least privilege model
 
