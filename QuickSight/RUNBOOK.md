@@ -22,13 +22,15 @@ The following NIST Controls and Subcategories are not applicable to this service
 The following Capital Group control statements are not applicatle to this service: 
 
 ## Preventative Controls
-![alt text](/docs/img/Prevent.png "Prevent")
+<img src="/docs/img/Prevent.png " width="50">
 ### 1. Permissions
 
 ## Detective Controls
+![alt text](/docs/img/Detect.png "Detect")
 ### 1. 
 
 ## Respond/Recover
+![alt text](/docs/img/Monitor.png "Recover")
 ### 1. 
 
 ## Endnotes
