@@ -19,18 +19,22 @@ Robert Goss (RMG)
 - [Glossary](#glossary)
 
 ## Overview
-AWS provides a number of security features for Amazon QuickSight which help you comply with the NIST Cybersecurity Framework. The following playbook will outline what the AWS best practices are, how they align to NIST, and how to implement these best practices within our organization.
+AWS provides a number of security features for Amazon QuickSight which 
 
-These NIST Controls and Subcategories are not applicable to this service: ID, PR.AC-2, PR.AT, PR.DS (Unless stated), PR.IP (Unless Stated), PR.MA, PR.PT-2, DE.AE-4, DE.AE-5, DE.CM-2, DE.CM-6, DE.DP, RS.RP, RS.CO, RS.MI, RS.IM, RC
+## IAM roles defined following least privilege model
 
-This Capital Group Control Statement is not applicable to this service: [9](#capital-group-control-statements)
+## Encrypt data at rest using CG KMS
 
-## Preventative Controls
+## Encrypt data in transit using TLS 1.2
 
-## Detective Controls
+## Disable Internet (public) access
 
-## Respond / Recover
+## Resources are tagged
+
+## CloudWatch logging enabled and sent to Splunk
 
 ## Build Walkthrough
 
 ## Endnotes
+
+## Glossary

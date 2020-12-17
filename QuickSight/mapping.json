@@ -1,0 +1,27 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::QuickSight::*"
+    ],
+    "servicedisplay_name": "QuickSight",
+    "serviceapproval_status": {
+        "Prod": "unapproved",
+        "SNP": "unapproved",
+        "NP": "unapproved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Discovery in progress",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/QuickSight/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
