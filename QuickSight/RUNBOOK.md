@@ -9,7 +9,9 @@ Rob Goss (RMG)
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-
+- [Preventative Controls](#Preventative-Controls)
+- [Detective Controls](#Detective-Controls)
+- [Respond & Recover](#Respond/Recover)
 
 ## Overview
 Amazon QuickSight is a cloud-scale business intelligence (BI) service that you can use to deliver easy-to-understand insights to the people who you work with, wherever they are. Amazon QuickSight connects to your data in the cloud and combines data from many different sources. In a single data dashboard, QuickSight can include AWS data, third-party data, big data, spreadsheet data, SaaS data, B2B data, and more. As a fully managed cloud-based service, Amazon QuickSight provides enterprise-grade security, global availability, and built-in redundancy. 
@@ -23,7 +25,20 @@ The following Capital Group control statements are not applicatle to this servic
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. Permissions
+## Permissions within the service are established in line with individual need and least-privilege is enforced
+**NIST CSF:**
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-3|Remote Access is managed|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the princciples of least privilege and separation of duties|
+|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
+|PR.PT-3|The principle of least frunctionality is incorporated by configuring systems to rpovide only essential capabilities|
+
+**Capital Group:**
+|Control Statement|Description|
+|------|----------------------|
+|8|Local IAM secrets are rotated every 90 days, including accounts IaaS resources.
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
