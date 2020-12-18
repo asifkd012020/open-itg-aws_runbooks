@@ -20,18 +20,18 @@ The following NIST Controls and Subcategories are not applicable to this service
 
 The following Capital Group control statements are not applicatle to this service: 
 
-<img src="/docs/img/Prevent.png" width="50"> ## Preventative Controls
-
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Permissions
 
-<img src="/docs/img/Detect.png" width="50"> ## Detective Controls
-
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
 
 ### 1. 
 
-<img src="/docs/img/Monitor.png" width="50"> ## Respond/Recover
-
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
 
 ### 1. 
 
