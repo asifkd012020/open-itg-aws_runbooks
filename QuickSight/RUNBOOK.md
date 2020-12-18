@@ -10,8 +10,14 @@ Rob Goss (RMG)
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
+  - [1. IAM roles defined following least privilege model](#1.-IAM-roles-defined-following-least-privilege-model)
+  - [2. Disable Internet (public) access](#2.-Disable-Internet-(public)-access)
+  - [3. Encrypt data at rest using CG KMS](#3.-Encrypt-data-at-rest-using-CG-KMS)
+  - [4. Encrypt data in transit using TLS 1.2](#4.-Encrypt-data-in-transit-using-TLS-1.2)
+  - [5. Record Level Encryption](#5.-Record-Level-Encryption)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
+- [Endnotes](#Endnotes)
 
 ## Overview
 Amazon QuickSight is a cloud-scale business intelligence (BI) service that you can use to deliver easy-to-understand insights to the people who you work with, wherever they are. Amazon QuickSight connects to your data in the cloud and combines data from many different sources. In a single data dashboard, QuickSight can include AWS data, third-party data, big data, spreadsheet data, SaaS data, B2B data, and more. As a fully managed cloud-based service, Amazon QuickSight provides enterprise-grade security, global availability, and built-in redundancy. 
@@ -20,18 +26,18 @@ Amazon QuickSight enables you to manage your users and content using a comprehen
 
 The following NIST Controls and Subcategories are not applicable to this service:  
 
-The following Capital Group control statements are not applicatle to this service: 
+The following Capital Group control statements are not applicable to this service: 
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-## Permissions within the service are established in line with individual need and least-privilege is enforced
+### 1. IAM roles defined following least privilege model
 **NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
 |PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
 |PR.AC-3|Remote Access is managed|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the princciples of least privilege and separation of duties|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
 |PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
 |PR.PT-3|The principle of least frunctionality is incorporated by configuring systems to rpovide only essential capabilities|
 
@@ -40,10 +46,65 @@ The following Capital Group control statements are not applicatle to this servic
 |------|----------------------|
 |8|Local IAM secrets are rotated every 90 days, including accounts IaaS resources.
 
+### 2. Disable Internet (public) access
+
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+
+### 3. Encrypt data at rest using CG KMS
+Supports Record Level encryption and can be assigned by IAM Role
+
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.DS-1|Data-at-rest is protected|
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
+|2|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
+
+### 4. Encrypt data in transit using TLS 1.2
+
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.DS-2|Data-in-transit is protected|
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|1|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
+
+### 5. Record Level Encryption
+
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.DS-1|Data-at-rest is protected|
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
+|2|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
+
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
-### 1. 
+### 1. Resources are tagged according to CG standards
+
+### 2. CloudWatch logging enabled and sent to Splunk
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50">
@@ -51,22 +112,3 @@ The following Capital Group control statements are not applicatle to this servic
 ### 1. 
 
 ## Endnotes
-
-## IAM roles defined following least privilege model
-
-## Encrypt data at rest using CG KMS
-Supports Record Level encryption and can be assigned by IAM Role
-
-## Encrypt data in transit using TLS 1.2
-
-## Disable Internet (public) access
-
-## Resources are tagged
-
-## CloudWatch logging enabled and sent to Splunk
-
-## Build Walkthrough
-
-## Endnotes
-
-## Glossary
