@@ -69,11 +69,19 @@ Different users/services will require different levels of access within the serv
 When using Platform as a Service (PaaS) tools and services such as QuickSight, it may not be possible to setup the tool iteself inside of a private VPC.  Exposure to public networks should be avoided, or if unavoidable security best practices should be implemented for the specific service to limit service specific security issues. 
 
 **How?**
-Although QuickSight cannot be deployed inside a Private VPC, it is possible to limit public exposure of the data sources that QuickSight requires access to.  With the *Enterprise edition* it is possible for QuickSight to access data sources located in a private VPC using an Elastic Network Interface (ENI) and access to on-premesis data sources via Direct Connect.  Both of these options allow for access control based on IP address range and port.  
+Although QuickSight cannot be deployed inside a Private VPC, it is possible to limit public exposure of the data sources that QuickSight requires access to.  With the *Enterprise edition* it is possible for QuickSight to access data sources located in a private VPC using a VPC Endpoint and access to on-premesis data sources via Direct Connect.  
 
-  - **Direct Connect**
+By creating a VPC connection in QuickSight, you're adding an elastic network interface in your VPC. This network interface allows QuickSight to exchange network traffic with a network instance within your VPC. You can provide all of the standard security controls for this network traffic, as you do with other traffic in your VPC. Route tables, network access control lists (ACLs), subnets, and security groups settings all apply to network traffic to and from QuickSight in the same way that they apply to traffic between other instances in your VPC.
 
-  - **Private VPC**
+<img src="https://media.amazonwebservices.com/blog/2017/qs_vpc_private_2.png" alt="Example Diagram" width="400"/>
+
+When you register a VPC connection with QuickSight, you can securely connect to data that's available only in your VPC, for example:
+
+- Data you can reach by IP address
+- Data that isn't available on the public internet
+- Private databases
+- On-premises data
+    
 
 ### 3. Encrypt data at rest
 
