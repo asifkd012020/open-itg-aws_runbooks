@@ -10,14 +10,14 @@ Rob Goss (RMG)
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. IAM roles defined following least privilege model](#1.-IAM-roles-defined-following-least-privilege-model)
+  - [1. IAM Users and Roles Enforce Least Priviledge](#1.-IAM-Users-and-Roles-Enforce-Least-Priviledge)
   - [2. Disable Internet (public) access](#2.-Disable-Internet-(public)-access)
-  - [3. Encrypt data at rest using CG KMS](#3.-Encrypt-data-at-rest-using-CG-KMS)
-  - [4. Encrypt data in transit using TLS 1.2](#4.-Encrypt-data-in-transit-using-TLS-1.2)
-  - [5. Record Level Encryption](#5.-Record-Level-Encryption)
+  - [3. Encrypt data at rest](#3.-Encrypt-data-at-rest)
+  - [4. Encrypt data in transit](#4.-Encrypt-data-in-transit)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
+- [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
 Amazon QuickSight is a cloud-scale business intelligence (BI) service that you can use to deliver easy-to-understand insights to the people who you work with, wherever they are. Amazon QuickSight connects to your data in the cloud and combines data from many different sources. In a single data dashboard, QuickSight can include AWS data, third-party data, big data, spreadsheet data, SaaS data, B2B data, and more. As a fully managed cloud-based service, Amazon QuickSight provides enterprise-grade security, global availability, and built-in redundancy. 
@@ -31,7 +31,7 @@ The following Capital Group control statements are not applicable to this servic
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. IAM roles defined following least privilege model
+### 1. IAM Users and Roles Enforce Least Priviledge
 **NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -46,58 +46,74 @@ The following Capital Group control statements are not applicable to this servic
 |------|----------------------|
 |8|Local IAM secrets are rotated every 90 days, including accounts IaaS resources.
 
+**Why?**
+Different users/services will require different levels of access within the service. Having clearly defined policies and limiters will ensure that a user is not able to access and manage data in ways that they shouldn't be able to.
+
+**How?**
+
+
 ### 2. Disable Internet (public) access
 
-NIST CSF:
+**NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
 |PR.PT-4|Communications and control networks are protected|
 |PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
 
-Capital Group:
+**Capital Group:**
 |Control Statement|Description|
 |------|----------------------|
 |6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
 |7|Use of AWS IAM accounts are restricted to CG networks.|
 
-### 3. Encrypt data at rest using CG KMS
-Supports Record Level encryption and can be assigned by IAM Role
+### 3. Encrypt data at rest
 
-NIST CSF:
+**NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
 |PR.DS-1|Data-at-rest is protected|
 
-Capital Group:
+**Capital Group:**
 |Control Statement|Description|
 |------|----------------------|
 |1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
 |2|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
 
-### 4. Encrypt data in transit using TLS 1.2
+**Why?**
+Data should be protected at-rest, in-transit between the customer and AWS, as well as in-transit between AWS Services using NIST-approved and CG-approved encryption mechanisms.
 
-NIST CSF:
+**How?**
+Amazon QuickSight does not actually store data that is used in the reports, but instead the service stores metadata and data that you as a user upload into SPICE.  This data is not encrypted when using the *Standard edition*, with the *Enterprise edition* the data uploaded to SPICE has block-level encryption applied using AWS-managed keys.  Encryption of the data sources used for analysis is not handled by QuickSight as it is not storing any of this data, the encryption of these sources is handled by the source itself.
+
+QuickSight Metadata contains the following:
+- Amazon QuickSight user data, including Amazon QuickSight user names, email addresses, and passwords. Amazon QuickSight administrators can view user names and emails, but each user's password is completely private to each user.
+- Minimal data necessary to coordinate user identification with your Microsoft Active Directory or identity federation implementation (Federated Single Sign-On (SSO) through Security Assertion Markup Language 2.0 (SAML 2.0)).
+- Data source connection data
+- Names of your uploaded files, data source names, and data set names.
+- Statistics that Amazon QuickSight uses to populate machine learning (ML) insights
+
+Due to the *Standard edition* of QuickSight not supporting encryption of the data at rest, coupled with the type of information being stored as metadata, the *Enterprise edition* of the service should be used allowing the service owner to meet the CG Encryption controls required.
+
+
+### 4. Encrypt data in transit
+
+**NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
 |PR.DS-2|Data-in-transit is protected|
 
-Capital Group:
+**Capital Group:**
 |Control Statement|Description|
 |------|----------------------|
 |1|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
 
-### 5. Record Level Encryption
+**Why?**
+Data should be protected at-rest, in-transit between the customer and AWS, as well as in-transit between AWS Services using NIST-approved and CG-approved encryption mechanisms.
 
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
+**How?**
+Amazon QuickSight supports encryption for all data transfers. This includes transfers from the data source to SPICE, or from SPICE to the user interface. However, encryption isn't mandatory. For some databases, you can choose whether transfers from the data source are encrypted or not. Amazon QuickSight secures all encrypted transfers by using Secure Sockets Layer (SSL).
 
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
-|2|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
+Whenever data is transmitted over the internet or public networks such as AWS, encryption of these connections must take place. All encrypted connections should utilize TLS 1.2 or above, as previous versions have know security flaws.
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
@@ -112,3 +128,17 @@ Capital Group:
 ### 1. 
 
 ## Endnotes
+**Resources**
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
