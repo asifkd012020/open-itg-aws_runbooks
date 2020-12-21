@@ -11,7 +11,7 @@ Rob Goss (RMG)
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. IAM Users and Roles Enforce Least Priviledge](#1.-IAM-Users-and-Roles-Enforce-Least-Priviledge)
-  - [2. Disable Internet (public) access](#2.-Disable-Internet-(public)-access)
+  - [2. Private VPC Access for QuickSight](#2.-Private-VPC-Access-for-QuickSight)
   - [3. Encrypt data at rest](#3.-Encrypt-data-at-rest)
   - [4. Encrypt data in transit](#4.-Encrypt-data-in-transit)
 - [Detective Controls](#Detective-Controls)
@@ -52,7 +52,7 @@ Different users/services will require different levels of access within the serv
 **How?**
 
 
-### 2. Disable Internet (public) access
+### 2. Private VPC Access for QuickSight
 
 **NIST CSF:**
 |NIST Subcategory Control|Description|
@@ -64,7 +64,16 @@ Different users/services will require different levels of access within the serv
 |Control Statement|Description|
 |------|----------------------|
 |6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
-|7|Use of AWS IAM accounts are restricted to CG networks.|
+
+**Why?**
+When using Platform as a Service (PaaS) tools and services such as QuickSight, it may not be possible to setup the tool iteself inside of a private VPC.  Exposure to public networks should be avoided, or if unavoidable security best practices should be implemented for the specific service to limit service specific security issues. 
+
+**How?**
+Although QuickSight cannot be deployed inside a Private VPC, it is possible to limit public exposure of the data sources that QuickSight requires access to.  With the *Enterprise edition* it is possible for QuickSight to access data sources located in a private VPC using an Elastic Network Interface (ENI) and access to on-premesis data sources via Direct Connect.  Both of these options allow for access control based on IP address range and port.  
+
+  - **Direct Connect**
+
+  - **Private VPC**
 
 ### 3. Encrypt data at rest
 
