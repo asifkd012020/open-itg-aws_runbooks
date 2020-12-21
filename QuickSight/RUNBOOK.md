@@ -11,9 +11,10 @@ Rob Goss (RMG)
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. IAM Users and Roles Enforce Least Priviledge](#1.-IAM-Users-and-Roles-Enforce-Least-Priviledge)
-  - [2. Private VPC Access for QuickSight](#2.-Private-VPC-Access-for-QuickSight)
-  - [3. Encrypt data at rest](#3.-Encrypt-data-at-rest)
-  - [4. Encrypt data in transit](#4.-Encrypt-data-in-transit)
+  - [2. Enforce Multi-Factor Authentication (MFA)](#2.-Enforce-Multi-Factor-Authentication-(MFA))
+  - [3. Private VPC Access for QuickSight](#3.-Private-VPC-Access-for-QuickSight)
+  - [4. Encrypt data at rest](#4.-Encrypt-data-at-rest)
+  - [5. Encrypt data in transit](#5.-Encrypt-data-in-transit)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
@@ -51,8 +52,26 @@ Different users/services will require different levels of access within the serv
 
 **How?**
 
+### 2. Enforce Multi-Factor Authentication (MFA)
+**NIST CSF:**
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-3|Remote Access is managed|
+|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
 
-### 2. Private VPC Access for QuickSight
+**Capital Group:**
+|Control Statement|Description|
+|------|----------------------|
+|N/A|N/A|
+
+**Why?**
+Different users/services will require different levels of access within the service. Having clearly defined policies and limiters will ensure that a user is not able to access and manage data in ways that they shouldn't be able to.
+
+**How?**
+
+### 3. Private VPC Access for QuickSight
 
 **NIST CSF:**
 |NIST Subcategory Control|Description|
@@ -73,7 +92,7 @@ Although QuickSight cannot be deployed inside a Private VPC, it is possible to l
 
 By creating a VPC connection in QuickSight, you're adding an elastic network interface in your VPC. This network interface allows QuickSight to exchange network traffic with a network instance within your VPC. You can provide all of the standard security controls for this network traffic, as you do with other traffic in your VPC. Route tables, network access control lists (ACLs), subnets, and security groups settings all apply to network traffic to and from QuickSight in the same way that they apply to traffic between other instances in your VPC.
 
-<img src="https://media.amazonwebservices.com/blog/2017/qs_vpc_private_2.png" alt="Example Diagram" width="400"/>
+<img src="https://media.amazonwebservices.com/blog/2017/qs_vpc_private_2.png" alt="Example Diagram" width="500"/>
 
 When you register a VPC connection with QuickSight, you can securely connect to data that's available only in your VPC, for example:
 
@@ -83,7 +102,7 @@ When you register a VPC connection with QuickSight, you can securely connect to 
 - On-premises data
     
 
-### 3. Encrypt data at rest
+### 4. Encrypt data at rest
 
 **NIST CSF:**
 |NIST Subcategory Control|Description|
@@ -112,7 +131,7 @@ QuickSight Metadata contains the following:
 Due to the *Standard edition* of QuickSight not supporting encryption of the data at rest, coupled with the type of information being stored as metadata, the *Enterprise edition* of the service should be used allowing the service owner to meet the CG Encryption controls required.
 
 
-### 4. Encrypt data in transit
+### 5. Encrypt data in transit
 
 **NIST CSF:**
 |NIST Subcategory Control|Description|
