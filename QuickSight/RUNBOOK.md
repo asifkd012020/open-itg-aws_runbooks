@@ -40,7 +40,7 @@ The following Capital Group control statements are not applicable to this servic
 |PR.AC-3|Remote Access is managed|
 |PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
 |PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
-|PR.PT-3|The principle of least frunctionality is incorporated by configuring systems to rpovide only essential capabilities|
+|PR.PT-3|The principle of least frunctionality is incorporated by configuring systems to provide only essential capabilities|
 
 **Capital Group:**
 |Control Statement|Description|
@@ -67,7 +67,7 @@ Different users/services will require different levels of access within the serv
 |N/A|N/A|
 
 **Why?**
-Different users/services will require different levels of access within the service. Having clearly defined policies and limiters will ensure that a user is not able to access and manage data in ways that they shouldn't be able to.
+Multi-factor authentication has evolved as one of most effective controls available to insulate an organization against remote attacks and when implemented correctly, can prevent most threat actors from easily gaining an initial foothold into your organization, even if credentials become compromised.
 
 **How?**
 
