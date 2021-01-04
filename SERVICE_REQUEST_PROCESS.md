@@ -8,7 +8,8 @@ Rob Goss (RMG)
 **Last Update:** *01/04/2021*
 
 ## Requirements
-There are core / baseline requirements that need to be satisfied for a service to be used.
+This section aims to provide detailed information relate to the core / baseline security requirements that need to be satisfied for a new service to be introduced. These requirements may or may not be applicable to all services and some services may require specialized controls.
+
 ### Public Access
 ### Encryption
 ### Identity & Access
