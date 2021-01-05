@@ -66,7 +66,7 @@ AWS has in many cases provided additional service specific security controls for
 
 
 ## Request Process
-<img src="/docs/img/Runbook_Process.png" width="800">
+<img src="/docs/img/Runbook_Process.png" width="900">
 
 ## Timelines
 
