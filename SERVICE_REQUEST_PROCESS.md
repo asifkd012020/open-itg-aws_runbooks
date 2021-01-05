@@ -13,19 +13,25 @@ This section aims to provide detailed information relate to the core / baseline 
 ### Public Access
 The first and arguably the most important control that we look at when a new service is requested is the Public Accessibility of the service, usually related to PaaS and IaaS but could also include SaaS service offerings. There are many baseline controls available to lock down public access to services, below is a list of the core public access controls we look at right out the gate.
 
-**SCP Policy**
-If possible the first option to look at from an AWS organizational perspective is a public access block through AWS Service Control Policy (SCP), this allows a default denial of public access and therefore does not put undue burden on the service user. This option can be enforced across all CG accounts in one place, and allows the SCP to be easily managed.  An example of a default public block policy is for the Simple Storage service (S3).
+**SCP Policy:**
 
-**Private VPC**
+If possible the first option to look at from an AWS organizational perspective is a public access block through AWS Service Control Policy (SCP), this allows a default denial of public access and therefore does not put undue burden on the service user. This option can be enforced across all CG accounts in one place, and allows the SCP to be easily managed. An example of a default public block policy is for the Simple Storage service (S3).
 
-**Security Group / Access-List (ACL)**
+**Private VPC:**
 
-**Service Specific**
+All new services should by default be deployed within a CG owned Virtual Private Cloud (VPC), with no default ingress / egress route to the internet via an internet gateway, and with no default public IP address assignments set. The private vpc deployment is key to the security of CG's cloud services and all associated subnets, gateways and resources being built within a vpc will need to adhere to the private resouce policy by default.
 
+**Security Group / Access-List (ACL):**
+
+All new services will be reviewed should by default have a firewall, Security Group or ACL controlling acccess to and from CG resources even within a private VPC. This provides a defense in depth layered approach to securing services, and provides one further layer between public access due to misconfigureation. These controls should be applied using the principal of least priviledge and as such only allow the network access required to run the service.
 
 ### Encryption
+
 ### Identity & Access
+
 ### Service Specific
+AWS has in many cases provided additional service specific security controls for 
+
 
 ## Request Process
 <img src="/docs/img/Runbook_Process.png" width="800">
