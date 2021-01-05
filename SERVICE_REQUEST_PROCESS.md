@@ -1,3 +1,5 @@
+<img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" alt="AWS" width="250"/>
+
 # AWS Service Request Process
 The following page serves to document the details around requesting a new AWS service and the Requirements, Process and Timelines associated with each request. Please check this page each time a new service is requested as process details may change as new requirements are added. The output of the process is the approval or denial of the service that was requested with review artifacts being the associated service runbook, initial rules and GRC control mappings.
 
@@ -25,30 +27,32 @@ All new services should by default be deployed within a CG owned Virtual Private
 
 All new services will be reviewed should by default have a firewall, Security Group or ACL controlling acccess to and from CG resources even within a private VPC. This provides a defense in depth layered approach to securing services, and provides one further layer between public access due to misconfigureation. These controls should be applied using the principal of least priviledge and as such only allow the network access required to run the service.
 
-**Other**
+**Other:**
 
 Based on the availability of the above public access controls, other service specific controls may play a role related to the approval of the requested service. Not all services have controls over and above SCP, Security Group / ACL or Private VPC, so this review will be case-by-case.
 
 ### Encryption
 As with Public Access control, Encryption is another key Security Control that we have in our toolkit to ensure CG's data in the cloud is only accessible to those that need and should have access to our data.  The subsections below will detail the various encryption methods that will be looked at when reviewing a service for use.
 
-**CloudHSM BYOK Encryption**
+**CloudHSM BYOK Encryption:**
 
 The first and arguably the most secure way to manage encyption keys comes with service integration with CloudHSM, this is usually used when key auditability is a must and is usually used in association with highly sensitive data as the cost is high. This will be one of the Encryption technologies investigated when reviewing a service for use.
 
-**KMS BYOK Encryption**
+**KMS BYOK Encryption:**
 
 The second most secure way to manage encyption keys comes with service integration with AWS KMS using Customer Managed Keys, this is the CG standard and usually used when key availability and ease of use are core requirements, with the cost being relativly low. This will be one of the Encryption technologies investigated when reviewing a service for use.
 
-**Provider Key Encryption**
+**Provider Key Encryption:**
 
 The third way to manage encyption keys comes with service integration with AWS KMS using provider generated keys, this would be our least prefered method of key management and usually used when none of the other key management techniques are available for a service, with the cost being very low. This will be one of the Encryption technologies investigated when reviewing a service, and depending on the data being stored may be a deal-breaker on service use.
 
-**Other**
+**Other:**
+
+Some services may offer service specific encryption options sucha as record level encryption or in-memory encryption, where the service may not use physical storage and is short lived.  These options will be reviewed on a per service basis, as the above encryption options may not be available, but the service meets the spirit of data encryption.
 
 ### Identity & Access
 
-### Service Specific
+### Service Specific Controls
 AWS has in many cases provided additional service specific security controls for 
 
 
