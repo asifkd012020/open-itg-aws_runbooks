@@ -62,9 +62,7 @@ Some services may offer service specific encryption options sucha as record leve
 
 ### Service Specific Controls
 <img src="/docs/img/round_settings_black_48dp.png" width="48"/>
-<br><br>
-
-AWS has in many cases provided additional service specific security controls for 
+AWS has in many cases provided additional service specific security controls for most of their more popular services. These service specific controls will also be taken into account during the service review and may add to the Defense in Depth strategy related to the service and could mitigate certain shortcomings around the other controls. This piece of the review will differ greatly between services and would possibly be done in a second round of reviews.
 
 
 ## Request Process
