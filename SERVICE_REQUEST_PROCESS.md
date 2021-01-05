@@ -16,6 +16,7 @@ This section aims to provide detailed information relate to the core / baseline 
 ### Public Access
 <img src="/docs/img/round_transfer_within_a_station_black_48dp.png" width="48"/>
 The first and arguably the most important control that we look at when a new service is requested is the Public Accessibility of the service, usually related to PaaS and IaaS but could also include SaaS service offerings. There are many baseline controls available to lock down public access to services, below is a list of the core public access controls we look at right out the gate.
+<br><br>
 
 **SCP Policy:**
 
@@ -34,7 +35,9 @@ All new services will be reviewed should by default have a firewall, Security Gr
 Based on the availability of the above public access controls, other service specific controls may play a role related to the approval of the requested service. Not all services have controls over and above SCP, Security Group / ACL or Private VPC, so this review will be case-by-case.
 
 ### Encryption
+<img src="/docs/img/baseline_enhanced_encryption_black_48dp.png" width="48"/>
 As with Public Access control, Encryption is another key Security Control that we have in our toolkit to ensure CG's data in the cloud is only accessible to those that need and should have access to our data.  The subsections below will detail the various encryption methods that will be looked at when reviewing a service for use.
+<br><br>
 
 **CloudHSM BYOK Encryption:**
 
@@ -53,8 +56,14 @@ The third way to manage encyption keys comes with service integration with AWS K
 Some services may offer service specific encryption options sucha as record level encryption or in-memory encryption, where the service may not use physical storage and is short lived.  These options will be reviewed on a per service basis, as the above encryption options may not be available, but the service meets the spirit of data encryption.
 
 ### Identity & Access
+<img src="/docs/img/round_fingerprint_black_48dp.png" width="48"/>
+<br><br>
+
 
 ### Service Specific Controls
+<img src="/docs/img/round_settings_black_48dp.png" width="48"/>
+<br><br>
+
 AWS has in many cases provided additional service specific security controls for 
 
 
