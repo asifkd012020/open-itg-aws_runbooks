@@ -15,7 +15,6 @@ This section aims to provide detailed information relate to the core / baseline 
 
 ### Public Access
 <img src="/docs/img/round_transfer_within_a_station_black_48dp.png" width="48"/>
-<br>
 The first and arguably the most important control that we look at when a new service is requested is the Public Accessibility of the service, usually related to PaaS and IaaS but could also include SaaS service offerings. There are many baseline controls available to lock down public access to services, below is a list of the core public access controls we look at right out the gate.
 
 **SCP Policy:**
