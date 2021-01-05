@@ -11,6 +11,18 @@ Rob Goss (RMG)
 This section aims to provide detailed information relate to the core / baseline security requirements that need to be satisfied for a new service to be introduced. These requirements may or may not be applicable to all services and some services may require specialized controls.
 
 ### Public Access
+The first and arguably the most important control that we look at when a new service is requested is the Public Accessibility of the service, usually related to PaaS and IaaS but could also include SaaS service offerings. There are many baseline controls available to lock down public access to services, below is a list of the core public access controls we look at right out the gate.
+
+**SCP Policy**
+If possible the first option to look at from an AWS organizational perspective is a public access block through AWS Service Control Policy (SCP), this allows a default denial of public access and therefore does not put undue burden on the service user. This option can be enforced across all CG accounts in one place, and allows the SCP to be easily managed.  An example of a default public block policy is for the Simple Storage service (S3).
+
+**Private VPC**
+
+**Security Group / Access-List (ACL)**
+
+**Service Specific**
+
+
 ### Encryption
 ### Identity & Access
 ### Service Specific
