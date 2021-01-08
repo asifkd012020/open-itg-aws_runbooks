@@ -13,9 +13,9 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. IAM Users and Roles Enforce Least Priviledge](#1.-IAM-Users-and-Roles-Enforce-Least-Priviledge)
-  - [2. Encrypt all data in the Cloud](#2.-Encrypt-all-data-in-the-Cloud)
-  - [3. Certificate Best Practices Used](#3.-Certificate-Best-Practices-Used)
+  - [1. IAM Users and Roles Enforce Least Priviledge](#1-IAM-Users-and-Roles-Enforce-Least-Priviledge)
+  - [2. Encrypt all data in the Cloud](#2-Encrypt-all-data-in-the-Cloud)
+  - [3. Certificate Best Practices Used](#3-Certificate-Best-Practices-Used)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
@@ -24,7 +24,7 @@ Security Engineering
 ## Overview
 AWS Certificate Manager (ACM) handles the complexity of creating, storing, and renewing public and private SSL/TLS X.509 certificates and keys that protect your AWS websites and applications. You can provide certificates for your integrated AWS services either by issuing them directly with ACM or by importing third-party certificates into the ACM management system. ACM certificates can secure singular domain names, multiple specific domain names, wildcard domains, or combinations of these. ACM wildcard certificates can protect an unlimited number of subdomains. You can also export ACM certificates signed by ACM Private CA for use anywhere in your internal PKI.
 
-**NOTE:** This document currently only pertains to the "Amazon Certificate Management (ACM)" service and not "ACM Private CA" service offering.
+**NOTE:** This document currently only pertains to the "Amazon Certificate Management (ACM)" service and not the "ACM Private CA" service offering.
 
 The following NIST Controls and Subcategories are not applicable to this service:  
 
@@ -34,7 +34,7 @@ The following Capital Group control statements are not applicable to this servic
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. IAM Users and Roles Enforce Least Priviledge
-AWS Certificate Manager (ACM) as with many AWS PaaS services by nature do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Controls (IAM) may be the only true option for securing access to the service and the data stored within.
+AWS Certificate Manager (ACM) as with many AWS PaaS services by nature do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Management (IAM) controls may be the only true option for securing access to the service and the data stored within.
 <br>
 
 **NIST CSF:** <br>
