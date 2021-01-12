@@ -62,8 +62,65 @@ ACM is used to generate and store both Digital Certificates and the associated P
 
 **How?**<br>
 1. Access to the certificate key materials are allowed following the least privileged access model.
-2. Enforce Multi Factor Authentication.
-<br>
+
+AWS managed policies are standalone identity-based policies that you can attach to multiple users, groups, and roles in your AWS account. AWS managed policies are created and managed by AWS. ACM also provides the ability to use Customer Managed policies, if one needs more granular access control policy, but for most of CG's accounts in AWS the Managed Policies will suffice. The following AWS managed policies are available for ACM:
+
+**AWSCertificateManagerReadOnly**<br>
+This role will allow a user read-only access to the ACM service, and will provide sufficient rights to pull and use a certificate for other services in AWS.
+
+```
+{
+   "Version":"2012-10-17",
+   "Statement":{
+      "Effect":"Allow",
+      "Action":[
+         "acm:DescribeCertificate",
+         "acm:ListCertificates",
+         "acm:GetCertificate",
+         "acm:ListTagsForCertificate"
+      ],
+      "Resource":"*"
+   }
+}
+```
+
+**AWSCertificateManagerFullAccess**<br>
+This role will allow a user full administrative access to the ACM service, including the rights to delete certificates, and as such this role should only be assigned to administrators of the service. The policy statement below can be used to create the role.
+
+```
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Effect":"Allow",
+         "Action":[
+            "acm:*"
+         ],
+         "Resource":"*"
+      },
+      {
+         "Effect":"Allow",
+         "Action":"iam:CreateServiceLinkedRole",
+         "Resource":"arn:aws:iam::*:role/aws-service-role/acm.amazonaws.com/AWSServiceRoleForCertificateManager*",
+         "Condition":{
+            "StringEquals":{
+               "iam:AWSServiceName":"acm.amazonaws.com"
+            }
+         }
+      },
+      {
+         "Effect":"Allow",
+         "Action":[
+            "iam:DeleteServiceLinkedRole",
+            "iam:GetServiceLinkedRoleDeletionStatus",
+            "iam:GetRole"
+         ],
+         "Resource":"arn:aws:iam::*:role/aws-service-role/acm.amazonaws.com/AWSServiceRoleForCertificateManager*"
+      }
+   ]
+}
+```
+
 
 ### 2. Encrypt all data in the Cloud
 
@@ -82,7 +139,7 @@ ACM is used to generate and store both Digital Certificates and the associated P
 |1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
 |2|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
 |3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
-**Capital Group:**
+<br>
 
 **Why?**<br>
 
@@ -115,6 +172,11 @@ ACM is used to generate and store both Digital Certificates and the associated P
 
 ## Endnotes
 **Resources**
+1. https://docs.aws.amazon.com/acm/latest/userguide/security.html
+2. https://docs.aws.amazon.com/acm/latest/userguide/authen-awsmanagedpolicies.html
+3. https://docs.aws.amazon.com/acm/latest/userguide/authen-apipermissions.html
+
+<br>
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
