@@ -8,30 +8,53 @@
 <br>
 Security Engineering
 
-**Last Update:** *01/07/2021*
+**Last Update:** *01/12/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. ALB Deployed in Private VPC](#1-ALB-Deployment-in-Private-VPC)
+  - [1. ALB Deployed in Private VPC and set to Internal](#1-ALB-Deployment-in-Private-VPC-and-set-to-Internal)
+  - [2. ALB Deployed with appropriate Security Groups](#2-ALB-Deployed-with-appropriate-Security-Groups)
+  - [3. Enforce TLS 1.2 using cert signed by CG CA](#3-Enforce-TLS-1-2-using-cert-signed-by-CG-CA)
+  - [4. HTTP requests will be redirected to HTTP/S](#4-HTTP-requests-will-be-redirected-to-HTTP/S)
 - [Detective Controls](#Detective-Controls)
+  - [1. Application Load Balancing resources are tagged according to CG standards](#1-Application-Load-Balancing-resources-are-tagged-according-to-CG-standards)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled](#2-CloudWatch-logging-enabled)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
+Elastic Load Balancing automatically distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, IP addresses, Lambda functions, and virtual appliances. It can handle the varying load of your application traffic in a single Availability Zone or across multiple Availability Zones. Elastic Load Balancing offers four types of load balancers that all feature the high availability, automatic scaling, and robust security necessary to make your applications fault tolerant.
+
+This Runbook's focus is specifically related to the Application Load Balancer (ALB) as there will be other runbooks focusing on Network Load Balancer (NLB) and Gateway Load Balancer (GLB). Application Load Balancer is best suited for load balancing of HTTP and HTTPS traffic and provides advanced request routing targeted at the delivery of modern application architectures, including microservices and containers. Application Load Balancer routes traffic to targets within Amazon VPC based on the content of the request.
+
+**NOTE:** This document currently only pertains to the "Amazon Elastic Load Balancer (ELB)" service and not the "Classic Load Balancer" service offering as it is outdated.
+
+The following NIST Controls and Subcategories are not applicable to this service:  
+
+The following Capital Group control statements are not applicable to this service:
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. ALB Deployed in Private VPC
+### 1. ALB Deployed in Private VPC and set to Internal
+
+### 2. ALB Deployed with appropriate Security Groups
+
+### 3. Enforce TLS 1.2 using cert signed by CG CA
+
+### 4. HTTP requests will be redirected to HTTP/S
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
 ### 1. Application Load Balancing resources are tagged according to CG standards
 
-### 2. CloudWatch logging enabled and sent to Splunk
+### 2. CloudTrail logging enabled and sent to Splunk
+
+### 3. CloudWatch logging enabled
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50">
@@ -51,15 +74,3 @@ Security Engineering
 **Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
 
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
-
-## Enforce TLS 1.2 using cert signed by CG CA
-
-## HTTP requests will be redirected to HTTP/S
-
-## Resource tagged
-
-## CloudTrail logging enabled
-
-## CloudWatch logging enabled
-
-## ALB scheme will bet set to 'internal'

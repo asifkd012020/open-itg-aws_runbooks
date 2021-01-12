@@ -36,7 +36,7 @@
             "implementations": []
         },
         {
-            "requirement_name": "Access to the certificate key materials are allowed following the least privileged access model",
+            "requirement_name": "IAM Users and Roles Enforce Least Priviledge",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/acm/Runbook.md",
             "tags":[],
             "severity": {
