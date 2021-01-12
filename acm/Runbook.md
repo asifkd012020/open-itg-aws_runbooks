@@ -8,7 +8,7 @@
 <br>
 Security Engineering
 
-**Last Update:** *01/07/2021*
+**Last Update:** *01/12/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -62,7 +62,7 @@ ACM is used to generate and store both Digital Certificates and the associated P
 
 **How?**<br>
 1. Use IAM for appropriate user access restrictions
-2. Access to the certificate key materials are allowed following the least privilege access model.
+2. Access to the certificate key materials are allowed following the least privilege access model
 
 AWS managed policies are standalone identity-based policies that you can attach to multiple users, groups, and roles in your AWS account. AWS managed policies are created and managed by AWS. ACM also provides the ability to use Customer Managed policies, if one needs more granular access control policy, but for most of CG's accounts in AWS the Managed Policies will suffice. The following AWS managed policies are available for ACM:
 
