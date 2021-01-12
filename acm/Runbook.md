@@ -43,8 +43,8 @@ AWS Certificate Manager (ACM) as with many AWS PaaS services by nature do not us
 |-----------|------------------------|
 |PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
 |PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
 |PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
 <br>
 
 **Capital Group:** <br>
@@ -61,7 +61,8 @@ ACM is used to generate and store both Digital Certificates and the associated P
 <br>
 
 **How?**<br>
-1. Access to the certificate key materials are allowed following the least privileged access model.
+1. Use IAM for appropriate user access restrictions
+2. Access to the certificate key materials are allowed following the least privilege access model.
 
 AWS managed policies are standalone identity-based policies that you can attach to multiple users, groups, and roles in your AWS account. AWS managed policies are created and managed by AWS. ACM also provides the ability to use Customer Managed policies, if one needs more granular access control policy, but for most of CG's accounts in AWS the Managed Policies will suffice. The following AWS managed policies are available for ACM:
 
