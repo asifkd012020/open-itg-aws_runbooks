@@ -32,7 +32,7 @@ This Runbook's focus is specifically related to the Application Load Balancer (A
 
 **Below is a reference diagram of an ALB deployment:**
 
-<img src="/docs/img/ALB.png" width="500"> <br>
+<img src="/docs/img/alb/ALB.png" width="500"> <br>
 
 **NOTE:** This document currently only pertains to the "Amazon Elastic Load Balancer (ELB)" service and not the "Classic Load Balancer" service offering as it is outdated.
 
@@ -44,9 +44,10 @@ The following Capital Group control statements are not applicable to this servic
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. ALB Deployed in Private VPC and set to Internal
-Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet.  To adhere to this requirement all ALB resources should be built within a Private VPC, and be set to 'Internal' as the deployment scheme as this will assign a private IP address to the load-balancer. Below are further details related to building an internal facing ALB:
+Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet.  To adhere to this requirement all ALB resources should be built within a **Private VPC**, and the deployment 'Scheme' be set to **'Internal'** as this will assign a private IP address to the load-balancer as seen in the example below: 
 
-
+<img src="/docs/img/alb/privatevpc.png" width="600">
+<br>
 
 ### 2. ALB Deployed with appropriate Security Groups
 
