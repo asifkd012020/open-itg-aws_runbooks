@@ -44,7 +44,13 @@ The following Capital Group control statements are not applicable to this servic
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. ALB Deployed in Private VPC and set to Internal
-Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet.  To adhere to this requirement all ALB resources should be built within a **Private VPC**, and the deployment 'Scheme' be set to **'Internal'** as this will assign a private IP address to the load-balancer as seen in the example below: 
+Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet.  To adhere to this requirement all ALB resources should be built within a **Private VPC**, and the deployment 'Scheme' be set to **'Internal'** as this will assign a private IP address to the load-balancer. 
+
+**Why?**
+
+**How?**
+
+*Private VPC Example:*
 
 <img src="/docs/img/alb/PrivVPC.png" width="800">
 <br>
@@ -52,13 +58,17 @@ Since our initial migration of services to the cloud, CG has taken the stance th
 ### 2. ALB Deployed with appropriate Security Groups
 One of the core tenets of Information Security is least priviledge, and one tool to enforce least priviledge is a Security Group.  A security group is a set of firewall rules that can be applied to the service, limiting the open ports and restricting access to specific IP ranges. These firewall rules should be setup to limit access to the ALB for only hosts that truly require access to the service and deny access to all other hosts.  The Default VPC security group should not be used as it is overly permissive and may provide unintended access. CG has provided a specific base security group in each new AWS account that provides a good option as a default starting point and should be named 'cg-alb-base-sg'.
 
-**New SG Example:**
+**Why?**
+
+**How?**
+
+*New SG Example:*
 
 <img src="/docs/img/alb/NewSG.png" width="800">
 
 <br>
 
-**Existing SG Example:**
+*Existing SG Example:*
 
 <img src="/docs/img/alb/ExistingSG.png" width="800">
 
@@ -69,12 +79,10 @@ Another of the core CG controls that has been required from day one, is that of 
 
 **Why?**
 
+
 **How?**<br>
 
-
-
  **Step 1 - Enable HTTPS:**
-
 
 <img src="/docs/img/alb/HTTPS.png" width="800">
 
