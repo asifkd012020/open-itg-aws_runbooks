@@ -64,8 +64,43 @@ One of the core tenets of Information Security is least priviledge, and one tool
 
 <br>
 
-### 3. Enforce TLS 1.2 using cert signed by CG CA
-`This Section will be updated soon.`
+### 3. Enforce HTTPS and TLS 1.2 using cert signed by CG CA
+Another of the core CG controls that has been required from day one, is that of Encryption of all cloud resources at rest and in transit. To this end for ALB connections, its required to utilize HTTPS to provide encryption of all data in transit.  CG also requires that [TLS 1.2 (Transport Layer Security)](https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/) or later be used as the encryption mechanism for HTTPS connections. 
+
+**Why?**
+
+**How?**<br>
+
+
+
+ **Step 1 - Enable HTTPS:**
+
+
+<img src="/docs/img/alb/HTTPS.png" width="800">
+
+**Step 2 - Certificate Selection**
+
+When HTTPS has been enabled, one will need to select a certificate that will be used for the HTTPS connections and a CG signed certificate should be used to front these connections via AWS ACM integration.
+
+This can either be an ACM existing certificate uploaded to the Account by the Security Engineering team via Venafi or the Nomos tool, or manually uploaded by importing the certificate by pasting in the certificate details in the Configure Security Settings step, as seen in the examples below:
+
+*Existing Certificate Example:*
+
+<img src="/docs/img/alb/ACM1.png" width="800">
+<br>
+
+*Import Certificate Example:*
+
+<img src="/docs/img/alb/ACM2.png" width="800">
+<br>
+
+**Step 3 - Enable TLS 1.2**
+
+When building a new ALB, once HTTPS has been selected and Certificate uploaded, one should then select 'ELBSecurityPolicy-FS-1-2-Res-2020-10' or newer under the Configure Security Settings step, just after Certificate Selection.  Please refer to this [link](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) for further information. 
+
+<img src="/docs/img/alb/TLS.png" width="800">
+
+<br>
 
 ### 4. HTTP requests will be redirected to HTTP/S
 `This Section will be updated soon.`
