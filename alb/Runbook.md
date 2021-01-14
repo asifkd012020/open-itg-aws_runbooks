@@ -46,7 +46,7 @@ The following Capital Group control statements are not applicable to this servic
 ### 1. ALB Deployed in Private VPC and set to Internal
 Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet.  To adhere to this requirement all ALB resources should be built within a **Private VPC**, and the deployment 'Scheme' be set to **'Internal'** as this will assign a private IP address to the load-balancer as seen in the example below: 
 
-<img src="/docs/img/alb/PrivateVPC.png" width="600">
+<img src="/docs/img/alb/PrivVPC.png" width="600">
 <br>
 
 ### 2. ALB Deployed with appropriate Security Groups
