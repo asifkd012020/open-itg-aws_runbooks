@@ -96,7 +96,7 @@ This can either be an ACM existing certificate uploaded to the Account by the Se
 
 **Step 3 - Enable TLS 1.2**
 
-When building a new ALB, once HTTPS has been selected and Certificate uploaded, one should then select 'ELBSecurityPolicy-FS-1-2-Res-2020-10' or newer under the Configure Security Settings step, just after Certificate Selection.  Please refer to this [link](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) for further information. 
+When building a new ALB, once HTTPS has been selected and Certificate uploaded, one should then select **'ELBSecurityPolicy-FS-1-2-Res-2020-10'** or newer under the Configure Security Settings step, just after Certificate Selection.  Please refer to this [link](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) for further information. 
 
 <img src="/docs/img/alb/TLS.png" width="800">
 
@@ -124,6 +124,9 @@ When building a new ALB, once HTTPS has been selected and Certificate uploaded, 
 
 ## Endnotes
 **Resources**
+
+https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html
+
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
