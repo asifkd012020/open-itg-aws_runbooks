@@ -30,6 +30,10 @@ Elastic Load Balancing automatically distributes incoming application traffic ac
 
 This Runbook's focus is specifically related to the Application Load Balancer (ALB) as there will be other runbooks focusing on Network Load Balancer (NLB) and Gateway Load Balancer (GLB). Application Load Balancer is best suited for load balancing of HTTP and HTTPS traffic and provides advanced request routing targeted at the delivery of modern application architectures, including microservices and containers. Application Load Balancer routes traffic to targets within Amazon VPC based on the content of the request.
 
+**Below is a reference diagram of an ALB deployment:**
+
+<img src="/docs/img/ALB.png" width="500"> <br>
+
 **NOTE:** This document currently only pertains to the "Amazon Elastic Load Balancer (ELB)" service and not the "Classic Load Balancer" service offering as it is outdated.
 
 The following NIST Controls and Subcategories are not applicable to this service:  
@@ -40,24 +44,34 @@ The following Capital Group control statements are not applicable to this servic
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. ALB Deployed in Private VPC and set to Internal
+Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet.  To adhere to this requirement all ALB resources should be built within a Private VPC, and be set to 'Internal' as the deployment scheme as this will assign a private IP address to the load-balancer. Below are further details related to building an internal facing ALB:
+
+
 
 ### 2. ALB Deployed with appropriate Security Groups
 
 ### 3. Enforce TLS 1.2 using cert signed by CG CA
+`This Section will be updated soon.`
 
 ### 4. HTTP requests will be redirected to HTTP/S
+`This Section will be updated soon.`
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
 ### 1. Application Load Balancing resources are tagged according to CG standards
+`This Section will be updated soon.`
 
 ### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
 
 ### 3. CloudWatch logging enabled
+`This Section will be updated soon.`
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
 
 ## Endnotes
 **Resources**
