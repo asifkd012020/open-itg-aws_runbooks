@@ -143,16 +143,22 @@ This role will allow a user full administrative access to the ACM service, inclu
 <br>
 
 **Why?**<br>
+`This Section will be updated soon.`
 
 **How?**<br>
 1. Encryption keys, Private Keys and Digital Certificates will be managed by CG
 2. Encryption of all data in transit using TLS 1.2 or higher
 
+`This Section will be updated soon.`
+
 ### 3. Certificate Best Practices Used
 **NIST CSF:**
 
+`This Section will be updated soon.`
+
 **Capital Group:**
 
+`This Section will be updated soon.`
 **Why?**<br>
 
 **How?**<br>
@@ -161,15 +167,23 @@ This role will allow a user full administrative access to the ACM service, inclu
 3. Certificate Pinning
 4. Certificate Removal for Old / Unsused
 
+`This Section will be updated soon.`
+
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
 ### 1. Certificate Resources are tagged according to CG standards
 
+`This Section will be updated soon.`
+
 ### 2. CloudWatch logging enabled and sent to Splunk
+
+`This Section will be updated soon.`
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
 
 ## Endnotes
 **Resources**
