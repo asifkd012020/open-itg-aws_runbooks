@@ -44,11 +44,14 @@ The following Capital Group control statements are not applicable to this servic
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. ALB Deployed in Private VPC and set to Internal
-Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet.  To adhere to this requirement all ALB resources should be built within a **Private VPC**, and the deployment 'Scheme' be set to **'Internal'** as this will assign a private IP address to the load-balancer. 
+Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet. 
 
-**Why?**
+**Why?**<br>
+Utilizing a Private VPC and setting an ALB to only be accessible by internal resources allows an application to be only accessible by CG owned resources and does not expose the endpoint to the public Internet.  There should always be a diliniation between Private CG services and Public Facing CG services, Private VPC allows for this.
 
-**How?**
+**How?**<br>
+To adhere to the requirement that all cloud resources be internaly accessible only, all ALB resources should be built within a **Private VPC** and the deployment 'Scheme' be set to **'Internal'** as this will assign a private IP address to the load-balancer. 
+
 
 *Private VPC Example:*
 
@@ -77,7 +80,7 @@ One of the core tenets of Information Security is least priviledge, and one tool
 ### 3. Enforce HTTPS and TLS 1.2 using cert signed by CG CA
 Another of the core CG controls that has been required from day one, is that of Encryption of all cloud resources at rest and in transit. To this end for ALB connections, its required to utilize HTTPS to provide encryption of all data in transit.  CG also requires that [TLS 1.2 (Transport Layer Security)](https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/) or later be used as the encryption mechanism for HTTPS connections. 
 
-**Why?**
+**Why?**<br>
 TLS encryption can help protect web applications from data breaches and other attacks. Additionally, TLS-protected HTTPS is quickly becoming a standard practice for websites. For example, the Google Chrome browser is cracking down on non-HTTPS sites, and everyday Internet users are starting to become more wary of websites that do not feature the HTTPS padlock icon.  At CG we want users to become very wary of sites that are not correctly signed as these may well be the vector by which a malicious actor gains a access into our network.
 
 **How?**<br>
