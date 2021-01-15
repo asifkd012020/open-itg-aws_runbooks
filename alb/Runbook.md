@@ -78,15 +78,22 @@ One of the core tenets of Information Security is least priviledge, and one tool
 Another of the core CG controls that has been required from day one, is that of Encryption of all cloud resources at rest and in transit. To this end for ALB connections, its required to utilize HTTPS to provide encryption of all data in transit.  CG also requires that [TLS 1.2 (Transport Layer Security)](https://www.cloudflare.com/learning/ssl/transport-layer-security-tls/) or later be used as the encryption mechanism for HTTPS connections. 
 
 **Why?**
-
+TLS encryption can help protect web applications from data breaches and other attacks. Additionally, TLS-protected HTTPS is quickly becoming a standard practice for websites. For example, the Google Chrome browser is cracking down on non-HTTPS sites, and everyday Internet users are starting to become more wary of websites that do not feature the HTTPS padlock icon.  At CG we want users to become very wary of sites that are not correctly signed as these may well be the vector by which a malicious actor gains a access into our network.
 
 **How?**<br>
+There are three main components to what the TLS protocol accomplishes: Encryption, Authentication, and Integrity.
 
- **Step 1 - Enable HTTPS:**
+- Encryption: hides the data being transferred from third parties.
+- Authentication: ensures that the parties exchanging information are who they claim to be.
+- Integrity: verifies that the data has not been forged or tampered with.
+
+Below are the steps that need to be taken to enable HTTPS with TLS 1.2 when creating a new ALB in AWS:
+
+ *Step 1 - Enable HTTPS:*
 
 <img src="/docs/img/alb/HTTPS.png" width="800">
 
-**Step 2 - Certificate Selection**
+*Step 2 - Certificate Selection*
 
 When HTTPS has been enabled, one will need to select a certificate that will be used for the HTTPS connections and a CG signed certificate should be used to front these connections via AWS ACM integration.
 
@@ -102,7 +109,7 @@ This can either be an ACM existing certificate uploaded to the Account by the Se
 <img src="/docs/img/alb/ACM2.png" width="800">
 <br>
 
-**Step 3 - Enable TLS 1.2**
+*Step 3 - Enable TLS 1.2*
 
 When building a new ALB, once HTTPS has been selected and Certificate uploaded, one should then select **'ELBSecurityPolicy-FS-1-2-Res-2020-10'** or newer under the Configure Security Settings step, just after Certificate Selection.  Please refer to this [link](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html) for further information. 
 
