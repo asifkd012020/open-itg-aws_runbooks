@@ -59,11 +59,13 @@ To adhere to the requirement that all cloud resources be internaly accessible on
 <br>
 
 ### 2. ALB Deployed with appropriate Security Groups
-One of the core tenets of Information Security is least priviledge, and one tool to enforce least priviledge is a Security Group.  A security group is a set of firewall rules that can be applied to the service, limiting the open ports and restricting access to specific IP ranges. These firewall rules should be setup to limit access to the ALB for only hosts that truly require access to the service and deny access to all other hosts.  The Default VPC security group should not be used as it is overly permissive and may provide unintended access. CG has provided a specific base security group in each new AWS account that provides a good option as a default starting point and should be named 'cg-alb-base-sg'.
+One of the core tenets of Information Security is least priviledge, and one tool to enforce least priviledge is a Security Group.   
 
-**Why?**
+**Why?**<br>
+A security group is a set of firewall rules that can be applied to the service, limiting the open ports and restricting access to specific IP ranges.  As with an on-premesis firewall, Security Groups can be an effective tool in a defense in depth strategy to protect resources and services from unauthorized access.
 
-**How?**
+**How?**<br>
+Security Groups should be setup to limit access to the ALB for only hosts that truly require access to the service and deny access to all other hosts.  The Default VPC security group should not be used as it is overly permissive and may provide unintended access. CG has provided a specific base security group in each new AWS account that provides a good option as a default starting point and should be named **'cg-alb-base-sg'**.
 
 *New SG Example:*
 
