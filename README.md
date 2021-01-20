@@ -18,7 +18,12 @@ Runbooks are design documents for implementation of an AWS service for how to me
 ## Contributing
 While AWS, PDS, and Risk will continue to build out playbooks, in the spirit of OpenITG, individual contributions to updates or creation of playbooks is available to everyone. 
 
-### Creating a new playbook
+### Requesting a new Service Runbook
+To request a review for the approval to use a new AWS service and start the process of the Runbook creation, one can open a request in [service now](https://now/) and assign to the following service group: `'Security Runbooks'`
+
+The [Service Request documentation](/SERVICE_REQUEST_PROCESS.md) outlines the current process and timelines for a review.
+
+### Creating a new Service Playbook
 To create a playbook, create a branch for the given service from `master`. Once done, create a new folder for the service, using the most common name for the service. 
 
 Pull the [template](/template/PLAYBOOK.md) into your new folder, and follow efforts to align to it.
