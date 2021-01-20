@@ -56,6 +56,15 @@ This deployment model allows the API Gateway to be only accessible by other serv
 <br>
 
 **How?**<br>
+Deploying an API Gateway using private Endpoints can be done by following three steps as below:
+
+1. Creation of a VPC Endpoint <br>
+If there is currently no private VPC, one will need to be created with at least one subnet and needs to have DNS resolution enabled.
+
+<img src="/docs/img/apigw/vpc_ex.png" width="800"> 
+
+2. Creation and attachment of a Security Group
+3. Creation of an API Gateway
 
 <br>
 
