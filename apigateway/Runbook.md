@@ -35,12 +35,33 @@ The following Capital Group control statements are not applicable to this servic
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. API Gateway Deployed with Private Endpoints
-When API gateway was originally released, the only deployment option was to deploy the API Gateway publically and fronted with CloudFront.  This deployment model does not adhere to the CG cloud security standards, specifically that all cloud resources be deployed privately with a CG internal IP address range.  Fortunatly AWS has an API Gateway offering that since 2017, has allowed one to deploy on a private VPC using Private Endpoints.
+When API gateway was originally released, the only deployment option was to deploy the API Gateway publically and fronted with CloudFront.  This deployment model does not adhere to the CG cloud security standards, specifically that all cloud resources be deployed privately with a CG internal IP address range.  Fortunatly AWS has an API Gateway offering that since 2017, has allowed one to deploy on a private VPC using Private Endpoints.  
 <br>
 
 **Below is a reference diagram of an API Gateway Private Endpoints deployment:**
 
 <img src="/docs/img/apigw/vpcs.png" width="800"> 
+<br>
+
+**NIST CSF:** <br>
+
+<br>
+
+**Capital Group:** <br>
+
+<br>
+
+**Why?**<br>
+This deployment model allows the API Gateway to be only accessible by other services within the VPC and any internal services allowed through the associated Security Groups, which will be detailed in [the next section](#2-API-Gateway-Deployed-with-appropriate-Security-Groups).  This allows for the deployment to meet the stict CG public access policy for all cloud deployments.
+<br>
+
+**How?**<br>
+
+<br>
+
+
+### 2. API Gateway Deployed with appropriate Security Groups
+
 <br>
 
 **NIST CSF:** <br>
@@ -58,10 +79,6 @@ When API gateway was originally released, the only deployment option was to depl
 **How?**<br>
 
 <br>
-
-
-### 2. Encrypt all data in the Cloud
-
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
