@@ -41,7 +41,7 @@ The diagram above demonstrates the interaction between the following components:
 
  - **Cluster Operations** You can use the AWS Management Console, the AWS Command Line Interface (AWS CLI), or the APIs in the SDK to perform control-plane operations. For example, you can create or delete an Amazon MSK cluster, list all the clusters in an account, view the properties of a cluster, and update the number of brokers in a cluster.
 
-Amazon MSK detects and automatically recovers from the most common failure scenarios for clusters so that your producer and consumer applications can continue their write and read operations with minimal impact. When Amazon MSK detects a broker failure, it mitigates the failure or replaces the unhealthy or unreachable broker with a new one. In addition, where possible, it reuses the storage from the older broker to reduce the data that Apache Kafka needs to replicate. Your availability impact is limited to the time required for Amazon MSK to complete the detection and recovery. After a recovery, your producer and consumer apps can continue to communicate with the same broker IP addresses that they used before the failure.
+Amazon MSK detects and automatically recovers from the most common failure scenarios for clusters so that your producer and consumer applications can continue their write and read operations with minimal impact.
 
 **NOTE:** This document currently only pertains to the **"Amazon Managed Streaming for Apache Kafka (MSK)"** service and does not cover building a Kafka cluster from scratch on IaaS infrastructure on AWS.
 
@@ -49,6 +49,30 @@ Amazon MSK detects and automatically recovers from the most common failure scena
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. MSK Deployed in Private VPC
+One of CG's core tenets for migration of services or data out to any cloud provider is that the service or data not be publically exposed.  Fortunatly MSK allows for the building of Kafka clusters inside a private VPC, which allows the service to be built on CG's private IP space and the apply network access crontrols to further limit external access.
+
+**Why?**
+
+Utilizing a Private VPC for an MSK cluster makes sure its only accessible by internal resources, and allows the service to be only accessible by CG owned resources and does not expose the endpoint to the public Internet.  There should always be a diliniation between Private CG services and Public Facing CG services, Private VPC allows for this.  When creating MSK clusters, one should never use the default VPC as this by default has public access and public IP assignment.
+
+
+**How?**
+
+A VPC or Virtual Private Cloud allows for the logical seperation of a network onto a private subnet owned and maintained by CG. VPCs also allow for granular network control policies though the use of Security Groups to allow the enforcement of least priviledge.  
+
+Below is an example new VPC and Security group setup for MSK:
+
+ 1. **Create a new VPC for MSK**
+
+    - First navigate to the VPC creation wizzard from the AWS services search.
+    - Next select the *"VPC with a Private Subnet Only and Hardware VPN Access"* option as seen below.<br>
+    <img src="/docs/img/msk/vpc_setting2.png" width="800"> <br>
+
+ 2. **Creation of a Security Group to enforce least priviledge**
+
+ 3. **Assign newly created VPC to new MSK Cluster**<br>
+ <img src="/docs/img/msk/vpc_setting.png" width="500"> <br>
+
 
 ## Endnotes
 **Resources**
