@@ -41,14 +41,25 @@ When API gateway was originally released, the only deployment option was to depl
 **Below is a reference diagram of an API Gateway Private Endpoints deployment:**
 
 <img src="/docs/img/apigw/vpcs.png" width="800"> 
+
 <br>
 
 **NIST CSF:** <br>
 
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
 <br>
 
 **Capital Group:** <br>
 
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
 <br>
 
 **Why?**<br>
@@ -56,15 +67,23 @@ This deployment model allows the API Gateway to be only accessible by other serv
 <br>
 
 **How?**<br>
-Deploying an API Gateway using private Endpoints can be done by following three steps as below:
+Deploying an API Gateway using private Endpoints can be done by following four steps as below:
 
-1. Creation of a VPC Endpoint <br>
-If there is currently no private VPC, one will need to be created with at least one subnet and needs to have DNS resolution enabled.
+1. Creation of a new VPC <br>
+
+If there is currently no private VPC, one will need to be created with at least one subnet and needs to have DNS resolution enabled as seen below.
 
 <img src="/docs/img/apigw/vpc_ex.png" width="800"> 
+<br>
 
-2. Creation and attachment of a Security Group
-3. Creation of an API Gateway
+2. Creation of a VPC Endpoint <br>
+
+<img src="/docs/img/apigw/create_endpoint.png" width="800"> 
+<br>
+
+3. Creation and attachment of a Security Group <br>
+
+4. Creation of an API Gateway <br>
 
 <br>
 
@@ -108,6 +127,7 @@ If there is currently no private VPC, one will need to be created with at least 
 ## Endnotes
 **Resources**
 1. https://aws.amazon.com/blogs/compute/introducing-amazon-api-gateway-private-endpoints/
+2. https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-private-apis.html#apigateway-private-api-create-interface-vpc-endpoint
 <br>
 
 ## Capital Group Glossory 
