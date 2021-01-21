@@ -14,7 +14,7 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. API Gateway Deployed with Private Endpoints](#1-API-Gateway-Deployed-with-Private-Endpoints)
-  - [2. API Gateway Deployed with Access Policies](#2-API-Gateway-Deployed-with-Access-Policies)
+  - [2. API Gateway Deployed with IAM Access Policies](#2-API-Gateway-Deployed-with-IAM-Access-Policies)
   - [3. Encrypt all data in the Cloud](#3-Encrypt-all-data-in-the-Cloud)
 - [Detective Controls](#Detective-Controls)
   - [1. API Gateway Resources are tagged according to CG standards](#1-API-Gateway-Resources-are-tagged-according-to-CG-standards)
@@ -137,7 +137,7 @@ The configuration options that need to be selected are listed below:
 <img src="/docs/img/apigw/buildgw.png" width="800"> 
 <br>
 
-### 2. API Gateway Deployed with Access Policies
+### 2. API Gateway Deployed with IAM Access Policies
 `This Section will be updated soon.`
 
 ### 3. Encrypt all data in the Cloud
