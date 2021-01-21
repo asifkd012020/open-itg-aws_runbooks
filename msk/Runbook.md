@@ -58,15 +58,18 @@ Utilizing a Private VPC for an MSK cluster makes sure its only accessible by int
 
 **How?**
 
-A VPC or Virtual Private Cloud allows for the logical seperation of a network onto a private subnet owned and maintained by CG. VPCs also allow for granular network control policies though the use of Security Groups to allow the enforcement of least priviledge.  
+A VPC or Virtual Private Cloud allows for the logical seperation of a network onto a private subnet owned and maintained by CG. VPCs also allow for granular network control policies though the use of Security Groups to allow the enforcement of least priviledge.  If an appropriate VPC already exists, one can utilize this VPC, as long as its not the default VPC or has public access.
 
 Below is an example new VPC and Security group setup for MSK:
 
  1. **Create a new VPC for MSK**
 
-    - First navigate to the VPC creation wizzard from the AWS services search.
-    - Next select the *"VPC with a Private Subnet Only and Hardware VPN Access"* option as seen below.<br>
-    <img src="/docs/img/msk/vpc_setting2.png" width="800"> <br>
+    - First navigate to the VPC creation screen AWS services search.
+    - Next enter the following items:<br>
+      1: *IPv4 CIDR block* - This should be assigned by the Network Engineering team.<br>
+      2: *VPC Name tag* - This name should be appropriate to the MSK cluster being built.<br>
+      3: *Create VPC* - Click Create<br>
+     <img src="/docs/img/msk/vpc_setting2.png" width="800"> <br> 
 
  2. **Creation of a Security Group to enforce least priviledge**
 
