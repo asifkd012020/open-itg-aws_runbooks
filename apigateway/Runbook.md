@@ -108,6 +108,11 @@ Now we need to create a new security group with the following baseline settings,
 - **Security Group Name:** "APIGWSG" or something similar.
 - **Description:** "API Gateway Access for HTTPS traffic" or similar.
 - **VPC:** Select the VPC that will be used for the Endpoint and API GW.
+- **Inbound Rules:** Default inbound rules should at minimum contain the below:
+
+<img src="/docs/img/apigw/Inbound.png" width="800"> 
+
+- **Outbound Rules:** Default Outbound rules should reflect the minimum connectivity needed for the service to function.
 
 <br>
 
