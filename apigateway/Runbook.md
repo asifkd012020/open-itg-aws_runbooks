@@ -17,6 +17,9 @@ Security Engineering
   - [2. API Gateway Deployed with Access Policies](#2-API-Gateway-Deployed-with-Access-Policies)
   - [3. Encrypt all data in the Cloud](#3-Encrypt-all-data-in-the-Cloud)
 - [Detective Controls](#Detective-Controls)
+  - [1. API Gateway Resources are tagged according to CG standards](#1-API-Gateway-Resources-are-tagged-according-to-CG-standards)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled and sent to Splunk](#2-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -147,7 +150,11 @@ The configuration options that need to be selected are listed below:
 
 `This Section will be updated soon.`
 
-### 2. CloudWatch logging enabled and sent to Splunk
+### 2. CloudTrail logging enabled and sent to Splunk
+
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
 
 `This Section will be updated soon.`
 
