@@ -51,6 +51,24 @@ Amazon MSK detects and automatically recovers from the most common failure scena
 ### 1. MSK Deployed in Private VPC
 One of CG's core tenets for migration of services or data out to any cloud provider is that the service or data not be publically exposed.  Fortunatly MSK allows for the building of Kafka clusters inside a private VPC, which allows the service to be built on CG's private IP space and the apply network access crontrols to further limit external access.
 
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
 **Why?**
 
 Utilizing a Private VPC for an MSK cluster makes sure its only accessible by internal resources, and allows the service to be only accessible by CG owned resources and does not expose the endpoint to the public Internet.  There should always be a diliniation between Private CG services and Public Facing CG services, Private VPC allows for this.  When creating MSK clusters, one should never use the default VPC as this by default has public access and public IP assignment.
@@ -71,7 +89,22 @@ Below is an example new VPC and Security group setup for MSK:
       3: *Create VPC* - Click Create<br>
      <img src="/docs/img/msk/vpc_setting2.png" width="800"> <br> 
 
- 2. **Creation of a Security Group to enforce least priviledge**
+ 2. **Creation of a Security Group to enforce least priviledge**<br>
+Once we have the VPC created, we now need to secure it with assignment of a Security Group. One can use a default Security Group, but it is a better option to create a security group for our service to limit the access to only allow CG IP's and the appropriate Kafka Service ports.<br><br>
+We first need to click on create security group, after the appropriate VPC has been selected.
+
+<img src="/docs/img/apigw/sg_create.png" width="800"><br>
+Now we need to create a new security group with the following baseline settings, although the security group can be created with even more restricted access if company wide access is not needed.
+
+- **Security Group Name:** "MSW_SG" or similar.
+- **Description:** "Limit access to valid Kafka service ports for internal access or similar.
+- **VPC:** Select the VPC that was previously created for MSK.
+- **Inbound Rules:** Default inbound rules for MSK should at minimum contain the below:<br>
+  1: Limit access from only 10.0.0.0/8 (CG's internal Network)
+  2: Limit open ports to only those required to use the Kafka Service
+- **Outbound Rules:** Default Outbound rules should reflect the minimum connectivity needed for the service to function.
+
+The next step is to start the new MSK cluster build as can be seen below:
 
  3. **Assign newly created VPC to new MSK Cluster**<br>
  <img src="/docs/img/msk/vpc_setting.png" width="500"> <br>
