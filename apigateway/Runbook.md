@@ -14,6 +14,8 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. API Gateway Deployed with Private Endpoints](#1-API-Gateway-Deployed-with-Private-Endpoints)
+  - [2. API Gateway Deployed with Access Policies](#2-API-Gateway-Deployed-with-Access-Policies)
+  - [3. Encrypt all data in the Cloud](#3-Encrypt-all-data-in-the-Cloud)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
@@ -132,6 +134,12 @@ The configuration options that need to be selected are listed below:
 <img src="/docs/img/apigw/buildgw.png" width="800"> 
 <br>
 
+### 2. API Gateway Deployed with Access Policies
+`This Section will be updated soon.`
+
+### 3. Encrypt all data in the Cloud
+`This Section will be updated soon.`
+
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
@@ -152,6 +160,7 @@ The configuration options that need to be selected are listed below:
 **Resources**
 1. https://aws.amazon.com/blogs/compute/introducing-amazon-api-gateway-private-endpoints/
 2. https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-private-apis.html#apigateway-private-api-create-interface-vpc-endpoint
+3. https://docs.aws.amazon.com/apigateway/latest/developerguide/security.html
 <br>
 
 ## Capital Group Glossory 
