@@ -67,7 +67,7 @@ When API gateway was originally released, the only deployment option was to depl
 <br>
 
 **Why?**<br>
-This deployment model allows the API Gateway to be only accessible by other services within the VPC and any internal services allowed through the associated Security Groups, which will be detailed in [the next section](#2-API-Gateway-Deployed-with-appropriate-Security-Groups).  This allows for the deployment to meet the stict CG public access policy for all cloud deployments.
+This deployment model allows the API Gateway to be only accessible by other services within the VPC and any internal services allowed through the associated Security Groups, which will be detailed later in this section.  This allows for the deployment to meet the stict CG public access policy for all cloud deployments.
 <br>
 
 **How?**<br>
