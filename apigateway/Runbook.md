@@ -76,24 +76,43 @@ If there is currently no private VPC, one will need to be created with at least 
 <img src="/docs/img/apigw/vpc_ex.png" width="800"> 
 <br>
 
-2. Creation of a VPC Endpoint <br>
+2. Creation of a VPC Endpoint
+
 Search Endpoint Servicesw in the AWS search bar, click on Endpoint services which should be a sub-category of VPC Services. Now click on **Create Endpoint** as seen in the screenshot below.
 <br>
 <img src="/docs/img/apigw/create_endpoint.png" width="800"> 
 <br>
 
 Now in the VPC Endpoint configuration use the following settings to initialize your Endpoint.
+ - **Service Category:** "AWS Services"
  - **Service Name:** "com.amazonaws.{AWS region}.execute-api"
+ - **VPC:** "Select the [VPC](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) in which the endpoint will reside."
  - **Enable Private DNS:** "Enabled"
 
 <img src="/docs/img/apigw/create_endpoint_2.png" width="800"> 
 <br>
 
-The next section deals with VPC creation and assignment.
+The next section deals with Security Group creation and assignment.
+<br>
 
-3. Creation and attachment of a Security Group <br>
+3. Creation and attachment of a Security Group 
 
-4. Creation of an API Gateway <br>
+Once we have the initial configuration of the Endpoint, we now need to secure it with assignment of a Security Group. One can use a default Security Group, but it is a better option to create a security group for our service to limit the access to only allow CG IP's and port 443 (HTTPS) as below.
+
+We first need to click on create security group, after the appropriate VPC has been selected.
+
+<img src="/docs/img/apigw/sg_create.png" width="800"> 
+
+Now we need to create a new security group with the following baseline settings, although the security group can be created with even more restricted access if company wide access is not needed.
+
+- **Security Group Name:** "APIGWSG" or something similar.
+- **Description:** "API Gateway Access for HTTPS traffic" or similar.
+- **VPC:** Select the VPC that will be used for the Endpoint and API GW.
+
+<br>
+
+
+4. Creation of an API Gateway
 
 <br>
 
