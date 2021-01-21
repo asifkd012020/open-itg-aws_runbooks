@@ -14,7 +14,6 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. API Gateway Deployed with Private Endpoints](#1-API-Gateway-Deployed-with-Private-Endpoints)
-  - [2. API Gateway Deployed with appropriate Security Groups](#2-API-Gateway-Deployed-with-appropriate-Security-Groups)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
@@ -108,7 +107,7 @@ Now we need to create a new security group with the following baseline settings,
 - **Security Group Name:** "APIGWSG" or something similar.
 - **Description:** "API Gateway Access for HTTPS traffic" or similar.
 - **VPC:** Select the VPC that will be used for the Endpoint and API GW.
-- **Inbound Rules:** Default inbound rules should at minimum contain the below:
+- **Inbound Rules:** Default inbound rules for API Gateway should at minimum contain the below:
 
 <img src="/docs/img/apigw/Inbound.png" width="800"> 
 
@@ -116,9 +115,21 @@ Now we need to create a new security group with the following baseline settings,
 
 <br>
 
-
 4. Creation of an API Gateway
+Its now time for the creation of the API Gateway itself, the pre-work done above will allow the API Gateway to be built securely for CG access only. The first step is to select the private rest API option, as this will tie into our VPC Endpoints.
 
+<img src="/docs/img/apigw/Create_GW.png" width="800"> 
+<br>
+
+The configuration options that need to be selected are listed below:
+
+- **New API Option:** "Selected"
+- **API Name:** "An appropriate name should be assigned"
+- **Description:** "An appropriate description should be assigned"
+- **Endpoint Type:** "Private"
+- **VPC Endpoint IDs:** "Multiple Endpoint IDs can be entered here, defending on how many subnets were selected."
+
+<img src="/docs/img/apigw/buildgw.png" width="800"> 
 <br>
 
 ## Detective Controls
