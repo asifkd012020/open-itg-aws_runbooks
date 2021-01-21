@@ -77,9 +77,19 @@ If there is currently no private VPC, one will need to be created with at least 
 <br>
 
 2. Creation of a VPC Endpoint <br>
-
+Search Endpoint Servicesw in the AWS search bar, click on Endpoint services which should be a sub-category of VPC Services. Now click on **Create Endpoint** as seen in the screenshot below.
+<br>
 <img src="/docs/img/apigw/create_endpoint.png" width="800"> 
 <br>
+
+Now in the VPC Endpoint configuration use the following settings to initialize your Endpoint.
+ - **Service Name:** "com.amazonaws.{AWS region}.execute-api"
+ - **Enable Private DNS:** "Enabled"
+
+<img src="/docs/img/apigw/create_endpoint_2.png" width="800"> 
+<br>
+
+The next section deals with VPC creation and assignment.
 
 3. Creation and attachment of a Security Group <br>
 
@@ -87,31 +97,10 @@ If there is currently no private VPC, one will need to be created with at least 
 
 <br>
 
-
-### 2. API Gateway Deployed with appropriate Security Groups
-
-<br>
-
-**NIST CSF:** <br>
-
-<br>
-
-**Capital Group:** <br>
-
-<br>
-
-**Why?**<br>
-
-<br>
-
-**How?**<br>
-
-<br>
-
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
-### 1. Certificate Resources are tagged according to CG standards
+### 1. API Gateway Resources are tagged according to CG standards
 
 `This Section will be updated soon.`
 
