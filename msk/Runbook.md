@@ -91,10 +91,7 @@ Below is an example new VPC and Security group setup for MSK:
 
  2. **Creation of a Security Group to enforce least priviledge**<br>
 Once we have the VPC created, we now need to secure it with assignment of a Security Group. One can use a default Security Group, but it is a better option to create a security group for our service to limit the access to only allow CG IP's and the appropriate Kafka Service ports.<br><br>
-We first need to click on create security group, after the appropriate VPC has been selected.
-
-<img src="/docs/img/apigw/sg_create.png" width="800"><br>
-Now we need to create a new security group with the following baseline settings, although the security group can be created with even more restricted access if company wide access is not needed.
+We first need to click on create security group, after the appropriate VPC has been selected. Next we need to create a new security group with the following baseline settings, although the security group can be created with even more restricted access if company wide access is not needed.<br><br>
 
 - **Security Group Name:** "MSW_SG" or similar.
 - **Description:** "Limit access to valid Kafka service ports for internal access or similar.
@@ -102,9 +99,8 @@ Now we need to create a new security group with the following baseline settings,
 - **Inbound Rules:** Default inbound rules for MSK should at minimum contain the below:<br>
   1: Limit access from only 10.0.0.0/8 (CG's internal Network)
   2: Limit open ports to only those required to use the Kafka Service
-- **Outbound Rules:** Default Outbound rules should reflect the minimum connectivity needed for the service to function.
-
-The next step is to start the new MSK cluster build as can be seen below:
+- **Outbound Rules:** Default Outbound rules should reflect the minimum connectivity needed for the service to function.<br><br>
+<img src="/docs/img/msk/new_sg.png" width="500"> <br><br>
 
  3. **Assign newly created VPC to new MSK Cluster**<br>
  <img src="/docs/img/msk/vpc_setting.png" width="500"> <br>
