@@ -86,12 +86,12 @@ Below is an example new VPC and Security group setup for MSK:
     - Next enter the following items:<br>
       1: *IPv4 CIDR block* - This should be assigned by the Network Engineering team.<br>
       2: *VPC Name tag* - This name should be appropriate to the MSK cluster being built.<br>
-      3: *Create VPC* - Click Create<br>
+      3: *Create VPC* - Click Create<br><br>
      <img src="/docs/img/msk/vpc_setting2.png" width="800"> <br> 
 
  2. **Creation of a Security Group to enforce least priviledge**<br>
 Once we have the VPC created, we now need to secure it with assignment of a Security Group. One can use a default Security Group, but it is a better option to create a security group for our service to limit the access to only allow CG IP's and the appropriate Kafka Service ports.<br><br>
-We first need to click on create security group, after the appropriate VPC has been selected. Next we need to create a new security group with the following baseline settings, although the security group can be created with even more restricted access if company wide access is not needed.<br><br>
+We first need to click on create security group, after the appropriate VPC has been selected. Next we need to create a new security group with the following baseline settings, although the security group can be created with even more restricted access if company wide access is not needed.<br>
 
 - **Security Group Name:** "MSW_SG" or similar.
 - **Description:** "Limit access to valid Kafka service ports for internal access or similar.
@@ -104,6 +104,31 @@ We first need to click on create security group, after the appropriate VPC has b
 
  3. **Assign newly created VPC to new MSK Cluster**<br>
  <img src="/docs/img/msk/vpc_setting.png" width="500"> <br>
+
+### 2. Encrypt all data in the Cloud
+`This Section will be updated soon.`
+<br>
+
+### 3. IAM Users and Roles Enforce Least Priviledge
+`This Section will be updated soon.`
+<br>
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. 1. MSK resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled
+`This Section will be updated soon.`
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
 
 
 ## Endnotes
