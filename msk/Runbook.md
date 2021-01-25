@@ -103,6 +103,7 @@ We first need to click on create security group, after the appropriate VPC has b
 <img src="/docs/img/msk/new_sg.png" width="500"> <br><br>
 
  3. **Assign newly created VPC to new MSK Cluster**<br>
+ Now that we have both the VPC and Security Group created, one can use the VPC with the Security group assigned to kick-off the build of a new MSK Cluster deployment as seen in the screenshot below.<br><br>
  <img src="/docs/img/msk/vpc_setting.png" width="500"> <br>
 
 ### 2. Encrypt all data in the Cloud
