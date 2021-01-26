@@ -26,6 +26,12 @@ Security Engineering
 
 ## Overview
 AWS Simple Notification Service (SNS) is a fully managed push notifications service that is cost effective, fast, and flexible. If provides you with the ability to send individual messages or a number of messages to a large number of recipients. SNS makes it easy to send notifications to email recipients, mobile device users worldwide, or messages to other distributed services.
+
+This is also known as Event-driven computing, a model in which subscriber services automatically perform work in response to events triggered by publisher services. This paradigm can be applied to automate workflows while decoupling the services that collectively and independently work to fulfil these workflows.
+
+Amazon SNS is an event-driven computing hub that has native integration with a wide variety of AWS event sources (including Amazon EC2, Amazon S3, and Amazon RDS) and AWS event destinations (including Amazon SQS, and Lambda). The figure below shows how SNS can be used for event-driven computing:
+
+<img src="/docs/img/sns/sns_example.png" width="600">
 <br><br>
 
 ## Preventative Controls
@@ -40,33 +46,62 @@ AWS Simple Notification Service (SNS) is a fully managed push notifications serv
 
 
 ### 3. SNS Deployed with appropriate permissions to enforce least priviledge
-Simple Notification Service (SNS) enables applications, end-users, and devices to instantly send and receive notifications. SNS allows you send individual messages or to fan-out messages to large numbers of recipients to mobile device users, email recipients, or to other distributed services. 
+Simple Notification Service (SNS) enables applications, end-users, and devices to instantly send and receive notifications. SNS allows you send individual messages or to fan-out messages to large numbers of recipients to mobile device users, email recipients, or to other distributed services. <br>
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+<br>
 
 **Why?**
 
-**How?**<br>
+Application or Infrastucture teams should have the capability to implement levels of privilege and have authorization mechanisms in place to enforce the separation of privileges, mandate multi-factor authentication, and similar protections based on sensitivity.
+<br>
+
+**How?**
+
 AWS users have the ability to control who has access to the SNS Topics, and which permissions they are granted. The followin information will aim to provide examples of how to limit the scope of access that an SNS topic allows.
 
-**Permissions can be granted for these actions:** ListSubscriptionsByTopic, Subscribe, DeleteTopic, GetTopicAttributes, Publish, RemovePermission, AddPermission, Receive, and SetTopicAttributes.
+Permissions can be currently be granted for these actions: ListSubscriptionsByTopic, Subscribe, DeleteTopic, GetTopicAttributes, Publish, RemovePermission, AddPermission, Receive, and SetTopicAttributes.
 
 Users can also generate custom SNS Topic policies. Using a policy, you can configure one of the following types of users to access a SNS topic:
 
-- Only me *(Topic Owner Ownly)*
-- Everyone *(Does not comply with CG Standards)*
-- Specific AWS users *(Alows for users other than Topic Owner)*
- 
-**Permissions can be set to actions such as SNS:** ListSubscriptionsByTopic, SNS:Subscribe, SNS:DeleteTopic, SNS:GetTopicAttributes, SNS:Publish, SNS:RemovePermission, SNS:AddPermission, SNS:Receive, and SNS:SetTopicAttributes.
-<br>
+    - Only me *(Topic Owner Ownly)*
+    - Everyone *(Does not comply with CG Standards)*
+    - Specific AWS users *(Alows for users other than Topic Owner)*
+
+Below are some key access items to be sure to include:
+1. Deny SNS Cross Account Access
+2. Deny SNS Topic Everyone has Publish / Subscribe Access
+<br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>
 
 `This Section will be updated soon.`
 
+<br>
+
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50"><br>
 
 `This Section will be updated soon.`
+
+<br>
 
 ## Endnotes
 **Resources**<br>
