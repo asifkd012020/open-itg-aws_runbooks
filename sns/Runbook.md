@@ -13,6 +13,9 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
+  - [1. SNS Deployed with VPC Endpoints](#1-SNS-Deployed-with-VPC-Endpoints)
+  - [2. SNS Deployed with Encryption using CG Managed Keys](#2-SNS-Deployed-with-Encryption-using-CG-Managed-Keys)
+  - [3. SNS Deployed with appropriate permissions to enforce least priviledge](#3-SNS-Deployed-with-appropriate-permissions-to-enforce-least-priviledge)
 - [Detective Controls](#Detective-Controls)
   - [1. First Item](#1-First-Item)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -22,13 +25,38 @@ Security Engineering
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
-
-`This Section will be updated soon.`<br>
+AWS Simple Notification Service (SNS) is a fully managed push notifications service that is cost effective, fast, and flexible. If provides you with the ability to send individual messages or a number of messages to a large number of recipients. SNS makes it easy to send notifications to email recipients, mobile device users worldwide, or messages to other distributed services.
+<br><br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
-`This Section will be updated soon.`
+### 1. SNS Deployed with VPC Endpoints
+
+<br>
+
+### 2. SNS Deployed with Encryption using CG Managed Keys
+`This Section will be updated soon.`<br><br>
+
+
+### 3. SNS Deployed with appropriate permissions to enforce least priviledge
+Simple Notification Service (SNS) enables applications, end-users, and devices to instantly send and receive notifications. SNS allows you send individual messages or to fan-out messages to large numbers of recipients to mobile device users, email recipients, or to other distributed services. 
+
+**Why?**
+
+**How?**<br>
+AWS users have the ability to control who has access to the SNS Topics, and which permissions they are granted. The followin information will aim to provide examples of how to limit the scope of access that an SNS topic allows.
+
+**Permissions can be granted for these actions:** ListSubscriptionsByTopic, Subscribe, DeleteTopic, GetTopicAttributes, Publish, RemovePermission, AddPermission, Receive, and SetTopicAttributes.
+
+Users can also generate custom SNS Topic policies. Using a policy, you can configure one of the following types of users to access a SNS topic:
+
+- Only me *(Topic Owner Ownly)*
+- Everyone *(Does not comply with CG Standards)*
+- Specific AWS users *(Alows for users other than Topic Owner)*
+ 
+**Permissions can be set to actions such as SNS:** ListSubscriptionsByTopic, SNS:Subscribe, SNS:DeleteTopic, SNS:GetTopicAttributes, SNS:Publish, SNS:RemovePermission, SNS:AddPermission, SNS:Receive, and SNS:SetTopicAttributes.
+<br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>
