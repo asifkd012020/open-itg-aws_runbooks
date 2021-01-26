@@ -31,7 +31,7 @@ This is also known as Event-driven computing, a model in which subscriber servic
 
 Amazon SNS is an event-driven computing hub that has native integration with a wide variety of AWS event sources (including Amazon EC2, Amazon S3, and Amazon RDS) and AWS event destinations (including Amazon SQS, and Lambda). The figure below shows how SNS can be used for event-driven computing:
 
-<img src="/docs/img/sns/sns_example.png" width="600">
+<img src="/docs/img/sns/sns_example.png" width="800">
 <br><br>
 
 ## Preventative Controls
