@@ -14,7 +14,7 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
 - [Detective Controls](#Detective-Controls)
-
+  - [1. First Item](#1-First-Item)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
 - [Respond & Recover](#Respond/Recover)
@@ -28,6 +28,10 @@ Security Engineering
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
+ ### Third party keys will not be introduced into the CG KMS solution
+`This Section will be updated soon.`<br>
+
+ ### KMS roles defined following least privilege model
 `This Section will be updated soon.`
 
 ## Detective Controls
@@ -58,6 +62,3 @@ Security Engineering
 **Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
 
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
-
-# KMS roles defined following least privilege model
-# Third party keys will not be introduced into the CG KMS solution
