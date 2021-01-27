@@ -179,14 +179,3 @@ Below are some key access items to be sure to include:
 **Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
 
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
-## Configure with dedicated AWS IP address groups, provide to TSO Messaging team
-
-## Configure with 'cgaws.capgroup.com' email sub-domain
-
-## Only allow messages to be sent to CG Exchange platform
-
-## Enable TLS 1.2 or higher for communication sessions
-
-## CloudTrail logging enabled and sent to Splunk
-
-## CloudWatch logging enabled and sent to Splunk
