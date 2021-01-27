@@ -17,9 +17,8 @@ Security Engineering
   - [2. SNS Deployed with Encryption using CG Managed Keys](#2-SNS-Deployed-with-Encryption-using-CG-Managed-Keys)
   - [3. SNS Deployed with appropriate permissions to enforce least priviledge](#3-SNS-Deployed-with-appropriate-permissions-to-enforce-least-priviledge)
 - [Detective Controls](#Detective-Controls)
-  - [1. First Item](#1-First-Item)
-  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [3. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
+  - [1. CloudTrail logging enabled and sent to Splunk](#1-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [2. CloudWatch logging enabled](#2-CloudWatch-logging-enabled)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -148,6 +147,10 @@ Below are some key access items to be sure to include:
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>
 
+### 1. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 2. CloudWatch logging enabled
 `This Section will be updated soon.`
 
 <br>
@@ -164,6 +167,7 @@ Below are some key access items to be sure to include:
 1. https://aws.amazon.com/sns/features/
 2. https://docs.aws.amazon.com/sns/latest/dg/welcome.html
 3. https://docs.aws.amazon.com/sns/latest/dg/sns-vpc-tutorial.html
+4. https://aws.amazon.com/blogs/security/securing-messages-published-to-amazon-sns-with-aws-privatelink/
 
 <br>
 
