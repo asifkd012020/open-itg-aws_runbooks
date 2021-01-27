@@ -161,7 +161,9 @@ Below are some key access items to be sure to include:
 
 ## Endnotes
 **Resources**<br>
-`This Section will be updated soon.`
+1. https://aws.amazon.com/sns/features/
+2. https://docs.aws.amazon.com/sns/latest/dg/welcome.html
+3. https://docs.aws.amazon.com/sns/latest/dg/sns-vpc-tutorial.html
 
 <br>
 
