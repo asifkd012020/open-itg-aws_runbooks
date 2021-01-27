@@ -88,7 +88,10 @@ To connect an existing VPC to Amazon SNS, you define an interface VPC endpoint. 
 
 9. For Security group, choose Select security group, and choose one of the default security groups, if the access on these is to broad, a new security group should be created with least privilege based on need.
 
-10. Choose 'Create endpoint'. The Amazon VPC console confirms that a VPC endpoint was created.
+10. Choose 'Create endpoint'. The Amazon VPC console confirms that a VPC endpoint was created.<br>
+<img src="/docs/img/sns/vpce_done.png" width="800">
+
+<br>
 
 ### 2. SNS Deployed with Encryption using CG Managed Keys
 `This Section will be updated soon.`<br><br>
