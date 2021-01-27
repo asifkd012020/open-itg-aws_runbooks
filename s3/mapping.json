@@ -21,7 +21,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/s3_policies/access_logging_standards.sentinel"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         },
         {
             "requirement_name": "Employ MFA for Sensitive S3 Resources",
@@ -45,7 +53,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/encryption_policies/encryption_standards.sentinel"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         },
         {
             "requirement_name": "Enhance Durability of Critical Data",
@@ -93,7 +109,15 @@
                 "NP": "high"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/s3_policies/access_logging_standards.sentinel"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         }
     ]
 }

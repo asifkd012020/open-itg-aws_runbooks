@@ -45,7 +45,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/broad_policies/privacy_standards/eks_standards.sentinel"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         },
         {
             "requirement_name": "Establish configuration management rules to monitor for deviations from normal configuration",

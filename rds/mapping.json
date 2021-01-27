@@ -40,6 +40,13 @@
                         "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#33"
                     ],
                     "type": "detect"
+                },
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/encryption_policies/encryption_standards.sentinel"
+                    ],
+                    "type": "prevent"
                 }
             ]
         },
@@ -78,6 +85,13 @@
                     "provider": "panoptes",
                     "implementation": [
                         "https://github.com/open-itg/panoptes/blob/master/panoptes-rules/rds.py"
+                    ],
+                    "type": "prevent"
+                },
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/broad_policies/privacy_standards/rds_standards.sentinel"
                     ],
                     "type": "prevent"
                 }
