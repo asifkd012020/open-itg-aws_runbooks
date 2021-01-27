@@ -139,10 +139,52 @@ Users can also generate custom SNS Topic policies. Using a policy, you can confi
     - Everyone *(Does not comply with CG Standards)*
     - Specific AWS users *(Alows for users other than Topic Owner)*
 
-Below are some key access items to be sure to include:
-1. Deny SNS Cross Account Access
-2. Deny SNS Topic Everyone has Publish / Subscribe Access
-<br><br>
+Some key access items to be sure to include:
+- Deny SNS Cross Account Access
+- Deny SNS Topic Everyone has Publish / Subscribe Access
+<br>
+
+Below is some example IAM Policy for limiting SNS access:
+1. Grant assigned users in the AWS account ability to subscribe to topics, where the endpoint like "@capgroup.com" and protocol is "email".
+```
+{
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["sns:Subscribe"],
+    "Resource": "*",
+    "Condition": {
+      "StringLike": {
+        "SNS:Endpoint": "*@capgroup.com"
+      },
+      "StringEquals": {
+        "sns:Protocol": "email"
+      }
+    }
+  }]
+}
+```
+
+2. Grant an assigned Group ability to publish messages to a particular topic.
+```
+{
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": "sns:Publish",
+    "Resource": "arn:aws:sns:*:123456789012:GroupsNewTopic"
+  }]
+}
+```
+
+3. Allow an assigned Group to create and manage topics.
+```
+{
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["sns:CreateTopic", "sns:ListTopics", "sns:SetTopicAttributes", "sns:DeleteTopic"],
+    "Resource": "*"
+  }]
+}
+```
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>
