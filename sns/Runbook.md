@@ -78,15 +78,19 @@ To connect an existing VPC to Amazon SNS, you define an interface VPC endpoint. 
 4. On the Create Endpoint page, for Service category, keep the default choice of AWS services.
 
 5. For Service Name, choose the service name for Amazon SNS.<br>
-*The service names vary based on the chosen region. For example, if you chose US East (N. Virginia), the service name is com.amazonaws.us-east-1.sns.*
+*The service names vary based on the chosen region. For example, if you chose US East (N. Virginia), the service name is com.amazonaws.us-east-1.sns.*<br>
+<img src="/docs/img/sns/endpoint.png" width="800">
 
-6. For VPC, choose the VPC that you want to host the Endpoint.
+6. For VPC, choose the VPC that you want to host the Endpoint.<br>
+<img src="/docs/img/sns/vpc.png" width="600">
 
-7. For Subnets, choose the subnets that are assigned to the selected VPC, in the subnet ID.
+7. For Subnets, choose the subnets that are assigned to the selected VPC, in the subnet ID.<br>
+<img src="/docs/img/sns/subnets.png" width="600">
 
 8. For Enable Private DNS Name, select Enable for this endpoint.
 
-9. For Security group, choose Select security group, and choose one of the default security groups, if the access on these is to broad, a new security group should be created with least privilege based on need.
+9. For Security group, choose Select security group, and choose one of the default security groups, if the access on these is to broad, a new security group should be created with least privilege based on need.<br>
+<img src="/docs/img/sns/sec_group.png" width="600">
 
 10. Choose 'Create endpoint'. The Amazon VPC console confirms that a VPC endpoint was created.<br>
 <img src="/docs/img/sns/vpce_done.png" width="800">
