@@ -32,14 +32,63 @@ This is also known as Event-driven computing, a model in which subscriber servic
 Amazon SNS is an event-driven computing hub that has native integration with a wide variety of AWS event sources (including Amazon EC2, Amazon S3, and Amazon RDS) and AWS event destinations (including Amazon SQS, and Lambda). The figure below shows how SNS can be used for event-driven computing:
 
 <img src="/docs/img/sns/sns_example.png" width="800">
-<br><br>
+<br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
 ### 1. SNS Deployed with VPC Endpoints
-
+To publish messages to your Amazon SNS topics from a private VPC, we first need to create an interface VPC endpoint. Then, you can publish messages to your topics while keeping the traffic within the network that you manage with the VPC.  This process will be explained below:
 <br>
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**
+
+This deployment model allows SNS to be only accessible by other services within the VPC and any internal services allowed through the associated Security Groups.  This allows for the deployment to meet the stict CG public access policy for all cloud deployments.
+
+**How?**
+
+To connect an existing VPC to Amazon SNS, you define an interface VPC endpoint. After you add the endpoint, you can log in to the Amazon EC2 instance in your VPC, and from there you can use the Amazon SNS API. You can publish messages to the topic, and the messages are published privately. They stay within the AWS network, and they don't travel the public internet. If there are no existing VPC's one will need to be created prior to the steps below.
+
+**NOTE:** Never use the 'Default' VPC when deploying any services as this has public access and assigns public IP addressing by default.
+
+1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/.
+
+2. In the navigation menu on the left, choose Endpoints.
+
+3. Choose 'Create Endpoint'.
+
+4. On the Create Endpoint page, for Service category, keep the default choice of AWS services.
+
+5. For Service Name, choose the service name for Amazon SNS.<br>
+*The service names vary based on the chosen region. For example, if you chose US East (N. Virginia), the service name is com.amazonaws.us-east-1.sns.*
+
+6. For VPC, choose the VPC that you want to host the Endpoint.
+
+7. For Subnets, choose the subnets that are assigned to the selected VPC, in the subnet ID.
+
+8. For Enable Private DNS Name, select Enable for this endpoint.
+
+9. For Security group, choose Select security group, and choose one of the default security groups, if the access on these is to broad, a new security group should be created with least privilege based on need.
+
+10. Choose 'Create endpoint'. The Amazon VPC console confirms that a VPC endpoint was created.
 
 ### 2. SNS Deployed with Encryption using CG Managed Keys
 `This Section will be updated soon.`<br><br>
