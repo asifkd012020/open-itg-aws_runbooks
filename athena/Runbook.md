@@ -48,19 +48,19 @@ Data analysis has always been a complex process that many tools have aimed to si
 <img src="/docs/img/Prevent.png" width="50"><br>
 
 ### 1. Athena Deployed using VPC Endpoints
+ - Create VPC Endpoints for Athena
+ - Create and attach appropriate Security Groups
 
-### 2. Athena Deployed with appropriate Security Groups
-
-### 3. IAM roles for access to Athena defined following least privilege model
+### 2. IAM roles for access to Athena defined following least privilege model
  - Athena assumes the application user role
  - Query results will be stored to restrict unauthorized access
 
-### 4. Enforce Enryption at Rest for Athena
+### 3. Enforce Enryption at Rest for Athena
  - Enable encryption for query results
 
  `This Section will be updated soon.`
 
-### 5. Enforce Enryption in Transit for Athena
+### 4. Enforce Enryption in Transit for Athena
  - Encrypt data in transit using TLS 1.2
 
  `This Section will be updated soon.`
