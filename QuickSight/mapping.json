@@ -5,9 +5,9 @@
     ],
     "servicedisplay_name": "QuickSight",
     "serviceapproval_status": {
-        "Prod": "unapproved",
-        "SNP": "unapproved",
-        "NP": "unapproved"
+        "Prod": "denied",
+        "SNP": "denied",
+        "NP": "denied"
     },
     "phase": "discovery",
     "mapping": [
