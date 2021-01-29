@@ -22,8 +22,7 @@ Security Engineering
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
-
-`This Section will be updated soon.`<br>
+Amazon Simple Email Service (SES) is a cost-effective, flexible, and scalable email service that enables developers to send mail from within any application. You can configure Amazon SES quickly to support several email use cases, including transactional, marketing, or mass email communications. Amazon SES's flexible IP deployment and email authentication options help drive higher deliverability and protect sender reputation, while sending analytics measure the impact of each email. With Amazon SES, you can send email securely, globally, and at scale.
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
@@ -58,17 +57,6 @@ Security Engineering
 **Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
 
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
-## Configure with dedicated AWS IP address groups, provide to TSO Messaging team
-
-## Configure with 'cgaws.capgroup.com' email sub-domain
-
-## Only allow messages to be sent to CG Exchange platform
-
-## Enable TLS 1.2 or higher for communication sessions
-
-## CloudTrail logging enabled and sent to Splunk
-
-## CloudWatch logging enabled and sent to Splunk
 
 
 https://confluence.capgroup.com/display/HCEA/Access+SES+From+Member+Account
