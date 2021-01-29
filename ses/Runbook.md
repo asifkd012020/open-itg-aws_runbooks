@@ -8,11 +8,17 @@
 <br>
 Security Engineering
 
-**Last Update:** *01/25/2021*
+**Last Update:** *01/29/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
+  - [1. Deployed with appropriate IAM permissions to enforce least priviledge](#1-Deployed-with-appropriate-IAM-permissions-to-enforce-least-priviledge)
+  - [2. Deployed for Cross-Account enforcing least priviledge](#2-Deployed-for-Cross-Account-enforcing-least-priviledge)
+  - [3. Deployed using the appropriate email sub-domain only](#3-Deployed-using-the-appropriate-email-sub-domain-only)
+  - [4. Deployed using a Dedicated AWS Sender Source Address](#4-Deployed-using-a-Dedicated-AWS-Sender-Source-Address)
+  - [5. Policy defined to limit destination e-mail to CG domain only](#5-Policy-defined-to-limit-destination-e-mail-to-CG-domain-only)
+  - [6. Enable TLS 1.2 or higher for communication](#6-Enable-TLS-1-2-or-higher-for-communication)
 - [Detective Controls](#Detective-Controls)
   - [1. First Item](#1-First-Item)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -27,9 +33,78 @@ Amazon Simple Email Service (SES) is a cost-effective, flexible, and scalable em
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
-### 1. Use a Dedicated AWS Source Address
+### 1. Deployed with appropriate IAM permissions to enforce least priviledge
+SES allows authorized users to send bulk e-mail out to either the internet or internal e-mail domains, and allows for this to be done though three connection methods: API, Console or SMTP Interface.  This section will detail the appropriate access controls that should be enforced for authentication of services needing to send e-mail.
 
-### 2. Use a Dedicated AWS Source Address
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+<br>
+
+**Why?**<br>
+With SES a user or service can send single or bulk e-mail to both internet and internal e-mail domains as per the policy assigned to them. For this reason limiting access to the service for valid purposes only is a must, and any service authorized to use the service should have access limited to only what is needed.
+<br>
+
+**How?**<br>
+When interacting with Amazon Simple Email Service (Amazon SES), you use security credentials to verify who you are and whether you have permission to interact with Amazon SES. There are different types of credentials, and the credentials used depends on what you want to do. 
+
+For example, you use AWS access keys when you send an email using the Amazon SES API, and SMTP credentials when you send an email using the Amazon SES SMTP interface.
+
+  - **Amazon SES API:**<br>
+          To access SES via the API, one will need to provide AWS Access Key and Secret to connect via the API.  Secure storage of the Access Key and Secret will be required as per CG policy, this can be acomplished through the use of AWS Secrets Manager. It may also be possible to utilize AWS Gimme Creds with STS tokens, though the use of a service account with OKTA for use on the SES API as this would provide a temporary session token, this would be the prefered method.
+
+  - **Amazon SES Console:**<br>
+          To access SES via the Console, one will need to provide an IAM Username and Password. An IAM user should provide you with either the account alias or 12-digit AWS account ID, the IAM user name, and the password for the IAM user Secure storage of the credentials will be required as per CG policy, this can be acomplished through the use of AWS Secrets Manager. It may also be possible to connect using a CG service account assigned the appropriate role through OKTA for use with AWS SES Console, and this would be the prefered method.
+
+  - **Amazon SES SMTP Interface:**<br>
+          To access SES via the SMTP Interface, and SMTP IAM credential needs to be created, these are created per-region. Although Amazon SES SMTP credentials are different than your AWS access keys and IAM user access keys, Amazon SES SMTP credentials are actually a type of IAM credentials. An IAM user can create Amazon SES SMTP credentials, but the root account owner must ensure that the IAM user's policy gives them permission to access the following IAM actions: "iam:ListUsers", "iam:CreateUser", "iam:CreateAccessKey", and "iam:PutUserPolicy". If SMTP credentials are used, Secure storage of the credentials will be required as per CG policy, this can be acomplished through the use of AWS Secrets Manager.
+<br><br>
+
+### 2. Deployed for Cross-Account enforcing least priviledge
+`This Section will be updated soon.`
+
+### 3. Deployed using the appropriate email sub-domain only
+`This Section will be updated soon.`
+
+### 4. Deployed using a Dedicated AWS Sender Source Address
+When you create a new Amazon SES account, your emails are sent from IP addresses that are shared with other Amazon SES users. AWS does provide the option to lease dedicated IP addresses that are reserved for your exclusive use. Both of these options offer unique benefits and drawbacks, but CG has taken the stance that the benefits to reputation and the ability to create granular access controls make it a must to use dedicated IP's.
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+
+<br>
+
+**Capital Group:**<br>
+
+|Control Statement|Description|
+|------|----------------------|
+
+<br>
+
+**Why?**<br>
+
+**How?**<br>
+
+### 5. Policy defined to limit destination e-mail to CG domain only
+`This Section will be updated soon.`
+
+### 6. Enable TLS 1.2 or higher for communication
 `This Section will be updated soon.`
 
 ## Detective Controls
@@ -43,8 +118,12 @@ Amazon Simple Email Service (SES) is a cost-effective, flexible, and scalable em
 `This Section will be updated soon.`
 
 ## Endnotes
-**Resources**<br>
-`This Section will be updated soon.`
+**Resources** <br>
+
+1. https://confluence.capgroup.com/display/HCEA/Access+SES+From+Member+Account
+2. https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-connect.html
+3. https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dedicated-ip.html
+4. https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html
 
 <br>
 
@@ -60,14 +139,3 @@ Amazon Simple Email Service (SES) is a cost-effective, flexible, and scalable em
 **Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
 
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
-
-
-https://confluence.capgroup.com/display/HCEA/Access+SES+From+Member+Account
-
-## Configure with dedicated AWS IP address groups, provide to TSO Messaging team
-
-## Configure with 'cgaws.capgroup.com' email sub-domain
-
-## Only allow messages to be sent to CG Exchange platform
-
-## Enable TLS 1.2 or higher for communication sessions
