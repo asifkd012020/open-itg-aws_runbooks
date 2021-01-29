@@ -27,6 +27,9 @@ Amazon Simple Email Service (SES) is a cost-effective, flexible, and scalable em
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
+### 1. Use a Dedicated AWS Source Address
+
+### 2. Use a Dedicated AWS Source Address
 `This Section will be updated soon.`
 
 ## Detective Controls
@@ -68,7 +71,3 @@ https://confluence.capgroup.com/display/HCEA/Access+SES+From+Member+Account
 ## Only allow messages to be sent to CG Exchange platform
 
 ## Enable TLS 1.2 or higher for communication sessions
-
-## CloudTrail logging enabled and sent to Splunk
-
-## CloudWatch logging enabled and sent to Splunk
