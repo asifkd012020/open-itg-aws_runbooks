@@ -161,7 +161,7 @@ When you create a new Amazon SES account, your emails are sent from IP addresses
 
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
-
+`This Section will be updated soon.`
 <br>
 
 **Capital Group:**<br>
@@ -169,11 +169,15 @@ When you create a new Amazon SES account, your emails are sent from IP addresses
 |Control Statement|Description|
 |------|----------------------|
 
+`This Section will be updated soon.`
 <br>
 
 **Why?**<br>
+`This Section will be updated soon.`
 
 **How?**<br>
+`This Section will be updated soon.`
+<br>
 
 ### 5. Enable TLS 1.2 or higher for communication
 `This Section will be updated soon.`
