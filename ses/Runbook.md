@@ -17,12 +17,10 @@ Security Engineering
   - [2. Deployed for Cross-Account enforcing least priviledge](#2-Deployed-for-Cross-Account-enforcing-least-priviledge)
   - [3. Deployed using the appropriate email sub-domain only](#3-Deployed-using-the-appropriate-email-sub-domain-only)
   - [4. Deployed using a Dedicated AWS Sender Source Address](#4-Deployed-using-a-Dedicated-AWS-Sender-Source-Address)
-  - [5. Policy defined to limit destination e-mail to CG domain only](#5-Policy-defined-to-limit-destination-e-mail-to-CG-domain-only)
-  - [6. Enable TLS 1.2 or higher for communication](#6-Enable-TLS-1-2-or-higher-for-communication)
+  - [5. Enable TLS 1.2 or higher for communication](#5-Enable-TLS-1-2-or-higher-for-communication)
 - [Detective Controls](#Detective-Controls)
-  - [1. First Item](#1-First-Item)
-  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [3. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
+  - [1. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [2. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -72,7 +70,83 @@ For example, you use AWS access keys when you send an email using the Amazon SES
 
   - **Amazon SES SMTP Interface:**<br>
           To access SES via the SMTP Interface, and SMTP IAM credential needs to be created, these are created per-region. Although Amazon SES SMTP credentials are different than your AWS access keys and IAM user access keys, Amazon SES SMTP credentials are actually a type of IAM credentials. An IAM user can create Amazon SES SMTP credentials, but the root account owner must ensure that the IAM user's policy gives them permission to access the following IAM actions: "iam:ListUsers", "iam:CreateUser", "iam:CreateAccessKey", and "iam:PutUserPolicy". If SMTP credentials are used, Secure storage of the credentials will be required as per CG policy, this can be acomplished through the use of AWS Secrets Manager.
-<br><br>
+
+<br>
+
+**Using IAM Policy to limit access:**<br>
+You can use AWS Identity and Access Management (IAM) with Amazon Simple Email Service (Amazon SES) to specify which Amazon SES API actions an IAM user, group, or role can perform. You can also control which email addresses the user can use for the "From", recipient, and "Return-Path" addresses of emails along with many other options. Below are three example IAM policy which should be used to limit a User or Services SES access, to keep the service usage in line with CG's standards.
+
+  - **Restricing the Recipient Addresses** <br>
+  The following policy permits a user to call the Amazon SES email-sending APIs, but only to recipient addresses in domain aws.capgroup.com.
+```
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+      "Effect":"Allow",
+      "Action":[
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource":"*",
+      "Condition":{
+        "ForAllValues:StringLike":{
+          "ses:Recipients":[
+            "*@aws.capgroup.com"
+          ]
+        }
+      }
+    }
+  ]
+}
+```
+
+  - **Restricting the "From" Address** <br>
+  The following policy permits a user to call the Amazon SES email-sending APIs, but only if the "From" address is operations@aws.capgroup.com
+```
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+      "Effect":"Allow",
+      "Action":[
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource":"*",
+      "Condition":{
+        "StringEquals":{
+          "ses:FromAddress":"operations@aws.capgroup.com"
+        }
+      }
+    }
+  ]
+}
+```
+
+  - **Restricting the Display Name of the Email Sender** <br>
+  The following policy permits a user to call the Amazon SES email-sending APIs, but only if the display name of the "From" address includes Operations.
+```
+{
+  "Version":"2012-10-17",
+  "Statement":[
+    {
+      "Effect":"Allow",
+      "Action":[
+        "ses:SendEmail",
+        "ses:SendRawEmail"
+      ],
+      "Resource":"*",
+      "Condition":{
+        "StringLike":{
+          "ses:FromDisplayName":"Operations"
+        }
+      }
+    }
+  ]
+}
+```
+<br>
 
 ### 2. Deployed for Cross-Account enforcing least priviledge
 `This Section will be updated soon.`
@@ -101,21 +175,28 @@ When you create a new Amazon SES account, your emails are sent from IP addresses
 
 **How?**<br>
 
-### 5. Policy defined to limit destination e-mail to CG domain only
+### 5. Enable TLS 1.2 or higher for communication
 `This Section will be updated soon.`
 
-### 6. Enable TLS 1.2 or higher for communication
-`This Section will be updated soon.`
+<br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>
 
+### 1. CloudTrail logging enabled and sent to Splunk
 `This Section will be updated soon.`
+
+### 2. CloudWatch logging enabled
+`This Section will be updated soon.`
+
+<br>
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50"><br>
 
 `This Section will be updated soon.`
+
+<br>
 
 ## Endnotes
 **Resources** <br>
@@ -124,6 +205,7 @@ When you create a new Amazon SES account, your emails are sent from IP addresses
 2. https://docs.aws.amazon.com/ses/latest/DeveloperGuide/smtp-connect.html
 3. https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dedicated-ip.html
 4. https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html
+5. https://docs.aws.amazon.com/ses/latest/DeveloperGuide/control-user-access.html#iam-and-ses-examples-recipients
 
 <br>
 
