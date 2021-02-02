@@ -14,10 +14,9 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. Athena Deployed using VPC Endpoints](#1-Athena-Deployed-using-VPC-Endpoints)
-  - [2. Athena Deployed with appropriate Security Groups](#2-Athena-Deployed-with-appropriate-Security-Groups)
-  - [3. IAM roles for access to Athena defined following least privilege model](#3-IAM-roles-for-access-to-Athena-defined-following-least-privilege-model)
-  - [4. Enforce Enryption at Rest for Athena](#4-Enforce-Encryption-at-Rest-for-Athena) 
-  - [5. Enforce Enryption in Transit for Athena](#5-Enforce-Encryption-in-Transit-for-Athena) 
+  - [2. IAM roles for access to Athena defined following least privilege model](#2-IAM-roles-for-access-to-Athena-defined-following-least-privilege-model)
+  - [3. Enforce Enryption at Rest for Athena](#3-Enforce-Encryption-at-Rest-for-Athena) 
+  - [4. Enforce Enryption in Transit for Athena](#4-Enforce-Encryption-in-Transit-for-Athena) 
 - [Detective Controls](#Detective-Controls)
   - [1. Athena resources are tagged according to CG standards](#1-Athena-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -94,7 +93,6 @@ Now in the VPC Endpoint configuration use the following settings to initialize y
 
 <img src="/docs/img/athena/create_endpoint_2.png" width="800"> 
 <br>
-
 The next section deals with Security Group creation and assignment.
 <br>
 
@@ -105,6 +103,7 @@ Once we have the initial configuration of the Endpoint, we now need to secure it
 We first need to click on create security group, after the appropriate VPC has been selected.
 
 <img src="/docs/img/athena/sg_create.png" width="800"> 
+<br>
 
 Now we need to create a new security group with the following baseline settings, although the security group can be created with even more restricted access if company wide access is not needed.
 
@@ -114,7 +113,6 @@ Now we need to create a new security group with the following baseline settings,
 - **Inbound Rules:** Default inbound rules for Athena should reflect the minimum connectivity needed for the service to function
 - **Outbound Rules:** Default Outbound rules should reflect the minimum connectivity needed for the service to function.
 <br>
-
 The next section deals with access policy creation and assignment.
 <br>
 
