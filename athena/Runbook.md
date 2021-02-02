@@ -125,6 +125,12 @@ One can create a policy for Amazon VPC endpoints for Athena to specify the follo
 
 An example VPC Endpoint Policy that should be attached to a VPC Endpoint limiting access to a specific workgroup can be seen below:
 
+<img src="/docs/img/athena/vpc_policy.png" width="800">
+
+<br>
+
+**Note:** One should enter the policy below into the Custom Policy field as seen in the screenshot above.
+
 ```
 {
   "Statement": [{
@@ -146,8 +152,6 @@ An example VPC Endpoint Policy that should be attached to a VPC Endpoint limitin
   }]
 }
 ```
-
-<img src="/docs/img/athena/vpc_policy.png" width="800"><br>
 
 <br>
 
