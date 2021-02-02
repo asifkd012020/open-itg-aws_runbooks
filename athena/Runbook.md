@@ -8,7 +8,7 @@
 <br>
 Security Engineering
 
-**Last Update:** *01/25/2021*
+**Last Update:** *02/01/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -26,6 +26,8 @@ Security Engineering
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
+<br>
+
 ## Overview
 Data analysis has always been a complex process that many tools have aimed to simplify and speed up over the years. Amazon has aimed to solve the bottlenecks in data analysis with its new service named Athena. Amazon Athena is an interactive query service that makes it easy to analyze data in Amazon S3 using standard SQL. Athena is serverless, so there is no infrastructure to manage, and you pay only for the queries that you run.  
 
@@ -42,28 +44,128 @@ Data analysis has always been a complex process that many tools have aimed to si
 
 - **Highly available:** With the assurance of AWS, Athena is highly available and the user can execute queries round the clock. As AWS is 99.999% available, so is Athena.
 
-- **Integration:** The best feature of Athena is that it can be integrated with AWS Glue. AWS Glue will help the user to create a better-unified data repository. This helps you create better versioning of data, better tables, views, etc. <br>
+- **Integration:** The best feature of Athena is that it can be integrated with AWS Glue. AWS Glue will help the user to create a better-unified data repository. This helps you create better versioning of data, better tables, views, etc. 
+
+<br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
 ### 1. Athena Deployed using VPC Endpoints
- - Create VPC Endpoints for Athena
- - Create and attach appropriate Security Groups
+You can connect directly to Athena using an interface VPC endpoint (AWS PrivateLink) in your Virtual Private Cloud (VPC) instead of connecting over the internet. When you use an interface VPC endpoint, communication between your VPC and Athena is conducted entirely within the AWS network. Each VPC endpoint is represented by one or more Elastic Network Interfaces (ENIs) with private IP addresses in your VPC subnets.
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**<br>
+This deployment model allows Athena to be only accessible by other services within the VPC and any internal services allowed through the associated Security Groups, which will be detailed later in this section.  This allows for the deployment to meet the stict CG public access policy for all cloud deployments.
+<br>
+
+**How?**<br>
+Deploying Athena using private Endpoints can be done by following three steps as below:
+
+1. Creation of the VPC Endpoint
+
+Search Endpoint Servicesw in the AWS search bar, click on Endpoint services which should be a sub-category of VPC Services. Now click on **Create Endpoint** as seen in the screenshot below.
+<br>
+<img src="/docs/img/athena/create_endpoint.png" width="800"> 
+<br>
+
+Now in the VPC Endpoint configuration use the following settings to initialize your Endpoint.
+ - **Service Category:** "AWS Services"
+ - **Service Name:** "com.amazonaws.{AWS region}.athena"
+ - **VPC:** "Select the [VPC](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) in which the endpoint will reside."
+ - **Enable Private DNS:** "Enabled"
+
+<img src="/docs/img/athena/create_endpoint_2.png" width="800"> 
+<br>
+
+The next section deals with Security Group creation and assignment.
+<br>
+
+2. Creation and attachment of a Security Group 
+
+Once we have the initial configuration of the Endpoint, we now need to secure it with assignment of a Security Group. One can use a default Security Group, but it is a better option to create a security group for our service to limit the access to only allow CG IP's and ports required for the service to function.
+
+We first need to click on create security group, after the appropriate VPC has been selected.
+
+<img src="/docs/img/athena/sg_create.png" width="800"> 
+
+Now we need to create a new security group with the following baseline settings, although the security group can be created with even more restricted access if company wide access is not needed.
+
+- **Security Group Name:** "AthenaSG" or something similar.
+- **Description:** "Athena Access for internal resources" or similar.
+- **VPC:** Select the VPC that will be used for the Endpoint and Athena.
+- **Inbound Rules:** Default inbound rules for Athena should reflect the minimum connectivity needed for the service to function
+- **Outbound Rules:** Default Outbound rules should reflect the minimum connectivity needed for the service to function.
+<br>
+
+The next section deals with access policy creation and assignment.
+<br>
+
+3. Create and assign a VPC Endpoint Policy for Athena
+
+One can create a policy for Amazon VPC endpoints for Athena to specify the following properties:
+ - The principal that can perform actions.
+ - The actions that can be performed.
+ - The resources on which actions can be performed.
+
+An example VPC Endpoint Policy that should be attached to a VPC Endpoint limiting access to a specific workgroup can be seen below:
+
+```
+{
+  "Statement": [{
+    "Principal": "*",
+    "Effect": "Allow",
+    "Action": [
+      "athena:StartQueryExecution",
+      "athena:RunQuery",
+      "athena:GetQueryExecution",
+      "athena:GetQueryResults",
+      "athena:CancelQueryExecution",
+      "athena:ListWorkGroups",
+      "athena:GetWorkGroup",
+      "athena:TagResource"
+    ],
+    "Resource": [
+      "arn:aws:athena:us-west-1:AWSAccountId:workgroup/TestGroup"
+    ]
+  }]
+}
+```
+
+<img src="/docs/img/athena/vpc_policy.png" width="800"><br>
+
+<br>
 
 ### 2. IAM roles for access to Athena defined following least privilege model
- - Athena assumes the application user role
- - Query results will be stored to restrict unauthorized access
+ - Athena assumes the application user role<br>
+ `This Section will be updated soon.`
+ - Query results will be stored to restrict unauthorized access<br>
+ `This Section will be updated soon.`
 
 ### 3. Enforce Enryption at Rest for Athena
- - Enable encryption for query results
-
- `This Section will be updated soon.`
+ - Enable encryption for query results<br>
+`This Section will be updated soon.`
 
 ### 4. Enforce Enryption in Transit for Athena
- - Encrypt data in transit using TLS 1.2
-
- `This Section will be updated soon.`
+ - Encrypt data in transit using TLS 1.2<br>
+`This Section will be updated soon.`
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>
