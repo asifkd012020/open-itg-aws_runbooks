@@ -8,13 +8,14 @@
 <br>
 Security Engineering
 
-**Last Update:** *01/25/2021*
+**Last Update:** *02/02/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
+  - [1. KMS roles defined following least privilege model](#1-KMS-roles-defined-following-least-privilege-model)
 - [Detective Controls](#Detective-Controls)
-  - [1. First Item](#1-First-Item)
+  - [1. KMS resources are tagged according to CG standards](#1-KMS-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
 - [Respond & Recover](#Respond/Recover)
@@ -28,16 +29,27 @@ Security Engineering
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
- ### Third party keys will not be introduced into the CG KMS solution
-`This Section will be updated soon.`<br>
-
- ### KMS roles defined following least privilege model
+ ### 1. KMS roles defined following least privilege model
 `This Section will be updated soon.`
+
+ ### 2. Third party keys will not be introduced into the CG KMS solution
+`This Section will be updated soon.`
+
+<br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>
 
+### 1. KMS resources are tagged according to CG standards
 `This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled
+`This Section will be updated soon.`
+
+<br>
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50"><br>
