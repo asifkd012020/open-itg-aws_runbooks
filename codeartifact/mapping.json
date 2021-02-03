@@ -5,15 +5,15 @@
     ],
     "servicedisplay_name": "CodeArtifact",
     "serviceapproval_status": {
-        "Prod": "approved",
-        "SNP": "approved",
-        "NP": "approved"
+        "Prod": "denied",
+        "SNP": "denied",
+        "NP": "denied"
     },
     "phase": "discovery",
     "mapping": [
         {
             "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/apigateway/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codeartifact/Runbook.md",
             "tags":[],
             "severity": {
                 "Prod": "medium",
