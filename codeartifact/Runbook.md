@@ -14,4 +14,4 @@ Security Engineering
 
 ## Reason for Service Denial
 - Lack of Public Access Controls.
-- Service fails to meeting the requirements Nexus meets around license checks and general reduction of risk in downloading 'bad' packages.
+- Service fails to meet the CG requirements Nexus meets around license checks and general reduction of risk in downloading 'bad' packages.
