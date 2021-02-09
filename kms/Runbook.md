@@ -8,12 +8,15 @@
 <br>
 Security Engineering
 
-**Last Update:** *02/02/2021*
+**Last Update:** *02/08/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. KMS roles defined following least privilege model](#1-KMS-roles-defined-following-least-privilege-model)
+  - [2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards](#2-KMS-Traffic-encrypted-with-TLS-1-2-or-Later-following-CG-Standards)
+  - [3. KMS is Encrypted at rest following CG Standards](#3-KMS-is-Encrypted-at-rest-following-CG-Standards)
+  - [4. Key Management Best-Practices are Adhered to](#4-Key-Management-Best-Practices-are-Adhered-to)
 - [Detective Controls](#Detective-Controls)
   - [1. KMS resources are tagged according to CG standards](#1-KMS-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -31,9 +34,22 @@ Security Engineering
 
  ### 1. KMS roles defined following least privilege model
 `This Section will be updated soon.`
+ - 
+ - Cross Account Key Access
 
- ### 2. Third party keys will not be introduced into the CG KMS solution
+ ### 2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards
 `This Section will be updated soon.`
+
+ ### 3. KMS is Encrypted at rest following CG Standards
+`This Section will be updated soon.`
+
+ ### 4. Key Management Best-Practices are Adhered to
+  - Secure Import of Key Material<br>
+  `This Section will be updated soon.`
+  - Third party keys will not be introduced into the CG KMS solution<br>
+  `This Section will be updated soon.`
+  - Expired Keys are Purged in a timely manner<br>
+  `This Section will be updated soon.`
 
 <br>
 
