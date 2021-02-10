@@ -33,7 +33,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/encryption_policies/encryption_standards.sentinel"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         },
         {
             "requirement_name": "Encrypt data in transit using TLS 1.2",
