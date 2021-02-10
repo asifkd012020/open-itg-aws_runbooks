@@ -71,18 +71,11 @@ This deployment model allows the API Gateway to be only accessible by other serv
 <br>
 
 **How?**<br>
-Deploying an API Gateway using private Endpoints can be done by following four steps as below:
+Deploying an API Gateway using private Endpoints can be done by following three steps as below:
 
-1. Creation of a new VPC <br>
+1. Creation of a VPC Endpoint
 
-If there is currently no private VPC, one will need to be created with at least one subnet and needs to have DNS resolution enabled as seen below.
-
-<img src="/docs/img/apigw/vpc_ex.png" width="800"> 
-<br>
-
-2. Creation of a VPC Endpoint
-
-Search Endpoint Servicesw in the AWS search bar, click on Endpoint services which should be a sub-category of VPC Services. Now click on **Create Endpoint** as seen in the screenshot below.
+Search Endpoint Services in the AWS search bar, click on Endpoint services which should be a sub-category of VPC Services. Now click on **Create Endpoint** as seen in the screenshot below.
 <br>
 <img src="/docs/img/apigw/create_endpoint.png" width="800"> 
 <br>
@@ -99,7 +92,7 @@ Now in the VPC Endpoint configuration use the following settings to initialize y
 The next section deals with Security Group creation and assignment.
 <br>
 
-3. Creation and attachment of a Security Group 
+2. Creation and attachment of a Security Group 
 
 Once we have the initial configuration of the Endpoint, we now need to secure it with assignment of a Security Group. One can use a default Security Group, but it is a better option to create a security group for our service to limit the access to only allow CG IP's and port 443 (HTTPS) as below.
 
@@ -120,7 +113,7 @@ Now we need to create a new security group with the following baseline settings,
 
 <br>
 
-4. Creation of an API Gateway
+3. Creation of an API Gateway
 Its now time for the creation of the API Gateway itself, the pre-work done above will allow the API Gateway to be built securely for CG access only. The first step is to select the private rest API option, as this will tie into our VPC Endpoints.
 
 <img src="/docs/img/apigw/Create_GW.png" width="800"> 
