@@ -1,19 +1,19 @@
 {
-    "serviceprovider":"aws",
+    "serviceprovider":"azure",
     "servicerequirement_name": [
-        "AWS::QuickSight::*"
+        "AZR:SQLDatabase:*"
     ],
-    "servicedisplay_name": "QuickSight",
+    "servicedisplay_name": "Azure SQL Database",
     "serviceapproval_status": {
-        "Prod": "denied",
-        "SNP": "denied",
-        "NP": "denied"
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
     },
     "phase": "discovery",
     "mapping": [
         {
             "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/QuickSight/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/SQLDatabase/Runbook.md",
             "tags":[],
             "severity": {
                 "Prod": "medium",
