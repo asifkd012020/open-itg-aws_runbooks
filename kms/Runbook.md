@@ -86,11 +86,11 @@ Below are a few items that need to be taken into account when setting up KMS in 
         "kms:GenerateDataKey*",
         "kms:DescribeKey"
       ],
-      "Resource": "*"
+      "Resource": "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
     }
    ```
    - **Key Policy - Admin Example**<br>
-   This example allows Administrative access for KMS Keys 
+   This example allows Administrative access for all KMS Keys 
    ```
     {
       "Sid": "Allow access for Key Administrators",
@@ -120,7 +120,8 @@ Below are a few items that need to be taken into account when setting up KMS in 
    ```
 
  - **Cross Account Key Access**<br>
- 
+ Delegation of permissions to a CMK within AWS KMS can occur when you include the root principal of a trusted account within the CMK key policy. The trusted account then has the ability to further delegate these permissions to IAM users and roles within their own account using IAM policies. While this approach may simplify the management of the key policy, it also relies on the trusted accounts to ensure that the delegated permissions are correctly managed. <br><br>The other approach would be to explicitly manage permissions to all authorized users using only the KMS key policy, which, in turn, could make the key policy complex and less manageable. Regardless of the approach taken, the specific trust should be broken out on a per key basis to ensure that you adhere to the least privilege model. CG allows for the use of cross account keys for certain use-cases, and may allow for greater control over the data being stored in say a PaaS or SaaS solution from a 3rd party, if they are also hosted in AWS.
+
 <br>
 
 ### 2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards
@@ -160,7 +161,8 @@ Below are a few items that need to be taken into account when setting up KMS in 
 
 ## Endnotes
 **Resources**<br>
-1. https://aws.amazon.com/athena/?nc=sn&loc=0&whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc
+1. https://docs.aws.amazon.com/whitepapers/latest/kms-best-practices/welcome.html
+2. https://aws.amazon.com/kms/
 
 <br>
 
