@@ -30,7 +30,7 @@ AWS Key Management Service (KMS) makes it easy for you to create and manage cryp
 
 AWS KMS provides you with centralized control over the lifecycle and permissions of your keys. You can create new keys whenever you wish, and you can control who can manage keys versus who can use them. KMS also allows for the secure import of keys from CG's own key management infrastructure, or use keys stored in CG's AWS CloudHSM cluster allowing services to adhere to CG's encryption standards. Below ias an exaple of how KMS is used for key storage and retrieval.
 
-<img src="/docs/img/kms/kms_example.png" width="600">
+<img src="/docs/img/kms/kms_example.png" width="800">
 
 <br> 
 
@@ -55,11 +55,66 @@ Given that our CMKs are being used to protect CG's sensitive information, one sh
 
 **How?**
 
-Applying the pricipal of least privilege to key access includes ensuring that you do **NOT** include kms:* permissions in an IAM policy. This policy would grant the principal both administrative and usage permissions on all CMKs to which the principal has access. Similarly, including kms:* permissions for the principals within your key policy gives them both administrative and usage permissions on the CMK. Below are a few items that need to be taken into account when setting up KMS in a new account.
- - Key Policy
- - Cross Account Key Access
- - 
+Applying the pricipal of least privilege to key access includes ensuring that you do **NOT** include kms:* permissions in an IAM policy. This policy would grant the principal both administrative and usage permissions on all CMKs to which the principal has access. Similarly, including kms:* permissions for the principals within your key policy gives them both administrative and usage permissions on the CMK. 
 
+
+
+Below are a few items that need to be taken into account when setting up KMS in a new account.
+ - **Key Policy**<br>
+ Key policies are the primary way to control access to CMKs in AWS KMS. Each CMK has a key policy attached to it that defines permissions on the use and management of the key. The default policy enables any principals you define, as well as enables the root user in the account to add IAM policies that reference the key. We recommend that you edit the default CMK policy to align with your organization’s best practices for least privilege. To access an encrypted resource, the principal needs to have permissions to use the resource, as well as to use the encryption key that protects the resource. If the principal does not have the necessary permissions for either of those actions, the request to use the encrypted resource will be denied.<br><br> 
+ When working with key policy, it’s important to remember that explicit deny policies take precedence over implicit deny policies. When you use *NotPrincipal* in the same policy statement as "Effect: Deny", the permissions specified in the policy statement are explicitly denied to all principals except for the ones specified. A top-level KMS policy can explicitly deny access to virtually all KMS operations except for the roles that actually need them. This technique helps prevent unauthorized users from granting themselves KMS access. <br><br> For the most part all users will need the ability to either list keys, or list and use keys as without this ability one can not see that any keys actually exist in the account, and may lead users to either use default keys or skip encryption all together.
+
+   - **Key Policy - User Example**<br>
+   This example allows "CMKUser" the ability to utilize a specific key 
+   ```
+    {
+      "Sid": "Allow use of the key",
+      "Effect": "Allow",
+      "Principal": {"AWS": [
+          "arn:aws:iam::111122223333:user/CMKUser"
+      ]},
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ],
+      "Resource": "*"
+    }
+   ```
+   - **Key Policy - Admin Example**<br>
+   This example allows Administrative access for KMS Keys 
+   ```
+    {
+      "Sid": "Allow access for Key Administrators",
+      "Effect": "Allow",
+      "Principal": {"AWS": [
+        "arn:aws:iam::111122223333:user/KMSAdminUser",
+        "arn:aws:iam::111122223333:role/KMSAdminRole"
+      ]},
+      "Action": [
+        "kms:Create*",
+        "kms:Describe*",
+        "kms:Enable*",
+        "kms:List*",
+        "kms:Put*",
+        "kms:Update*",
+        "kms:Revoke*",
+        "kms:Disable*",
+        "kms:Get*",
+        "kms:Delete*",
+        "kms:TagResource",
+        "kms:UntagResource",
+        "kms:ScheduleKeyDeletion",
+        "kms:CancelKeyDeletion"
+      ],
+      "Resource": "*"
+    }
+   ```
+
+ - **Cross Account Key Access**<br>
+ 
 <br>
 
 ### 2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards
