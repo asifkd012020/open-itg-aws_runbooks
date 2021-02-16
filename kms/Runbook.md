@@ -35,18 +35,35 @@ AWS KMS provides you with centralized control over the lifecycle and permissions
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
- ### 1. KMS roles defined following least privilege model
-`This Section will be updated soon.`
- - 
+### 1. KMS roles defined following least privilege model
+
+**NIST CSF:**
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+
+<br>
+
+**Capital Group:**
+|Control Statement|Description|
+|------|----------------------|
+<br>
+
+**Why?**
+
+**How?** 
+ - Key Policy
  - Cross Account Key Access
+ - 
 
- ### 2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards
+<br>
+
+### 2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards
 `This Section will be updated soon.`
 
- ### 3. KMS is Encrypted at rest following CG Standards
+### 3. KMS is Encrypted at rest following CG Standards
 `This Section will be updated soon.`
 
- ### 4. Key Management Best-Practices are Adhered to
+### 4. Key Management Best-Practices are Adhered to
   - Secure Import of Key Material<br>
   `This Section will be updated soon.`
   - Third party keys will not be introduced into the CG KMS solution<br>
