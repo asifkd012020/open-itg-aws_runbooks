@@ -8,7 +8,7 @@
 <br>
 Security Engineering
 
-**Last Update:** *02/08/2021*
+**Last Update:** *02/16/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -41,12 +41,18 @@ AWS KMS provides you with centralized control over the lifecycle and permissions
 **NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
-
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
 <br>
 
 **Capital Group:**
 |Control Statement|Description|
 |------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
 <br>
 
 **Why?**
