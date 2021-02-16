@@ -30,7 +30,7 @@ AWS Key Management Service (KMS) makes it easy for you to create and manage cryp
 
 AWS KMS provides you with centralized control over the lifecycle and permissions of your keys. You can create new keys whenever you wish, and you can control who can manage keys versus who can use them. KMS also allows for the secure import of keys from CG's own key management infrastructure, or use keys stored in CG's AWS CloudHSM cluster allowing services to adhere to CG's encryption standards. Below ias an exaple of how KMS is used for key storage and retrieval.
 
-<img src="/docs/img/kms/kms_example.png" width="600"><br>
+<img src="/docs/img/kms/kms_example.png" width="600">
 
 <br> 
 
@@ -38,7 +38,6 @@ AWS KMS provides you with centralized control over the lifecycle and permissions
 <img src="/docs/img/Prevent.png" width="50"><br>
 
 ### 1. KMS roles defined following least privilege model
-
 **NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -52,7 +51,11 @@ AWS KMS provides you with centralized control over the lifecycle and permissions
 
 **Why?**
 
-**How?** 
+Given that our CMKs are being used to protect CG's sensitive information, one should work to ensure that the corresponding key policies follow a model of least privilege. Assigning the minimum permissions to access key material will allow for better and more secure management of sensitive data in the cloud. The next section will detail how to best secure access to CG's CMK's stored in KMS.
+
+**How?**
+
+Applying the pricipal of least privilege to key access includes ensuring that you do **NOT** include kms:* permissions in an IAM policy. This policy would grant the principal both administrative and usage permissions on all CMKs to which the principal has access. Similarly, including kms:* permissions for the principals within your key policy gives them both administrative and usage permissions on the CMK. Below are a few items that need to be taken into account when setting up KMS in a new account.
  - Key Policy
  - Cross Account Key Access
  - 
