@@ -30,7 +30,7 @@ AWS Key Management Service (KMS) makes it easy for you to create and manage cryp
 
 AWS KMS provides you with centralized control over the lifecycle and permissions of your keys. You can create new keys whenever you wish, and you can control who can manage keys versus who can use them. KMS also allows for the secure import of keys from CG's own key management infrastructure, or use keys stored in CG's AWS CloudHSM cluster allowing services to adhere to CG's encryption standards. Below ias an exaple of how KMS is used for key storage and retrieval.
 
-<img src="/docs/img/kms/kms_example.com" width="600"><br>
+<img src="/docs/img/kms/kms_example.png" width="600"><br>
 
 <br> 
 
