@@ -5,14 +5,14 @@
     ],
     "servicedisplay_name": "StepFunctions",
     "serviceapproval_status": {
-        "Prod": "approved",
-        "SNP": "approved",
-        "NP": "approved"
+        "Prod": "denied",
+        "SNP": "denied",
+        "NP": "denied"
     },
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
+            "requirement_name": "Denied",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/stepfunctions/Runbook.md",
             "tags":[],
             "severity": {
