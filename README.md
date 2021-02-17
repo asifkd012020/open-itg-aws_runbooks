@@ -28,7 +28,15 @@ To create a playbook, create a branch for the given service from `master`. Once 
 
 Pull the [template](/template/AWS_PS_RUNBOOK.md) into your new folder, and follow efforts to align to it. The [RDS](/rds/RUNBOOK.md) is a good example.
 
-When drafting a playbook, focus on the [capital group control](/template/AWS_PS_RUNBOOK.md#capital-group-control-statements). #1, #2, #4, #5, and #6 tend to be the controls that will have per service configuration, while the remaining control statements are generally managed by the overall cloud ecosystem. While many of the examples, such as [RDS](/rds/RUNBOOK.md) may include NIST control statement too, that is not required for a CG runbook.
+When drafting a playbook, focus on the [capital group control](/template/AWS_PS_RUNBOOK.md#capital-group-control-statements). #1, #2, #4, #5, and #6 tend to be the controls that will have per service configuration, while the remaining control statements are generally managed by the overall cloud ecosystem. 
+
+These controls basically focus on the following principals (in order of priority):
+1. Public access to the service must be prevented
+1. The service should not permit AWS to train their systems off our data (mostly applicable for Data Science services)
+1. VPC attachment/VPC endpoints should be used to prevent public routing/traffic
+1. Customer Managed Keys must be used for any long term (>5 day) storage
+
+While many of the examples, such as [RDS](/rds/RUNBOOK.md) may include NIST control statement too, that is not required for a CG runbook.
 
 After completion, submit a Pull Request to master. The major requirements for a PR will be listed when you do, but you can also [view them](/PULL_REQUEST_TEMPLATE.md) ahead of time. Approvers will automatically be calculated. 
 
