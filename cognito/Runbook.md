@@ -25,7 +25,7 @@ Security Engineering
 ## Overview
 Amazon Cognito is a managed service that allows you to quickly add users for your mobile and web applications by providing in-built sign-in screens and authentication functionality. It handles security, authorization, and synchronization for your user management process across devices for all your users. You can use Cognito for authenticating your users through external identity providers including social identity providers, such as Facebook, Google, Twitter, LinkedIn, and so on. Cognito can also be used to authenticate identities for any solution that is compatible with SAML 2.0 standard. You can provide temporary security credentials with limited privileges to these authenticated users to securely access your AWS resources. 
 
-The following figure illustrates three basic functionalities of Amazon Cognito:
+The following figure illustrates the basic functionalities of Amazon Cognito:
 
 <img src="/docs/img/cognito/cog_example.jpg" width="800">
 
