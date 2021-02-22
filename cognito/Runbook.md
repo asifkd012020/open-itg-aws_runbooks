@@ -8,17 +8,13 @@
 <br>
 Security Engineering
 
-**Last Update:** *02/16/2021*
+**Last Update:** *02/22/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. KMS roles defined following least privilege model](#1-KMS-roles-defined-following-least-privilege-model)
-  - [2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards](#2-KMS-Traffic-encrypted-with-TLS-1-2-or-Later-following-CG-Standards)
-  - [3. KMS is Encrypted at rest following CG Standards](#3-KMS-is-Encrypted-at-rest-following-CG-Standards)
-  - [4. Key Management Best-Practices are Adhered to](#4-Key-Management-Best-Practices-are-Adhered-to)
 - [Detective Controls](#Detective-Controls)
-  - [1. KMS resources are tagged according to CG standards](#1-KMS-resources-are-tagged-according-to-CG-standards)
+  - [1. Cognito resources are tagged according to CG standards](#1-Cognito-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
 - [Respond & Recover](#Respond/Recover)
@@ -27,14 +23,14 @@ Security Engineering
 
 ## Overview
 
-<img src="/docs/img/kms/kms_example.png" width="800">
+<img src="/docs/img/cognito/cog_example.jpg" width="800">
 
 <br> 
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
-### 1. KMS roles defined following least privilege model
+### 1. Cognito roles defined following least privilege model
 **NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -58,26 +54,11 @@ Security Engineering
 
 <br>
 
-### 2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards
-`This Section will be updated soon.`
-
-### 3. KMS is Encrypted at rest following CG Standards
-`This Section will be updated soon.`
-
-### 4. Key Management Best-Practices are Adhered to
-  - Secure Import of Key Material<br>
-  `This Section will be updated soon.`
-  - Third party keys will not be introduced into the CG KMS solution<br>
-  `This Section will be updated soon.`
-  - Expired Keys are Purged in a timely manner<br>
-  `This Section will be updated soon.`
-
-<br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>
 
-### 1. KMS resources are tagged according to CG standards
+### 1. Cognito resources are tagged according to CG standards
 `This Section will be updated soon.`
 
 ### 2. CloudTrail logging enabled and sent to Splunk
