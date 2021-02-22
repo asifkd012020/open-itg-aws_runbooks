@@ -35,7 +35,7 @@ The following figure illustrates the basic functionalities of Amazon Cognito:
 <img src="/docs/img/Prevent.png" width="50"><br>
 
 ### 1. Cognito User Pools utilize OKTA as Identity Provider
-Amazon Cognito user pools allow sign-in through third party federation, including through an IdP, such as Okta. A user pool integrated with Okta allows users in your Okta app to get user pool tokens from Amazon Cognito alowing access. 
+Amazon Cognito user pools allow sign-in through third party federation, including through an IdP, such as Okta. A user pool integrated with Okta allows users in your Okta app to get user pool tokens from Amazon Cognito alowing access. Depending on the data being accessed via Cognito, OKTA may be required by CG standards to enforce MFA (Multi-Factor Authentication) as part of the login process.
 
 **NIST CSF:**
 |NIST Subcategory Control|Description|
