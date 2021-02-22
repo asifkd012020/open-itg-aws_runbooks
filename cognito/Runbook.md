@@ -13,6 +13,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
+  - [1. Cognito User Pools utilize OKTA as Identity Provider](#1-Cognito-User-Pools-utilize-OKTA-as-Identity-Provider)
 - [Detective Controls](#Detective-Controls)
   - [1. Cognito resources are tagged according to CG standards](#1-Cognito-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -22,7 +23,9 @@ Security Engineering
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
-Amazon Cognito is a managed service that allows you to quickly add users for your mobile and web applications by providing in-built sign-in screens and authentication functionality. It handles security, authorization, and synchronization for your user management process across devices for all your users. You can use Cognito for authenticating your users through external identity providers including social identity providers, such as Facebook, Google, Twitter, LinkedIn, and so on. Cognito can also be used to authenticate identities for any solution that is compatible with SAML 2.0 standard. You can provide temporary security credentials with limited privileges to these authenticated users to securely access your AWS resources. The following figure illustrates three basic functionalities of Amazon Cognito: user management, authentication, and synchronization:
+Amazon Cognito is a managed service that allows you to quickly add users for your mobile and web applications by providing in-built sign-in screens and authentication functionality. It handles security, authorization, and synchronization for your user management process across devices for all your users. You can use Cognito for authenticating your users through external identity providers including social identity providers, such as Facebook, Google, Twitter, LinkedIn, and so on. Cognito can also be used to authenticate identities for any solution that is compatible with SAML 2.0 standard. You can provide temporary security credentials with limited privileges to these authenticated users to securely access your AWS resources. 
+
+The following figure illustrates three basic functionalities of Amazon Cognito:
 
 <img src="/docs/img/cognito/cog_example.jpg" width="800">
 
@@ -31,7 +34,9 @@ Amazon Cognito is a managed service that allows you to quickly add users for you
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
-### 1. Cognito roles defined following least privilege model
+### 1. Cognito User Pools utilize OKTA as Identity Provider
+Amazon Cognito user pools allow sign-in through third party federation, including through an IdP, such as Okta. A user pool integrated with Okta allows users in your Okta app to get user pool tokens from Amazon Cognito alowing access. 
+
 **NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -51,7 +56,29 @@ Amazon Cognito is a managed service that allows you to quickly add users for you
 
 **Why?**
 
+CG's current standards require the use of OKTA as our Identity Provider for login to cloud resources, fortunatly AWS Cognito allows federation via SAML 2.0 or OIDC with OKTA. This allows users in CG's directory to access Cognito backed services through a signon via OKTA and allows CG adminitration of access through a single tool.
+
 **How?**
+
+As mentioned previously one can integrate OKTA directly from a user pool.
+
+ 1. The app starts the sign-up and sign-in process by directing your user to the UI hosted by AWS. A mobile app can use web view to show the pages hosted by AWS.
+
+ 2. Typically your user pool determines the identity provider for your user from that user's email address.
+
+ 3. Alternatively, if your app gathered information before directing the user to your user pool, it can provide that information to Amazon Cognito through a query parameter.
+
+ 4. Your user is redirected to OKTA, the IdP.
+
+ 5. OKTA authenticates the user if necessary. If OKTA recognizes that the user has an active session, then OKTA skips the authentication to provide a single sign-in (SSO) experience.
+
+ 6. OKTA POSTs the SAML assertion to the Amazon Cognito service.
+
+ 7. After verifying the SAML assertion and collecting the user attributes (claims) from the assertion, Amazon Cognito internally creates or updates the user's profile in the userpool. Amazon Cognito returns OIDC tokens to the app for the now signed-in user.
+
+The following diagram shows the authentication flow for this process:
+
+<img src="/docs/img/cognito/auth_flow.png" width="800">
 
 <br>
 
@@ -82,6 +109,7 @@ Amazon Cognito is a managed service that allows you to quickly add users for you
 3. https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html
 4. https://searchaws.techtarget.com/feature/How-Amazon-Cognito-fits-into-AWS-security-best-practices
 5. https://aws.amazon.com/blogs/security/how-to-use-new-advanced-security-features-for-amazon-cognito-user-pools/
+6. https://aws.amazon.com/premiumsupport/knowledge-center/cognito-okta-saml-identity-provider/
 <br>
 
 ## Capital Group Glossory 
