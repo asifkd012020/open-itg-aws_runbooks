@@ -22,6 +22,7 @@ Security Engineering
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
+Amazon Cognito is a managed service that allows you to quickly add users for your mobile and web applications by providing in-built sign-in screens and authentication functionality. It handles security, authorization, and synchronization for your user management process across devices for all your users. You can use Cognito for authenticating your users through external identity providers including social identity providers, such as Facebook, Google, Twitter, LinkedIn, and so on. Cognito can also be used to authenticate identities for any solution that is compatible with SAML 2.0 standard. You can provide temporary security credentials with limited privileges to these authenticated users to securely access your AWS resources. The following figure illustrates three basic functionalities of Amazon Cognito: user management, authentication, and synchronization:
 
 <img src="/docs/img/cognito/cog_example.jpg" width="800">
 
@@ -77,7 +78,10 @@ Security Engineering
 ## Endnotes
 **Resources**<br>
 1. https://docs.aws.amazon.com/cognito/latest/developerguide/security.html
-
+2. https://docs.aws.amazon.com/cognito/latest/developerguide/cognito-integrate-apps.html
+3. https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html
+4. https://searchaws.techtarget.com/feature/How-Amazon-Cognito-fits-into-AWS-security-best-practices
+5. https://aws.amazon.com/blogs/security/how-to-use-new-advanced-security-features-for-amazon-cognito-user-pools/
 <br>
 
 ## Capital Group Glossory 
