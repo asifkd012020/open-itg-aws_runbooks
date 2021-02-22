@@ -1,0 +1,27 @@
+{
+    "serviceprovider":"azure",
+    "servicerequirement_name": [
+        "AZR:SQLDatabase:*"
+    ],
+    "servicedisplay_name": "Azure SQL Database",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Discovery in progress",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/SQLDatabase/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

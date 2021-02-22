@@ -1,0 +1,27 @@
+{
+    "serviceprovider":"azure",
+    "servicerequirement_name": [
+        "AZR:StorageAccount:*"
+    ],
+    "servicedisplay_name": "Azure Storage Account",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Discovery in progress",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/StorageAccount/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}

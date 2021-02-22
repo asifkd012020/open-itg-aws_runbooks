@@ -8,15 +8,22 @@
 <br>
 Security Engineering
 
+<<<<<<< HEAD
 **Last Update:** *02/16/2021*
+=======
+**Last Update:** *02/02/2021*
+>>>>>>> master
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. KMS roles defined following least privilege model](#1-KMS-roles-defined-following-least-privilege-model)
+<<<<<<< HEAD
   - [2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards](#2-KMS-Traffic-encrypted-with-TLS-1-2-or-Later-following-CG-Standards)
   - [3. KMS is Encrypted at rest following CG Standards](#3-KMS-is-Encrypted-at-rest-following-CG-Standards)
   - [4. Key Management Best-Practices are Adhered to](#4-Key-Management-Best-Practices-are-Adhered-to)
+=======
+>>>>>>> master
 - [Detective Controls](#Detective-Controls)
   - [1. KMS resources are tagged according to CG standards](#1-KMS-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -26,6 +33,7 @@ Security Engineering
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
+<<<<<<< HEAD
 AWS Key Management Service (KMS) makes it easy for you to create and manage cryptographic keys and control their use across a wide range of AWS services and in your applications. AWS KMS is a secure and resilient service that uses hardware security modules that have been validated under FIPS 140-2, or are in the process of being validated, to protect your keys. AWS KMS is integrated with AWS CloudTrail to provide you with logs of all key usage to help meet your regulatory and compliance needs.
 
 AWS KMS provides you with centralized control over the lifecycle and permissions of your keys. You can create new keys whenever you wish, and you can control who can manage keys versus who can use them. KMS also allows for the secure import of keys from CG's own key management infrastructure, or use keys stored in CG's AWS CloudHSM cluster allowing services to adhere to CG's encryption standards. Below ias an exaple of how KMS is used for key storage and retrieval.
@@ -33,10 +41,15 @@ AWS KMS provides you with centralized control over the lifecycle and permissions
 <img src="/docs/img/kms/kms_example.png" width="800">
 
 <br> 
+=======
+
+`This Section will be updated soon.`<br>
+>>>>>>> master
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
+<<<<<<< HEAD
 ### 1. KMS roles defined following least privilege model
 **NIST CSF:**
 |NIST Subcategory Control|Description|
@@ -138,6 +151,14 @@ Below are a few items that need to be taken into account when setting up KMS in 
   - Expired Keys are Purged in a timely manner<br>
   `This Section will be updated soon.`
 
+=======
+ ### 1. KMS roles defined following least privilege model
+`This Section will be updated soon.`
+
+ ### 2. Third party keys will not be introduced into the CG KMS solution
+`This Section will be updated soon.`
+
+>>>>>>> master
 <br>
 
 ## Detective Controls
@@ -161,8 +182,12 @@ Below are a few items that need to be taken into account when setting up KMS in 
 
 ## Endnotes
 **Resources**<br>
+<<<<<<< HEAD
 1. https://docs.aws.amazon.com/whitepapers/latest/kms-best-practices/welcome.html
 2. https://aws.amazon.com/kms/
+=======
+1. https://aws.amazon.com/athena/?nc=sn&loc=0&whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc
+>>>>>>> master
 
 <br>
 
