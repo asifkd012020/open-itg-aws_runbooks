@@ -36,6 +36,64 @@ AWS Billing and Cost Management is the service that you use to pay your AWS bill
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
+### 1. IAM Policies for Billing and Cost Management
+Billing and Cost Management as with many AWS PaaS and SaaS services do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Management (IAM) controls may be the only true option for securing access to the service and the data stored within.
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+<br>
+
+**Why?**<br>
+AWS Identity and Access Management (IAM) as mentioned before is the primary control applied to Billing and Cost Management that allows an administrator the ability to assign permissions based on a per user or role, depending on business need. 
+<br>
+
+**How?**<br>
+Assignment of permissions should be alligned to CG's standards for access and based on business need. The diagram below shows how the Organizational Management Account is the root of permissions.<br>
+
+<img src="/docs/img/billingcost/iam_ex.png" width="600">
+
+<br>
+
+The grouping of permissions should be at minimum split into the following categories of permissions:
+
+1. **Organization Management Account Owner**<br>
+ Management account owner	The person or entity associated with an AWS Organizations management account. The management account pays for AWS usage that is incurred by a member account in an organization. Currently this role is reserved for the Platform Design Team.
+    ```
+    - Has full control of all Billing and Cost Management resources for the management account only.
+    - Receives a monthly invoice of AWS charges for the management account and member accounts.
+    - Views the activity of member accounts in the billing reports for the management account.
+    ```
+    
+ 2. **Organization Member Account Owner**<br>
+ The person or entity associated with an AWS Organizations member account. The management account pays for AWS usage that is incurred by a member account in an organization. This role will be assigned to the Application Owner, or Product Owner on a specific AWS account.
+    ```
+    - Doesn't have permission to review any usage reports or account activity except for its own. 
+    - Doesn't have access to usage reports or account activity for other member accounts in the organization.
+    - Doesn't have access to usage reports or account activity for the management account.
+    - Doesn't have permission to view billing reports.
+    - Has permission to update account information only for its own account.
+    ```
+ 3. **Organization Member Account IAM User**<br>
+ A person or application defined as a user in a member account by an account owner or administrative user. Accounts can contain multiple IAM users.
+    ```
+    - Has permissions explicitly granted to the user or a group that includes the user.
+    - Can be granted permission to view Billing and Cost Management console pages.
+    ```
 <br>
 
 ## Detective Controls
@@ -61,7 +119,8 @@ AWS Billing and Cost Management is the service that you use to pay your AWS bill
 ## Endnotes
 **Resources**
 
-1. 
+1. https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-permissions-ref.html
+2. https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/data-protection.html
 
 <br>
 
