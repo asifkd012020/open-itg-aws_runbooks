@@ -65,7 +65,7 @@ AWS Identity and Access Management (IAM) as mentioned before is the primary cont
 **How?**<br>
 Assignment of permissions should be alligned to CG's standards for access and based on business need. The diagram below shows how the Organizational Management Account is the root of permissions.<br>
 
-<img src="/docs/img/billingcost/iam_ex.png" width="600">
+<img src="/docs/img/billingCost/iam_ex.png" width="600">
 
 <br>
 
