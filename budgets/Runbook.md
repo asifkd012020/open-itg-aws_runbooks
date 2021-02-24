@@ -69,7 +69,7 @@ Assignment of permissions should be alligned to CG's standards for access and ba
 
 <br>
 
-The grouping of permissions should be at minimum split into the following categories of permissions:
+The grouping of permissions should be at minimum split into the following categories of permissions, as CG uses AWS Organizations to manage our accounts:
 
 1. **Organization Management Account Owner**<br>
  Management account owner	The person or entity associated with an AWS Organizations management account. The management account pays for AWS usage that is incurred by a member account in an organization. Currently this role is reserved for the Platform Design Team.
