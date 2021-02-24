@@ -12,12 +12,12 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
+            "requirement_name": "IAM Policies for Billing and Cost Management",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md",
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
+                "Prod": "high",
+                "SNP": "high",
                 "NP": "medium"
             },
             "control_mapping": [],
