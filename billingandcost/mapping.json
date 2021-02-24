@@ -1,9 +1,9 @@
 {
     "serviceprovider":"aws",
     "servicerequirement_name": [
-        "AWS::BillingAndCost::CostExplorer::*"
+        "AWS::BillingAndCost::*"
     ],
-    "servicedisplay_name": "Cost Explorer (Foundation)",
+    "servicedisplay_name": "Billing and Cost Management (Foundation)",
     "serviceapproval_status": {
         "Prod": "approved",
         "SNP": "approved",

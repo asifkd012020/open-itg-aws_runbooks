@@ -1,7 +1,7 @@
 {
     "serviceprovider":"aws",
     "servicerequirement_name": [
-        "AWS::Budgets::*"
+        "AWS::BillingAndCost::Budgets::*"
     ],
     "servicedisplay_name": "Budgets (Foundation)",
     "serviceapproval_status": {
@@ -13,7 +13,7 @@
     "mapping": [
         {
             "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/budgets/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md",
             "tags":[],
             "severity": {
                 "Prod": "medium",
