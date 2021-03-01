@@ -1,7 +1,7 @@
 {
     "serviceprovider":"aws",
     "servicerequirement_name": [
-        "AWS::BillingAndCost::CostExplorer::*"
+        "AWS::Budgets::Budget::*"
     ],
     "servicedisplay_name": "Cost Explorer (Foundation)",
     "serviceapproval_status": {

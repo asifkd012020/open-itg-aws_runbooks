@@ -1,7 +1,7 @@
 {
     "serviceprovider":"aws",
     "servicerequirement_name": [
-        "AWS::BillingAndCost::*"
+        "AWS::Budgets::*"
     ],
     "servicedisplay_name": "Billing and Cost Management (Foundation)",
     "serviceapproval_status": {
