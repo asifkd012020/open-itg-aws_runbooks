@@ -13,10 +13,14 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. IAM Users and Roles Enforce Least Priviledge](#1-IAM-Users-and-Roles-Enforce-Least-Priviledge)
-  - [2. Encrypt all data in the Cloud](#2-Encrypt-all-data-in-the-Cloud)
-  - [3. Certificate Best Practices Used](#3-Certificate-Best-Practices-Used)
+  - [1. CloudHSM Deployed with Private VPC Endpoint](#1-CloudHSM-Deployed-with-Private-VPC-Endpoint)
+  - [2. IAM Users and Roles Enforce Least Priviledge to CloudHSM Service](#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-to-CloudHSM-Service)
+  - [3. CloudHSM User accounts Enforce Least Priviledge within HSM Service](#3-CloudHSM-User-accounts-Enforce-Least-Priviledge-within-HSM-Service)
+  - [4. Data Protection in AWS CloudHSM Service](#4-Data-Protection-in-AWS-CloudHSM-Service)
 - [Detective Controls](#Detective-Controls)
+  - [1. CloudHSM resources are tagged according to CG standards](#1-CloudHSM-resources-are-tagged-according-to-CG-standards)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -30,175 +34,61 @@ AWS CloudHSM is a fully managed service that takes care of administrative, time-
 
 Although CloudHSM is the most secure mechanism for controlling access to and storage of encryption material, it also does not directly integrate with most of the AWS services out the box.  This should be taken into account when considdering the use of CloudHSM.
 
-When you use AWS CloudHSM, you can perform a variety of cryptographic tasks, including:
+When you choose to use AWS CloudHSM, you can perform a variety of cryptographic tasks, including:
 - Generate, store, import, export, and manage cryptographic keys, including symmetric keys and asymmetric key pairs.
 - Use symmetric and asymmetric algorithms to encrypt and decrypt data.
 - Use cryptographic hash functions to compute message digests and hash-based message authentication codes (HMACs).
 - Cryptographically sign data (including code signing) and verify signatures.
 - Generate cryptographically secure random data.
 
-**NOTE:** When using CloudHSM, one should realize that CG's Encryption standards require the generation of all new Encryption Material to be done on CG's on-premesis HSM clusters.  Cloud HSM clusters should only be used to store and provide access to Encryption Material securely imported from these on-premesis clusters.
+**NOTE:** *When using CloudHSM, one should realize that CG's Encryption standards require the generation of all new Encryption Material to be done on CG's on-premesis HSM clusters.  Cloud HSM clusters should only be used to store and provide access to Encryption Material securely imported from these on-premesis clusters.*
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. IAM Users and Roles Enforce Least Priviledge
-AWS Certificate Manager (ACM) as with many AWS PaaS services by nature do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Management (IAM) controls may be the only true option for securing access to the service and the data stored within.
+### 1. CloudHSM Deployed with Private VPC Endpoint
+
+
 <br>
 
-**NIST CSF:** <br>
-
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
-|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+### 2. IAM Users and Roles Enforce Least Priviledge
+`This Section will be updated soon.`
 <br>
 
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
-|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
-|10|Administrative access to AWS resources will have MFA enabled|
+### 3. CloudHSM User Accounts Enforce Least Priviledge within HSM Service
+`This Section will be updated soon.`
 <br>
 
-**Why?**<br>
-ACM is used to generate and store both Digital Certificates and the associated Private Keys used for validation and encryption of the company's most important applications and services. Due to the sensitive nature of this data one needs to implement levels of privilege and have authorization mechanisms in place to enforce the separation of privileges, and mandate multi-factor authentication or similar protections based on sensitivity.
+### 4. Data Protection in AWS CloudHSM Service
+`This Section will be updated soon.`
 <br>
-
-**How?**<br>
-1. Use IAM for appropriate user access restrictions
-2. Access to the certificate key materials are allowed following the least privilege access model
-
-AWS managed policies are standalone identity-based policies that you can attach to multiple users, groups, and roles in your AWS account. AWS managed policies are created and managed by AWS. ACM also provides the ability to use Customer Managed policies, if one needs more granular access control policy, but for most of CG's accounts in AWS the Managed Policies will suffice. The following AWS managed policies are available for ACM:
-
-**AWSCertificateManagerReadOnly**<br>
-This role will allow a user read-only access to the ACM service, and will provide sufficient rights to pull and use a certificate for other services in AWS.
-
-```
-{
-   "Version":"2012-10-17",
-   "Statement":{
-      "Effect":"Allow",
-      "Action":[
-         "acm:DescribeCertificate",
-         "acm:ListCertificates",
-         "acm:GetCertificate",
-         "acm:ListTagsForCertificate"
-      ],
-      "Resource":"*"
-   }
-}
-```
-
-**AWSCertificateManagerFullAccess**<br>
-This role will allow a user full administrative access to the ACM service, including the rights to delete certificates, and as such this role should only be assigned to administrators of the service. The policy statement below can be used to create the role.
-
-```
-{
-   "Version":"2012-10-17",
-   "Statement":[
-      {
-         "Effect":"Allow",
-         "Action":[
-            "acm:*"
-         ],
-         "Resource":"*"
-      },
-      {
-         "Effect":"Allow",
-         "Action":"iam:CreateServiceLinkedRole",
-         "Resource":"arn:aws:iam::*:role/aws-service-role/acm.amazonaws.com/AWSServiceRoleForCertificateManager*",
-         "Condition":{
-            "StringEquals":{
-               "iam:AWSServiceName":"acm.amazonaws.com"
-            }
-         }
-      },
-      {
-         "Effect":"Allow",
-         "Action":[
-            "iam:DeleteServiceLinkedRole",
-            "iam:GetServiceLinkedRoleDeletionStatus",
-            "iam:GetRole"
-         ],
-         "Resource":"arn:aws:iam::*:role/aws-service-role/acm.amazonaws.com/AWSServiceRoleForCertificateManager*"
-      }
-   ]
-}
-```
-
-
-### 2. Encrypt all data in the Cloud
-
-**NIST CSF:** <br>
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-|PR.DS-5|Protections against data leaks are implemented|
-|PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
-|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
-
-**Capital Group:** <br>
-|Control Statement|Description|
-|------|----------------------|
-|1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
-|2|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
-|3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
-<br>
-
-**Why?**<br>
-`This Section will be updated soon.`
-
-**How?**<br>
-1. Encryption keys, Private Keys and Digital Certificates will be managed by CG
-2. Encryption of all data in transit using TLS 1.2 or higher
-
-`This Section will be updated soon.`
-
-### 3. Certificate Best Practices Used
-**NIST CSF:**
-
-`This Section will be updated soon.`
-
-**Capital Group:**
-
-`This Section will be updated soon.`
-**Why?**<br>
-
-**How?**<br>
-1. No Self-Signed
-2. No Wildcard Certs
-3. Certificate Pinning
-4. Certificate Removal for Old / Unsused
-
-`This Section will be updated soon.`
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
-### 1. Certificate Resources are tagged according to CG standards
-
+### 1. CloudHSM resources are tagged according to CG standards
 `This Section will be updated soon.`
+<br>
 
-### 2. CloudWatch logging enabled and sent to Splunk
-
+### 2. CloudTrail logging enabled and sent to Splunk
 `This Section will be updated soon.`
+<br>
+
+### 3. CloudWatch logging enabled
+`This Section will be updated soon.`
+<br><br>
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50">
 
 `This Section will be updated soon.`
+<br><br>
 
 ## Endnotes
 **Resources**
-1. https://docs.aws.amazon.com/acm/latest/userguide/security.html
-2. https://docs.aws.amazon.com/acm/latest/userguide/authen-awsmanagedpolicies.html
-3. https://docs.aws.amazon.com/acm/latest/userguide/authen-apipermissions.html
+1. https://docs.aws.amazon.com/cloudhsm/latest/userguide/introduction.html
+2. https://docs.aws.amazon.com/cloudhsm/latest/userguide/cloudhsm-vpc-endpoint.html
+3. https://learning.oreilly.com/library/view/aws-security-best/9781789134513/ch02s07.html
 
 <br>
 
