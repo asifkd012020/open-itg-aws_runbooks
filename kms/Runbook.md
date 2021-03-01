@@ -28,7 +28,7 @@ Security Engineering
 ## Overview
 AWS Key Management Service (KMS) makes it easy for you to create and manage cryptographic keys and control their use across a wide range of AWS services and in your applications. AWS KMS is a secure and resilient service that uses hardware security modules that have been validated under FIPS 140-2, or are in the process of being validated, to protect your keys. AWS KMS is integrated with AWS CloudTrail to provide you with logs of all key usage to help meet your regulatory and compliance needs.
 
-AWS KMS provides you with centralized control over the lifecycle and permissions of your keys. You can create new keys whenever you wish, and you can control who can manage keys versus who can use them. KMS also allows for the secure import of keys from CG's own key management infrastructure, or use keys stored in CG's AWS CloudHSM cluster allowing services to adhere to CG's encryption standards. Below ias an exaple of how KMS is used for key storage and retrieval.
+AWS KMS provides you with centralized control over the lifecycle and permissions of your keys. You can control who can manage keys versus who can use them, which allows the service to meet CG's key management standards. KMS also allows for the secure import of keys from CG's own key management infrastructure, or use keys stored in CG's AWS CloudHSM cluster allowing services to adhere to CG's encryption standards. Below is an exaple of how KMS is used for key storage and retrieval.
 
 <img src="/docs/img/kms/kms_example.png" width="800">
 
