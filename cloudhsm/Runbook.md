@@ -54,7 +54,7 @@ Since our initial migration of services to the cloud, CG has taken the stance th
 
 <img src="/docs/img/cloudhsm/vpcs.png" width="800"> <br>
 **Note:** *An EC2 instance needs to be built within the same VPC as the CloudHSM cluster in order for one to configure, and perform administration of the cluster.*
-<br>
+<br><br>
 
 **NIST CSF:** <br>
 
@@ -85,10 +85,29 @@ Deploying a CloudHSM Cluster within a private VPC can be done by following three
 Once the create a new Cloud HSM cluster is selected from the AWS services list, the next step is to select the appropriate Private VPC from a the list of VPC's available in the account. This VPC should not allow for the auto assignment of Public IP addresses, and should not have an internet gateway attached. If no such VPC exists, one can either request a new VPC or create one as seen in the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md).<br><br>
 <img src="/docs/img/cloudhsm/select_vpc.png" width="800"> <br>
 
-2. **Selection of Private Subnets**
+2. **Selection of Private Subnets**<br>
+The next step in the deployment of a CloudHSM cluster is the selection of a private subnet in each of the Availability Zones, this as Cloud HSM requires at least two members and in different regions for failover purposes. if the appropriate subnets do not already exist one should request the subnets be created by the Network Engineering team.<br><br>
+<img src="/docs/img/cloudhsm/subnets.png" width="800"> <br>
 
 3. **Creation of Service Specific Security Group**
-
+By default when one creates a new CloudHSM cluster, AWS creates an ENI (Elastic Network Interface) for each HSM in the cluster as seen in the reference diagram at the beginning of the section. Along with the ENI's a default security group is created by AWS automation to limit the initial access to the HSM cluster. As mentioned previously, one needs to [create an EC2 Instance](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md) within the same subnet as each HSM ENI, this EC2 instance will allow acces to the manage the HSM's. Before the EC2 instance can be used, the default HSM security group needs to be updated to allow inbound access as below:<br><br>
+**Modify the EC2 Default Security Group:**
+    - Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
+    - On the Amazon EC2 dashboard, select the check box for the EC2 instance on which you want to install the AWS CloudHSM client.
+    - Under the Description tab, choose the security group named Default.
+    - At the top of the page, choose Actions, and then Edit Inbound Rules.
+    - Select Add Rule.
+    - For a Linux Amazon EC2 instance, choose SSH. The port range 22 is automatically populated.
+    -Set Source to My IP to allow the client to communicate with the AWS CloudHSM cluster.
+<br><br>
+**To connect the EC2 instance to the AWS CloudHSM cluster:**
+    - Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
+    - On the Amazon EC2 dashboard, select the check box for the EC2 instance on which you want to install the AWS CloudHSM client.
+    - At the top of the page, choose Actions, Networking, and then Change Security Groups.
+    - Select the security group with the group name that matches your cluster ID, such as `cloudhsm-cluster-clusterID-sg`.
+    - Choose Assign Security Groups.<br>
+    
+   The cluster security group contains a preconfigured rule that allows inbound communication over TCP ports (2223-2225). This is the rule that enables administration of the cluster of HSM's.<br><br>
 
 ### 2. IAM Users and Roles Enforce Least Priviledge
 `This Section will be updated soon.`
