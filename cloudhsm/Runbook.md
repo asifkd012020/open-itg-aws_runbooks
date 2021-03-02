@@ -98,7 +98,8 @@ By default when one creates a new CloudHSM cluster, AWS creates an ENI (Elastic 
     - At the top of the page, choose Actions, and then Edit Inbound Rules.
     - Select Add Rule.
     - For a Linux Amazon EC2 instance, choose SSH. The **port range 22** is automatically populated.
-    -Set Source to **My IP** to allow the client to communicate with the AWS CloudHSM cluster.
+    - Set Source to **My IP** to allow only the client to communicate out.
+    - Set Destination to **HSM ENI IP Addresses** to allow the client to communicate with the AWS CloudHSM cluster only.
 <br><br>
 **To connect the EC2 instance to the AWS CloudHSM cluster:**
     - Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
