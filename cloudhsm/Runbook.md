@@ -81,7 +81,9 @@ This deployment model allows the CloudHSM Cluster to be only accessible by other
 **How?**<br>
 Deploying a CloudHSM Cluster within a private VPC can be done by following three key steps as below:
 
-1. **Selection of a Private VPC**
+1. **Selection of a Private VPC**<br>
+Once the create a new Cloud HSM cluster is selected from the AWS services list, the next step is to select the appropriate Private VPC from a the list of VPC's available in the account. This VPC should not allow for the auto assignment of Public IP addresses, and should not have an internet gateway attached. If no such VPC exists, one can either request a new VPC or create one as seen in the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md).<br><br>
+<img src="/docs/img/cloudhsm/select_vpc.png" width="800"> <br>
 
 2. **Selection of Private Subnets**
 
