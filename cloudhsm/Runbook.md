@@ -89,7 +89,7 @@ Once the create a new Cloud HSM cluster is selected from the AWS services list, 
 The next step in the deployment of a CloudHSM cluster is the selection of a private subnet in each of the Availability Zones, this as Cloud HSM requires at least two members and in different regions for failover purposes. if the appropriate subnets do not already exist one should request the subnets be created by the Network Engineering team.<br><br>
 <img src="/docs/img/cloudhsm/subnets.png" width="800"> <br>
 
-3. **Creation of Service Specific Security Group**
+3. **Creation of Service Specific Security Group**<br>
 By default when one creates a new CloudHSM cluster, AWS creates an ENI (Elastic Network Interface) for each HSM in the cluster as seen in the reference diagram at the beginning of the section. Along with the ENI's a default security group is created by AWS automation to limit the initial access to the HSM cluster. As mentioned previously, one needs to [create an EC2 Instance](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md) within the same subnet as each HSM ENI, this EC2 instance will allow acces to the manage the HSM's. Before the EC2 instance can be used, the default HSM security group needs to be updated to allow inbound access as below:<br><br>
 **Modify the EC2 Default Security Group:**
     - Open the Amazon EC2 console at https://console.aws.amazon.com/ec2/.
