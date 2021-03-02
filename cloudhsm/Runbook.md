@@ -13,7 +13,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. CloudHSM Deployed with Private VPC Endpoint](#1-CloudHSM-Deployed-with-Private-VPC-Endpoint)
+  - [1. CloudHSM Deployed within Private VPC](#1-CloudHSM-Deployed-within-Private-VPC)
   - [2. IAM Users and Roles Enforce Least Priviledge to CloudHSM Service](#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-to-CloudHSM-Service)
   - [3. CloudHSM User accounts Enforce Least Priviledge within HSM Service](#3-CloudHSM-User-accounts-Enforce-Least-Priviledge-within-HSM-Service)
   - [4. Data Protection in AWS CloudHSM Service](#4-Data-Protection-in-AWS-CloudHSM-Service)
@@ -46,10 +46,47 @@ When you choose to use AWS CloudHSM, you can perform a variety of cryptographic 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. CloudHSM Deployed with Private VPC Endpoint
-
-
+### 1. CloudHSM Deployed within Private VPC
+Since our initial migration of services to the cloud, CG has taken the stance that by default no service should exposed to the public internet. This is especially important when setting up a service that stores and manages CG's Encryption key material as these are litterally the keys to all our data. The instantiation of new CloudHSM Clusters should always be deployed in a private VPC as detailed below.
 <br>
+
+**Below is a reference diagram of a CloudHSM Private VPC deployment:**<br>
+
+<img src="/docs/img/cloudhsm/vpcs.png" width="800"> <br>
+**Note:** *An EC2 instance needs to be built within the same VPC as the CloudHSM cluster in order for one to configure, and perform administration of the cluster.*
+<br>
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**<br>
+This deployment model allows the CloudHSM Cluster to be only accessible by other services within the VPC and any internal services allowed through the associated Security Groups, which will be detailed later in this section.  This allows for the deployment to meet the stict CG public access policy for all cloud deployments.
+<br>
+
+**How?**<br>
+Deploying a CloudHSM Cluster within a private VPC can be done by following three key steps as below:
+
+1. **Selection of a Private VPC**
+
+2. **Selection of Private Subnets**
+
+3. **Creation of Service Specific Security Group**
+
 
 ### 2. IAM Users and Roles Enforce Least Priviledge
 `This Section will be updated soon.`
