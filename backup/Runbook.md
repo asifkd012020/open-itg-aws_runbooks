@@ -13,14 +13,14 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. CloudHSM Deployed within Private VPC](#1-CloudHSM-Deployed-within-Private-VPC)
-  - [2. IAM Users and Roles Enforce Least Priviledge to CloudHSM Service](#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-to-CloudHSM-Service)
-  - [3. CloudHSM User accounts Enforce Least Priviledge within HSM Service](#3-CloudHSM-User-accounts-Enforce-Least-Priviledge-within-HSM-Service)
-  - [4. Data Protection in AWS CloudHSM Service](#4-Data-Protection-in-AWS-CloudHSM-Service)
+  - [1. IAM Users and Roles Enforce Least Priviledge for AWS Backup Service](#1-IAM-Users-and-Roles-Enforce-Least-Priviledge-for-AWS-Backup-Service)
+  - [2. AWS Backup IAM User account has appropriate access to services](#2-AWS-Backup-IAM-User-account-has-appropriate-access-to-services)
+  - [3. Data Protection standards enforced in AWS Backup Service](#3-Data-Protection-standards-enforced-in-AWS-Backup-Service)
 - [Detective Controls](#Detective-Controls)
   - [1. Backup resources are tagged according to CG standards](#1-Backup-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
+  - [4. Backup activity monitoring enabled](#4-Backup-activity-monitoring-enabled)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -47,4 +47,14 @@ Below is an example organizational level deployment of AWS backup:<br>
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. CloudHSM Deployed within Private VPC
+### 1. IAM Users and Roles Enforce Least Priviledge for AWS Backup Service
+`This Section will be updated soon.`
+<br>
+
+### 2. AWS Backup IAM  has appropriate access to services
+`This Section will be updated soon.`
+<br>
+
+### 3. Data Protection standards enforced in AWS Backup Service
+`This Section will be updated soon.`
+<br>
