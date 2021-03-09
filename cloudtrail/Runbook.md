@@ -148,7 +148,7 @@ If a role within an account is not supposed to have any access to a trail except
 
 
 ### 2. Cloudtrail Logs are Centrally Managed
-CG currently manages all CloudTrails centrally and due to this standard, standalone CloudTrails should be avoided as all logs will already be forwarded to the central collection point in the **Security Foundations Account**, and forwarded on to splunk for archiving.
+CG currently manages all CloudTrails centrally and due to this standard, standalone CloudTrails should be avoided as all logs will already be forwarded to the central collection point in the **Capgroup Organization Account**, and forwarded on to splunk for archiving.
 
 `This rest of this Section will be updated soon.`
 
