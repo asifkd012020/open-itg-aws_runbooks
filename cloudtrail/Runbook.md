@@ -13,15 +13,16 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. IAM Roles Enforce Least Priviledge for Cloudtrail Logs](#1-IAM-Roles-Enforce-Least-Priviledge-tforo-Cloudtrail-Logs)
+  - [1. Cloudtrail IAM Roles Enforce Least Priviledge for Cloudtrail Logs](#1-Cloudtrail-IAM-Roles-Enforce-Least-Priviledge-tforo-Cloudtrail-Logs)
   - [2. Cloudtrail Logs are Centrally Managed](#2-Cloudtrail-Logs-are-Centrally-Managed)
-  - [3. Cloudtrail Logs encrypted using CG KMS](#3-Cloudtrail-Logs-encrypted-using-CG-KMS)
-  - [4. Cloudtrail Logs forwarded to Splunk](#4-Cloudtrail-Logs-forwarded-to-Splunk)
+  - [3. Cloudtrail S3 Central Bucket Policy ensures Least Priviledge](#3-Cloudtrail-S3-Central-Bucket-Policy-ensures-Least-Priviledge)
+  - [4. Cloudtrail Logs encrypted using CG KMS](#4-Cloudtrail-Logs-encrypted-using-CG-KMS)
+  - [5. Cloudtrail Logs enabled for all AWS Services](#5-Cloudtrail-Logs-enabled-for-all-AWS-Services)
+  - [6. Cloudtrail Logs forwarded to Splunk](#6-Cloudtrail-Logs-forwarded-to-Splunk)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
-<br>
 
 ## Overview
 AWS provides the CloudTrail service that logs all API activities for your AWS account. CG has mandated that Cloudtrail is enabled for all accounts and all regions, and that a trail is created to audit these activities for all services. One should always take advantage of the AWS cloud-native logging capabilities for all AWS services. Collect, store, and process logs for infrastructure such as VPC flow logs, AWS services, and logs for your applications to ensure continuous monitoring and continuous compliance. One can integrate CloudTrail into applications using the API, and CG has automation of trail creation for our organization, check the status of trails you create, and control how users view CloudTrail events. Visibility into  AWS account activity is a key aspect of security and operational best practices, and CloudTrail provides this visibility.
@@ -29,23 +30,141 @@ AWS provides the CloudTrail service that logs all API activities for your AWS ac
 Below is an example CloudTrail Organizational Deployment:
 
 <img src="/docs/img/cloudtrail/example.png" width="500">
-<br><br>
+<br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. IAM Roles Enforce Least Priviledge to Cloudtrail Logs
+### 1. Cloudtrail IAM Roles Enforce Least Priviledge to Cloudtrail Logs
+IAM is one of the primary controls available to control access to the CloudTrail service, and as such this section details the current CG guidlines on how to implement IAM controls on the service. AWS does not currently support resource or tag based authorization to the CloudTrail service, our main IAM controls will be focused on Identity-Based Policy.
+<br>
+
+**NIST CSF:**
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-3|Remote access is managed|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+<br>
+
+**Capital Group:**
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+<br>
+
+**Why?**<br>
+Identity-based policies are very powerful. They determine whether someone can create, access, or delete CloudTrail resources in your account. Since the first cloud deployment in AWS, CG has standardized our loging into CloudTrail and then into splunk. This enables Operations, Application and Security teams to quickily be able to monitor our systems for issues. IAM is a critical component in this process, allowing the appropriate granular access to each individual or team that requires access.
+
+**How?**<br>
+Creating Identity-based policy for CloudTrail should take into account a few items, including: AWS Account, The Team and Trail sensitivity. This section will focus on the permissions based on Administrator, Account Owner and Application Team. Assigning permissions on a granular basis based on role will allow CG to maintain least priviledge needed for users to perform their duties.
+
+1. **Administrator Role Permissions**<br>
+Administrators of the CloudTrail service require full permissions as they will need to perform functions such as creating and deleting trails.
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Allow",
+          "Action": [
+              "cloudtrail:*",
+          ],
+          "Resource": [
+              "arn:aws:cloudtrail:*"
+          ]
+      }
+  ]
+}
+```
+
+2. **Account Owner Role Permissions**
+Account owners will require CloudTrail service permissions to view logs, locate and list available trails and other similar actions, but will not have permissions to affect the status of the service e.g. start, stop or delete. The following policy is an example policy for Account Owners:
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Allow",
+          "Action": [
+              "cloudtrail:Describe*",
+              "cloudtrail:List*",
+              "cloudtrail:Lookup*",
+              "cloudtrail:Get*"
+          ],
+          "Resource": [
+              "arn:aws:cloudtrail:us-east-2:123456789012:trail/*"
+          ]
+      }
+  ]
+}
+```
+
+3. **Application Team Role Permissions**
+Application teams should only require specific access to a specific trails that they might need to check status of their infrastructure or services. In the example below the policy only allows a subset of the available options, and only on the "My-App-Trail" trail.
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Allow",
+          "Action": [
+              "cloudtrail:Describe*",
+              "cloudtrail:Get*"
+          ],
+          "Resource": [
+              "arn:aws:cloudtrail:us-east-1:123456789012:trail/My-App-Trail"
+          ]
+      }
+  ]
+}
+```
+
+4. **Default Deny Role Policy**
+If a role within an account is not supposed to have any access to a trail except specifically named accounts e.g. "My-Trail", the following policy can be used to deny access to all other trails:
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+      {
+          "Effect": "Deny",
+          "Action": [
+              "cloudtrail:*"
+          ],
+          "NotResource": [
+              "arn:aws:cloudtrail:us-east-1:123456789012:trail/My-Trail"
+          ]
+      }
+  ]
+}
+```
+<br>
 
 
 ### 2. Cloudtrail Logs are Centrally Managed
+CG currently manages all CloudTrails centrally and due to this standard, standalone CloudTrails should be avoided as all logs will already be forwarded to the central collection point in the **Security Foundations Account**, and forwarded on to splunk for archiving.
+
+`This rest of this Section will be updated soon.`
+
+### 3. Cloudtrail S3 Central Bucket Policy ensures Least Priviledge
+
+`This rest of this Section will be updated soon.`
+
+### 4. Cloudtrail Logs encrypted using CG KMS
 
 `This Section will be updated soon.`
 
-### 3. Cloudtrail Logs encrypted using CG KMS
+### 5. Cloudtrail Logs enabled for all AWS Services
 
 `This Section will be updated soon.`
 
-### 4. Cloudtrail Logs forwarded to Splunk
+### 6. Cloudtrail Logs forwarded to Splunk
 
 `This Section will be updated soon.`
 <br><br>
