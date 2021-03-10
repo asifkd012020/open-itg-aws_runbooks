@@ -139,7 +139,9 @@ Users who require read-only access to the CloudWatch service will only have acce
 ## Endnotes
 **Resources**
 
-1. 
+1. https://bitbucket.capgroup.com/projects/IAM/repos/cg_iam_master/browse/json_files/policy_docs
+2. https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/security.html
+
 <br>
 
 ## Capital Group Glossory
