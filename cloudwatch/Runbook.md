@@ -62,8 +62,67 @@ IAM is one of the primary controls available to control access to the CloudWatch
 Identity-based policies are very powerful. They determine whether someone can create, access, or delete CloudWatch resources in your account. Since the first cloud deployment in AWS, CG has standardized our enabling of CloudWatch and forwarding to splunk for use. This enables Operations, Application and Security teams to quickily be able to monitor our systems for issues. IAM is a critical component in this process, allowing the appropriate granular access to each individual or team that requires access to the service.
 
 **How?**<br>
+Creating Identity-based policy for CloudWatch should take into account a few items, including: AWS Account, The Team and data sensitivity. This section will focus on the permissions required by Administrators, Developers and other teams. Assigning permissions on a granular basis based on role will allow CG to maintain least priviledge needed for users to perform their duties.
 
-<br><br>
+1. **CloudWatch Administrator Policy**<br>
+Administrators of the CloudWatch service require full permissions as they will need to perform functions such as creating and deleting trails. CG's current policy enables administrators through our *"AdminPermissionBoundary"* policy.
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "cloudwatch:*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+2. **Editor Role Policy**<br>
+Developers will require CloudWatch service permissions to Describe, list or put metric data and other similar actions to the CloudWatch service, but will not have permissions to affect the status of the service itself. CG's policy that allows for Edit permissions is *"EditPermissionsBoundary"*. The following policy is an example policy for Developers:
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "cloudwatch:PutMetricData",
+        "cloudwatch:Describe*",
+        "cloudwatch:Get*",
+        "cloudwatch:List*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+3. **Read-Only Role Policy**
+Users who require read-only access to the CloudWatch service will only have access to permissions such as Describe, list etc. CG's current policy allowing this level of access is the *"ReadPermissionsBoundary"* Role Policy.
+
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "cloudwatch:Describe*",
+        "cloudwatch:Get*",
+        "cloudwatch:List*"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+```
+<br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
