@@ -37,6 +37,31 @@ The diagram below outlines CG's CloudWatch deployment and Splunk integration:
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. CloudWatch IAM Policy Enforce Least Priviledge for CloudWatch Resources
+IAM is one of the primary controls available to control access to the CloudWatch service, and as such this section details the current CG implementation of IAM controls on the service. AWS does not currently support resource or tag based authorization to the CloudWatch service, our main IAM controls will be focused on Identity-Based Policy.
+<br>
+
+**NIST CSF:**
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-3|Remote access is managed|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+<br>
+
+**Capital Group:**
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+<br>
+
+**Why?**<br>
+Identity-based policies are very powerful. They determine whether someone can create, access, or delete CloudWatch resources in your account. Since the first cloud deployment in AWS, CG has standardized our enabling of CloudWatch and forwarding to splunk for use. This enables Operations, Application and Security teams to quickily be able to monitor our systems for issues. IAM is a critical component in this process, allowing the appropriate granular access to each individual or team that requires access to the service.
+
+**How?**<br>
 
 <br><br>
 
