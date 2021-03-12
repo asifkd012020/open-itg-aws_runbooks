@@ -1744,9 +1744,9 @@ Checks whether storage encryption is enabled for your RDS DB instances\.
 RDS can be upgraded with major and minor upgrades\. Minor upgrades helps maintain a secure and stable RDS with minimal impact on the application\. Auto Minor Version Upgrade is a feature that you can enable to have your database automatically upgraded when a new minor database engine version is available\. It is recommended to have RDS auto minor version upgrade enabled\.
 
 After a minor version has been tested and approved by Amazon RDS, the minor version upgrade occurs automatically during your maintenance window\. RDS doesn't automatically set newer released minor versions as the automatic upgrade version\. Before RDS designates a newer automatic upgrade version, several criteria are considered, such as the following:
-Known security issues
-Bugs in the PostgreSQL community version
-Overall fleet stability since the minor version was released
+1. Known security issues\.
+2. Bugs in the PostgreSQL community version\.
+3. Overall fleet stability since the minor version was released\.
 
 **How?** 
 Enable RDS auto minor version upgrades\.
