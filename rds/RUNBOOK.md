@@ -1738,7 +1738,7 @@ Checks whether storage encryption is enabled for your RDS DB instances\.
  kmsKeyId   
  KMS key ID or ARN used to encrypt the storage\.
 
-### 4. AWS RDS auto minor version upgrade is enabled
+### 5. AWS RDS auto minor version upgrade is enabled
 
 **Why?** 
 RDS can be upgraded with major and minor upgrades\. Minor upgrades helps maintain a secure and stable RDS with minimal impact on the application\. Auto Minor Version Upgrade is a feature that you can enable to have your database automatically upgraded when a new minor database engine version is available\. It is recommended to have RDS auto minor version upgrade enabled\.
@@ -1756,39 +1756,6 @@ Enable RDS auto minor version upgrades\.
 4. Under the Maintenance section, select Yes for "Enable Auto minor version upgrade"\.
 5. Select Continue and then Modify DB Instance\.
 You can also use the AWS CLI, and set the --auto-minor-version-upgrade|--no-auto-minor-version-upgrade option using modify-db-instance api\.
-
-
-#### rds\-snapshots\-public\-prohibited <!-- omit in toc -->
-
-Checks if Amazon Relational Database Service \(Amazon RDS\) snapshots are public\. The rule is NON\_COMPLIANT if any existing and new Amazon RDS snapshots are public\. 
-
-**Identifier:** RDS\_SNAPSHOTS\_PUBLIC\_PROHIBITED
-
-**Trigger type:** Configuration changes
-
-**Parameters:**
-
-None  
-
-#### rds\-instance\-public\-access\-check <!-- omit in toc -->
-
-Check whether the Amazon Relational Database Service instances are not publicly accessible\. The rule is NON\_COMPLIANT if the `publiclyAccessible` field is true in the instance configuration item\.
-
-**Identifier:** RDS\_INSTANCE\_PUBLIC\_ACCESS\_CHECK
-
-**Trigger type:** Configuration changes
-
-**Parameters:**
-
- None  
-
-#### rds\-storage\-encrypted <!-- omit in toc -->
-
-Checks whether storage encryption is enabled for your RDS DB instances\.
-
-**Identifier:** RDS\_STORAGE\_ENCRYPTED
-
-**Trigger type:** Configuration changes
 
 
 ## Responsive
