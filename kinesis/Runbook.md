@@ -100,7 +100,7 @@ VPC endpoint policies enable you to control access by either attaching a policy 
 <img src="/docs/img/kinesis/policy.png" width="500"/>
 <br>Above is the final screen configuration to be updated when creating a new VPC Endpoint, and allows for custom policy to control access, some custom policy examples can be seen below:
 
-   - **VPC policy example: read-only access**
+   - **VPC policy example: read-only access**<br>
     ```
     {
     "Statement": [
@@ -117,8 +117,7 @@ VPC endpoint policies enable you to control access by either attaching a policy 
     ]
     }    
    ```
-
-   - **VPC policy example: restrict access to a specific Kinesis data stream**
+   - **VPC policy example: restrict access to a specific Kinesis data stream**<br>
     ```
     {
     "Statement": [
