@@ -13,7 +13,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. Kinesis Data Streams use Interface VPC Endpoints](#1-Kinesis-Data-Streams-use-Interface-VPC-Endpoints)
+  - [1. Kinesis utilizes Interface VPC Endpoints](#1-Kinesis-utilizes-Interface-VPC-Endpoints)
   - [2. Kinesis utilizes IAM Roles to enforce least priviledge](#2-Kinesis-utilizes-IAM-Roles-to-enforce-least-priviledged)
   - [3. Kinesis connections are protected with TLS 1.2](#3-Kinesis-connections-are-protected-with-TLS-1-2)
   - [4. Kinesis data is encrypted using CG managed KMS Keys](#4-Kinesis-data-is-encrypted-using-CG-managed-KMS-Keys)
@@ -44,7 +44,7 @@ The core capabilities of AWS Kinesis are **Video Streams, Data Streams, Data Fir
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. Kinesis Data Streams use Interface VPC Endpoints
+### 1. Kinesis utilizes Interface VPC Endpoints
 The Kinesis Producer Library (KPL) and Kinesis Consumer Library (KCL) call AWS services like Amazon CloudWatch and Amazon DynamoDB using either public endpoints or private interface VPC endpoints, whichever are in use. Due to CG's current stance on Public Access, it is best to use Private VPC Endpoints and this section discusses the implementation thereof.
 <br>
 
@@ -71,7 +71,7 @@ The Kinesis Producer Library (KPL) and Kinesis Consumer Library (KCL) call AWS s
 <br>
 
 **How?**<br>
-This section details the implementation details for the Interface Endpoint configuration as it relates to Kinesis Data Streams, allowing the service to meet the CG Public Access restrictions. This implementation is deployed in two steps outlined below:
+This section details the implementation details for the Interface Endpoint configuration as it relates to Kinesis Data Streams and Firehose, allowing the service to meet the CG Public Access restrictions. This implementation is deployed in two steps outlined below:
 
 1. **Creation of VPC Interface Endpoint**<br>
 Geting started does not require changing the settings for your streams, producers, or consumers. One simply needs to create an interface VPC endpoint in order for your Kinesis Data Streams traffic from and to your Amazon VPC resources to start flowing through the interface VPC endpoint. Below is the process to create an Interface VPC Endpoint.
@@ -81,17 +81,21 @@ Geting started does not require changing the settings for your streams, producer
    - Navigate to Endpoints and click Create Endpoint as below:<br>
     <img src="/docs/img/kinesis/create_endpoint.png" width="500"/>
 
-   - Choose the VPC in which to create the interface endpoint, and provide the name of the AWS service, endpoint service, or AWS Marketplace service to which you're connecting.
+   - Choose the VPC in which to create the interface endpoint, and provide the name of the AWS service, endpoint service, or AWS Marketplace service to which you're connecting.<br>
+    <img src="/docs/img/kinesis/service.png" width="600"/>
+    
+   - Choose a subnet in your VPC to use the interface endpoint. We create an endpoint network interface in the subnet. An endpoint network interface is assigned a private IP address from the IP address range of your subnet, and keeps this IP address until the interface endpoint is deleted. You can specify more than one subnet in different Availability Zones (as supported by the service) to help ensure that your interface endpoint is resilient to Availability Zone failures. In that case, we create an endpoint network interface in each subnet that you specify.<br>
+    <img src="/docs/img/kinesis/vpc_choose.png" width="600"/>
 
-   - Choose a subnet in your VPC to use the interface endpoint. We create an endpoint network interface in the subnet. An endpoint network interface is assigned a private IP address from the IP address range of your subnet, and keeps this IP address until the interface endpoint is deleted. You can specify more than one subnet in different Availability Zones (as supported by the service) to help ensure that your interface endpoint is resilient to Availability Zone failures. In that case, we create an endpoint network interface in each subnet that you specify.
+   - Next, specify the security groups to associate with the endpoint network interface. The security group rules control the traffic to the endpoint network interface from resources in your VPC and should provide the minimum access required for the service to function correctly. If a security group is not created and specified, the default security group will be applied, which may not correctly limit the access to / from the Kinesis service.<br>
+    <img src="/docs/img/kinesis/sec_grp.png" width="600"/>
 
-   - Next, specify the security groups to associate with the endpoint network interface. The security group rules control the traffic to the endpoint network interface from resources in your VPC and should provide the minimum access required for the service to function correctly. If a security group is not created and specified, the default security group will be applied, which may not correctly limit the access to / from the Kinesis service.
+   - Next, enable private DNS for the endpoint so you can make requests to the Kinesis service using its default DNS hostname.<br>
+    <img src="/docs/img/kinesis/dns.png" width="500"/>
+   
+   - The Next section discribes the Policy that should be applied to the Interface Endpoint. <br>
 
-   - Next, enable private DNS for the endpoint so you can make requests to the Kinesis service using its default DNS hostname.
-
-   - 
-
-2. **Controlling Access to VPC Endpoints for Kinesis Data Streams**
+2. **Controlling Access to VPC Endpoints for Kinesis**
 
 
 ### 2. Kinesis utilizes IAM Roles to enforce least priviledge
