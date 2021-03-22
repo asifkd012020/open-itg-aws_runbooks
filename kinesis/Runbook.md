@@ -78,7 +78,8 @@ Geting started does not require changing the settings for your streams, producer
    - Navigate to the VPC Dashboard by searching VPC on the AWS Search bar as below:<br>
     <img src="/docs/img/kinesis/vpc.png" width="500"/>
 
-   - Navigate to Endpoints and click Create Endpoint as below:
+   - Navigate to Endpoints and click Create Endpoint as below:<br>
+    <img src="/docs/img/kinesis/create_endpoint.png" width="500"/>
 
    - Choose the VPC in which to create the interface endpoint, and provide the name of the AWS service, endpoint service, or AWS Marketplace service to which you're connecting.
 
