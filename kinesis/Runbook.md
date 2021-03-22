@@ -132,7 +132,7 @@ VPC endpoint policies enable you to control access by either attaching a policy 
     ]
     }
     ```
-   In a future section on Kinesis and implementing IAM least priviledge, we will discuss other policy options to limit VPC Endpoint access for individual users and roles.
+In a future section on Kinesis and implementing IAM least priviledge, we will discuss other policy options to limit VPC Endpoint access for individual users and roles.
 
 ### 2. Kinesis utilizes IAM Roles to enforce least priviledge
 
