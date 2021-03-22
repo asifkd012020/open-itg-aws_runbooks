@@ -101,8 +101,8 @@ VPC endpoint policies enable you to control access by either attaching a policy 
 <br>Above is the final screen configuration to be updated when creating a new VPC Endpoint, and allows for custom policy to control access, some custom policy examples can be seen below:
 
    - **VPC policy example: read-only access**<br>
-    ```
-    {
+   ```
+   {
     "Statement": [
         {
         "Sid": "ReadOnly",
@@ -115,11 +115,11 @@ VPC endpoint policies enable you to control access by either attaching a policy 
         "Resource": "*"
         }
     ]
-    }    
+   }    
    ```
    - **VPC policy example: restrict access to a specific Kinesis data stream**<br>
-    ```
-    {
+   ```
+   {
     "Statement": [
         {
         "Sid": "AccessToSpecificDataStream",
@@ -129,8 +129,8 @@ VPC endpoint policies enable you to control access by either attaching a policy 
         "Resource": "arn:aws:kinesis:us-east-1:123456789012:stream/MyStream"
         }
     ]
-    }
-    ```
+   }
+   ```
 In a future section on Kinesis and implementing IAM least priviledge, we will discuss other policy options to limit VPC Endpoint access for individual users and roles.
 
 ### 2. Kinesis utilizes IAM Roles to enforce least priviledge
