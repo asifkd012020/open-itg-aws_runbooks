@@ -96,7 +96,44 @@ Geting started does not require changing the settings for your streams, producer
    - The Next section discribes the Policy that should be applied to the Interface Endpoint. <br>
 
 2. **Controlling Access to VPC Endpoints for Kinesis**
+VPC endpoint policies enable you to control access by either attaching a policy to a VPC endpoint or by using additional fields in a policy that is attached to an IAM user, group, or role to restrict access to only occur via the specified VPC endpoint. These policies can be used to restrict access to specific streams to a specified VPC endpoint when used in conjunction with the IAM policies to only grant access to Kinesis data stream actions via the specified VPC endpoint.<br>
+<img src="/docs/img/kinesis/policy.png" width="500"/>
+<br>Above is the final screen configuration to be updated when creating a new VPC Endpoint, and allows for custom policy to control access, some custom policy examples can be seen below:
 
+   - **VPC policy example: read-only access**
+    ```
+    {
+    "Statement": [
+        {
+        "Sid": "ReadOnly",
+        "Principal": "*",
+        "Action": [
+            "kinesis:List*",
+            "kinesis:Describe*"
+        ],
+        "Effect": "Allow",
+        "Resource": "*"
+        }
+    ]
+    }    
+   ```
+
+   - **VPC policy example: restrict access to a specific Kinesis data stream**
+   ```
+    {
+    "Statement": [
+        {
+        "Sid": "AccessToSpecificDataStream",
+        "Principal": "*",
+        "Action": "kinesis:*",
+        "Effect": "Allow",
+        "Resource": "arn:aws:kinesis:us-east-1:123456789012:stream/MyStream"
+        }
+    ]
+    }
+   ```
+
+   In a future section on Kinesis and implementing IAM least priviledge, we will discuss other policy options to limit VPC Endpoint access for individual users and roles.
 
 ### 2. Kinesis utilizes IAM Roles to enforce least priviledge
 
