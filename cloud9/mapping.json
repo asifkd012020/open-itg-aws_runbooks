@@ -1,0 +1,27 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::Cloud9::*"
+    ],
+    "servicedisplay_name": "Cloud9",
+    "serviceapproval_status": {
+        "Prod": "denied",
+        "SNP": "denied",
+        "NP": "denied"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Discovery in progress",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Cloud9/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
