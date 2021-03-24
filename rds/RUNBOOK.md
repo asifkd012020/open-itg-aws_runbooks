@@ -26,6 +26,7 @@ Tony DeMarco
   - [2. Log Amazon RDS API calls](#2-log-amazon-rds-api-calls)
   - [3. Utilize Amazon RDS Event Notifications utilizing Amazon SNS](#3-utilize-amazon-rds-event-notifications-utilizing-amazon-sns)
   - [4. Utilize AWS Config rules to monitor RDS for control compliance](#4-utilize-aws-config-rules-to-monitor-rds-for-control-compliance)
+  - [5. AWS RDS auto minor version upgrade is enabled](#5-aws-rds-auto-minor-version-upgrade-is-enabled)
 - [Responsive](#responsive)
   - [1. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS](#1-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds)
 - [Endnotes](#endnotes)
@@ -1736,6 +1737,26 @@ Checks whether storage encryption is enabled for your RDS DB instances\.
 
  kmsKeyId   
  KMS key ID or ARN used to encrypt the storage\.
+
+### 5. AWS RDS auto minor version upgrade is enabled
+
+**Why?** 
+RDS can be upgraded with major and minor upgrades\. Minor upgrades helps maintain a secure and stable RDS with minimal impact on the application\. Auto Minor Version Upgrade is a feature that you can enable to have your database automatically upgraded when a new minor database engine version is available\. It is recommended to have RDS auto minor version upgrade enabled\.
+
+After a minor version has been tested and approved by Amazon RDS, the minor version upgrade occurs automatically during your maintenance window\. RDS doesn't automatically set newer released minor versions as the automatic upgrade version\. Before RDS designates a newer automatic upgrade version, several criteria are considered, such as the following:
+1. Known security issues\.
+2. Bugs in the PostgreSQL community version\.
+3. Overall fleet stability since the minor version was released\.
+
+**How?** 
+Enable RDS auto minor version upgrades\.
+1. Navigate to the AWS console RDS dashboard\.
+2. In the navigation pane, select Databases\.
+3. Select the database instance you wish to configure and select Modify\.
+4. Under the Maintenance section, select Yes for "Enable Auto minor version upgrade"\.
+5. Select Continue and then Modify DB Instance\.
+You can also use the AWS CLI, and set the --auto-minor-version-upgrade|--no-auto-minor-version-upgrade option using modify-db-instance api\.
+
 
 ## Responsive
 ### 1. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS
