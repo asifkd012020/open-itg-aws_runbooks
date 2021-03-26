@@ -31,7 +31,7 @@ AWS Cloud9 is an integrated development environment, or IDE. The AWS Cloud9 IDE 
 
 You access the AWS Cloud9 IDE through a web browser. You can also configure the IDE to your preferences. You can switch color themes, bind shortcut keys, enable programming language-specific syntax coloring and code formatting, and more. Below is a diagram showing a standard secure deployment of Cloud9.
 
-<img src="/docs/img/cloud9/c9_example.jpg" width="600"><br>
+<img src="/docs/img/cloud9/c9_example.jpg" width="800"><br>
 
 **The core features of Cloud9 allow developers to:**
  - Work with code in several programming languages and the AWS Cloud Development Kit (AWS CDK).
