@@ -8,7 +8,7 @@
 <br>
 Security Engineering
 
-**Last Update:** *03/25/2021*
+**Last Update:** *03/26/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -68,9 +68,69 @@ Cloud9 as a service runs on top of EC2 instances in the backend, and this allows
 <br>
 
 **Why?**<br>
- 
+
 <br>
 
 **How?**<br>
 
 <br>
+
+### 2. Cloud9 utilizes Managed Resource Policy to enforce least priviledge
+
+`This Section will be updated soon.`
+
+### 3. Cloud9 utilizes IAM Roles to enforce least priviledge
+
+`This Section will be updated soon.`
+
+### 4. Cloud9 connections are protected with TLS 1.2
+
+`This Section will be updated soon.`
+
+### 5. Cloud9 data is encrypted using CG managed KMS Keys
+
+`This Section will be updated soon.`
+<br><br>
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. Cloud9 Resources are tagged according to CG standards
+
+`This Section will be updated soon.`
+
+### 2. CloudWatch logging enabled and sent to Splunk
+
+`This Section will be updated soon.`
+
+### 3. CloudTrail logging enabled and sent to Splunk
+
+`This Section will be updated soon.`
+<br><br>
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. https://docs.aws.amazon.com/cloud9/latest/user-guide/ec2-ssm.html
+2. https://docs.aws.amazon.com/cloud9/latest/user-guide/create-environment.html
+3. https://docs.aws.amazon.com/cloud9/latest/user-guide/welcome.html
+
+<br>
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.

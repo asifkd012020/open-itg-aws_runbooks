@@ -189,6 +189,3 @@ The next section covers implementing IAM least priviledge for Kinesis, and will 
 **Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
 
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
-
-# Logs encrypted using CG KMS
-# Enable TLS1.2 or higher for communication sessions
