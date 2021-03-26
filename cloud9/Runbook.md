@@ -47,6 +47,7 @@ You access the AWS Cloud9 IDE through a web browser. You can also configure the 
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Cloud9 deployed in Private VPC with no-ingress EC2 instances
+Cloud9 as a service runs on top of EC2 instances in the backend, and this allows us to enforce public access controls as per the current CG cloud standards. This section details the process of deploying Cloud9 on EC2 instances in a private VPC on an internal subnet. 
 
 **NIST CSF:** <br>
 
