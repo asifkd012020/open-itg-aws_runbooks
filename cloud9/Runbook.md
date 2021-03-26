@@ -8,18 +8,68 @@
 <br>
 Security Engineering
 
-**Last Update:** *03/24/2021*
+**Last Update:** *03/25/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. Kinesis utilizes Interface VPC Endpoints](#1-Kinesis-utilizes-Interface-VPC-Endpoints)
-  - [2. Kinesis utilizes IAM Roles to enforce least priviledge](#2-Kinesis-utilizes-IAM-Roles-to-enforce-least-priviledged)
-  - [3. Kinesis connections are protected with TLS 1.2](#3-Kinesis-connections-are-protected-with-TLS-1-2)
-  - [4. Kinesis data is encrypted using CG managed KMS Keys](#4-Kinesis-data-is-encrypted-using-CG-managed-KMS-Keys)
+  - [1. Cloud9 deployed in Private VPC with no-ingress EC2 Instances](#1-Cloud9-deployed-in-Private-VPC-with-no-ingress-EC2-Instances)
+  - [2. Cloud9 utilizes Managed Resource Policy to enforce least priviledge](#2-Cloud9-utilizes-Managed-Resource-Policy-to-enforce-least-priviledge)
+  - [3. Cloud9 utilizes IAM Roles to enforce least priviledge](#3-Cloud9-utilizes-IAM-Roles-to-enforce-least-priviledged)
+  - [4. Cloud9 connections are protected with TLS 1.2](#4-Cloud9-connections-are-protected-with-TLS-1-2)
+  - [5. Cloud9 data is encrypted using CG managed KMS Keys](#5-Cloud9-data-is-encrypted-using-CG-managed-KMS-Keys)
 - [Detective Controls](#Detective-Controls)
+  - [1. Cloud9 Resources are tagged according to CG standards](#1-Cloud9-Resources-are-tagged-according-to-CG-standards)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled and sent to Splunk](#2-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
+AWS Cloud9 is an integrated development environment, or IDE. The AWS Cloud9 IDE offers a rich code-editing experience with support for several programming languages and runtime debuggers, and a built-in terminal. It contains a collection of tools that you use to code, build, run, test, and debug software, and helps you release software to the cloud.
+
+You access the AWS Cloud9 IDE through a web browser. You can also configure the IDE to your preferences. You can switch color themes, bind shortcut keys, enable programming language-specific syntax coloring and code formatting, and more. Below is a diagram showing a standard secure deployment of Cloud9.
+
+<img src="/docs/img/cloud9/c9_example.jpg" width="600"><br>
+
+**The core features of Cloud9 allow developers to:**
+ - Work with code in several programming languages and the AWS Cloud Development Kit (AWS CDK).
+ - Work with code in a running Docker container.
+ - Use online code repositories.
+ - Collaborate with others in real time.
+ - Interact with various database and website technologies.
+ - Targeting AWS Lambda, Amazon API Gateway, and AWS Serverless Applications.
+ - Taking advantage of other AWS products such as Amazon Lightsail, AWS CodeStar, and AWS CodePipeline.
+<br><br>
+
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
+
+### 1. Cloud9 deployed in Private VPC with no-ingress EC2 instances
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**<br>
+ 
+<br>
+
+**How?**<br>
+
+<br>
