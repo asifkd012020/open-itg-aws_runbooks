@@ -16,9 +16,9 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Cloud9/Runbook.md",
             "tags":[],
             "severity": {
-                "Prod": "high",
-                "SNP": "high",
-                "NP": "medium"
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "high"
             },
             "control_mapping": [],
             "implementations": []
@@ -28,8 +28,8 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Cloud9/Runbook.md",
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
+                "Prod": "high",
+                "SNP": "high",
                 "NP": "medium"
             },
             "control_mapping": [],
@@ -40,8 +40,8 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Cloud9/Runbook.md",
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
+                "Prod": "high",
+                "SNP": "high",
                 "NP": "medium"
             },
             "control_mapping": [],
@@ -52,8 +52,8 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Cloud9/Runbook.md",
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
+                "Prod": "high",
+                "SNP": "high",
                 "NP": "medium"
             },
             "control_mapping": [],
@@ -64,8 +64,8 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Cloud9/Runbook.md",
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
+                "Prod": "high",
+                "SNP": "high",
                 "NP": "medium"
             },
             "control_mapping": [],

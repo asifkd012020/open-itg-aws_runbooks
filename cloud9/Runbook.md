@@ -68,11 +68,18 @@ Cloud9 as a service runs on top of EC2 instances as its backend, and this allows
 <br>
 
 **Why?**<br>
-
+Prior to supporting deployment within a Private VPC, Cloud9 environments had to have a public IP address and the SSH port configured to be accessible from AWS Cloud9. Today AWS reinforced Cloud9's security posture by no longer requiring inbound connections to Cloud9 environments. This feature leverages AWS Systems Manager (SSM) to eliminate the need for SSH connections, and allows SSM to be the only ingress point into the underlying Cloud9 EC2 instances. This fits in line with CG's standards related to no public access by default.
 <br>
 
 **How?**<br>
+Creation of Cloud9 resources that adhere to CG's current Security Standards and Controls will begin below with the creation of no-ingress EC2 instances. As mentioned previously this is a relativly new feature and helps CG enable public access restrictions on the service. 
 
+1. **Creation of a  Non-Ingress EC2 Environment**<br>
+In this section Cloud9 will create an EC2 instance, and then connects the environment to this newly created instance. AWS Cloud9 manages the lifecycle of this instance, including starting, stopping, and restarting the instance as needed. If you ever delete this environment, AWS Cloud9 automatically terminates this instance.<br><br>
+   **Step 1:** Sign into your AWS account and navigate to the "Cloud9" service via the AWS search bar as below.<br>
+   <img src="/docs/img/cloud9/search.png" width="400">
+
+   **Step 2:**
 <br>
 
 ### 2. Cloud9 utilizes Managed Resource Policy to enforce least priviledge
@@ -119,6 +126,7 @@ Cloud9 as a service runs on top of EC2 instances as its backend, and this allows
 1. https://docs.aws.amazon.com/cloud9/latest/user-guide/ec2-ssm.html
 2. https://docs.aws.amazon.com/cloud9/latest/user-guide/create-environment.html
 3. https://docs.aws.amazon.com/cloud9/latest/user-guide/welcome.html
+4. https://docs.aws.amazon.com/cloud9/latest/user-guide/how-cloud9-with-iam.html#auth-and-access-control-managed-policies
 
 <br>
 
