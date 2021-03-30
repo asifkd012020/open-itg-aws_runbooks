@@ -7,7 +7,9 @@ MTNP
 ## IAM roles defined following least privilege model
 ## Encrypt data at rest using CG KMS -- ** Sentinel policy check **
 ## Encrypt data in transit using TLS 1.2
+## Use service endpoints to route via private network
 ## Disable Internet (public) access -- ** Sentinel policy check **
+## Ensure workloads execute in private network -- ** SCP Policy **
 ## Resources are tagged
 ## CloudWatch logging enabled and sent to Splunk
 ## Set source code repository to CG's instance of GitHub Enterprise
