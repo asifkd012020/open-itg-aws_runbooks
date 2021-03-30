@@ -91,6 +91,8 @@ In this section Cloud9 will create an EC2 instance, and then connects the enviro
    **Step 5:** Select the appropriate VPC that was deployed as per the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md), for private internal networks. Thereafter select the appropriate *"Subnet"* that we will deploy into, this should have been deployed with the VPC. One will also need a **Nat Gateway** deployed and secured by the Network Engineering team, this is so that the Private Subnet will be able to communicate outbound to the actual Cloud9 Service.<br>
    <img src="/docs/img/cloud9/step5.png" width="600"><br>
 
+   **Step 6:** Review the configuration and ceploy the Cloud9 Instance.<br>
+
    **NOTE:** *Deploying Cloud9 on a Subnet within a Private VPC does not currently support AWS Temporary managed credentials. This will be discussed further in a later section of this runbook.*<br><br>
 
 ### 2. Cloud9 utilizes Managed Resource Policy to enforce least priviledge
