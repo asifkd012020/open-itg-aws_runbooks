@@ -74,8 +74,12 @@ Prior to supporting deployment within a Private VPC, Cloud9 environments had to 
 **How?**<br>
 Creation of Cloud9 resources that adhere to CG's current Security Standards and Controls will begin below with the creation of no-ingress EC2 instances. As mentioned previously this is a relativly new feature and helps CG enable public access restrictions on the service. 
 
+As part of this process, AWS Cloud9 automatically creates three IAM resources pre-configured with the appropriate permissions:
+ - *An IAM service-linked role (AWSServiceRoleForAWSCloud9)*
+ - *A service role (AWSCloud9SSMAccessRole)*
+ - *An instance profile (AWSCloud9SSMInstanceProfile)*<br>
 
-- **Creation of a  Non-Ingress EC2 Environment**<br>
+**Creation of a  Non-Ingress EC2 Environment**<br>
 In this section Cloud9 will create an EC2 instance, and then connects the environment to this newly created instance. AWS Cloud9 manages the lifecycle of this instance, including starting, stopping, and restarting the instance as needed. If you ever delete this environment, AWS Cloud9 automatically terminates this instance.<br><br>
    **Step 1:** Sign into your AWS account and navigate to the *"Cloud9"* service via the AWS search bar as below.<br>
    <img src="/docs/img/cloud9/search.png" width="600">
@@ -88,7 +92,7 @@ In this section Cloud9 will create an EC2 instance, and then connects the enviro
 
    **Step 4:** Select the appropriate EC2 *"Instance Type"* and *"Platform"*.
 
-   **Step 5:** Select the appropriate VPC that was deployed as per the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md), for private internal networks. Thereafter select the appropriate *"Subnet"* that we will deploy into, this should have been deployed with the VPC. One will also need a **Nat Gateway** deployed and secured by the Network Engineering team, this is so that the Private Subnet will be able to communicate outbound to the actual Cloud9 Service.<br>
+   **Step 5:** Select the appropriate VPC that was deployed as per the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md), for private internal networks. Thereafter select the appropriate *"Subnet"* that we will deploy into, this should have been deployed with the VPC. One will also need a **NAT Gateway** deployed and secured by the Network Engineering team, this is so that the Private Subnet will be able to communicate outbound to download libraries, IDE updates and to run Lambda Functions. Egress trafffic should also be limited with the use of Deny by Default Security Group, with rules only allowing access to required destinations.<br>
    <img src="/docs/img/cloud9/step5.png" width="600"><br>
 
    **Step 6:** Review the configuration and ceploy the Cloud9 Instance.<br>
