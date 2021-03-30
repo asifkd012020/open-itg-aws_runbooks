@@ -168,6 +168,18 @@
             },
             "control_mapping": [],
             "implementations": []
+        },
+        {
+            "requirement_name": "AWS RDS auto minor version upgrade is enabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/rds_patching/rds/RUNBOOK.md#5-aws-rds-auto-minor-version-upgrade-is-enabled",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
         }
     ]
 }

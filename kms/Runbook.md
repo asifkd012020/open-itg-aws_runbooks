@@ -8,12 +8,15 @@
 <br>
 Security Engineering
 
-**Last Update:** *02/02/2021*
+**Last Update:** *02/16/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. KMS roles defined following least privilege model](#1-KMS-roles-defined-following-least-privilege-model)
+  - [2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards](#2-KMS-Traffic-encrypted-with-TLS-1-2-or-Later-following-CG-Standards)
+  - [3. KMS is Encrypted at rest following CG Standards](#3-KMS-is-Encrypted-at-rest-following-CG-Standards)
+  - [4. Key Management Best-Practices are Adhered to](#4-Key-Management-Best-Practices-are-Adhered-to)
 - [Detective Controls](#Detective-Controls)
   - [1. KMS resources are tagged according to CG standards](#1-KMS-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -23,17 +26,117 @@ Security Engineering
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
+AWS Key Management Service (KMS) makes it easy for you to create and manage cryptographic keys and control their use across a wide range of AWS services and in your applications. AWS KMS is a secure and resilient service that uses hardware security modules that have been validated under FIPS 140-2, or are in the process of being validated, to protect your keys. AWS KMS is integrated with AWS CloudTrail to provide you with logs of all key usage to help meet your regulatory and compliance needs.
 
-`This Section will be updated soon.`<br>
+AWS KMS provides you with centralized control over the lifecycle and permissions of your keys. You can control who can manage keys versus who can use them, which allows the service to meet CG's key management standards. KMS also allows for the secure import of keys from CG's own key management infrastructure, or use keys stored in CG's AWS CloudHSM cluster allowing services to adhere to CG's encryption standards. Below is an exaple of how KMS is used for key storage and retrieval.
+
+<img src="/docs/img/kms/kms_example.png" width="800">
+
+<br> 
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50"><br>
 
- ### 1. KMS roles defined following least privilege model
+### 1. KMS roles defined following least privilege model
+**NIST CSF:**
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+<br>
+
+**Capital Group:**
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+<br>
+
+**Why?**
+
+Given that our CMKs are being used to protect CG's sensitive information, one should work to ensure that the corresponding key policies follow a model of least privilege. Assigning the minimum permissions to access key material will allow for better and more secure management of sensitive data in the cloud. The next section will detail how to best secure access to CG's CMK's stored in KMS.
+
+**How?**
+
+Applying the pricipal of least privilege to key access includes ensuring that you do **NOT** include kms:* permissions in an IAM policy. This policy would grant the principal both administrative and usage permissions on all CMKs to which the principal has access. Similarly, including kms:* permissions for the principals within your key policy gives them both administrative and usage permissions on the CMK. 
+
+
+
+Below are a few items that need to be taken into account when setting up KMS in a new account.
+ - **Key Policy**<br>
+ Key policies are the primary way to control access to CMKs in AWS KMS. Each CMK has a key policy attached to it that defines permissions on the use and management of the key. The default policy enables any principals you define, as well as enables the root user in the account to add IAM policies that reference the key. We recommend that you edit the default CMK policy to align with your organization’s best practices for least privilege. To access an encrypted resource, the principal needs to have permissions to use the resource, as well as to use the encryption key that protects the resource. If the principal does not have the necessary permissions for either of those actions, the request to use the encrypted resource will be denied.<br><br> 
+ When working with key policy, it’s important to remember that explicit deny policies take precedence over implicit deny policies. When you use *NotPrincipal* in the same policy statement as "Effect: Deny", the permissions specified in the policy statement are explicitly denied to all principals except for the ones specified. A top-level KMS policy can explicitly deny access to virtually all KMS operations except for the roles that actually need them. This technique helps prevent unauthorized users from granting themselves KMS access. <br><br> For the most part all users will need the ability to either list keys, or list and use keys as without this ability one can not see that any keys actually exist in the account, and may lead users to either use default keys or skip encryption all together.
+
+   - **Key Policy - User Example**<br>
+   This example allows "CMKUser" the ability to utilize a specific key 
+   ```
+    {
+      "Sid": "Allow use of the key",
+      "Effect": "Allow",
+      "Principal": {"AWS": [
+          "arn:aws:iam::111122223333:user/CMKUser"
+      ]},
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey"
+      ],
+      "Resource": "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+    }
+   ```
+   - **Key Policy - Admin Example**<br>
+   This example allows Administrative access for all KMS Keys 
+   ```
+    {
+      "Sid": "Allow access for Key Administrators",
+      "Effect": "Allow",
+      "Principal": {"AWS": [
+        "arn:aws:iam::111122223333:user/KMSAdminUser",
+        "arn:aws:iam::111122223333:role/KMSAdminRole"
+      ]},
+      "Action": [
+        "kms:Create*",
+        "kms:Describe*",
+        "kms:Enable*",
+        "kms:List*",
+        "kms:Put*",
+        "kms:Update*",
+        "kms:Revoke*",
+        "kms:Disable*",
+        "kms:Get*",
+        "kms:Delete*",
+        "kms:TagResource",
+        "kms:UntagResource",
+        "kms:ScheduleKeyDeletion",
+        "kms:CancelKeyDeletion"
+      ],
+      "Resource": "*"
+    }
+   ```
+
+ - **Cross Account Key Access**<br>
+ Delegation of permissions to a CMK within AWS KMS can occur when you include the root principal of a trusted account within the CMK key policy. The trusted account then has the ability to further delegate these permissions to IAM users and roles within their own account using IAM policies. While this approach may simplify the management of the key policy, it also relies on the trusted accounts to ensure that the delegated permissions are correctly managed. <br><br>The other approach would be to explicitly manage permissions to all authorized users using only the KMS key policy, which, in turn, could make the key policy complex and less manageable. Regardless of the approach taken, the specific trust should be broken out on a per key basis to ensure that you adhere to the least privilege model. CG allows for the use of cross account keys for certain use-cases, and may allow for greater control over the data being stored in say a PaaS or SaaS solution from a 3rd party, if they are also hosted in AWS.
+
+<br>
+
+### 2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards
 `This Section will be updated soon.`
 
- ### 2. Third party keys will not be introduced into the CG KMS solution
+### 3. KMS is Encrypted at rest following CG Standards
 `This Section will be updated soon.`
+
+### 4. Key Management Best-Practices are Adhered to
+  - Secure Import of Key Material<br>
+  `This Section will be updated soon.`
+  - Third party keys will not be introduced into the CG KMS solution<br>
+  `This Section will be updated soon.`
+  - Expired Keys are Purged in a timely manner<br>
+  `This Section will be updated soon.`
 
 <br>
 
@@ -58,7 +161,8 @@ Security Engineering
 
 ## Endnotes
 **Resources**<br>
-1. https://aws.amazon.com/athena/?nc=sn&loc=0&whats-new-cards.sort-by=item.additionalFields.postDateTime&whats-new-cards.sort-order=desc
+1. https://docs.aws.amazon.com/whitepapers/latest/kms-best-practices/welcome.html
+2. https://aws.amazon.com/kms/
 
 <br>
 

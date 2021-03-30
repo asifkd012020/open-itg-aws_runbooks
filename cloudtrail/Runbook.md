@@ -180,7 +180,10 @@ CG currently manages all CloudTrails centrally and due to this standard, standal
 
 `This Section will be updated soon.`
 <br><br>
+<<<<<<< HEAD
 
+=======
+>>>>>>> master
 ## Endnotes
 **Resources**
 
