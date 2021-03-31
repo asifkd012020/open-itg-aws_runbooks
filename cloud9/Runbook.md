@@ -92,12 +92,13 @@ In this section Cloud9 will create an EC2 instance, and then connects the enviro
 
    **Step 4:** Select the appropriate EC2 *"Instance Type"* and *"Platform"*.
 
-   **Step 5:** Select the appropriate VPC that was deployed as per the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md), for private internal networks. Thereafter select the appropriate *"Subnet"* that we will deploy into, this should have been deployed with the VPC. One will also need a **NAT Gateway** deployed and secured by the Network Engineering team, this is so that the Private Subnet will be able to communicate outbound to download libraries, IDE updates and to run Lambda Functions. Egress trafffic should also be limited with the use of Deny by Default Security Group, with rules only allowing access to required destinations.<br>
+   **Step 5:** Select the appropriate VPC that was deployed as per the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md), for private internal networks. Thereafter select the appropriate *"Subnet"* that we will deploy into, this should have been deployed with the VPC.<br>
    <img src="/docs/img/cloud9/step5.png" width="600"><br>
 
-   **Step 6:** Review the configuration and ceploy the Cloud9 Instance.<br>
+   **Step 6:** Review the configuration and ceploy the Cloud9 Instance.<br><br>
 
-   **NOTE:** *Deploying Cloud9 on a Subnet within a Private VPC does not currently support AWS Temporary managed credentials. This will be discussed further in a later section of this runbook.*<br><br>
+   **NOTE 1:** *Deploying Cloud9 on a Subnet within a Private VPC does not currently support AWS Temporary managed credentials. This will be discussed further in a later section of this runbook.*<br><br>
+   **NOTE 2:** *If Cloud9 is needed to work on items such as Lambda or access to outside resources a `NAT Gateway` would need to be deployed. This is currently not allowed as it does not fit in line with CG's current Security Standards, which require all traffic route through our CXDC Data Center controls.*
 
 ### 2. Cloud9 utilizes Managed Resource Policy to enforce least priviledge
 
