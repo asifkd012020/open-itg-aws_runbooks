@@ -2,7 +2,7 @@
 
 # AWS Cloud9 - Security Playbook <!-- omit in toc -->
 
-<h1><span style="color:red"> Currently Not Approved for Use!</span></h1>
+<h1><span style="color:red;"> Currently Not Approved for Use!</span></h1>
 
 ## NIST Cybersecurity Framework Alignment <!-- omit in toc -->
 
