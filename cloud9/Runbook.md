@@ -79,7 +79,7 @@ As part of this process, AWS Cloud9 automatically creates three IAM resources pr
  - *A service role (AWSCloud9SSMAccessRole)*
  - *An instance profile (AWSCloud9SSMInstanceProfile)*<br>
 
-**Creation of a  Non-Ingress EC2 Environment**<br>
+**Creation of a Non-Ingress EC2 Environment**<br>
 In this section Cloud9 will create an EC2 instance, and then connects the environment to this newly created instance. AWS Cloud9 manages the lifecycle of this instance, including starting, stopping, and restarting the instance as needed. If you ever delete this environment, AWS Cloud9 automatically terminates this instance.<br><br>
    **Step 1:** Sign into your AWS account and navigate to the *"Cloud9"* service via the AWS search bar as below.<br>
    <img src="/docs/img/cloud9/search.png" width="600">
