@@ -101,8 +101,8 @@ In this section Cloud9 will create an EC2 instance, and then connects the enviro
    **NOTE 1:** *Deploying Cloud9 on a Subnet within a Private VPC does not currently support AWS Temporary managed credentials. This will be discussed further in a later section of this runbook.*<br><br>
    **NOTE 2:** *If Cloud9 is required for work on items such as Lambda or access to outside resources, two entries need to be added to the `~\.bashrc` file. This will allow Cloud9 to access external resources through our CG Proxy servers, and will allow adherence to the CG Standards for outbound access. The code snippit below shows the updated bashrc config.*
    ```
-   export http_proxy=<sjx1-cprx-vip.glb.capgroup.com>
-   export https_proxy=<sjx1-cprx-vip.glb.capgroup.com>
+   export http_proxy=sjx1-cprx-vip.glb.capgroup.com
+   export https_proxy=sjx1-cprx-vip.glb.capgroup.com
    ```
 
 ### 2. Cloud9 utilizes Managed Resource Policy to enforce least priviledge
@@ -150,6 +150,7 @@ In this section Cloud9 will create an EC2 instance, and then connects the enviro
 2. https://docs.aws.amazon.com/cloud9/latest/user-guide/create-environment.html
 3. https://docs.aws.amazon.com/cloud9/latest/user-guide/welcome.html
 4. https://docs.aws.amazon.com/cloud9/latest/user-guide/how-cloud9-with-iam.html#auth-and-access-control-managed-policies
+5. https://confluence.capgroup.com/display/NETT/Proxy_IP_Addressing
 
 <br>
 
