@@ -15,10 +15,11 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. Cloud9 deployed in Private VPC with no-ingress EC2 Instances](#1-Cloud9-deployed-in-Private-VPC-with-no-ingress-EC2-Instances)
-  - [2. Cloud9 utilizes Managed Resource Policy to enforce least priviledge](#2-Cloud9-utilizes-Managed-Resource-Policy-to-enforce-least-priviledge)
-  - [3. Cloud9 utilizes IAM Roles to enforce least priviledge](#3-Cloud9-utilizes-IAM-Roles-to-enforce-least-priviledged)
-  - [4. Cloud9 connections are protected with TLS 1.2](#4-Cloud9-connections-are-protected-with-TLS-1-2)
-  - [5. Cloud9 data is encrypted using CG managed KMS Keys](#5-Cloud9-data-is-encrypted-using-CG-managed-KMS-Keys)
+  - [2. Cloud9 deployed with Private Endpoint for SSM Integration](#2-Cloud9-deployed-with-Private-Endpoint-for-SSM-Integration)
+  - [3. Cloud9 utilizes Managed Resource Policy to enforce least priviledge](#3-Cloud9-utilizes-Managed-Resource-Policy-to-enforce-least-priviledge)
+  - [4. Cloud9 utilizes IAM Roles to enforce least priviledge](#4-Cloud9-utilizes-IAM-Roles-to-enforce-least-priviledged)
+  - [5. Cloud9 connections are protected with TLS 1.2](#5-Cloud9-connections-are-protected-with-TLS-1-2)
+  - [6. Cloud9 data is encrypted using CG managed KMS Keys](#6-Cloud9-data-is-encrypted-using-CG-managed-KMS-Keys)
 - [Detective Controls](#Detective-Controls)
   - [1. Cloud9 Resources are tagged according to CG standards](#1-Cloud9-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -103,21 +104,66 @@ In this section Cloud9 will create an EC2 instance, and then connects the enviro
    ```
    export http_proxy=sjx1-cprx-vip.glb.capgroup.com
    export https_proxy=sjx1-cprx-vip.glb.capgroup.com
+
+   or
+
+   export http_proxy=asx1-cprx-vip.glb.capgroup.com
+   export https_proxy=asx1-cprx-vip.glb.capgroup.com
    ```
 
-### 2. Cloud9 utilizes Managed Resource Policy to enforce least priviledge
+### 2. Cloud9 deployed with Private Endpoint for SSM Integration
+To complete the total network isolation of the Cloud9 product, a private Endpoint should be created for the SSM integration, this prevents the need for egress rules and allows the traffic to flow over Private Link.
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**<br>
+As mentioned previously, Public Access should be denied by default in accordance with CG's cloud security standards. With this in mind, Private VPC Endpoints enable Cloud9 to not rely on public network infrastructure and thus helps Cloud9 meet our strict standards.
+
+**How?**<br>
+To set up interface VPC endpoints for Session Manager
+ - Create a [VPC security group](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) to allow ingress access over `HTTPS (port 443)` from the subnet where you will deploy your AWS Cloud9 environment. This is applied to your interface VPC endpoints to allow connections from your AWS Cloud9 instance to use Systems Manager.
+ - Create a VPC endpoint by navigating to the VPC service, Select Endpoint Services and click Create Endpoint Service, as below.<br>
+ <img src="/docs/img/cloud9/create_endpoint.png" width="600"><br>
+ - In the list of Service Names, select `com.amazonaws.<"region">.ssm` service as shown below.<br>
+ <img src="/docs/img/cloud9/vpce.jpg" width="600"><br>
+ - Next, select your **VPC** and **Private Subnets** you want to associate the interface VPC endpoint with.
+ - Choose **Enable** for this endpoint for the Enable DNS name setting.
+ - Select the **Security Group** you created at the beginning.
+ - Add the **CG Standard tags** for the interface VPC endpoint.
+ - Choose **Create** endpoint.
+ - **Repeat** the Steps to create interface VPC endpoints for the `com.amazonaws.<"region">.ssmmessages` and `com.amazonaws.<"region">.ec2messages` services.
+
+**NOTE:** *When all three interface VPC endpoints have a status of available, the SSM service should now be available over Privatelink for Cloud9.*<br><br>
+
+### 3. Cloud9 utilizes Managed Resource Policy to enforce least priviledge
 
 `This Section will be updated soon.`
 
-### 3. Cloud9 utilizes IAM Roles to enforce least priviledge
+### 4. Cloud9 utilizes IAM Roles to enforce least priviledge
 
 `This Section will be updated soon.`
 
-### 4. Cloud9 connections are protected with TLS 1.2
+### 5. Cloud9 connections are protected with TLS 1.2
 
 `This Section will be updated soon.`
 
-### 5. Cloud9 data is encrypted using CG managed KMS Keys
+### 6. Cloud9 data is encrypted using CG managed KMS Keys
 
 `This Section will be updated soon.`
 <br><br>
