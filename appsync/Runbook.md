@@ -33,8 +33,16 @@ AWS AppSync is a fully managed service that makes it easy to develop GraphQL API
 <br>
 
 ## Service Denial Explanation
+Three of the Core Tenets of our migration to and use of cloud technologies are as follows: 
+ 1. No public accessibility or deployment on public facing networks.
+ 2. Encryption of all data in the cloud at all times and using CG Managed keys.
+ 3. Strict Identity & Access controls to provide least priviledge access to the service.
 
-<br>
+ Although the AppSync service does enable us to adhere to tenets 2 and 3, it fails to meet the public access requirements. There are ways to mitigate the effects of this public access, but the service is still hosted on a public IP address and not within the bounds of CG's private IP space as required per the following GRC Control:
+  - [CS0012300 - Cloud products and services must be deployed on private subnets and public access must be disabled for these services.](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)
+
+Through discussions with AWS under NDA, we have learned that deploying AppSync to a Private VPC is on the product roadmap for delivery sometime in the next year (April 2022). Once this feature is generally available, we will schedule a review of the service at that time.
+<br><br>
 
 ## Endnotes
 **Resources**<br>
