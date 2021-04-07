@@ -32,7 +32,7 @@ The following components of AWS Data Pipeline work together to manage your data:
 
 For example, you can use AWS Data Pipeline to archive your web server's logs to Amazon Simple Storage Service (Amazon S3) each day and then run a weekly Amazon EMR (Amazon EMR) cluster over those logs to generate traffic reports. AWS Data Pipeline schedules the daily tasks to copy data and the weekly task to launch the Amazon EMR cluster. AWS Data Pipeline also ensures that Amazon EMR waits for the final day's data to be uploaded to Amazon S3 before it begins its analysis, even if there is an unforeseen delay in uploading the logs.<br>
 
-<img src="/docs/img/datapipeline/datapipeline_example.png" width="800"><br>
+<img src="/docs/img/datapipeline/datapipeline_example.png" width="600"><br>
 <br>
 
 ## Preventative Controls
