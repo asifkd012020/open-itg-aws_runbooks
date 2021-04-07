@@ -13,7 +13,13 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
+  - [1. DataPipeline leverages IAM Users and Roles Enforce Least Priviledge](#1-DataPipeline-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge)
+  - [2. DataPipeline connections are protected with TLS 1.2](#2-DataPipeline-connections-are-protected-with-TLS-1-2)
+  - [3. DataPipeline data is encrypted using CG managed KMS Keys](#3-DataPipeline-data-is-encrypted-using-CG-managed-KMS-Keys)
 - [Detective Controls](#Detective-Controls)
+  - [1. DataPipeline Resources are tagged according to CG standards](#1-DataPipeline-Resources-are-tagged-according-to-CG-standards)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled and sent to Splunk](#2-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -23,7 +29,7 @@ AWS Data Pipeline is a web service that helps you reliably process and move data
 
 AWS Data Pipeline helps you easily create complex data processing workloads that are fault tolerant, repeatable, and highly available. You don’t have to worry about ensuring resource availability, managing inter-task dependencies, retrying transient failures or timeouts in individual tasks, or creating a failure notification system. AWS Data Pipeline also allows you to move and process data that was previously locked up in on-premises data silos.
 
-The following components of AWS Data Pipeline work together to manage your data:
+**The following components of AWS Data Pipeline work together to manage your data:**
 - A pipeline definition specifies the business logic of your data management. For more information, see Pipeline Definition File Syntax.
 
 - A pipeline schedules and runs tasks by creating Amazon EC2 instances to perform the defined work activities. You upload your pipeline definition to the pipeline, and then activate the pipeline. You can edit the pipeline definition for a running pipeline and activate the pipeline again for it to take effect. You can deactivate the pipeline, modify a data source, and then activate the pipeline again. When you are finished with your pipeline, you can delete it.
@@ -38,12 +44,111 @@ For example, you can use AWS Data Pipeline to archive your web server's logs to 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
+### 1. DataPipeline leverages IAM Users and Roles Enforce Least Priviledge
+AWS DataPipeline as with many AWS PaaS services by nature do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Management (IAM) controls may be the only true option for securing access to the service and the data stored within.
+<br>
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+<br>
+
+**Why?**<br>
+DataPipeline is a service that allows for the migration of data between diffent AWS services. Due to the possibility of sensitive data being transfered with DataPipelie, one needs to implement levels of privilege and have authorization mechanisms in place to enforce the separation of privileges, and mandate multi-factor authentication or similar protections based on sensitivity.
+<br>
+
+**How?**<br>
+Using IAM with AWS Data Pipeline, you can control whether users in your organization can perform a task using specific API actions and whether they can use specific AWS resources. 
+
+There are currently two different options to managing user access to DataPipeline within an AWS Account, first is the use of standard roles for access based on permissions e.g. Read-Only, Read/Write and Pipeline owner or admin access. These roles can be assigned to a user to give the correct level of access. The second option to assign permissions to users is to use tag-based policy, where a user will gain or loose permissions based on a tag assigned to the pipeline.  Examples of each policy type are shown below:
+
+ - **Example 1: Grant Read-Only access based on tag**<br>
+This policy only assigns the rights in the `Action` section to a User, for any pipeline tagged with an `Environment` of Production.
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "datapipeline:Describe*",
+        "datapipeline:GetPipelineDefinition",
+        "datapipeline:ValidatePipelineDefinition",
+        "datapipeline:QueryObjects"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "datapipeline:Tag/environment": "production"
+        }
+      }
+    }
+  ]
+}
+```
+- **Example 2: Grant "Pipeline Owner" full access**<br>
+The following policy allows users to use all the AWS Data Pipeline API actions, but only with their own pipelines.
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "datapipeline:*"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "datapipeline:PipelineCreator": "${aws:userid}"
+        }
+      }
+    }
+  ]
+}
+```
+
+**Note:** *There are also "default" AWS Roles that are available for use with the service e.g. `DataPipelineDefaultResourceRole`*
+
+<br>
+
+### 2. DataPipeline connections are protected with TLS 1.2
 `This Section will be updated soon.`
+
+### 3. DataPipeline data is encrypted using CG managed KMS Keys
+`This Section will be updated soon.`
+<br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
+### 1. DataPipeline Resources are tagged according to CG standards
 `This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50">
@@ -53,7 +158,8 @@ For example, you can use AWS Data Pipeline to archive your web server's logs to 
 
 ## Endnotes
 **Resources**<br>
-`This Section will be updated soon.`
+1. https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-example-tag-policies.html
+2. https://aws.amazon.com/blogs/aws/category/aws-data-pipeline/
 
 <br>
 
