@@ -12,7 +12,67 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
+            "requirement_name": "DataPipeline leverages IAM Users and Roles Enforce Least Priviledge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/datapipeline/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "DataPipeline connections are protected with TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/datapipeline/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "DataPipeline data is encrypted using CG managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/datapipeline/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "DataPipeline Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/datapipeline/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/datapipeline/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/datapipeline/Runbook.md",
             "tags":[],
             "severity": {
