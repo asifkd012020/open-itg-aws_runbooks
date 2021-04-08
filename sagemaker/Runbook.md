@@ -5,9 +5,14 @@ This is a lift and shift of a checklist, to be replaced by a formal runbook.
 MTNP
 
 ## IAM roles defined following least privilege model
-## Encrypt data at rest using CG KMS
+## Encrypt data at rest using CG KMS -- ** Sentinel policy check **
 ## Encrypt data in transit using TLS 1.2
-## Disable Internet (public) access
+## Use service endpoints to route via private network
+## Disable Internet (public) access -- ** Sentinel policy check **
+## Ensure workloads execute in private network -- ** SCP Policy **
 ## Resources are tagged
 ## CloudWatch logging enabled and sent to Splunk
 ## Set source code repository to CG's instance of GitHub Enterprise
+
+### SageMaker Notebook Instance and SageMaker Domain Sentinel Policies have been defined to verify SageMaker configuration.  The policies check that appropirate encryption and network controls are in place for SageMaker.  You will find details at the following link.
+  https://confluence.capgroup.com/display/FSA/Sentinel+Policies?showComments=true&showCommentArea=true#SentinelPolicies-SageMakerPolicies.
