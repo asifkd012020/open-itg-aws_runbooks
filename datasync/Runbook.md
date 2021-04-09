@@ -13,18 +13,64 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
+  - [1. DataSync leverages IAM Users and Roles Enforce Least Priviledge](#1-DataSync-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge)
+  - [2. DataSync connections are protected with TLS 1.2](#2-DataSync-connections-are-protected-with-TLS-1-2)
+  - [3. DataSync data is encrypted using CG managed KMS Keys](#3-DataSync-data-is-encrypted-using-CG-managed-KMS-Keys)
 - [Detective Controls](#Detective-Controls)
+  - [1. DataSync Resources are tagged according to CG standards](#1-DataSync-Resources-are-tagged-according-to-CG-standards)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled and sent to Splunk](#2-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
-`This Section will be updated soon.`
+AWS DataSync is an online data transfer service that simplifies, automates, and accelerates moving data between on-premises storage systems and AWS storage services, and also between AWS storage services. DataSync can copy data between Network File System (NFS), Server Message Block (SMB) file servers, self-managed object storage, AWS Snowcone, Amazon Simple Storage Service (Amazon S3) buckets, Amazon EFS file systems, and Amazon FSx for Windows File Server file systems.
+
+### Deployment Example:
+<img src="/docs/img/datasync/ds_example.png" width="800"><br>
+
+### Benefits:
+ - **Simplify and automate data movement** – AWS DataSync makes it easier to move data over the network between on-premises storage and AWS storage services, and also between AWS storage services. DataSync automates both the management of data transfer processes and the infrastructure required for high-performance and secure data transfer.
+
+ - **Transfer data securely** – DataSync provides end-to-end security, including encryption and integrity validation, to help ensure that your data arrives securely, intact, and ready to use. DataSync accesses your AWS storage using built-in AWS security mechanisms such as AWS Identity and Access Management (IAM) roles. It also supports VPC endpoints, giving you the option to transfer data without traversing the public internet, and further increasing the security of data copied online.
+
+ - **Move data faster** – With DataSync, you can transfer data rapidly over the network into AWS. It uses a purpose-built network protocol and a parallel, multi-threaded architecture to accelerate your transfers. This speeds up migrations, recurring data processing workflows for analytics and machine learning, and data protection processes.
+
+ - **Reduce operational costs** – You can move data cost-effectively with the flat, per-gigabyte pricing of DataSync. You can save on script development, and deployment and maintenance costs, and avoid the need for costly commercial transfer tools.
+<br><br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-`This Section will be updated soon.`
+AWS DataSync as with many AWS Managed Services by nature do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Management (IAM) controls may be the only true option for securing access to the service and the data stored within.
+<br>
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+<br>
+
+**Why?**<br>
+DataSync is a service that allows for the transfer of data between On-Premesis Storage and AWS Storage Services. Due to the possibility of sensitive data being transfered with DataSync, one needs to implement levels of privilege and have authorization mechanisms in place to enforce the separation of privileges, and mandate multi-factor authentication or similar protections based on sensitivity.
+<br>
+
+**How?**<br>
+Using IAM with AWS DataSync, you can control whether users in our organization can perform a task using specific API actions and whether they can use specific AWS resources. 
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
