@@ -13,9 +13,10 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. DataSync leverages IAM Users and Roles Enforce Least Priviledge](#1-DataSync-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge)
-  - [2. DataSync connections are protected with TLS 1.2](#2-DataSync-connections-are-protected-with-TLS-1-2)
-  - [3. DataSync data is encrypted using CG managed KMS Keys](#3-DataSync-data-is-encrypted-using-CG-managed-KMS-Keys)
+ - [1. DataSync Utilizes VPC Endpoints to Prevent Public Access](#1-DataSync-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [2. DataSync leverages IAM Users and Roles Enforce Least Priviledge](#2-DataSync-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge)
+  - [3. DataSync connections are protected with TLS 1.2](#3-DataSync-connections-are-protected-with-TLS-1-2)
+  - [4. DataSync data is encrypted using CG managed KMS Keys](#4-DataSync-data-is-encrypted-using-CG-managed-KMS-Keys)
 - [Detective Controls](#Detective-Controls)
   - [1. DataSync Resources are tagged according to CG standards](#1-DataSync-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -43,34 +44,43 @@ AWS DataSync is an online data transfer service that simplifies, automates, and 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-AWS DataSync as with many AWS Managed Services by nature do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Management (IAM) controls may be the only true option for securing access to the service and the data stored within.
+### 1. DataSync Utilizes VPC Endpoints to Prevent Public Access
+AWS DataSync currently supports VPC Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
 <br>
 
 **NIST CSF:** <br>
 
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
-|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
-|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
 <br>
 
 **Capital Group:** <br>
 
 |Control Statement|Description|
 |------|----------------------|
-|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
-|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
-|10|Administrative access to AWS resources will have MFA enabled|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
 <br>
 
 **Why?**<br>
-DataSync is a service that allows for the transfer of data between On-Premesis Storage and AWS Storage Services. Due to the possibility of sensitive data being transfered with DataSync, one needs to implement levels of privilege and have authorization mechanisms in place to enforce the separation of privileges, and mandate multi-factor authentication or similar protections based on sensitivity.
+DataSync is a service that allows for the transfer of data between On-Premesis Storage and AWS Storage Services, or AWS to AWS Storage Services. Due to the possibility of sensitive data being transfered with DataSync, We need to make sure that this traffic is not transmitted directly over the public Internet. 
 <br>
 
 **How?**<br>
-Using IAM with AWS DataSync, you can control whether users in our organization can perform a task using specific API actions and whether they can use specific AWS resources. 
+The DataSync agent transfers data between self-managed storage and AWS. You deploy the DataSync agent as a virtual machine in the same local CG network as your source storage. This approach minimizes network overhead associated with transferring data using network protocols such as Network File System (NFS) and Server Message Block (SMB), or when accessing your self-managed object storage using the Amazon S3 API. Below we will detail the process to implement DataSync via Private VPC Endpoint, and can be visualized with the diagram shown next.
+<br>
+
+<img src="/docs/img/datasync/vpce.png" width="800"><br>
+
+**Configuring DataSync with VPC Endpoint**<br>
+- Step 1:
+
+
+<br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
@@ -85,9 +95,11 @@ Using IAM with AWS DataSync, you can control whether users in our organization c
 
 ## Endnotes
 **Resources**<br>
-`This Section will be updated soon.`
-
-<br>
+1. https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html
+2. https://docs.aws.amazon.com/datasync/latest/userguide/security.html
+3. https://docs.aws.amazon.com/general/latest/gr/rande.html#datasync-region
+4. https://docs.aws.amazon.com/vpc/latest/privatelink/integrated-services-vpce-list.html
+<br><br>
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
