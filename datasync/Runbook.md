@@ -13,7 +13,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
- - [1. DataSync Utilizes VPC Endpoints to Prevent Public Access](#1-DataSync-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [1. DataSync Utilizes VPC Endpoints to Prevent Public Access](#1-DataSync-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [2. DataSync leverages IAM Users and Roles Enforce Least Priviledge](#2-DataSync-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge)
   - [3. DataSync connections are protected with TLS 1.2](#3-DataSync-connections-are-protected-with-TLS-1-2)
   - [4. DataSync data is encrypted using CG managed KMS Keys](#4-DataSync-data-is-encrypted-using-CG-managed-KMS-Keys)
@@ -77,24 +77,64 @@ The DataSync agent transfers data between self-managed storage and AWS. You depl
 <img src="/docs/img/datasync/vpce.png" width="800"><br>
 
 **PART 1 - Configuring DataSync with VPC Endpoint**<br>
-- **Start:**<br>
+- **Start: Deploy Agent**<br>
   - Please select DataSync from the AWS Services bar as seen below to begin.<br>
   <img src="/docs/img/datasync/ds_search.png" width="600">
 
-  - Next, select the type of transfer either `Between AWS Storage Services` or `Between on-Prem and AWS Storage Services` and click **Get Started**. If you are migrating data between on-prem and AWS, at this point, please [goto Part 2](#PART-2-Creating-a-DataSync-Agent-On-Premesis) to continue.
+  - Next, select the type of transfer either `Between AWS Storage Services` or `Between on-Prem and AWS Storage Services` and click **Get Started**. If you are migrating data between on-prem and AWS, at this point, please [Navigate to Part 2](#PART-2-Creating-a-DataSync-Agent-On-Premesis) to continue.<br>
   <img src="/docs/img/datasync/get_started.png" width="600">
 
-- **Step 1:**<br>
-Choose the `VPC` and `subnet` where you want to set up the DataSync private IP addresses. The default VPC and Subnets can be used, as long as they do not contain any direct Internet access through an IGW or the likes. If a new VPC is needed , please see the following: [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md)<br>
+- **Step 1: Initial DataSync Setup**<br>
+  - Choose the `VPC` and `subnet` where you want to set up the DataSync private IP addresses. The default VPC and Subnets can be used, as long as they do not contain any direct Internet access through an IGW or the likes. If a new VPC is needed , please see the following: [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md)<br>
+  - Make sure to allow outbound traffic from the agent to the VPC endpoint by using ports 443, 1024–1064. This might need to be added to the CXDC Firewalls and VPC Security Groups.
+
+- **Step 2: Create VPC Endpoint**<br>
+  - Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.  
+  - Choose Create Endpoint.
+    - For Service category, choose AWS service. 
+    - For Service Name, choose DataSync in your AWS Region (for example, com.amazonaws.us-east-1.datasync).
+    - Then choose the VPC and security group that you chose in steps 1 and 3. 
+    - Make sure that you `clear` the Enable Private DNS Name check box.
+
+- **Step 3: Continuation of DataSync Setup**<br>
+  - When your new VPC endpoint becomes available, make sure that the network configuration for your self-managed environment allows agent activation.
+  - `Activate the Agent`. If you have a computer that can route to the agent by using port 80 and that can access the DataSync console, open the console and choose Create Agent. In the service endpoint section, choose VPC endpoints using AWS PrivateLink. Choose the `VPC endpoint` created earlier, the `subnet` , and the `security group`. Enter the `agent's IP address`.
+  - Choose `Get Key` and choose Create agent. Your new agent now appears on the Agents tab of the DataSync console. The green VPC Endpoint banner indicates that all tasks performed with this agent use private endpoints, without crossing the public internet.
+  - Create your task by configuring a `source` and a `destination` for your data transfer.
+  - Make sure that your agent can reach the `four elastic network interfaces` and `related IP addresses` that your task creates. To find these IP addresses, open the Amazon EC2 console at https://console.aws.amazon.com/ec2/, and choose Network Interfaces on the dashboard. Enter the task ID into the search filter to see the four elastic network interfaces for the task. These are the elastic network interfaces used by your VPC endpoint.
+  - The DataSync Task can now run, and setup is complete.<br>
 
 **PART 2 - Creating a DataSync Agent On-Premesis**<br>
+This section assumes the agent is being deployed to VMWare, which is currently CG's standard deployment infrastructure for on-prem virtual machines.
+ - Open the AWS DataSync console at https://console.aws.amazon.com/datasync/.
+ - On the Create agent page in the console, choose `Download image` in the Deploy agent section. Doing this downloads the agent and deploys it in your VMware ESXi hypervisor. The agent is available as a VM. 
+ - If you have previously activated an agent in this AWS Region and want to use that agent, choose that agent and choose `Create agent`. The Configure a source location page appears.
+  - Power on your hypervisor, log in to your new VM, and get the IP address of the agent. You need this IP address to `activate the agent`.
+  - Now please return to `Part 1`, `Step 1` above to continue.
 
+
+### 2. DataSync leverages IAM Users and Roles Enforce Least Priviledge
+`This Section will be updated soon.`
+
+### 3. DataSync connections are protected with TLS 1.2
+`This Section will be updated soon.`
+
+### 4. DataSync data is encrypted using CG managed KMS Keys
+`This Section will be updated soon.`
 <br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
+### 1. DataSync Resources are tagged according to CG standards
 `This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50">
@@ -105,9 +145,10 @@ Choose the `VPC` and `subnet` where you want to set up the DataSync private IP a
 ## Endnotes
 **Resources**<br>
 1. https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html
-2. https://docs.aws.amazon.com/datasync/latest/userguide/security.html
-3. https://docs.aws.amazon.com/general/latest/gr/rande.html#datasync-region
-4. https://docs.aws.amazon.com/vpc/latest/privatelink/integrated-services-vpce-list.html
+2. https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html
+3. https://docs.aws.amazon.com/datasync/latest/userguide/security.html
+4. https://docs.aws.amazon.com/general/latest/gr/rande.html#datasync-region
+5. https://docs.aws.amazon.com/vpc/latest/privatelink/integrated-services-vpce-list.html
 <br><br>
 
 ## Capital Group Glossory 
