@@ -93,7 +93,7 @@ The DataSync agent transfers data between self-managed storage and AWS. You depl
   - Choose Create Endpoint.
     - For Service category, choose AWS service. 
     - For Service Name, choose DataSync in your AWS Region (for example, com.amazonaws.us-east-1.datasync).
-    - Then choose the VPC and security group that you chose in steps 1 and 3. 
+    - Then choose the VPC and security group that you chose earlier. 
     - Make sure that you `clear` the Enable Private DNS Name check box.
 
 - **Step 3: Continuation of DataSync Setup**<br>
