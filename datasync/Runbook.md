@@ -76,15 +76,15 @@ The DataSync agent transfers data between self-managed storage and AWS. You depl
 
 <img src="/docs/img/datasync/vpce.png" width="800"><br>
 
-**PART 1 - Creating a DataSync Agent On-Premesis**<br>
-
-**PART 2 - Configuring DataSync with VPC Endpoint**<br>
+**PART 1 - Configuring DataSync with VPC Endpoint**<br>
 - **Start:**<br>
-Please select DataSync from the AWS Services bar as seen below to begin.
+Please select DataSync from the AWS Services bar as seen below to begin.<br>
+<img src="/docs/img/datasync/ds_search.png" width="600">
 
 - **Step 1:**<br>
 Choose the `VPC` and `subnet` where you want to set up the DataSync private IP addresses. The default VPC and Subnets can be used, as long as they do not contain any direct Internet access through an IGW or the likes. If a new VPC is needed , please see the following: [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md)<br>
 
+**PART 2 - Creating a DataSync Agent On-Premesis**<br>
 
 <br><br>
 
