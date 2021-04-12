@@ -1,0 +1,27 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::AutoScalingPlans::*"
+    ],
+    "servicedisplay_name": "AWS AutoScaling",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "approved",
+    "mapping": [
+        {
+            "requirement_name": "Use VPC Endpoints to restrict traffic to the CG Network",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/autoscaling/Runbook.md#1-use-vpc-endpoints-to-restrict-traffic-to-the-cg-network",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
