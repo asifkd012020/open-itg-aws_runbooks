@@ -19,7 +19,7 @@ Security Engineering
 - [Detective Controls](#Detective-Controls)
   - [1. DataPipeline Resources are tagged according to CG standards](#1-DataPipeline-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [3. CloudWatch logging enabled and sent to Splunk](#2-CloudWatch-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
