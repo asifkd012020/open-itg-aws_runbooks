@@ -35,7 +35,7 @@ An AWS resource is an entity you can work with in AWS, such as an Amazon Elastic
 
 <img src="/docs/img/config/example.png" width="800"><br>
 
-With AWS Config, you can do the following:
+**With AWS Config, you can do the following:**
  - Evaluate your AWS resource configurations for desired settings.
  - Get a snapshot of the current configurations of the supported resources that are associated with your AWS account.
  - Retrieve configurations of one or more resources that exist in your account.
@@ -48,6 +48,32 @@ With AWS Config, you can do the following:
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Config Utilizes VPC Endpoints to Prevent Public Access
+AWS Config currently supports VPC Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**<br>
+<br>
+
+**How?**<br>
+<br>
 
 ### 2. Config leverages IAM Users and Roles Enforce Least Priviledge
 `This Section will be updated soon.`
@@ -91,9 +117,9 @@ With AWS Config, you can do the following:
 
 ## Endnotes
 **Resources**<br>
-1. 
-
-<br>
+1. https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html
+2. https://docs.aws.amazon.com/config/latest/developerguide/security.html
+<br><br>
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
