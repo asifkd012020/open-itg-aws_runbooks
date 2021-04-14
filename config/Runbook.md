@@ -48,7 +48,7 @@ An AWS resource is an entity you can work with in AWS, such as an Amazon Elastic
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Config Utilizes VPC Endpoints to Prevent Public Access
-AWS Config currently supports VPC Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
+AWS Config does currently support VPC Endpoints for gathering information from supported services, and as such allows the Config service to meet CG's stringent Public Access control requirements.
 <br>
 
 **NIST CSF:** <br>
@@ -70,9 +70,24 @@ AWS Config currently supports VPC Endpoints, and as such allows the service to m
 <br>
 
 **Why?**<br>
+Config is a service that allows for the scanning and reporting on AWS Services and their usage. Due to the possibility of this either containing sensitive data or the configuration information itself being sensitive, We need to make sure that this traffic is not transmitted directly over the public Internet in adherence to CG's Cloud Standards.
 <br>
 
 **How?**<br>
+CG standards mandate that no cloud service should be accessible over the Internet or publicly accessible cloud provider networks. CG uses Amazon Virtual Private Cloud (Amazon VPC) to host our AWS resources and we need to establish a private connection between your VPC and AWS Config. This connection can be used to communicate with AWS Config from the VPC without going through the public internet.
+
+Interface VPC endpoints are powered by AWS PrivateLink, an AWS technology that enables private communication between AWS services using an elastic network interface with private IP addresses. To connect a VPC to AWS Config, you define an interface VPC endpoint for AWS Config. This type of endpoint enables you to connect your VPC to AWS services. The endpoint provides reliable, scalable connectivity to AWS Config without requiring an internet gateway, network address translation (NAT) instance, or VPN connection. Below are the steps needed to deploy an Interface Endpoint for AWS Config:
+
+**Creation of Interface VPC Endpoint**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.config`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate CG standard tags.
+  4. Click `Create Endpoint` to complete the process.
 <br>
 
 ### 2. Config leverages IAM Users and Roles Enforce Least Priviledge
@@ -119,6 +134,7 @@ AWS Config currently supports VPC Endpoints, and as such allows the service to m
 **Resources**<br>
 1. https://docs.aws.amazon.com/config/latest/developerguide/config-concepts.html
 2. https://docs.aws.amazon.com/config/latest/developerguide/security.html
+3. https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html
 <br><br>
 
 ## Capital Group Glossory 
