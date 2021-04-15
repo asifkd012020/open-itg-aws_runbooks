@@ -33,12 +33,61 @@ We recommend Amazon EBS for data that must be quickly accessible and requires lo
 
 ### EBS Options:
 <img src="/docs/img/ebs/ebs_example.png" width="800"><br>
+<br>
+
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
 
 ### 1. EBS is Encrypted using CG Managed KMS Keys
+`This Section will be updated soon.`
+
 ### 2. EBS Snapshots are Encrypted using CG Managed KMS Keys
+`This Section will be updated soon.`
+
 ### 3. EBS Snapshot permissions are set to Private
+`This Section will be updated soon.`
+
 ### 4. EBS Snapshots will only be shared between CG accounts
+`This Section will be updated soon.`
+<br><br>
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
 
 ### 1. EBS Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
 ### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
 ### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html
+2. https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html
+3. https://docs.aws.amazon.com/datasync/latest/userguide/security.html
+4. https://docs.aws.amazon.com/general/latest/gr/rande.html#datasync-region
+5. https://docs.aws.amazon.com/vpc/latest/privatelink/integrated-services-vpce-list.html
+<br><br>
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
