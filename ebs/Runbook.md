@@ -17,6 +17,7 @@ Security Engineering
   - [2. EBS Snapshots are Encrypted using CG Managed KMS Keys](#2-EBS-Snapshots-are-Encrypted-using-CG-Managed-KMS-Keys)
   - [3. EBS Snapshot permissions are set to Private](#3-EBS-Snapshot-permissions-are-set-to-Private)
   - [4. EBS Snapshots will only be shared between CG accounts](#4-EBS-Snapshots-will-only-be-shared-between-CG-accounts)
+  - [5. EBS Volumes should be removed if unattached or no longer required](#5-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
 - [Detective Controls](#Detective-Controls)
   - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -29,7 +30,7 @@ Security Engineering
 ## Overview
 Amazon Elastic Block Store (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes behave like raw, unformatted block devices. You can mount these volumes as devices on your instances. EBS volumes that are attached to an instance are exposed as storage volumes that persist independently from the life of the instance. You can create a file system on top of these volumes, or use them in any way you would use a block device (such as a hard drive). You can dynamically change the configuration of a volume attached to an instance.
 
-We recommend Amazon EBS for data that must be quickly accessible and requires long-term persistence. EBS volumes are particularly well-suited for use as the primary storage for file systems, databases, or for any applications that require fine granular updates and access to raw, unformatted, block-level storage. Amazon EBS is well suited to both database-style applications that rely on random reads and writes, and to throughput-intensive applications that perform long, continuous reads and writes.
+AWS recommends Amazon EBS for data that must be quickly accessible and requires long-term persistence. EBS volumes are particularly well-suited for use as the primary storage for file systems, databases, or for any applications that require fine granular updates and access to raw, unformatted, block-level storage. Amazon EBS is well suited to both database-style applications that rely on random reads and writes, and to throughput-intensive applications that perform long, continuous reads and writes.
 
 ### EBS Options:
 <img src="/docs/img/ebs/ebs_example.png" width="800"><br>
@@ -48,6 +49,9 @@ We recommend Amazon EBS for data that must be quickly accessible and requires lo
 `This Section will be updated soon.`
 
 ### 4. EBS Snapshots will only be shared between CG accounts
+`This Section will be updated soon.`
+
+### 5. EBS Volumes should be removed if unattached or no longer required
 `This Section will be updated soon.`
 <br><br>
 
