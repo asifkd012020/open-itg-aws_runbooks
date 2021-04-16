@@ -20,6 +20,8 @@ Enabling automatic major version upgrades ensures that the latest major version 
 
 **How?** 
 Enable RDS auto minor version upgrades\.
+
 To enable this option from the AWS CLI, use the Amazon Redshift modify-cluster command to set the --allow-version-upgrade attribute\.
+
 aws redshift modify-cluster --cluster-identifier clustername --allow-version-upgrade
 Where clustername is the name of your Amazon Redshift cluster\.
