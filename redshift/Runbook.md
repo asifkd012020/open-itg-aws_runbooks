@@ -14,20 +14,9 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Disclaimer](#disclaimer)
 - [Overview](#overview)
-- [Preventative](#preventative)
-  - [1. Network controls are restrictive](#1-implement-access-controls-to-enforce-least-privilege)
-  - [2. Data is protected at-rest and in-transit](#2-data-is-protected-at-rest-and-in-transit)
-  - [3. Database instances are configured for high-availability](#3-database-instances-are-configured-for-high-availability)
-  - [4. Network controls are restrictive](#4-network-controls-are-restrictive)
-  - [5. Store database secrets in a vault for automatic rotation](#5-store-database-secrets-in-a-vault-for-automatic-rotation)
-- [Detective](#detective)
-  - [1. Monitor RDS DB instances status](#1-monitor-rds-db-instances-status)
-  - [2. Log Amazon RDS API calls](#2-log-amazon-rds-api-calls)
-  - [3. Utilize Amazon RDS Event Notifications utilizing Amazon SNS](#3-utilize-amazon-rds-event-notifications-utilizing-amazon-sns)
-  - [4. Utilize AWS Config rules to monitor RDS for control compliance](#4-utilize-aws-config-rules-to-monitor-rds-for-control-compliance)
-  - [5. AWS RDS auto minor version upgrade is enabled](#5-aws-rds-auto-minor-version-upgrade-is-enabled)
-- [Responsive](#responsive)
-  - [1. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS](#1-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds)
+- [Preventative]
+- [Detective]
+- [Responsive]
 - [Endnotes](#endnotes)
 - [Capital Group Control Statements](#capital-group-control-statements)
 - [Glossary](#glossary)
@@ -206,20 +195,26 @@ You can configure your environment to protect the confidentiality and integrity 
     - To support SSL connections, Amazon Redshift creates and installs AWS Certificate Manager (ACM) issued certificates on each cluster. To set this up please refere to
     [Using ACM for securing data-in-transit](https://docs.aws.amazon.com/redshift/latest/mgmt/connecting-transitioning-to-acm-certs.html)
 
-- Encryption of data in transit between an Amazon Redshift cluster and Amazon S3 or DynamoDB
-    - Amazon Redshift uses hardware accelerated SSL to communicate with Amazon S3 or DynamoDB for COPY, UNLOAD, backup, and restore operations.
+    
+##### Encryption of data in transit between an Amazon Redshift cluster and Amazon S3 or DynamoDB <!-- omit in toc -->
+- Amazon Redshift uses hardware accelerated SSL to communicate with Amazon S3 or DynamoDB for COPY, UNLOAD, backup, and restore operations.
 
     - Redshift Spectrum supports the Amazon S3 server-side encryption (SSE) using your account's encryption key managed by the AWS Key Management Service (KMS).
 
     - Encrypt Amazon Redshift loads with Amazon S3 and AWS KMS, for more info please refere to [AWS Documentation](https://aws.amazon.com/blogs/big-data/encrypt-your-amazon-redshift-loads-with-amazon-s3-and-aws-kms/)
 
-##### Encryption of data in transit between an Amazon Redshift cluster and Amazon S3 or DynamoDB <!-- omit in toc -->
-
 
 ##### Encryption and signing of data in transit between AWS CLI, SDK, or API clients and Amazon Redshift endpoints <!-- omit in toc -->
+- Amazon Redshift provides HTTPS endpoints for encrypting data in transit.
 
+-   To protect the integrity of API requests to Amazon Redshift, API calls must be signed by the caller. Calls are signed by an X.509 certificate or the customer's AWS secret access key according to the Signature Version 4 Signing Process (Sigv4). 
+    - Documentation: [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html) in the AWS General Reference.
+
+- Use the AWS CLI or one of the AWS SDKs to make requests to AWS. These tools automatically sign the requests for you with the access key that you specify when you configure the tools.
 
 ##### Encryption of data in transit between Amazon Redshift clusters and AQUA <!-- omit in toc -->
+- Data is transmitted between AQUA and Amazon Redshift clusters over a TLS-encrypted channel. This channel is signed according to the Signature Version 4 Signing Process (Sigv4).
+    - For what AWS AQUA is, please refere to [Advance Query Accelerator Documentation](https://aws.amazon.com/blogs/aws/new-aqua-advanced-query-accelerator-for-amazon-redshift/)
 
 ## Detective
 ### 1. Utilize DynamoDB streams to support data-plane logging
