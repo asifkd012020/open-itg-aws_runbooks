@@ -76,11 +76,10 @@ AWS recommends Amazon EBS for data that must be quickly accessible and requires 
 
 ## Endnotes
 **Resources**<br>
-1. https://docs.aws.amazon.com/datasync/latest/userguide/what-is-datasync.html
-2. https://docs.aws.amazon.com/datasync/latest/userguide/deploy-agents.html
-3. https://docs.aws.amazon.com/datasync/latest/userguide/security.html
-4. https://docs.aws.amazon.com/general/latest/gr/rande.html#datasync-region
-5. https://docs.aws.amazon.com/vpc/latest/privatelink/integrated-services-vpce-list.html
+1. https://aws.amazon.com/ebs/features/
+2. https://aws.amazon.com/ebs/volume-types/
+3. https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
+4. https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-parameters
 <br><br>
 
 ## Capital Group Glossory 
