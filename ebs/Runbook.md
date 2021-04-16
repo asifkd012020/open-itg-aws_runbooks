@@ -40,10 +40,16 @@ AWS recommends Amazon EBS for data that must be quickly accessible and requires 
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. EBS is Encrypted using CG Managed KMS Keys
-`This Section will be updated soon.`
+Encryption operations for EBS storage occurs on the servers that host EC2 instances, ensuring the security of both data-at-rest and data-in-transit between an instance and its attached EBS storage. Due to this fact, the encryption of EBS storage is detailed in the EC2 Runbook linked below:
+
+[EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
 
 ### 2. EBS Snapshots are Encrypted using CG Managed KMS Keys
-`This Section will be updated soon.`
+CG's Cloud Security standards require that we ensure that the AWS EBS volume snapshots that hold sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption. The EBS snapshot data encryption and decryption is handled transparently once it has been enabled. Details on EBS Snapshot encryption is detailed in the EC2 Runbook linked below:
+
+<img src="/docs/img/ebs/snapshot.png" width="800">
+
+[EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
 
 ### 3. EBS Snapshot permissions are set to Private
 `This Section will be updated soon.`
