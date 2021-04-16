@@ -12,12 +12,12 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md",
+            "requirement_name": "Amazon Redshift should have automatic upgrades to major versions enabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#1-aws-redshift-allow-version-upgrade-is-enabled",
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
+                "Prod": "critical",
+                "SNP": "critical",
                 "NP": "medium"
             },
             "control_mapping": [],
