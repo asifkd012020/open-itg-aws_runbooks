@@ -42,6 +42,8 @@ AWS recommends Amazon EBS for data that must be quickly accessible and requires 
 ### 1. EBS is Encrypted using CG Managed KMS Keys
 Encryption operations for EBS storage occurs on the servers that host EC2 instances, ensuring the security of both data-at-rest and data-in-transit between an instance and its attached EBS storage. Due to this fact, the encryption of EBS storage is detailed in the EC2 Runbook linked below:
 
+<img src="/docs/img/ebs/encrypt.png" width="800">
+
 [EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
 
 ### 2. EBS Snapshots are Encrypted using CG Managed KMS Keys
