@@ -69,7 +69,48 @@ Establishing a private connection between your virtual private cloud (VPC) and t
 
 Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon EFS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon EFS API requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. Below are the steps to implement Interface VPC Endpoints for EFS:
 
+**Creation of Interface VPC Endpoint**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.elasticfilesystem`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate `CG standard tags`.
+  4. Click `Create Endpoint` to complete the process.
+  <br>
 
+**Creating an Interface VPC Endpoint Policy**
+
+Controling access to the Amazon EFS API is a must to comply with CG's standards of providing least priviledge access. You can attach an AWS Identity and Access Management (IAM) policy to your VPC endpoint and allows for granular permissions control. 
+
+The policy specifies the following:
+ - The principal that can perform actions.
+ - The actions that can be performed.
+ - The resources on which actions can be performed
+
+**Example Policy:**<br>
+   The following example shows a VPC endpoint policy that denies everyone permission to create an EFS file system through the endpoint. The example policy also grants everyone permission to perform all other actions.
+
+```
+{
+   "Statement": [
+        {
+            "Action": "*",
+            "Effect": "Allow",
+            "Resource": "*",
+            "Principal": "*"
+        },
+        {
+            "Action": "elasticfilesystem:CreateFileSystem",
+            "Effect": "Deny",
+            "Resource": "*",
+            "Principal": "*"
+        }
+    ]
+}
+```
 <br>
 
 ### 2. EFS Users and Roles defined following least privileged model
@@ -113,7 +154,8 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
 2. https://aws.amazon.com/efs/features/
 3. https://docs.aws.amazon.com/efs/latest/ug/efs-vpc-endpoints.html
 4. https://docs.aws.amazon.com/efs/latest/ug/security-considerations.html
-5. https://d0.awsstatic.com/whitepapers/Storage/AWS%20Storage%20Services%20Whitepaper-v9.pdf
+5. https://aws.amazon.com/about-aws/whats-new/2019/10/amazon-efs-supports-aws-privatelink/
+6. https://d0.awsstatic.com/whitepapers/Storage/AWS%20Storage%20Services%20Whitepaper-v9.pdf
 <br><br>
 
 ## Capital Group Glossory 
