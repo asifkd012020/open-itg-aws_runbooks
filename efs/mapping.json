@@ -12,8 +12,8 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "IAM access roles defined following least privileged model",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "requirement_name": "EFS Utilizes VPC Endpoints to Prevent Public Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#1-EFS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -24,8 +24,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Provide EFS access via a CG VPC interface endpoint",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "requirement_name": "EFS Users and Roles defined following least privileged model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#2-EFS-Users-and-Roles-defined-following-least-privileged-model",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -36,8 +36,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Encryption enabled using CG KMS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "requirement_name": "EFS is Encrypted using CG Managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#3-EFS-is-Encrypted-using-CG-Managed-KMS-Keys",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -56,8 +56,8 @@
             ]
         },
         {
-            "requirement_name": "Disable root access by default",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "requirement_name": "EFS connections are protected with TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#4-EFS-connections-are-protected-with-TLS-1-2",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -68,8 +68,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Disable root access by default",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "requirement_name": "EFS access points created following least privileged model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#5-EFS-access-points-created-following-least-privileged-model",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -80,8 +80,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Enforce in-transit encryption for clients",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "requirement_name": "EFS root access disabled by default",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#6-EFS-root-access-disabled-by-default",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -92,20 +92,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Create access points following least privileged principle",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "Resource tagged",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "requirement_name": "EFS Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#1-EBS-Resources-are-tagged-according-to-CG-standards",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -117,7 +105,19 @@
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/efs/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags": [],
             "severity": {
                 "Prod": "medium",
