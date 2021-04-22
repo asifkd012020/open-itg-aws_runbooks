@@ -1,0 +1,144 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::Zocalo::*",
+        "AWS::WorkDocs::*"
+    ],
+    "servicedisplay_name": "WorkDocs",
+    "serviceapproval_status": {
+        "Prod": "denied",
+        "SNP": "denied",
+        "NP": "denied"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "WorkDocs can exclude public access through IP address controls",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/workdocs/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "high"
+            },
+            "control_mapping": [6],
+            "implementations": [
+                {                    
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "WorkDocs can exclude public access through public share settings",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/workdocs/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [5, 7],
+            "implementations": [
+                {
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "WorkDocs utilizes Microsoft Active Directory (AD) Policy to enforce least privilege",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/workdocs/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [7],
+            "implementations": [
+                {
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "WorkDocs utilizes IAM Roles to enforce least privilege",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/workdocs/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [7,8],
+            "implementations": [                
+                {
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "WorkDocs connections are protected with TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/workdocs/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [2],
+            "implementations": [
+                {
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "WorkDocs data is encrypted using CG managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/workdocs/Runbook.md",
+            "tags":[3],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [1,3],
+            "implementations": [
+                {
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "WorkDocs Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/workdocs/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/workdocs/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [4],
+            "implementations": [
+                {
+                    "type": "detect"
+                }
+            ]
+        }
+    ]
+}
