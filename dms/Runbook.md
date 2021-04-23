@@ -13,13 +13,11 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. EBS is Encrypted using CG Managed KMS Keys](#1-EBS-is-Encrypted-using-CG-Managed-KMS-Keys)
-  - [2. EBS Snapshots are Encrypted using CG Managed KMS Keys](#2-EBS-Snapshots-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [3. EBS Snapshot permissions are set to Private](#3-EBS-Snapshot-permissions-are-set-to-Private)
-  - [4. EBS Snapshots will only be shared between CG accounts](#4-EBS-Snapshots-will-only-be-shared-between-CG-accounts)
-  - [5. EBS Volumes should be removed if unattached or no longer required](#5-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
+  - [1. DMS deployed using VPC Endpoints to prevent public access](#1-DMS-deployed-using-VPC-Endpoints-to-prevent-public-access)
+  - [2. DMS Data is Encrypted using CG Managed KMS Keys](#2-DMS-Data-is-Encrypted-using-CG-Managed-KMS-Keys)
+  - [3. DMS Utilizes TLS 1.2 to secure data in transit](#3-DMS-Utilizes-TLS-1-2-to-secure-data-in-transit)
 - [Detective Controls](#Detective-Controls)
-  - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
+  - [1. DMS Resources are tagged according to CG standards](#1-DMS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
@@ -34,3 +32,101 @@ AWS Database Migration Service supports homogeneous migrations such as Oracle to
 
 <img src="/docs/img/dms/dms.png" width="800"/>
 
+<br><br>
+
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
+
+### 1. DMS deployed using VPC Endpoints to prevent public access
+AWS DMS currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**<br>
+DMS is a service that allows for the migration of data between both AWS Databases and On-Premisis databases to AWS. Due to the possibility of sensitive data being stored and processed through DMS, We need to make sure that this traffic is not transmitted directly over the Public Internet. 
+<br>
+
+**How?**<br>
+Establishing a private connection between your virtual private cloud (VPC) and the Amazon DMS service, you should create an interface VPC endpoint. You can use this connection to call the Amazon DMS service from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon DMS service without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
+
+Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon DMS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon DMS requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. 
+
+<img src="/docs/img/dms/dms_ex.png" width="800"/>
+
+Below are the steps to implement Interface VPC Endpoints for DMS:
+
+**Creation of Interface VPC Endpoint**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.dms`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate `CG standard tags`.
+  4. Click `Create Endpoint` to complete the process.
+  <br>
+
+### 2. DMS Data is Encrypted using CG Managed KMS Keys
+`This Section will be updated soon.`
+
+### 3. DMS Utilizes TLS 1.2 to secure data in transit
+`This Section will be updated soon.`
+<br><br>
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. DMS Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. https://docs.aws.amazon.com/dms/latest/userguide/Welcome.html
+2. https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html
+3. https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Tagging.html
+4. https://aws.amazon.com/about-aws/whats-new/2020/11/now-privately-connect-to-aws-database-migration-service-from-amazon-virtual-private-cloud/#:~:text=When%20you%20create%20a%20VPC,kept%20within%20the%20Amazon%20network.&text=Once%20the%20endpoint%20is%20created,AWS%20CLI%20or%20AWS%20SDK
+<br><br>
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
