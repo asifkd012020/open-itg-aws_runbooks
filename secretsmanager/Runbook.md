@@ -75,7 +75,7 @@ Establishing a private connection between your virtual private cloud (VPC) and t
 
 Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon DMS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon Secrets Manager requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. 
 
-<img src="/docs/img/secretsmanager/vpce_use.png" width="800"/>
+<img src="/docs/img/secretsmanager/vpce_use.png" width="600"/>
 
 Below are the steps to implement Interface VPC Endpoints for Secrets Manager:
 
