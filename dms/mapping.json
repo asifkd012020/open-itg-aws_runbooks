@@ -23,7 +23,7 @@
             "control_mapping": [],
             "implementations": []
         },
-		{
+	{
             "requirement_name": "AWS DMS replication instance should have Minor version automatic upgrade enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dms/Runbook.md",
             "tags":[],
