@@ -17,7 +17,7 @@ Security Engineering
   - [2. Secrets Manager access defined following least privileged model](#2-Secrets-Manager-access-defined-following-least-privileged-model)
   - [3. Secrets Manager Encrypts Secrets using CG Managed KMS Keys](#3-Secrets-Manager-Encrypts-Secrets-using-CG-Managed-KMS-Keys)
   - [4. Secrets Manager hosted secrets will be generated, vaulted and managed securely](#4-Secrets-Manager-hosted-secrets-will-be-generated-vaulted-and-managed-securely)
-  - [5. Secrets manager will enforce the Enterprise Password Management requirements](#5-Secrets-Manager-will-enforce-the-Enterprise-Password-Management-requirements)
+  - [5. Secrets Manager will enforce the Enterprise Password Management requirements](#5-Secrets-Manager-will-enforce-the-Enterprise-Password-Management-requirements)
   - [6. Secrets Manager has cross account access disabled](#6-Secrets-Manager-has-cross-account-access-disabled)
 - [Detective Controls](#Detective-Controls)
   - [1. Secrets Manager Resources are tagged according to CG standards](#1-Secrets-Manager-Resources-are-tagged-according-to-CG-standards)
@@ -45,7 +45,52 @@ AWS Secrets Manager helps you protect secrets needed to access your applications
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Secrets Manager Utilizes VPC Endpoints to Prevent Public Access
+AWS Secrets Manager currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
 
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**<br>
+Secrets Manager is a service that allows AWS hosted applications and services to securely retrieve passwords at runtime, thus preventing unauthorized disclosure preventing the need to store passwords in clear. Due to passwords being classified as sensitive, We need to make sure that this traffic is not transmitted or accessible over the Public Internet. 
+<br>
+
+**How?**<br>
+Establishing a private connection between your virtual private cloud (VPC) and the Amazon Secrets Manager service, you should create an interface VPC endpoint. You can use this connection to call the Amazon DMS service from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon Secrets Manager service without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
+
+Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon DMS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon Secrets Manager requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. 
+
+<img src="/docs/img/secretsmanager/vpce_use.png" width="800"/>
+
+Below are the steps to implement Interface VPC Endpoints for Secrets Manager:
+
+**Creation of Interface VPC Endpoint**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.secretsmanager`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate `CG standard tags`.
+  4. Click `Create Endpoint` to complete the process.
+  5. The Secrets Manager service will now be accessible via the private endpoint for all requests within the VPC.
+  <br>
 ### 2. Secrets Manager access defined following least privileged model
 `This Section will be updated soon.`
 
