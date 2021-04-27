@@ -16,7 +16,12 @@ Security Engineering
 - [Disclaimer](#disclaimer)
 - [Overview](#overview)
 - [Preventative](#preventative-controls)
+    - [1. Network Controls are restrictive](#1-network-controls-are-restrictive)
+    - [2. Data is protected at-rest and in-transit](#2-data-is-protected-at-rest-and-in-transit)
+    - [3. Implement access controls to enforce least privilege](#3-implement-access-controls-to-enforce-least-privilege)
 - [Detective](#detective)
+    - [1. Amazon Redshift should have automatic upgrades to major versions enabled](#1-amazon-redshift-should-have-automatic-upgrades-to-major-versions-enabled)
+    - [2. Amazon Redshift should have logging and monitoring enabled](#2-amazon-redshift-should-have-logging-and-monitoring-enabled)
 - [Responsive](#respond/recover)
 - [Endnotes](#endnotes)
 - [Capital Group Control Statements](#capital-group-control-statements)
@@ -44,7 +49,7 @@ Amazon Redshift is a fully managed, cloud-based, petabyte-scale data warehouse s
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Network controls are restrictive
-Amazon Redshift cluster is locked down by default so nobody has access to it. To grant other users inbound access to an Amazon Redshift cluster, you associate the cluster with a security group. If you are on the EC2-VPC platform, you can either use an existing Amazon VPC security group or define a new one. You then associate it with a cluster as described following. If you are on the EC2-Classic platform, you define a cluster security group and associate it with a cluster. For more information on using cluster security groups on the EC2-Classic platform, see [Amazon Redshift Cluster Security Groups](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html).  This section details the process of deploying a Redshift Cluster in a private VPC on a CG internal subnet. 
+<br>
 
 **NIST CSF:** <br>
 
@@ -64,7 +69,9 @@ Amazon Redshift cluster is locked down by default so nobody has access to it. To
 |7|Use of AWS IAM accounts are restricted to CG networks.|
 <br>
 
-**Why?** Multiple layers of security are needed to help ensure that resources are safe from unwanted access. In addition to IAM policies, having strong network controls in place isolates your instances from outside threats. If traffic is not able to reach an instance, then remote threats can be mitigated.
+**Why?** 
+
+Multiple layers of security are needed to help ensure that resources are safe from unwanted access. In addition to IAM policies, having strong network controls in place isolates your instances from outside threats. If traffic is not able to reach an instance, then remote threats can be mitigated.  Amazon Redshift cluster is locked down by default so nobody has access to it. To grant other users inbound access to an Amazon Redshift cluster, you associate the cluster with a security group. If you are on the EC2-VPC platform, you can either use an existing Amazon VPC security group or define a new one. You then associate it with a cluster as described following. If you are on the EC2-Classic platform, you define a cluster security group and associate it with a cluster. For more information on using cluster security groups on the EC2-Classic platform, see [Endnote #1](#Endnote-1).  This section details the process of deploying a Redshift Cluster in a private VPC on a CG internal subnet. 
 
 **How?** 
 1. Set up a VPC:
@@ -94,7 +101,7 @@ Amazon Redshift cluster is locked down by default so nobody has access to it. To
     
     - To get the subnets in VPC:
         
-        - AWS Console: https://console.aws.amazon.com/vpc/home?region=REGION-HERE#subnets:
+        - [AWS Console](https://console.aws.amazon.com/vpc/home?region=REGION-HERE#subnets)
 
         - AWS CLI
             ```
@@ -117,7 +124,7 @@ Amazon Redshift cluster is locked down by default so nobody has access to it. To
 
     - To get the ID of a pre-existing Security Group:
 
-        -  AWS Console: https://console.aws.amazon.com/vpc/home?region=REGION-HERE#securityGroups:
+        -  [AWS Console](https://console.aws.amazon.com/vpc/home?region=REGION-HERE#securityGroups)
 
         - AWS CLI
             ```
@@ -134,11 +141,10 @@ Amazon Redshift cluster is locked down by default so nobody has access to it. To
         ```
         aws redshift create-cluster --node-type NODE-TYPE-HERE --number-of-nodes x --master-username example-name --master-user-password SuperSecretPasswordHere --cluster-security-groups securityGroup-ID --cluster-subnet-group-name SubnetGroupNames --cluster-identifier mycluster
         ```
-<br></br>
+<br>
 
-### 2. Data is protected at-rest and in-transit- 
-By default, Amazon Redshift selects your default key as the master key, however please use CG encryption keys when encrypting your Redshift instance that is package with your AWS account.  In Amazon Redshift, you can enable database encryption for your clusters to help protect data at rest. When you enable encryption for a cluster, the data blocks and system metadata are encrypted for the cluster and its snapshots.  Redshift also allows encryption for data-in-transit please see [Redshift Encryption in Transit](https://docs.aws.amazon.com/redshift/latest/mgmt/security-encryption-in-transit.html).  For more information and learning on encryption with Redshift please read the following documentation by AWS [AWS Redshift Encryption](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-db-encryption.html#working-with-aws-kms).
-<br></br>
+### 2. Data is protected at-rest and in-transit 
+<br>
 
 NIST CSF:
 |NIST Subcategory Control|Description|
@@ -155,7 +161,11 @@ Capital Group:
 |3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
 
 <br></br>
-**Why?** AWS Redshift encrypted DB instances provide an additional layer of data protection by securing your data from unauthorized access to the underlying storage. You can use AWS Redshift encryption to increase data protection of your applications deployed in the cloud, and to fulfill compliance requirements for data-at-rest encryption.  
+**Why?** 
+
+AWS Redshift encrypted DB instances provide an additional layer of data protection by securing your data from unauthorized access to the underlying storage. You can use AWS Redshift encryption to increase data protection of your applications deployed in the cloud, and to fulfill compliance requirements for data-at-rest encryption.  By default, Amazon Redshift selects your default key as the master key, however please use CG encryption keys when encrypting your Redshift instance that is package with your AWS account.
+
+<br>
 
 **How?** 
 #### Enable encryption of data-at-rest <!-- omit in toc -->
@@ -194,7 +204,7 @@ You can configure your environment to protect the confidentiality and integrity 
     - [Configuring SSL](https://docs.aws.amazon.com/redshift/latest/mgmt/connecting-ssl-support.html)
 
     - To support SSL connections, Amazon Redshift creates and installs AWS Certificate Manager (ACM) issued certificates on each cluster. To set this up please refere to
-    [Using ACM for securing data-in-transit](https://docs.aws.amazon.com/redshift/latest/mgmt/connecting-transitioning-to-acm-certs.html)
+    [Endnote 2](#Endnote-2)
 
     
 ##### Encryption of data in transit between an Amazon Redshift cluster and Amazon S3 or DynamoDB <!-- omit in toc -->
@@ -217,7 +227,89 @@ You can configure your environment to protect the confidentiality and integrity 
 - Data is transmitted between AQUA and Amazon Redshift clusters over a TLS-encrypted channel. This channel is signed according to the Signature Version 4 Signing Process (Sigv4).
     - For what AWS AQUA is, please refere to [Advance Query Accelerator Documentation](https://aws.amazon.com/blogs/aws/new-aqua-advanced-query-accelerator-for-amazon-redshift/)
 
+<br>
+
+### 3. Implement access controls to enforce least privilege
+
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
+|PR.AC-3|Remote access is managed|
+|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
+|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
+|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
+|10|Administrative access to AWS resources will have MFA enabled|
+
+<br></br>
+**Why?** 
+
+When you create custom policies, grant only the permissions required to perform a task. Start with a minimum set of permissions and grant additional permissions as necessary. Doing so is more secure than starting with permissions that are too lenient and then trying to tighten them later.  
+To the extent that it's practical, define the conditions under which your identity-based policies allow access to a resource. For example, you can write conditions to specify a range of allowable IP addresses that a request must come from. You can also write conditions to allow requests only within a specified date or time range, or to require the use of SSL or MFA.
+
+<br>
+
+**How?** 
+
+Redshift is fully integrated with AWS IAM for authentication and access control. Use IAM to create IAM users, groups and roles with appropriate permissions, and then add users to appropriate groups and roles. Use Multifactor Authentication for extra security (especially for users with administrative privileges).  
+Use AWS Identity and Access Management (IAM) policies to assign permissions that determine who is allowed to manage Amazon Redshift resources. For example, you can use IAM to determine who is allowed to create, describe, modify, and delete DB instances, tag resources, or modify security groups. List 
+
+The following shows an example of a permissions policy. The policy allows a user to create, delete, modify, and reboot all clusters, and then denies permission to delete or modify any clusters where the cluster identifier starts with production.
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid":"AllowClusterManagement",
+      "Action": [
+        "redshift:CreateCluster",
+        "redshift:DeleteCluster",
+        "redshift:ModifyCluster",
+        "redshift:RebootCluster"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Effect": "Allow"
+    },
+    {
+      "Sid":"DenyDeleteModifyProtected",
+      "Action": [
+        "redshift:DeleteCluster",
+        "redshift:ModifyCluster"
+      ],
+      "Resource": [
+        "arn:aws:redshift:us-west-2:123456789012:cluster:production*"
+      ],
+      "Effect": "Deny"
+    }
+  ]
+}
+```
+
+<br>
+
+#### IAM Database Authentication <!-- omit in toc -->
+Amazon Redshift provides the [GetClusterCredentials API](https://docs.aws.amazon.com/redshift/latest/APIReference/API_GetClusterCredentials.html) operation to generate temporary database user credentials. You can configure your SQL client with Amazon Redshift JDBC or ODBC drivers that manage the process of calling the GetClusterCredentials operation. They do so by retrieving the database user credentials, and establishing a connection between your SQL client and your Amazon Redshift database. You can also use your database application to programmatically call the GetClusterCredentials operation, retrieve database user credentials, and connect to the database.
+
+With the current Okta setup as CG's identity provider (IdP), we can manage access to Amazon Redshift resources via an IAM role.  With that IAM role, you can generate temporary database credentials and log in to Amazon Redshift databases.
+
+For more information on setting up temporary credentials to access your Redshift Cluster, please refer to [Endnote #3](#endpoint-3) 
+
+##### Identity provider federation - 
+- You can use Okta as an identity provider (IdP) to access your Amazon Redshift cluster.  The following is an example of how to setup MFA for Redshift via Okta [AWS Redshift Okta MFA Setup](https://aws.amazon.com/blogs/big-data/federate-amazon-redshift-access-with-okta-as-an-identity-provider/)
+
+
 ## Detective
+
+<br>
+
 ### 1. Amazon Redshift should have automatic upgrades to major versions enabled
 
 **Why?** 
@@ -234,10 +326,37 @@ aws redshift modify-cluster --cluster-identifier clustername --allow-version-upg
 
 Where clustername is the name of your Amazon Redshift cluster
 
+<br>
+
+### 2. Amazon Redshift are tagged according to CG standards
+
+`This Section will be updated soon.`
+
+### 4. CloudWatch logging enabled and sent to Splunk
+
+`This Section will be updated soon.`
+
+### 5. CloudTrail logging enabled and sent to Splunk
+
+`This Section will be updated soon.`
+
+<br>
+
 ## Respond/Recover
-- Text goes here
+`This Section will be updated soon.`
+
+<br>
+
 ## Endnotes
 
+### Endnote #1 <!-- omit in toc -->
+https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html
+
+### Endnote #2 <!-- omit in toc -->
+https://docs.aws.amazon.com/redshift/latest/mgmt/connecting-transitioning-to-acm-certs.html
+
+### Endnote #3 <!-- omit in toc -->
+https://docs.aws.amazon.com/redshift/latest/mgmt/generating-iam-credentials-steps.html
 
 ## Capital Group Control Statements 
 1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
@@ -263,4 +382,3 @@ Where clustername is the name of your Amazon Redshift cluster
 **Cloud Computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
  
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
-=======

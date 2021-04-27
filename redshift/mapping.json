@@ -12,6 +12,50 @@
     "phase": "discovery",
     "mapping": [
         {
+            "requirement_name": "Implement access controls to enforce least privilege",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#1-network-controls-are-restrictive",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data is protected at-rest and in-transit",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#2-data-is-protected-at-rest-and-in-transit",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-Database.json#33"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Network controls are restrictive",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#3-create-a-vpc-endpoint-for-dynamodb",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
             "requirement_name": "Amazon Redshift should have automatic upgrades to major versions enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#1-aws-redshift-allow-version-upgrade-is-enabled",
             "tags":[],
