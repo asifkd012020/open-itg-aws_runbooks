@@ -90,8 +90,7 @@ Below are the steps to implement Interface VPC Endpoints for Secrets Manager:
      - Now add the appropriate `CG standard tags`.
   4. Click `Create Endpoint` to complete the process.
   5. The Secrets Manager service will now be accessible via the private endpoint for all requests within the VPC.
-  <br>
-  
+
 ### 2. Secrets Manager access defined following least privileged model
 `This Section will be updated soon.`
 
