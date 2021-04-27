@@ -137,7 +137,8 @@ Below are the steps to implement Interface VPC Endpoints for Secrets Manager:
 ## Endnotes
 **Resources**<br>
 1. http://projects/sites/RiskManagementIC/publiclibrary/Enterprise%20Password%20Management%20Statement%20of%20Direction.pdf
-2. 
+2. https://aws.amazon.com/blogs/security/how-to-connect-to-aws-secrets-manager-service-within-a-virtual-private-cloud/
+3. https://aws.amazon.com/secrets-manager/
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
