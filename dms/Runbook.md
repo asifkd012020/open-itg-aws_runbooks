@@ -6,7 +6,9 @@ Assessment pending
 MTNP
 
 Table of Contents
+
 •	Detective
+
 o	1. AWS DMS replication instance should have ‘Minor version automatic upgrade’ enabled
 Detective
 1. AWS DMS replication instance should have ‘Minor version automatic upgrade’ enabled
