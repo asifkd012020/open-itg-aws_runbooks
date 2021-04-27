@@ -13,14 +13,14 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. EFS Utilizes VPC Endpoints to Prevent Public Access](#1-EFS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [2. EFS Users and Roles defined following least privileged model](#2-EFS-Users-and-Roles-defined-following-least-privileged-model)
-  - [3. EFS is Encrypted using CG Managed KMS Keys](#3-EFS-is-Encrypted-using-CG-Managed-KMS-Keys)
-  - [4. EFS connections are protected with TLS 1.2](#4-EFS-connections-are-protected-with-TLS-1-2)
-  - [5. EFS access points created following least privileged model](#5-EFS-access-points-created-following-least-privileged-model)
-  - [6. EFS root access disabled by default](#6-EFS-root-access-disabled-by-default)
+  - [1. Secrets Manager Utilizes VPC Endpoints to Prevent Public Access](#1-Secrets-Manager-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [2. Secrets Manager access defined following least privileged model](#2-Secrets-Manager-access-defined-following-least-privileged-model)
+  - [3. Secrets Manager Encrypts Secrets using CG Managed KMS Keys](#3-Secrets-Manager-Encrypts-Secrets-using-CG-Managed-KMS-Keys)
+  - [4. Secrets Manager hosted secrets will be generated, vaulted and managed securely](#4-Secrets-Manager-hosted-secrets-will-be-generated-vaulted-and-managed-securely)
+  - [5. Secrets manager will enforce the Enterprise Password Management requirements](#5-Secrets-Manager-will-enforce-the-Enterprise-Password-Management-requirements)
+  - [6. Secrets Manager has cross account access disabled](#6-Secrets-Manager-has-cross-account-access-disabled)
 - [Detective Controls](#Detective-Controls)
-  - [1. EFS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
+  - [1. Secrets Manager Resources are tagged according to CG standards](#1-Secrets-Manager-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
@@ -41,18 +41,68 @@ AWS Secrets Manager helps you protect secrets needed to access your applications
  - Programmatic retrieval of secrets
  <br><br>
 
-## Secrets will be generated, vaulted and managed securely
-### Requester should not have knowledge of a secret
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
 
-## Secrets manager will enforce the Enterprise Password Management requirements
-http://projects/sites/RiskManagementIC/publiclibrary/Enterprise%20Password%20Management%20Statement%20of%20Direction.pdf
+### 1. Secrets Manager Utilizes VPC Endpoints to Prevent Public Access
 
-## Secrets will be encrypted at rest using CG KMS
+### 2. Secrets Manager access defined following least privileged model
+`This Section will be updated soon.`
 
-## Access to secrets are allowed following the least privileged access model
+### 3. Secrets Manager Encrypts Secrets using CG Managed KMS Keys
+`This Section will be updated soon.`
 
-## Secrets will be rotated if it has been exposed
+### 4. Secrets Manager hosted secrets will be generated, vaulted and managed securely
+`This Section will be updated soon.`
+- **Requester should not have knowledge of a secret**<br>
+`This Section will be updated soon.`
 
-## Only application secrets will be stored in Secrets Manager
+### 5. Secrets manager will enforce the Enterprise Password Management requirements
+[Enterprise Password Management Requirements](http://projects/sites/RiskManagementIC/publiclibrary/Enterprise%20Password%20Management%20Statement%20of%20Direction.pdf)<br>
+`This Section will be updated soon.`
+- **Secrets will be rotated if it has been exposed**<br>
+`This Section will be updated soon.`
+- **Only application secrets will be stored in Secrets Manager**<br>
+`This Section will be updated soon.`
 
-## Disable cross account access to secrets 
+
+### 6. Secrets Manager has cross account access disabled
+`This Section will be updated soon.`
+<br><br>
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. EFS Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. http://projects/sites/RiskManagementIC/publiclibrary/Enterprise%20Password%20Management%20Statement%20of%20Direction.pdf
+2. 
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
