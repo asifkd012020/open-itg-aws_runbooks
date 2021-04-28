@@ -14,9 +14,12 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. SageMaker Utilizes VPC Endpoints to Prevent Public Access](#1-Secrets-Manager-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [2. SageMaker Users and Roles defined following least privilege model](#2-SageMaker-Users-and-Roles-defined-following-least-privilege-model)
-  - [3. SageMaker resources are Encrypted using CG Managed KMS Keys](#3-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [4. SageMaker connections are Encrypted in transitusing TLS 1.2](#4-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2)
+  - [2. SageMaker notebook instances have Public Internet access disabled](#2-SageMaker-notebook-instances-have-Public-Internet-access-disabled)
+  - [3. SageMaker Users and Roles defined following least privilege model](#3-SageMaker-Users-and-Roles-defined-following-least-privilege-model)
+  - [4. SageMaker resources are Encrypted using CG Managed KMS Keys](#4-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
+  - [5. SageMaker connections are Encrypted in transitusing TLS 1.2](#6-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2)
+  - [6. SageMaker uses the CG instance of GitHub Enterprise as source code repository](#6-SageMaker-uses-the-CG-instance-of-GitHub-Enterprise-as-source-code-repository) 
+  - [7. SageMaker workloads execute within CG private network](#7-SageMaker-workloads-execute-within-CG-private-network)
 - [Detective Controls](#Detective-Controls)
   - [1. SageMaker Resources are tagged according to CG standards](#1-SageMaker-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -67,7 +70,7 @@ SageMaker currently supports VPC Interface Endpoints in AWS, and as such allows 
 <br>
 
 **Why?**<br>
-SageMaker is a service that allows AWS hosted applications and services to securely retrieve passwords at runtime, thus preventing unauthorized disclosure preventing the need to store passwords in clear. Due to passwords being classified as sensitive, We need to make sure that this traffic is not transmitted or accessible over the Public Internet. 
+SageMaker is a service that data scientists and developers can quickly and easily build and train machine learning models, and then directly deploy them into a production-ready hosted environment. As the users may be working with sensitive data, We need to make sure that this traffic is not transmitted or accessible over the Public Internet. 
 <br>
 
 **How?**<br>
@@ -99,7 +102,8 @@ You can create a policy for Amazon VPC endpoints for SageMaker to specify the fo
   - The actions that can be performed.
   - The resources on which actions can be performed.
 
-**Example:** *Policy allowing all users who have access to the VPC interface endpoint the ability to invoke the SageMaker hosted endpoint named `myEndpoint`.*
+**Example Policy:** <br>
+*Policy allowing all users who have access to the VPC interface endpoint the ability to invoke the SageMaker hosted endpoint named `myEndpoint`.*
 ```
 {
   "Statement": [
@@ -113,16 +117,107 @@ You can create a policy for Amazon VPC endpoints for SageMaker to specify the fo
 }
 ```
 
+**Connecting to SageMaker via the VPC Endpoint:**<br>
+After you have created a VPC endpoint, you can use the following example CLI commands that use the endpoint-url parameter to specify interface endpoints to the SageMaker API or Runtime. This ensures that all connections to your SageMaker environment traverse the private network.
+```
+aws sagemaker list-notebook-instances --endpoint-url VPC_Endpoint_ID.api.sagemaker.Region.vpce.amazonaws.com
+
+aws sagemaker list-training-jobs --endpoint-url VPC_Endpoint_ID.api.sagemaker.Region.vpce.amazonaws.com
+
+aws sagemaker-runtime invoke-endpoint --endpoint-url VPC_Endpoint_ID.runtime.sagemaker.Region.vpce.amazonaws.com  \
+    --endpoint-name Endpoint_Name \
+    --body "Endpoint_Body" \
+    --content-type "Content_Type" \
+            Output_File
+```
+
+### 2. SageMaker notebook instances have Public Internet access disabled
+Amazon SageMaker provides fully managed instances running Jupyter Notebooks for data exploration and preprocessing. But by default public Internet access is enabled for each instance, and this will cause the instance to fail CG's cloud security standards. This section will explain how to use SageMaker lifecycle configuration to ensure cloud control adherence.
+
+**NIST CSF:** <br>
+
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.PT-4|Communications and control networks are protected|
+|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+|PR.AC-3|Remote access is managed|
+|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+**Why?**<br>
+SageMaker as mentioned before is a service that is used in Machine Learning and may involve sensitive data, for this reason we want a lifecycle configuration that automatically disconnects notebook instances from the public internet so that you can apply controlled security settings in your notebook instances by default.
+<br>
+
+**How?**<br>
 
 
+### 3. SageMaker Users and Roles defined following least privilege model
+`This Section will be updated soon.`
 
+### 4. SageMaker resources are Encrypted using CG Managed KMS Keys
+`This Section will be updated soon.`
+
+### 5. SageMaker connections are Encrypted in transitusing TLS 1.2
+`This Section will be updated soon.`
+
+### 6. SageMaker uses the CG instance of GitHub Enterprise as source code repository
+`This Section will be updated soon.`
+
+### 7. SageMaker workloads execute within CG private network
+`This Section will be updated soon.`
+<br><br>
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. SageMaker Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. https://aws.amazon.com/blogs/machine-learning/customize-your-amazon-sagemaker-notebook-instances-with-lifecycle-configurations-and-the-option-to-disable-internet-access/#:~:text=To%20disable%20direct%20internet%20access%2C%20under%20Direct%20Internet%20access%2C%20simply,running%2C%20without%20direct%20internet%20access.
+2. https://docs.aws.amazon.com/sagemaker/latest/dg/interface-vpc-endpoint.html
+3. https://sagemaker-workshop.com/security_for_sysops/team_resources/secure_networking.html
+4. https://confluence.capgroup.com/display/FSA/Sentinel+Policies?showComments=true&showCommentArea=true#SentinelPolicies-SageMakerPolicies.
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
 
 
 ## Encrypt data at rest using CG KMS -- ** Sentinel policy check **
-## Use service endpoints to route via private network
 ## Disable Internet (public) access -- ** Sentinel policy check **
 ## Ensure workloads execute in private network -- ** SCP Policy **
-## Set source code repository to CG's instance of GitHub Enterprise
 
 ### SageMaker Notebook Instance and SageMaker Domain Sentinel Policies have been defined to verify SageMaker configuration.  The policies check that appropirate encryption and network controls are in place for SageMaker.  You will find details at the following link.
   https://confluence.capgroup.com/display/FSA/Sentinel+Policies?showComments=true&showCommentArea=true#SentinelPolicies-SageMakerPolicies.
