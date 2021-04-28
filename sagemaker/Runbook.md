@@ -75,7 +75,7 @@ Establishing a private connection between your virtual private cloud (VPC) and t
 
 Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon SageMaker in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon SageMaker requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. 
 
-<img src="/docs/img/secretsmanager/vpce_use.png" width="600"/>
+<img src="/docs/img/sagemaker/vpce_use.png" width="600"/>
 
 Below are the steps to implement Interface VPC Endpoints for SageMaker:
 
@@ -106,7 +106,7 @@ You can create a policy for Amazon VPC endpoints for SageMaker to specify the fo
       {
           "Action": "sagemaker:InvokeEndpoint",
           "Effect": "Allow",
-          "Resource": "arn:aws:sagemaker:us-west-2:123456789012:endpoint/myEndpoint",
+          "Resource": "arn:aws:sagemaker:us-west-2:<ACCOUNT_NUMBER>:endpoint/myEndpoint",
           "Principal": "*"
       }
   ]
