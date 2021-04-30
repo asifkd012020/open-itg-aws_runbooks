@@ -12,8 +12,8 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Secrets will be generated, vaulted and managed securely",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "requirement_name": "Secrets Manager Utilizes VPC Endpoints to Prevent Public Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#1-Secrets-Manager-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -24,8 +24,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Secrets manager will enforce the Enterprise Password Management requirements",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "requirement_name": "Secrets Manager access defined following least privileged model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#2-Secrets-Manager-access-defined-following-least-privileged-model",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -36,8 +36,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Secrets will be encrypted at rest using CG KMS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "requirement_name": "Secrets Manager Encrypts Secrets using CG Managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#3-Secrets-Manager-Encrypts-Secrets-using-CG-Managed-KMS-Keys",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -48,8 +48,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Access to secrets are allowed following the least privileged access model",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "requirement_name": "Secrets Manager hosted secrets will be generated, vaulted and managed securely",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#4-Secrets-Manager-hosted-secrets-will-be-generated-vaulted-and-managed-securely",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -60,8 +60,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Secrets will be rotated if it has been exposed",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "requirement_name": "Secrets Manager will enforce the Enterprise Password Management requirements",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#5-Secrets-Manager-will-enforce-the-Enterprise-Password-Management-requirements",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -72,8 +72,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Only application secrets will be stored in Secrets Manager",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "requirement_name": "Secrets Manager has cross account access disabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#6-Secrets-Manager-has-cross-account-access-disabled",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -84,8 +84,32 @@
             "implementations": []
         },
         {
-            "requirement_name": "Disable cross account access to secrets",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md",
+            "requirement_name": "Secrets Manager Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#1-Secrets-Manager-Resources-are-tagged-according-to-CG-standards",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/secretsmanager/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags": [],
             "severity": {
                 "Prod": "medium",
