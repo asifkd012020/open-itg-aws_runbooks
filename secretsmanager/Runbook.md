@@ -99,6 +99,7 @@ Below are the steps to implement Interface VPC Endpoints for Secrets Manager:
 
 ### 4. Secrets Manager hosted secrets will be generated, vaulted and managed securely
 `This Section will be updated soon.`
+
 - **Requester should not have knowledge of a secret**<br>
 `This Section will be updated soon.`
 
