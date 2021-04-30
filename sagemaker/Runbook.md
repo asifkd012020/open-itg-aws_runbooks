@@ -224,9 +224,9 @@ Currently if you connect a notebook instance to your virtual private cloud (VPC)
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
 
 
-## Encrypt data at rest using CG KMS -- ** Sentinel policy check **
-## Disable Internet (public) access -- ** Sentinel policy check **
-## Ensure workloads execute in private network -- ** SCP Policy **
+### Encrypt data at rest using CG KMS -- ** Sentinel policy check **
+### Disable Internet (public) access -- ** Sentinel policy check **
+### Ensure workloads execute in private network -- ** SCP Policy **
 
 ### SageMaker Notebook Instance and SageMaker Domain Sentinel Policies have been defined to verify SageMaker configuration.  The policies check that appropirate encryption and network controls are in place for SageMaker.  You will find details at the following link.
   https://confluence.capgroup.com/display/FSA/Sentinel+Policies?showComments=true&showCommentArea=true#SentinelPolicies-SageMakerPolicies.
