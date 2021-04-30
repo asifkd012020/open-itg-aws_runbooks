@@ -157,7 +157,16 @@ SageMaker as mentioned before is a service that is used in Machine Learning and 
 <br>
 
 **How?**<br>
+Currently if you connect a notebook instance to your virtual private cloud (VPC), the notebook instance could still provide an additional avenue for data access as the notebook lifecycle configuration has internet access turned on by default. The information below will detail how to run notebooks inside your private VPC, and turn off default internet accessibility.
 
+ - **Create a Notebook in a VPC with no Internet Access**<br>
+   - To get started with configuration of a notebook in a VPC, open the Amazon `SageMaker console` and create a new notebook instance. <br>
+   - Select the `VPC` for your notebook instance connection. 
+   - You’ll notice a few other fields are enabled. Select the `Subnet` and `Security group(s)` as part of the VPC setting.
+   - To disable direct internet access, under Direct Internet access, simply choose `Disable – use VPC only`
+   - Select the `Create notebook instance` button at the bottom.<br>
+   <img src="/docs/img/sagemaker/sagemaker_vpc.gif" width="600"><br>
+   After a few minutes the New Notebook will be ready for use.
 
 ### 3. SageMaker Users and Roles defined following least privilege model
 `This Section will be updated soon.`
