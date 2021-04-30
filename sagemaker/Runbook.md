@@ -17,7 +17,7 @@ Security Engineering
   - [2. SageMaker notebook instances have Public Internet access disabled](#2-SageMaker-notebook-instances-have-Public-Internet-access-disabled)
   - [3. SageMaker Users and Roles defined following least privilege model](#3-SageMaker-Users-and-Roles-defined-following-least-privilege-model)
   - [4. SageMaker resources are Encrypted using CG Managed KMS Keys](#4-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [5. SageMaker connections are Encrypted in transitusing TLS 1.2](#6-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2)
+  - [5. SageMaker connections are Encrypted in transitusing TLS 1.2](#5-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2)
   - [6. SageMaker uses the CG instance of GitHub Enterprise as source code repository](#6-SageMaker-uses-the-CG-instance-of-GitHub-Enterprise-as-source-code-repository) 
   - [7. SageMaker workloads execute within CG private network](#7-SageMaker-workloads-execute-within-CG-private-network)
 - [Detective Controls](#Detective-Controls)
@@ -222,11 +222,3 @@ Currently if you connect a notebook instance to your virtual private cloud (VPC)
 **Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
 
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
-
-
-### Encrypt data at rest using CG KMS -- ** Sentinel policy check **
-### Disable Internet (public) access -- ** Sentinel policy check **
-### Ensure workloads execute in private network -- ** SCP Policy **
-
-### SageMaker Notebook Instance and SageMaker Domain Sentinel Policies have been defined to verify SageMaker configuration.  The policies check that appropirate encryption and network controls are in place for SageMaker.  You will find details at the following link.
-  https://confluence.capgroup.com/display/FSA/Sentinel+Policies?showComments=true&showCommentArea=true#SentinelPolicies-SageMakerPolicies.
