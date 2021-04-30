@@ -1,6 +1,5 @@
 <img src="https://a0.awsstatic.com/libra-css/images/logos/aws_logo_smile_1200x630.png" alt="AWS" width="250"/>
 
-<<<<<<< HEAD
 # AWS Redshift - Security Playbook <!-- omit in toc -->
 
 ## NIST Cybersecurity Framework Alignment <!-- omit in toc -->
@@ -10,10 +9,9 @@
 <br>
 Security Engineering
 
-**Last Update:** *04/16/2021*
+**Last Update:** *04/30/2021*
 
 ## Table of Contents <!-- omit in toc -->
-- [Disclaimer](#disclaimer)
 - [Overview](#overview)
 - [Preventative](#preventative-controls)
     - [1. Network Controls are restrictive](#1-network-controls-are-restrictive)
@@ -21,8 +19,7 @@ Security Engineering
     - [3. Implement access controls to enforce least privilege](#3-implement-access-controls-to-enforce-least-privilege)
 - [Detective](#detective)
     - [1. Amazon Redshift should have automatic upgrades to major versions enabled](#1-amazon-redshift-should-have-automatic-upgrades-to-major-versions-enabled)
-    - [2. Amazon Redshift should have logging and monitoring enabled](#2-amazon-redshift-should-have-logging-and-monitoring-enabled)
-- [Responsive](#respond/recover)
+- [Respond & Recover](#Respond/Recover)
 - [Endnotes](#endnotes)
 - [Capital Group Control Statements](#capital-group-control-statements)
 - [Glossary](#glossary)
@@ -69,11 +66,10 @@ Amazon Redshift is a fully managed, cloud-based, petabyte-scale data warehouse s
 |7|Use of AWS IAM accounts are restricted to CG networks.|
 <br>
 
-**Why?** 
+**Why?** <br>
+Multiple layers of security are needed to help ensure that resources are safe from unwanted access. In addition to IAM policies, having strong network controls in place isolates your instances from outside threats. If traffic is not able to reach an instance, then remote threats can be mitigated.  Amazon Redshift cluster is locked down by default so nobody has access to it. To grant other users inbound access to an Amazon Redshift cluster, you associate the cluster with a security group. If you are on the EC2-VPC platform, you can either use an existing Amazon VPC security group or define a new one. You then associate it with a cluster as described following. If you are on the EC2-Classic platform, you define a cluster security group and associate it with a cluster. For more information on using cluster security groups on the EC2-Classic platform, see `Endnote 1`.  This section details the process of deploying a Redshift Cluster in a private VPC on a CG internal subnet. 
 
-Multiple layers of security are needed to help ensure that resources are safe from unwanted access. In addition to IAM policies, having strong network controls in place isolates your instances from outside threats. If traffic is not able to reach an instance, then remote threats can be mitigated.  Amazon Redshift cluster is locked down by default so nobody has access to it. To grant other users inbound access to an Amazon Redshift cluster, you associate the cluster with a security group. If you are on the EC2-VPC platform, you can either use an existing Amazon VPC security group or define a new one. You then associate it with a cluster as described following. If you are on the EC2-Classic platform, you define a cluster security group and associate it with a cluster. For more information on using cluster security groups on the EC2-Classic platform, see [Endnote #1](#Endnote-1).  This section details the process of deploying a Redshift Cluster in a private VPC on a CG internal subnet. 
-
-**How?** 
+**How?**<br> 
 1. Set up a VPC:
     
     - When you launch a Redshift Cluster, you can utilize the VPC that has been generated for your AWS account upon creation of the account.
@@ -204,7 +200,7 @@ You can configure your environment to protect the confidentiality and integrity 
     - [Configuring SSL](https://docs.aws.amazon.com/redshift/latest/mgmt/connecting-ssl-support.html)
 
     - To support SSL connections, Amazon Redshift creates and installs AWS Certificate Manager (ACM) issued certificates on each cluster. To set this up please refere to
-    [Endnote 2](#Endnote-2)
+    `Endnote 2`
 
     
 ##### Encryption of data in transit between an Amazon Redshift cluster and Amazon S3 or DynamoDB <!-- omit in toc -->
@@ -300,85 +296,64 @@ Amazon Redshift provides the [GetClusterCredentials API](https://docs.aws.amazon
 
 With the current Okta setup as CG's identity provider (IdP), we can manage access to Amazon Redshift resources via an IAM role.  With that IAM role, you can generate temporary database credentials and log in to Amazon Redshift databases.
 
-For more information on setting up temporary credentials to access your Redshift Cluster, please refer to [Endnote #3](#endpoint-3) 
+For more information on setting up temporary credentials to access your Redshift Cluster, please refer to `Endnote 3` 
 
 ##### Identity provider federation - 
 - You can use Okta as an identity provider (IdP) to access your Amazon Redshift cluster.  The following is an example of how to setup MFA for Redshift via Okta [AWS Redshift Okta MFA Setup](https://aws.amazon.com/blogs/big-data/federate-amazon-redshift-access-with-okta-as-an-identity-provider/)
 
 
-## Detective
-
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
 <br>
 
 ### 1. Amazon Redshift should have automatic upgrades to major versions enabled
 
-**Why?** 
+**Why?**<br> 
 This control checks whether automatic major version upgrades are enabled for the Amazon Redshift cluster\.
 
 Enabling automatic major version upgrades ensures that the latest major version updates to Amazon Redshift clusters are installed during the maintenance window\. These updates might include security patches and bug fixes\. Keeping up-to-date with patch installation is an important step in securing systems\.
 
-**How?** 
+**How?**<br>
 Enable Redshift allow version upgrades\.
 
-To enable this option from the AWS CLI, use the Amazon Redshift modify-cluster command to set the --allow-version-upgrade attribute\.
-
-aws redshift modify-cluster --cluster-identifier clustername --allow-version-upgrade
-
-Where clustername is the name of your Amazon Redshift cluster
-
+ - To enable this option from the AWS CLI, use the Amazon Redshift `modify-cluster` command to set the `--allow-version-upgrade attribute`\.
+ - AWS Redshift `modify-cluster --cluster-identifier clustername --allow-version-upgrade`
+ - Where clustername is the name of your Amazon Redshift cluster.
 <br>
 
-### 2. Amazon Redshift are tagged according to CG standards
+### 2. Redshift Resources are tagged according to CG standards
 
 `This Section will be updated soon.`
 
-### 4. CloudWatch logging enabled and sent to Splunk
+### 3. CloudWatch logging enabled and sent to Splunk
 
 `This Section will be updated soon.`
 
-### 5. CloudTrail logging enabled and sent to Splunk
-
+### 4. CloudTrail logging enabled and sent to Splunk
 `This Section will be updated soon.`
-
-<br>
+<br><br>
 
 ## Respond/Recover
-`This Section will be updated soon.`
+<img src="/docs/img/Monitor.png" width="50">
 
-<br>
+`This Section will be updated soon.`
+<br><br>
 
 ## Endnotes
+1. https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html
+2. https://docs.aws.amazon.com/redshift/latest/mgmt/connecting-transitioning-to-acm-certs.html
+3. https://docs.aws.amazon.com/redshift/latest/mgmt/generating-iam-credentials-steps.html
+<br><br>
 
-### Endnote #1 <!-- omit in toc -->
-https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-security-groups.html
-
-### Endnote #2 <!-- omit in toc -->
-https://docs.aws.amazon.com/redshift/latest/mgmt/connecting-transitioning-to-acm-certs.html
-
-### Endnote #3 <!-- omit in toc -->
-https://docs.aws.amazon.com/redshift/latest/mgmt/generating-iam-credentials-steps.html
-
-## Capital Group Control Statements 
-1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
-2. All Data-in-transit must be encrypted using certificates using CG Certificate Authority.
-3. Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.
-4. AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.
-5. AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.
-6. Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.
-7. Use of AWS IAM accounts are restricted to CG networks.
-8. AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.
-9. Encryption keys are rotated annually.
-10. Administrative access to AWS resources will have MFA enabled
-
-## Glossary
-**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
  
 **Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
- 
+
 **Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
- 
+
 **Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
- 
-**Cloud Computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
- 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
 **Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
