@@ -21,7 +21,7 @@ Security Engineering
     - [4. Redshift implements access controls to enforce least privilege](#4-Redshift-implement-access-controls-to-enforce-least-privilege)
 - [Detective](#Detective)
     - [1. Amazon Redshift should have automatic upgrades to major versions enabled](#1-amazon-redshift-should-have-automatic-upgrades-to-major-versions-enabled)
-    - [2. SageMaker Resources are tagged according to CG standards](#2-SageMaker-Resources-are-tagged-according-to-CG-standards)
+    - [2. Redshift Resources are tagged according to CG standards](#2-Redshift-Resources-are-tagged-according-to-CG-standards)
     - [3. CloudTrail logging enabled and sent to Splunk](#3-CloudTrail-logging-enabled-and-sent-to-Splunk)
     - [4. CloudWatch logging enabled and sent to Splunk](#4-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
