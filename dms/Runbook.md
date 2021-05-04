@@ -25,6 +25,7 @@ To modify a replication instance by using the AWS console
   1.	Sign in to the AWS Management Console and open the AWS DMS console at https://console.aws.amazon.com/dms/v2/
   2.	In the navigation pane, choose Replication instances.
   3.	Choose the replication instance you want to modify. The following modifications you can make.
-      Minor version automatic upgrade: Choose this option to have minor engine upgrades applied automatically to the replication instance during the maintenance window
+      
+        Minor version automatic upgrade: Choose this option to have minor engine upgrades applied automatically to the replication instance during the maintenance window
 
 When you modify a replication instance, you can apply the changes immediately. To apply changes immediately, choose the ‘Apply changes immediately’ option in the AWS Management Console. Or use the --apply-immediately parameter when calling the AWS CLI.
