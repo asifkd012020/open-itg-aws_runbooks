@@ -37,7 +37,7 @@
         },
         {
             "requirement_name": "EventBridge resources are Encrypted using CG Managed KMS Keys",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eventbridge/Runbook.md#3-EventBridge-reources-are-Encrypted-using-CG-Managed-KMS-Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eventbridge/Runbook.md#3-EventBridge-resources-are-Encrypted-using-CG-Managed-KMS-Keys",
             "tags":[],
             "severity": {
                 "Prod": "high",
