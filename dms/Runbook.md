@@ -20,7 +20,7 @@ Security Engineering
   - [1. DMS Resources are tagged according to CG standards](#1-DMS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
-  - [4. AWS DMS replication instance should have Minor version automatic upgrade enabled] (#4-AWS DMS replication instance should have ‘Minor version automatic upgrade’ enabled)
+  - [4. AWS DMS replication instance should have Minor version automatic upgrade enabled]
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -118,9 +118,9 @@ aws dms modify-replication-instance --replication-instance-arn <replication-inst
 To modify a replication instance by using the AWS console
     1.	Sign in to the AWS Management Console and open the AWS DMS console at https://console.aws.amazon.com/dms/v2/
     2.	In the navigation pane, choose Replication instances.
-    3.	Choose the replication instance you want to modify. The following modifications you can make.
+    4.	Choose the replication instance you want to modify. The following modifications you can make.
 
-    Minor version automatic upgrade: Choose this option to have minor engine upgrades applied automatically to the replication instance during the maintenance window
+   Minor version automatic upgrade: Choose this option to have minor engine upgrades applied automatically to the replication instance during the maintenance window
 
 When you modify a replication instance, you can apply the changes immediately. To apply changes immediately, choose the ‘Apply changes immediately’ option in the AWS Management Console. Or use the --apply-immediately parameter when calling the AWS CLI.
 
