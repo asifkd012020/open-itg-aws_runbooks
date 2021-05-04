@@ -52,11 +52,11 @@ Following CG's stringent cloud security controls, you should establish a private
 <br>
 |Control Statement|Description|
 |------|----------------------|
-|CS0012300|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
-|CS0012264|Network connectivity to external services are configured to comply with enterprise approved patterns.|
-|CS0012316|External facing system components must allocate separate network interfaces for front-end traffic, back-end traffic, and administration.|
-|CS0012317|Services using externally exposed APIs must employ enterprise approved security mechanisms. |
-|CS0012318|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones. |
+|[CS0012300]("https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp")|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+|[CS0012264](https://capitalgroup.service-now.com/cg_grc?sys_id=67ef99521b5a8050da4bdca4bd4bcbb6&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Network connectivity to external services are configured to comply with enterprise approved patterns.|
+|[CS0012316](https://capitalgroup.service-now.com/cg_grc?sys_id=474f8d4b1bea6850371277741a4bcbb0&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|External facing system components must allocate separate network interfaces for front-end traffic, back-end traffic, and administration.|
+|[CS0012317](https://capitalgroup.service-now.com/cg_grc?sys_id=134f8d4b1bea6850371277741a4bcbb9&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Services using externally exposed APIs must employ enterprise approved security mechanisms. |
+|[CS0012318](https://capitalgroup.service-now.com/cg_grc?sys_id=534f8d4b1bea6850371277741a4bcbc2&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones. |
 <br>
 
 **Why?**<br>
