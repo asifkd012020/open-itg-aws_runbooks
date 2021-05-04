@@ -12,8 +12,100 @@
     "phase": "discovery",
     "mapping": [
         {
+            "requirement_name": "Redshift resources deployed in Private VPC to prevent Public Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#1-Redshift-resources-deployed-in-Private-VPC-to-prevent-Public-Access",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Redshift resources are Encrypted using CG Managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#2-Redshift-resources-are-Encrypted-using-CG-Managed-KMS-Keys",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-Database.json#33"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "Redshift connections are Encrypted in transitusing TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#3-Redshift-connections-are-Encrypted-in-transitusing-TLS-1-2",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Redshift implements access controls to enforce least privilege",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#4-Redshift-implement-access-controls-to-enforce-least-privilege",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
             "requirement_name": "Amazon Redshift should have automatic upgrades to major versions enabled",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#1-aws-redshift-allow-version-upgrade-is-enabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#1-amazon-redshift-should-have-automatic-upgrades-to-major-versions-enabled",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Redshift Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#2-Redshift-Resources-are-tagged-according-to-CG-standards",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#3-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/redshift/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags":[],
             "severity": {
                 "Prod": "critical",
