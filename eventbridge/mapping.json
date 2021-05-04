@@ -48,8 +48,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "EventBridge connections are Encrypted in transitusing TLS 1.2",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eventbridge/Runbook.md#4-EventBridge-connections-are-Encrypted-in-transitusing-TLS-1-2",
+            "requirement_name": "EventBridge connections are Encrypted in transit using TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eventbridge/Runbook.md#4-EventBridge-connections-are-Encrypted-in-transit-using-TLS-1-2",
             "tags":[],
             "severity": {
                 "Prod": "high",
