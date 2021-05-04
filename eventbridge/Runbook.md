@@ -48,13 +48,12 @@ EventBridge connects applications using events. An event is a signal that a syst
 Following CG's stringent cloud security controls, you should establish a private connection between your VPC and EventBridge. You can use this connection to enable EventBridge to communicate with your resources on your VPC without going through the public internet.
 <br>
 
-**Capital Group:** 
+**Capital Group Controls:** 
 <br>
 |Control Statement|Description|
 |------|----------------------|
 |[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
 |[CS0012264](https://capitalgroup.service-now.com/cg_grc?sys_id=67ef99521b5a8050da4bdca4bd4bcbb6&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Network connectivity to external services are configured to comply with enterprise approved patterns.|
-|[CS0012316](https://capitalgroup.service-now.com/cg_grc?sys_id=474f8d4b1bea6850371277741a4bcbb0&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|External facing system components must allocate separate network interfaces for front-end traffic, back-end traffic, and administration.|
 |[CS0012317](https://capitalgroup.service-now.com/cg_grc?sys_id=134f8d4b1bea6850371277741a4bcbb9&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Services using externally exposed APIs must employ enterprise approved security mechanisms. |
 |[CS0012318](https://capitalgroup.service-now.com/cg_grc?sys_id=534f8d4b1bea6850371277741a4bcbc2&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones. |
 <br>
@@ -63,7 +62,35 @@ Following CG's stringent cloud security controls, you should establish a private
 CG has stringent cloud security controls around how services need to be secured, so that they are not publicly accessible. One of the ways to ensure that a service is only accessible to CG networks is to deploy the service using VPC Interface Endpoints.
 
 **How?**<br>
+When establishing a private connection between your virtual private cloud (VPC) and the Amazon EventBridge service, you should create an interface VPC endpoint. You can use this connection to call the Amazon EventBridge service from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon EventBridge service without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
 
+Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon EventBridge in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon EventBridge requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. 
+
+
+### Below are the steps to implement Interface VPC Endpoints for EventBridge:
+
+**Creation of Interface VPC Endpoint:**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.events`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate `CG standard tags`.
+  4. Click `Create Endpoint` to complete the process.
+  5. The EventBridge service will now be accessible via the private endpoint for all requests within the VPC.
+<br>
+
+### 2. EventBridge Users and Roles defined following least privilege model
+`This Section will be updated soon.`
+
+### 3. EventBridge resources are Encrypted using CG Managed KMS Keys
+`This Section will be updated soon.`
+
+### 4. EventBridge connections are Encrypted in transitusing TLS 1.2
+`This Section will be updated soon.`
+<br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
@@ -88,6 +115,8 @@ CG has stringent cloud security controls around how services need to be secured,
 **Resources**<br>
 1. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html
 2. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-related-service-vpc.html
+3. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-security.html
+<br><br>
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
