@@ -13,7 +13,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. SageMaker Utilizes VPC Endpoints to Prevent Public Access](#1-Secrets-Manager-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [1. SageMaker Utilizes VPC Endpoints to Prevent Public Access](#1-SageMaker-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [2. SageMaker notebook instances have Public Internet access disabled](#2-SageMaker-notebook-instances-have-Public-Internet-access-disabled)
   - [3. SageMaker Users and Roles defined following least privilege model](#3-SageMaker-Users-and-Roles-defined-following-least-privilege-model)
   - [4. SageMaker resources are Encrypted using CG Managed KMS Keys](#4-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys)

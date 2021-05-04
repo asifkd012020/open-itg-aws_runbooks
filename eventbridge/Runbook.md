@@ -13,15 +13,12 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. SageMaker Utilizes VPC Endpoints to Prevent Public Access](#1-Secrets-Manager-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [2. SageMaker notebook instances have Public Internet access disabled](#2-SageMaker-notebook-instances-have-Public-Internet-access-disabled)
-  - [3. SageMaker Users and Roles defined following least privilege model](#3-SageMaker-Users-and-Roles-defined-following-least-privilege-model)
-  - [4. SageMaker resources are Encrypted using CG Managed KMS Keys](#4-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [5. SageMaker connections are Encrypted in transitusing TLS 1.2](#5-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2)
-  - [6. SageMaker uses the CG instance of GitHub Enterprise as source code repository](#6-SageMaker-uses-the-CG-instance-of-GitHub-Enterprise-as-source-code-repository) 
-  - [7. SageMaker workloads execute within CG private network](#7-SageMaker-workloads-execute-within-CG-private-network)
+  - [1. EventBridge Utilizes VPC Endpoints to Prevent Public Access](#1-EventBridge-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [2. EventBridge Users and Roles defined following least privilege model](#2-EventBridge-Users-and-Roles-defined-following-least-privilege-model)
+  - [3. EventBridge resources are Encrypted using CG Managed KMS Keys](#3-EventBridge-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
+  - [4. EventBridge connections are Encrypted in transitusing TLS 1.2](#4-EventBridge-connections-are-Encrypted-in-transitusing-TLS-1-2)
 - [Detective Controls](#Detective-Controls)
-  - [1. SageMaker Resources are tagged according to CG standards](#1-SageMaker-Resources-are-tagged-according-to-CG-standards)
+  - [1. EventBridge Resources are tagged according to CG standards](#1-EventBridge-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
@@ -47,4 +44,60 @@ EventBridge connects applications using events. An event is a signal that a syst
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. Utilizes VPC Endpoints to Prevent Public Access
+### 1. EventBridge Utilizes VPC Endpoints to Prevent Public Access
+Following CG's stringent cloud security controls, you should establish a private connection between your VPC and EventBridge. You can use this connection to enable EventBridge to communicate with your resources on your VPC without going through the public internet.
+<br>
+
+**Capital Group:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|CS0012300|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+|CS0012264|Network connectivity to external services are configured to comply with enterprise approved patterns.|
+|CS0012316|External facing system components must allocate separate network interfaces for front-end traffic, back-end traffic, and administration.|
+|CS0012317|Services using externally exposed APIs must employ enterprise approved security mechanisms. |
+|CS0012318|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones. |
+<br>
+
+**Why?**<br>
+CG has stringent cloud security controls around how services need to be secured, so that they are not publicly accessible. One of the ways to ensure that a service is only accessible to CG networks is to deploy the service using VPC Interface Endpoints.
+
+**How?**<br>
+
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. EventBridge Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-what-is.html
+2. https://docs.aws.amazon.com/eventbridge/latest/userguide/eb-related-service-vpc.html
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.

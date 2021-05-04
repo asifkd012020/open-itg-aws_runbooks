@@ -13,7 +13,7 @@
     "mapping": [
         {
             "requirement_name": "SageMaker Utilizes VPC Endpoints to Prevent Public Access",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#1-Secrets-Manager-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#1-SageMaker-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
             "tags": [],
             "severity": {
                 "Prod": "critical",
