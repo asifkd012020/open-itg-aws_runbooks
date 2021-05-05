@@ -20,6 +20,7 @@ Security Engineering
   - [1. DMS Resources are tagged according to CG standards](#1-DMS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
+  - [4. AWS DMS replication instance should have Minor version automatic upgrade enabled] (#4-AWS-DMS-replication-instance-should-have-Minor-version-automatic-upgrade-enabled)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -102,6 +103,26 @@ Below are the steps to implement Interface VPC Endpoints for DMS:
 
 ### 3. CloudWatch logging enabled and sent to Splunk
 `This Section will be updated soon.`
+
+### 4. AWS DMS replication instance should have ‘Minor version automatic upgrade’ enabled
+
+Why? This control checks whether ‘Minor version automatic upgrade’ is enabled for the AWS DMS replication instance. 
+
+Enabling ‘Minor version automatic upgrade’ ensures that the latest minor version updates to DMS replication instance are installed during the maintenance window. These updates might include OS patching, security patches and bug fixes. Keeping up-to-date with patch installation is an important step in securing systems.
+
+How? Enable DMS replication instance ‘Minor version automatic upgrade’
+To enable this option from the AWS CLI, use the Amazon DMS ‘modify-replication-instance’ command to set the --auto-minor-version-upgrade attribute.
+aws dms modify-replication-instance --replication-instance-arn <replication-instance-arn> --auto-minor-version-upgrade True
+To modify a replication instance by using the AWS console
+1.	Sign in to the AWS Management Console and open the AWS DMS console at https://console.aws.amazon.com/dms/v2/
+2.	In the navigation pane, choose Replication instances.
+3.	Choose the replication instance you want to modify. The following modifications you can make.
+
+Minor version automatic upgrade: Choose this option to have minor engine upgrades applied automatically to the replication instance during the maintenance window
+
+When you modify a replication instance, you can apply the changes immediately. To apply changes immediately, choose the ‘Apply changes immediately’ option in the AWS Management Console. Or use the --apply-immediately parameter when calling the AWS CLI.
+
+
 <br><br>
 
 ## Respond/Recover
