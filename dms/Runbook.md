@@ -106,11 +106,11 @@ Below are the steps to implement Interface VPC Endpoints for DMS:
 
 ### 4. AWS DMS replication instance should have ‘Minor version automatic upgrade’ enabled
 
-Why? This control checks whether ‘Minor version automatic upgrade’ is enabled for the AWS DMS replication instance. 
+***Why?** This control checks whether ‘Minor version automatic upgrade’ is enabled for the AWS DMS replication instance. 
 
 Enabling ‘Minor version automatic upgrade’ ensures that the latest minor version updates to DMS replication instance are installed during the maintenance window. These updates might include OS patching, security patches and bug fixes. Keeping up-to-date with patch installation is an important step in securing systems.
 
-How? Enable DMS replication instance ‘Minor version automatic upgrade’
+**How?** Enable DMS replication instance ‘Minor version automatic upgrade’
 To enable this option from the AWS CLI, use the Amazon DMS ‘modify-replication-instance’ command to set the --auto-minor-version-upgrade attribute.
 aws dms modify-replication-instance --replication-instance-arn <replication-instance-arn> --auto-minor-version-upgrade True
 To modify a replication instance by using the AWS console
