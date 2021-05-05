@@ -104,7 +104,7 @@ Capital Group:
 |Control Statement|Description|
 |------|----------------------|
 |1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
-|2|
+
 <br>
 
 **Why?**<br>
