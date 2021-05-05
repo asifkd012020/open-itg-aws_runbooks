@@ -104,7 +104,7 @@ Below are the steps to implement Interface VPC Endpoints for DMS:
 ### 3. CloudWatch logging enabled and sent to Splunk
 `This Section will be updated soon.`
 
-### 4. AWS DMS replication instance should have ‘Minor version automatic upgrade’ enabled
+### 4. AWS DMS replication instance should have Minor version automatic upgradegit  enabled
 
 ***Why?** This control checks whether ‘Minor version automatic upgrade’ is enabled for the AWS DMS replication instance. 
 
