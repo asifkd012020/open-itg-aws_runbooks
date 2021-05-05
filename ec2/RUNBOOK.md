@@ -24,6 +24,8 @@ Tony DeMarco
   - [1. Monitor EC2 instance activity](#1-monitor-ec2-instance-activity)
   - [2. Log Amazon EC2 and Amazon EBS API calls](#2-log-amazon-ec2-and-amazon-ebs-api-calls)
   - [3. Monitor EC2 Instance metrics for anomalous behavior](#3-monitor-ec2-instance-metrics-for-anomalous-behavior)
+  - [4. EC2 instance should have SSM Managed](#4-ec2-instance-should-have-ssm-managed)
+  - [5. EC2 instance should have Qualys agent installed](#5-ec2-instance-should-have-qualys-agent-installed)
 - [Respond/Recover](#respondrecover)
   - [1. Utilize Amazon cloudWatch alarm actions](#1-utilize-amazon-cloudwatch-alarm-actions)
 - [Endnotes](#endnotes)
