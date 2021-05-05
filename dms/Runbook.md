@@ -20,7 +20,7 @@ Security Engineering
   - [1. DMS Resources are tagged according to CG standards](#1-DMS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
-  - [4. AWS DMS replication instance should have Minor version automatic upgrade enabled] (#4-AWS-DMS-replication-instance-should-have-Minor-version-automatic-upgrade-enabled)
+  - [4. AWS DMS replication instance should have Minor version automatic upgrade enabled](#4-AWS-DMS-replication-instance-should-have-Minor-version-automatic-upgrade-enabled)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
