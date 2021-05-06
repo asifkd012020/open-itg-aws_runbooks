@@ -70,21 +70,21 @@ Creation of WorkDocs resources that adhere to CG's current Security Standards an
    <img src="../docs/img/workdocs/search.png" width="600">
 
 **Step 2:** Click on the link to the WorkDocs site you want to protect.<br>
-   <img src="../docs/img/workdocs/sites.png" width="400">
+   <img src="../docs/img/workdocs/wd_sites.png" width="400">
    
 **Step 3:** Click on the account icon.<br>
-   <img src="../docs/img/workdocs/account.png" width="800">
+   <img src="../docs/img/workdocs/wd_account.png" width="800">
 
 
 **Step 4:** Open the Admin Control Panel.
-   <img src="../docs/img/workdocs/open_panel.png" width="800">
+   <img src="../docs/img/workdocs/wd_account_menu.png" width="800">
 
 
 **Step 5:** Click the Change button for the IP Allow List.
-   <img src="../docs/img/workdocs/panel.png" width="600">
+   <img src="../docs/img/workdocs/wd_admin_panel.png" width="600">
 
 **Step 6:** Enter enter the Classless Inter-Domain Routing (CIDR) block for the IP address ranges to allowlist, and choose **Add.**  Then choose **Save Changes.**<br>
-   <img src="../docs/img/workdocs/allowlist.png" width="600">
+   <img src="../docs/img/workdocs/wd_ip_allowlist.png" width="600">
 
 Users who connect to your site from the IP addresses on the IP Allow List are allowed access. Users who attempt to connect to your site from unauthorized IP addresses receive an unauthorized response.
 <br>
