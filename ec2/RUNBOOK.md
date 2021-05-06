@@ -926,25 +926,27 @@ For examples, see [Creating Amazon CloudWatch Alarms](https://docs.aws.amazon.co
 
 a)	EC2 instance should have SSM agent installed and in running state. Below is the link to install SSM agent on EC2 instance:
 
-   Linux OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html
-   MAC OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/install-ssm-agent-macos.html
-   Windows OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-win.html
- 
-   Below is the link to check SSM agent service status:
+      Linux OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html
 
-   https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent-status-and-restart.html
+      MAC OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/install-ssm-agent-macos.html
+      
+      Windows OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-win.html
+   
+      Below is the link to check SSM agent service status:
+
+      https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent-status-and-restart.html
 
 b)	EC2 instance should have attached IAM role with below SSM policy / permission
-   -	AmazonSSMManagedInstanceCore
-   -	AmazonSSMPatchAssociation
-   -	EC2SSMRoleForInstanceAutomationQuickSetupInlinePolicy
-   -	EC2SSMPolicyForInstanceAutomationQuickSetup
+      -	AmazonSSMManagedInstanceCore
+      -	AmazonSSMPatchAssociation
+      -	EC2SSMRoleForInstanceAutomationQuickSetupInlinePolicy
+      -	EC2SSMPolicyForInstanceAutomationQuickSetup
 
 c)	EC2 instance should be reachable to SSM service.
    EC2 instance should have outbound internet connectivity or below VPC Endpoints.
-   -	ssm.region.amazonaws.com
-   -	ssmmessages.region.amazonaws.com
-   -	ec2messages.region.amazonaws.com
+      -	ssm.<region-name>.amazonaws.com
+      -	ssmmessages.<region-name>.amazonaws.com
+      -	ec2messages.<region-name>.amazonaws.com
 
 ### 5. EC2 instance should have Qualys agent installed
 
@@ -952,7 +954,7 @@ c)	EC2 instance should be reachable to SSM service.
 
 **How?** Below are the steps to install Qualys agent on EC2 instance
          
-         https://confluence.capgroup.com/pages/viewpage.action?pageId=301864477
+      https://confluence.capgroup.com/pages/viewpage.action?pageId=301864477
 
 
 ## Respond/Recover
