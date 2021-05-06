@@ -50,7 +50,47 @@ Amazon WorkDocs lets you integrate with your existing systems, and offers a rich
 
 ### 1. WorkDocs can exclude public access through IP address controls
 
-`This Section will be updated soon.`  
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
+<br>
+
+
+**Why?**<br>
+CG requires no public access by default.
+<br>
+
+**How?**<br>
+Creation of WorkDocs resources that adhere to CG's current Security Standards and Controls will begin with restricting access to only IP addresses within the CG internal network.
+
+**Step 1:** Sign into your AWS account and navigate to the *"WorkDocs"* service via the AWS search bar as below.<br>
+   <img src="../docs/img/workdocs/search.png" width="600">
+
+**Step 2:** Click on the link to the WorkDocs site you want to protect.<br>
+   <img src="../docs/img/workdocs/sites.png" width="400">
+   
+**Step 3:** Click on the account icon.<br>
+   <img src="../docs/img/workdocs/account.png" width="800">
+
+
+**Step 4:** Open the Admin Control Panel.
+   <img src="../docs/img/workdocs/open_panel.png" width="800">
+
+
+**Step 5:** Click the Change button for the IP Allow List.
+   <img src="../docs/img/workdocs/panel.png" width="600">
+
+**Step 6:** Enter enter the Classless Inter-Domain Routing (CIDR) block for the IP address ranges to allowlist, and choose **Add.**  Then choose **Save Changes.**<br>
+   <img src="../docs/img/workdocs/allowlist.png" width="600">
+
+Users who connect to your site from the IP addresses on the IP Allow List are allowed access. Users who attempt to connect to your site from unauthorized IP addresses receive an unauthorized response.
+<br>
+
+
+
 
 ### 2. WorkDocs can exclude public access through public share settings
 
