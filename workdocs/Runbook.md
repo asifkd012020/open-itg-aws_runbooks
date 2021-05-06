@@ -46,7 +46,7 @@ Amazon WorkDocs lets you integrate with your existing systems, and offers a rich
  <br><br>
 
 ## Preventative Controls
-<img src="/docs/img/Prevent.png" width="50">
+<img src="../docs/img/Prevent.png" width="50">
 
 ### 1. WorkDocs can exclude public access through IP address controls
 
@@ -76,11 +76,11 @@ Creation of WorkDocs resources that adhere to CG's current Security Standards an
    <img src="../docs/img/workdocs/wd_account.png" width="800">
 
 
-**Step 4:** Open the Admin Control Panel.
+**Step 4:** Open the Admin Control Panel.<br>
    <img src="../docs/img/workdocs/wd_account_menu.png" width="800">
 
 
-**Step 5:** Click the Change button for the IP Allow List.
+**Step 5:** Click the Change button for the IP Allow List.<br>
    <img src="../docs/img/workdocs/wd_admin_panel.png" width="600">
 
 **Step 6:** Enter enter the Classless Inter-Domain Routing (CIDR) block for the IP address ranges to allowlist, and choose **Add.**  Then choose **Save Changes.**<br>
@@ -106,15 +106,26 @@ Users who connect to your site from the IP addresses on the IP Allow List are al
 
 ### 5. WorkDocs connections are protected with TLS 1.2
 
-`This Section will be updated soon.`  Perhaps this section can be copied and pasted from the runbook for another service.
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|PR.DS-2|Data-in-transit is protected|
 
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|2|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
+
+**Why?** Data should be protected in-transit between the customer and AWS, as well as in-transit between AWS Services using NIST-approved and CG-approved encryption mechanisms.
+
+**How?** All communications with the EC2 API are encrypted using TLS. No actions are required to ensure data-in-transit to the WorkDocs API is protected.<br>
 ### 6. WorkDocs documents are encrypted using CG managed KMS Keys
 
 `This Section will be updated soon.`
 <br><br>
 
 ## Detective Controls
-<img src="/docs/img/Detect.png" width="50">
+<img src="../docs/img/Detect.png" width="50">
 
 ### 1. WorkDocs documents are tagged according to CG standards
 
@@ -126,7 +137,7 @@ Users who connect to your site from the IP addresses on the IP Allow List are al
 <br><br>
 
 ## Respond/Recover
-<img src="/docs/img/Monitor.png" width="50">
+<img src="../docs/img/Monitor.png" width="50">
 
 `This Section will be updated soon.`
 <br><br>
