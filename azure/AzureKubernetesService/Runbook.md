@@ -112,7 +112,13 @@ Data should be protected in-transit between the customer and Azure, as well as w
 
 **How?**<br>
 
-By default, when using AKS, OS and data disks are encrypted at rest with platform-managed keys, meaning that the caches for these disks are also by default encrypted at rest with platform-managed keys. You can specify your own managed keys following Bring your own keys (BYOK) with Azure disks in Azure Kubernetes Service.
+By default, when using AKS, OS and data disks are encrypted at rest with platform-managed keys, meaning that the caches for these disks are also by default encrypted at rest with platform-managed keys. You can specify your own managed keys following Bring your own keys (BYOK) with Azure disks in Azure Kubernetes Service. 
+
+Below example shows how to set a disk encryption  in AKS control plane terraform module to enable CMK 
+```
+#Enable customer managed key for disk encryption
+disk_encryption_set_id = var.disk_encryption_set_id
+```
 
 When creating Kubernetes storage classes within your cluster, you are available to specify that the Disk storage class is encrypted, and you are able to set a defined storage class as a default. Kubernetes storage classes on Azure DIsk can be encrypted with customer-managed keys.  
 
