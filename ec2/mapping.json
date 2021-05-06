@@ -187,7 +187,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "aws_config",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/SecurityConformancePack/PermissionBoundaryPipeline/ssminstancescompliancelambda"
+                    ],
+                    "type": "detect"
+                }
+            ]
         },
         {
             "requirement_name": "EC2 instance should have Qualys agent installed",
@@ -199,7 +207,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "aws_config",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/SecurityConformancePack/PermissionBoundaryPipeline/QualysAgentDetectConfigRuleLamda"
+                    ],
+                    "type": "detect"
+                }
+            ]
         }
     ]
 }
