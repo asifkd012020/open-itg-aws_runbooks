@@ -9,26 +9,74 @@
 <br>
 Security Engineering
 
-**Last Update:** *05/05/2021*
+**Last Update:** *05/06/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. PHD utilizes private VPC Endpoints to prevent public access](#1-PHD-utilizes-private-VPC-Endpoints-to-prevent-public-access)
-  - [2. PHD IAM Users and Roles Enforce Least Priviledge](#2-PHD-IAM-Users-and-Roles-Enforce-Least-Priviledge)
-  - [3. PHD data is Encrypted using CG managed KMS Keys](#3-PHD-data-is-Encrypted-using-CG-managed-KMS-Keys)
-  - [4. Encrypt data in transit](#4-Encrypt-data-in-transit)
+  - [1. PHD IAM Users and Roles Enforce Least Priviledge](#1-PHD-IAM-Users-and-Roles-Enforce-Least-Priviledge)
+  - [2. PHD data is Encrypted using CG managed KMS Keys](#2-PHD-data-is-Encrypted-using-CG-managed-KMS-Keys)
+  - [3. PHD data is encrypted in transit using TLS 1.2](#3-PHD-data-is-encrypted-in-transit-using-TLS-1-2)
 - [Detective Controls](#Detective-Controls)
-  - [1. PHD Resources are tagged according to CG standards](#1-Redshift-Resources-are-tagged-according-to-CG-standards)
+  - [1. PHD Resources are tagged according to CG standards](#1-PHD-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
+<br><br>
 
 ## Overview
+AWS Personal Health Dashboard provides alerts and remediation guidance when AWS is experiencing events that may impact you. While the Service Health Dashboard displays the general status of AWS services, Personal Health Dashboard gives you a personalized view into the performance and availability of the AWS services underlying your AWS resources.
+
+The dashboard displays relevant and timely information to help you manage events in progress, and provides proactive notification to help you plan for scheduled activities. With Personal Health Dashboard, alerts are triggered by changes in the health of AWS resources, giving you event visibility, and guidance to help quickly diagnose and resolve issues.
+<br><br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. PHD utilizes private VPC Endpoints to prevent public access
+### 1. PHD IAM Users and Roles Enforce Least Priviledge
+`This Section will be updated soon.`
+
+### 2. PHD data is Encrypted using CG managed KMS Keys
+`This Section will be updated soon.`
+
+### 3. PHD data is encrypted in transit using TLS 1.2
+`This Section will be updated soon.`
+<br><br>
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. PHD Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. https://docs.aws.amazon.com/health/latest/ug/getting-started-phd.html
+<br><br>
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
