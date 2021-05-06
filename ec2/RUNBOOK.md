@@ -924,17 +924,17 @@ For examples, see [Creating Amazon CloudWatch Alarms](https://docs.aws.amazon.co
 
 **How?** Following are pre-requisite for SSM Managed instance
 
-a)	EC2 instance should have SSM agent installed and in running state. Below is the link to install SSM agent on EC2 instance:
+a)	EC2 instance should have SSM agent installed and in running state. Below are the link to install SSM agent on EC2 instance:
 
-   Linux OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html
+      Linux OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html
 
-   MAC OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/install-ssm-agent-macos.html
-   
-   Windows OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-win.html
+      MAC OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/install-ssm-agent-macos.html
+      
+      Windows OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-win.html
 
    Below is the link to check SSM agent service status:
 
-   https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent-status-and-restart.html
+      https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent-status-and-restart.html
 
 b)	EC2 instance should have attached IAM role with below SSM policy / permission
    -	AmazonSSMManagedInstanceCore
@@ -952,7 +952,7 @@ c)	EC2 instance should be reachable to SSM service.
 
 **Why?** This control checks whether Qualys agent is installed on EC2 instance. Qualys detect instances vulnerability and helps to keep instance secure with latest patches.
 
-**How?** Below are the steps to install Qualys agent on EC2 instance
+**How?** Below is the link to install Qualys agent on EC2 instance
          
    https://confluence.capgroup.com/pages/viewpage.action?pageId=301864477
 
