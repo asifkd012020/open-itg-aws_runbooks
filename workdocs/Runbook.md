@@ -9,7 +9,7 @@
 Eugene C. Olsen, The Spur Group
 <br>
 
-**Last Update:** *04/22/2021*
+**Last Update:** *05/06/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -106,7 +106,7 @@ Users who connect to your site from the IP addresses on the IP Allow List are al
 
 ### 5. WorkDocs connections are protected with TLS 1.2
 
-`This Section will be updated soon.`
+`This Section will be updated soon.`  Perhaps this section can be copied and pasted from the runbook for another service.
 
 ### 6. WorkDocs documents are encrypted using CG managed KMS Keys
 
@@ -122,7 +122,7 @@ Users who connect to your site from the IP addresses on the IP Allow List are al
 
 ### 2. CloudTrail logging enabled and sent to Splunk
 
-`This Section will be updated soon.`
+`This Section will be updated soon.`   Are there runbooks for other services that could be copied for this section?
 <br><br>
 
 ## Respond/Recover
