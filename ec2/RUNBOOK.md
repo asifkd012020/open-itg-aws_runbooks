@@ -944,9 +944,9 @@ b)	EC2 instance should have attached IAM role with below SSM policy / permission
 
 c)	EC2 instance should be reachable to SSM service.
    EC2 instance should have outbound internet connectivity or below VPC Endpoints.
-   -	ssm.<region-name>.amazonaws.com
-   -	ssmmessages.<region-name>.amazonaws.com
-   -	ec2messages.<region-name>.amazonaws.com
+   -	ssm.region.amazonaws.com
+   -	ssmmessages.region.amazonaws.com
+   -	ec2messages.region.amazonaws.com
 
 ### 5. EC2 instance should have Qualys agent installed
 
@@ -954,7 +954,7 @@ c)	EC2 instance should be reachable to SSM service.
 
 **How?** Below is the link to install Qualys agent on EC2 instance
          
-   https://confluence.capgroup.com/pages/viewpage.action?pageId=301864477
+      https://confluence.capgroup.com/pages/viewpage.action?pageId=301864477
 
 
 ## Respond/Recover
