@@ -24,6 +24,8 @@ Tony DeMarco
   - [1. Monitor EC2 instance activity](#1-monitor-ec2-instance-activity)
   - [2. Log Amazon EC2 and Amazon EBS API calls](#2-log-amazon-ec2-and-amazon-ebs-api-calls)
   - [3. Monitor EC2 Instance metrics for anomalous behavior](#3-monitor-ec2-instance-metrics-for-anomalous-behavior)
+  - [4. EC2 instance should have SSM Managed](#4-ec2-instance-should-have-ssm-managed)
+  - [5. EC2 instance should have Qualys agent installed](#5-ec2-instance-should-have-qualys-agent-installed)
 - [Respond/Recover](#respondrecover)
   - [1. Utilize Amazon cloudWatch alarm actions](#1-utilize-amazon-cloudwatch-alarm-actions)
 - [Endnotes](#endnotes)
@@ -915,6 +917,45 @@ For examples, see [Creating Amazon CloudWatch Alarms](https://docs.aws.amazon.co
    1. Specify the metric and the criteria for the policy\. For example, you can leave the default settings for **Whenever** \(Average of CPU Utilization\)\. For **Is**, choose `>=` and enter `80` percent\. For **For at least**, enter `1` consecutive period of `5 Minutes`\.
 
    1. Choose **Create Alarm**\.   
+
+### 4. EC2 instance should have SSM Managed
+
+**Why?** This controls checks whether EC2 instance is SSM Managed. Setting up EC2 instance as SSM Managed allows EC2 instance accessible for AWS System Manager service. This ensure that System Manager will scan and install latest patches, bug fix and OS updates on EC2 instance.
+
+**How?** Following are pre-requisite for SSM Managed instance
+
+a)	EC2 instance should have SSM agent installed and in running state. Below are the link to install SSM agent on EC2 instance:
+
+      Linux OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html
+
+      MAC OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/install-ssm-agent-macos.html
+      
+      Windows OS: https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-win.html
+
+   Below is the link to check SSM agent service status:
+
+      https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-agent-status-and-restart.html
+
+b)	EC2 instance should have attached IAM role with below SSM policy / permission
+   -	AmazonSSMManagedInstanceCore
+   -	AmazonSSMPatchAssociation
+   -	EC2SSMRoleForInstanceAutomationQuickSetupInlinePolicy
+   -	EC2SSMPolicyForInstanceAutomationQuickSetup
+
+c)	EC2 instance should be reachable to SSM service.
+   EC2 instance should have outbound internet connectivity or below VPC Endpoints.
+   -	ssm.region.amazonaws.com
+   -	ssmmessages.region.amazonaws.com
+   -	ec2messages.region.amazonaws.com
+
+### 5. EC2 instance should have Qualys agent installed
+
+**Why?** This control checks whether Qualys agent is installed on EC2 instance. Qualys detect instances vulnerability and helps to keep instance secure with latest patches.
+
+**How?** Below is the link to install Qualys agent on EC2 instance
+         
+      https://confluence.capgroup.com/pages/viewpage.action?pageId=301864477
+
 
 ## Respond/Recover
 ### 1. Utilize Amazon cloudWatch alarm actions
