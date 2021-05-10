@@ -13,10 +13,9 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. EventBridge Utilizes VPC Endpoints to Prevent Public Access](#1-EventBridge-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [2. EventBridge Users and Roles defined following least privilege model](#2-EventBridge-Users-and-Roles-defined-following-least-privilege-model)
-  - [3. EventBridge resources are Encrypted using CG Managed KMS Keys](#3-EventBridge-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [4. EventBridge connections are Encrypted in transitusing TLS 1.2](#4-EventBridge-connections-are-Encrypted-in-transitusing-TLS-1-2)
+  - [1. Detective Users and Roles defined following least privilege model](#1-EventBridge-Users-and-Roles-defined-following-least-privilege-model)
+  - [2. Detective resources are Encrypted using CG Managed KMS Keys](#2-EventBridge-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
+  - [3. Detective connections are Encrypted in transitusing TLS 1.2](#3-EventBridge-connections-are-Encrypted-in-transitusing-TLS-1-2)
 - [Detective Controls](#Detective-Controls)
   - [1. Detective Resources are tagged according to CG standards](#1-Detective-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -27,3 +26,13 @@ Security Engineering
 <br><br>
 
 ## Overview
+Amazon Detective makes it easy to analyze, investigate, and quickly identify the root cause of potential security issues or suspicious activities. Amazon Detective automatically collects log data from your AWS resources and uses machine learning, statistical analysis, and graph theory to build a linked set of data that enables you to easily conduct faster and more efficient security investigations.
+
+<img src="/docs/img/detective/example.png" width="800"><br>
+
+### Features & Benefits
+1. Faster and more effective investigations
+2. Save time and effort with continuous data updates
+3. Easy to use visualizations
+<br><br>
+
