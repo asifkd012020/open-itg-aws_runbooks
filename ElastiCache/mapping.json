@@ -44,8 +44,8 @@
             ]
         },
         {
-            "requirement_name": "Data must be encrypted using CG BYOK for encyprtion",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#3-data-must-be-encrypted-using-cg-byok-for-encyprtion",
+            "requirement_name": "Elasticach data is encrypted using CG managed KMS keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#3-Elasticach-data-is-encrypted-using-CG-managed-KMS-keys",
             "tags":[],
             "severity": {
                 "Prod": "critical",
