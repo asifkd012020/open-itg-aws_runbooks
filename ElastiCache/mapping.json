@@ -44,8 +44,8 @@
             ]
         },
         {
-            "requirement_name": "Elasticach data is encrypted using CG managed KMS keys",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#3-Elasticach-data-is-encrypted-using-CG-managed-KMS-keys",
+            "requirement_name": "ElastiCache data is encrypted using CG managed KMS keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#3-ElastiCache-data-is-encrypted-using-CG-managed-KMS-keys",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -69,6 +69,18 @@
                     "type": "prevent"
                 }
             ]
+        },
+        {
+            "requirement_name": "ElastiCache connections are Encrypted in transit using TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#4-EventBridge-connections-are-Encrypted-in-transit-using-TLS-1-2",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
         },
         {
             "requirement_name": "ElastiCache Resources are tagged according to CG standards",

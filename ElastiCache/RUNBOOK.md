@@ -19,7 +19,8 @@ Security Engineering
 - [Preventative Controls](#preventative-controls)
   - [1. Permissions within the service are established in line with individual need and least-privilege is enforced](#1-Permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced)
   - [2. Enable Security Groups to limit access to ElastiCache instances](#2-Enable-Security-Groups-to-limit-access-to-ElastiCache-instances)
-  - [3. Elasticach data is encrypted using CG managed KMS keys](#3-Elasticach-data-is-encrypted-using-CG-managed-KMS-keys)
+  - [3. ElastiCache data is encrypted using CG managed KMS keys](#3-ElastiCache-data-is-encrypted-using-CG-managed-KMS-keys)
+  - [4. ElastiCache connections are Encrypted in transit using TLS 1.2](#4-EventBridge-connections-are-Encrypted-in-transit-using-TLS-1-2) 
 - [Detective](#detective)
   - [1. ElastiCache Resources are tagged according to CG standards](#1-ElastiCache-Resources-are-tagged-according-to-CG-standards)
   - [2. Establish Config rules to monitor for deviations from normal configuration](#2-Establish-config-rules-to-monitor-for-deviations-from-normal-configuration)
@@ -244,6 +245,10 @@ Include the following pieces of information
        --engine-version 4.0.10 \
        --at-rest-encryption-enabled \
        --cache-parameter-group default.redis4.0.cluster.on
+<br>
+
+### 4. ElastiCache connections are Encrypted in transit using TLS 1.2
+`This Section will be updated soon.`
 <br><br>
 
 
