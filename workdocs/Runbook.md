@@ -132,8 +132,28 @@ Capital Group:
 `This Section will be updated soon.`
 
 ### 2. CloudTrail logging enabled and sent to Splunk
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|-----------|------------------------|
+|DE.CM-1|The network is monitored to detect potential cybersecurity events|
+|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
+|DE.AE-2|Detected events are analyzed to understand attack targets and methods|
+|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
+|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
+|DE.CM-3|Personnel activity is monitored to detect potential cybersecurity events|
 
-`This Section will be updated soon.`   Are there runbooks for other services that could be copied for this section?
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
+
+
+**Why?** 
+AWS CloudTrail Provides a record of actions taken by a user, role or AWS service in Amazon WorkDocs\. 
+
+**How?** 
+#### Logging Amazon WorkDocs API calls using AWS CloudTrail<a name="cloudtrail-logging"><!-- omit in toc -->
 <br><br>
 
 ## Respond/Recover
