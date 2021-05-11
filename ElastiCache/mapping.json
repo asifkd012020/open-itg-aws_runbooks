@@ -71,8 +71,44 @@
             ]
         },
         {
+            "requirement_name": "ElastiCache Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#1-ElastiCache-Resources-are-tagged-according-to-CG-standards",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
             "requirement_name": "Establish Config rules to monitor for deviations from normal configuration",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#1-establish-config-rules-to-monitor-for-deviations-from-normal-configuration",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#2-Establish-config-rules-to-monitor-for-deviations-from-normal-configuration",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#3-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ElastiCache/RUNBOOK.md#4-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags":[],
             "severity": {
                 "Prod": "critical",

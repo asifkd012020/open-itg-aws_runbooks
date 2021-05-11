@@ -26,8 +26,6 @@ Security Engineering
   - [3. Detective Item 3](#3-detective-item-3)
 - [Respond/Recover](#respondrecover)
   - [1. Respond/Recover Item 1](#1-respondrecover-item-1)
-  - [2. Respond/Recover Item 2](#2-respondrecover-item-2)
-  - [3. Respond/Recover Item 3](#3-respondrecover-item-3)
 - [Endnotes](#endnotes)
 
 ## Overview
@@ -42,10 +40,12 @@ Amazon ElastiCache allows you to seamlessly set up, run, and scale popular open-
 <br><br>
 
 ## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
+
 ### 1. Permissions within the service are established in line with individual need and least-privilege is enforced
 <br>
 
-**Capital Group:**
+**Capital Group Controls:**
 |Control Statement|Description|
 |------|----------------------|
 |[CS0012298](https://capitalgroup.service-now.com/cg_grc?sys_id=40df48c01bac20506a50beef034bcb15&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Access to change cloud resource-based access policies is restricted to authorized personnel.|
@@ -127,10 +127,10 @@ The following AWS CLI operation modifies a replication group to set the AUTH tok
 ### 2. Enable Security Groups to limit access to ElastiCache instances
 <br>
 
-**Capital Group:**
+**Capital Group Controls:**
 |Control Statement|Description|
 |------|----------------------|
-|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
 <br>
 
 **Why?** <br>
@@ -141,24 +141,19 @@ ElasticCache instaces work with EC2 and VPC. Create a Security Group in the EC2 
 <br>
 
 ### 3. Elasticach data is encrypted using CG managed KMS keys
+<br>
 
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-
-Capital Group:
+**Capital Group Controls:**
 |Control Statement|Description|
 |------|----------------------|
-|1|All Data-at-rest must be enccrypted and use a Capital Group BYOK encryption key|
-|2|All Data-in-transit must be encrypted using certificates using Capital Group Certificate Authority|
-|3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256|
-|9|Encryption keys are rotated annually.|
+|[CS0012168](https://capitalgroup.service-now.com/cg_grc?sys_id=b6df51521b5a8050da4bdca4bd4bcb48&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Strong encryption key management controls are in place for cloud provider services to protect data at rest.|
+<br>
 
-**Why?** Data encryption helps prevent unauthorized users from reading data on a cluster and associated data storate systems. This includes data saved to persistent media and data that may be intercepted as it travels the network. Data encryption helps prevent unauthorized users from reading data on a cluster and associated data storage systems. This includes data saved to persistent media, known as data at rest, and data that may be intercepted as it travels the network, known as data in transit.
+**Why?** <br>
+Data encryption helps prevent unauthorized users from reading data on a cluster and associated data storate systems. This includes data saved to persistent media and data that may be intercepted as it travels the network. Data encryption helps prevent unauthorized users from reading data on a cluster and associated data storage systems. This includes data saved to persistent media, known as data at rest, and data that may be intercepted as it travels the network, known as data in transit.
 
-**How?** To help keep your data secure, Amazon ElastiCache and Amazon EC2 provide mechanisms to guard against unauthorized access of your data on the server. By providing in-transit encryption capability, ElastiCache gives you a tool you can use to help protect your data when it is moving from one location to another.
+**How?** <br>
+To help keep your data secure, Amazon ElastiCache and Amazon EC2 provide mechanisms to guard against unauthorized access of your data on the server. By providing in-transit encryption capability, ElastiCache gives you a tool you can use to help protect your data when it is moving from one location to another.
 
 
 ElastiCache in-transit encryption allows you to increase the security of your data at its most vulnerable points—when it is in transit from one location to another. 
@@ -246,12 +241,19 @@ Include the following pieces of information
        --engine-version 4.0.10 \
        --at-rest-encryption-enabled \
        --cache-parameter-group default.redis4.0.cluster.on
-
+<br><br>
 
 
 ## Detective
-### 1. Establish Config rules to monitor for deviations from normal configuration
-NIST CSF:
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. ElastiCache Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. Establish Config rules to monitor for deviations from normal configuration
+<br>
+
+**NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
 |DE.AE-1|A baseline of network operations and expected data flows for users and systems is established and managed|
@@ -265,10 +267,20 @@ NIST CSF:
 
 **How?** Amazon EMR automatically sends events to a CloudWatch event stream. You can create rules that match events according to a specified pattern, and route the events to targets to take action, such as sending an email notification. Patterns are matched against the event JSON object. For more information about Amazon EMR event details see Endnote 3 for Amazon EMR Events in the Amazon CloudWatch Events User Guide. 
 
+### 3. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 4. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
 
 ## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
 ### 1. Utilize Amazon EventBridge for automated incident response
-NIST CSF:
+<br>
+
+**NIST CSF:**
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
 |RS.AN-1|Notifications from detection systems are investigated|
@@ -280,27 +292,12 @@ NIST CSF:
 **Why?** Using Amazon EventBridge, you can automatically report and respond to incidents, including actions taken on worker nodes, or EMR API Calls via CloudTrail.
 
 **How?** For various incident types, an appropriate response rule should be determined and added to EventBridge. Depending on the organization's Incident Response Plan, there may be need for human interaction in some cases, or fully automated remediation in other cases.
-
-
+<br><br>
 
 ## Endnotes
-### Endnote 1 https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/in-transit-encryption.html#in-transit-encryption-overview
-
-### Endnote 2 <!-- omit in toc -->
-
-### Endnote 3 <!-- omit in toc -->
-
-## Capital Group Control Statements
-1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
-2. All Data-in-transit must be encrypted using certificates using CG Certificate Authority.
-3. Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.
-4. AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.
-5. Local AWS IAM accounts are restricted to services and no user accounts are to be provisioned including IaaS resources.
-6. Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.
-7. Use of AWS IAM accounts are restricted to CG networks.
-8. Local IAM secrets are rotated every 90 days, including accounts IaaS resources.
-9. Encryption keys are rotated annually.
-10. Root accounts must have 2FA/MFA enabled.
+**Resources**<br>
+1. https://docs.aws.amazon.com/AmazonElastiCache/latest/red-ug/in-transit-encryption.html#in-transit-encryption-overview
+<br><br>
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
