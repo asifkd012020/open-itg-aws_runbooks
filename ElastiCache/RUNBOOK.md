@@ -21,12 +21,15 @@ Security Engineering
   - [2. Enable Security Groups to limit access to ElastiCache instances](#2-Enable-Security-Groups-to-limit-access-to-ElastiCache-instances)
   - [3. Elasticach data is encrypted using CG managed KMS keys](#3-Elasticach-data-is-encrypted-using-CG-managed-KMS-keys)
 - [Detective](#detective)
-  - [1. Detective Item 1](#1-detective-item-1)
-  - [2. Detective Item 2](#2-detective-item-2)
-  - [3. Detective Item 3](#3-detective-item-3)
+  - [1. ElastiCache Resources are tagged according to CG standards](#1-ElastiCache-Resources-are-tagged-according-to-CG-standards)
+  - [2. Establish Config rules to monitor for deviations from normal configuration](#2-Establish-config-rules-to-monitor-for-deviations-from-normal-configuration)
+  - [3. CloudTrail logging enabled and sent to Splunk](#3-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [4. CloudWatch logging enabled and sent to Splunk](#4-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond/Recover](#respondrecover)
-  - [1. Respond/Recover Item 1](#1-respondrecover-item-1)
-- [Endnotes](#endnotes)
+  - [1. Utilize Amazon EventBridge for automated incident response](#1-Utilize-Amazon-EventBridge-for-automated-incident-response)
+- [Endnotes](#Endnotes)
+- [Capital Group Glossory](#Capital-Group-Glossory) 
+<br><br>
 
 ## Overview
 Amazon ElastiCache allows you to seamlessly set up, run, and scale popular open-source compatible in-memory data stores in the cloud. Build data-intensive apps or boost the performance of your existing databases by retrieving data from high throughput and low latency in-memory data stores. Amazon ElastiCache is a popular choice for real-time use cases like Caching, Session Stores, Gaming, Geospatial Services, Real-Time Analytics, and Queuing.
