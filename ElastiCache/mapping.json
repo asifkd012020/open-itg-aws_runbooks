@@ -59,7 +59,7 @@
                     "implementation": [
                         "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#73"
                     ],
-                    "type": "prevent"
+                    "type": "detect"
                 },
                 {
                     "provider": "sentinel",
