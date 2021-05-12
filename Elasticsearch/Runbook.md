@@ -76,8 +76,9 @@ Amazon Elasticsearch Service lets you pay only for what you use – there are no
 
 ## Endnotes
 **Resources**<br>
-1. 
+1. link 1 
 2. https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/encryption-at-rest.html
+3. https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/ntn.html
 <br><br>
 
 ## Capital Group Glossory 
