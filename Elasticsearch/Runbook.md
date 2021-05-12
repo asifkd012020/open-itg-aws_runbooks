@@ -14,10 +14,13 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
   - [1. ElasticSearch Service Domain deployed within a CG VPC](#1-ElasticSearch-Service-Domain-deployed-within-a-CG-VPC)
+  - [2. ElasticSearch Users and Roles defined following least privilege model](#2-ElasticSearch-Users-and-Roles-defined-following-least-privilege-model)
+  - [3. ElasticSearch resources are Encrypted according to CG Standards](#3-ElasticSearch-reources-are-Encrypted-according-to-CG-Standards)
+  - [4. ElasticSearch connections are Encrypted in transit using TLS 1.2](#4-ElasticSearch-connections-are-Encrypted-in-transit-using-TLS-1-2)
 - [Detective](#detective)
   - [1. ElasticSearch Resources are tagged according to CG standards](#1-ElasticSearch-Resources-are-tagged-according-to-CG-standards)
-  - [3. CloudTrail logging enabled and sent to Splunk](#3-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [4. CloudWatch logging enabled and sent to Splunk](#4-CloudWatch-logging-enabled-and-sent-to-Splunk)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond/Recover](#respondrecover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -35,3 +38,58 @@ Amazon Elasticsearch Service lets you pay only for what you use – there are no
 2. Highly scalable and available
 3. Highly secure
 4. Cost-effective
+<br><br>
+
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
+
+### 1. ElasticSearch Service Domain deployed within a CG VPC
+
+### 2. ElasticSearch Users and Roles defined following least privilege model
+`This Section will be updated soon.`
+
+### 3. ElasticSearch resources are Encrypted according to CG Standards
+`This Section will be updated soon.`
+
+### 4. ElasticSearch connections are Encrypted in transit using TLS 1.2
+`This Section will be updated soon.`
+<br><br>
+
+## Detective
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. ElastiCache Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. 
+2. https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/encryption-at-rest.html
+<br><br>
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
+
