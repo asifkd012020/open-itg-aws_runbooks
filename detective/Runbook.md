@@ -13,9 +13,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. Detective Users and Roles defined following least privilege model](#1-EventBridge-Users-and-Roles-defined-following-least-privilege-model)
-  - [2. Detective resources are Encrypted using CG Managed KMS Keys](#2-EventBridge-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [3. Detective connections are Encrypted in transitusing TLS 1.2](#3-EventBridge-connections-are-Encrypted-in-transitusing-TLS-1-2)
+  - [1. Detective connections are Encrypted in transitusing TLS 1.2](#1-Detective-connections-are-Encrypted-in-transitusing-TLS-1-2)
 - [Detective Controls](#Detective-Controls)
   - [1. Detective Resources are tagged according to CG standards](#1-Detective-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
