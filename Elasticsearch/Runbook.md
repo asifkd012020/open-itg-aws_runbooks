@@ -13,9 +13,9 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
-  - [1. ElasticSearch Service Domain deployed within a CG VPC](#1-ElasticSearch-Service-Domain-deployed-within-a-CG-VPC)
+  - [1. ElasticSearch Service Domain deployed within a private VPC preventing public access](#1-ElasticSearch-Service-Domain-deployed-within-a-private-VPC-preventing-public-access)
   - [2. ElasticSearch Users and Roles defined following least privilege model](#2-ElasticSearch-Users-and-Roles-defined-following-least-privilege-model)
-  - [3. ElasticSearch resources are Encrypted according to CG Standards](#3-ElasticSearch-reources-are-Encrypted-according-to-CG-Standards)
+  - [3. ElasticSearch resources are Encrypted using CG managed keys](#3-ElasticSearch-reources-are-Encrypted-using-CG-managed-keys)
   - [4. ElasticSearch connections are Encrypted in transit using TLS 1.2](#4-ElasticSearch-connections-are-Encrypted-in-transit-using-TLS-1-2)
 - [Detective](#detective)
   - [1. ElasticSearch Resources are tagged according to CG standards](#1-ElasticSearch-Resources-are-tagged-according-to-CG-standards)
@@ -43,12 +43,12 @@ Amazon Elasticsearch Service lets you pay only for what you use – there are no
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. ElasticSearch Service Domain deployed within a CG VPC
+### 1. ElasticSearch Service Domain deployed within a private VPC preventing public access
 
 ### 2. ElasticSearch Users and Roles defined following least privilege model
 `This Section will be updated soon.`
 
-### 3. ElasticSearch resources are Encrypted according to CG Standards
+### 3. ElasticSearch resources are Encrypted using CG managed keys
 `This Section will be updated soon.`
 
 ### 4. ElasticSearch connections are Encrypted in transit using TLS 1.2
