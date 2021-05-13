@@ -69,7 +69,7 @@ When deploying a new ElasticSearch Domain within your AWS Account, as mentioned 
 1. Make sure to select the `VPC Access (Recommended)` radio button, so that the `Public access` radio button is unselected. As seen in the screenshot above.
 2. Select the VPC that will host the new ES Domain, this may be the `Default VPC`, but in this case no IGW or NatGW should exist.
 3. Next Select the Subnet / Subnets that will be used for IP address assignment for the ES resources. Please make sure that there are adequite IP addresses available in the subnets.
-4. Next Select the `Security Group` that will control access to and from the ES Domain resources. By default the security group should only allow access to and from Elastic Search based on ports needed for the service to function correctly.
+4. Next Select the `Security Group` that will control access to and from the ES Domain resources. By default the security group should only allow access to and from Elastic Search based on ports needed for the service to function correctly. If futher information is needed on how to create or update security groups, please see the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md).
 5. This concludes the settings for VPC enablement.
 
 <br>
