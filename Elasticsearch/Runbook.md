@@ -65,7 +65,7 @@ Placing an Amazon ES domain within a VPC enables secure communication between Am
 ### Steps to Deploy ES Domain withing a VPC
 When deploying a new ElasticSearch Domain within your AWS Account, as mentioned previously, there are steps that can be taken to ensure deployment within a specific VPC. This can be acomplished during the `third step` of the **`Create New Domain`** wizzard explained below:
 
-<img src="/docs/img/elasticsearch/vpc.png" width="800"><br>
+<img src="/docs/img/elasticsearch/vpc.png" width="1000"><br>
 
 <br>
 
