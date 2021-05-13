@@ -61,11 +61,16 @@ CG has stringent cloud security controls around how services need to be secured,
 Placing an Amazon ES domain within a VPC enables secure communication between Amazon ES and other services within the VPC without the need for an internet gateway, NAT device, or VPN connection. All traffic remains securely within the AWS Cloud. Because of their logical isolation, domains that reside within a VPC have an extra layer of security when compared to domains that use public endpoints.
 
 **How?**<br>
-
 ### Steps to Deploy ES Domain withing a VPC
 When deploying a new ElasticSearch Domain within your AWS Account, as mentioned previously, there are steps that can be taken to ensure deployment within a specific VPC. This can be acomplished during the `third step` of the **`Create New Domain`** wizzard explained below:
 
 <img src="/docs/img/elasticsearch/vpc.png" width="1000"><br>
+
+1. Make sure to select the `VPC Access (Recommended)` radio button, so that the `Public access` radio button is unselected. As seen in the screenshot above.
+2. Select the VPC that will host the new ES Domain, this may be the `Default VPC`, but in this case no IGW or NatGW should exist.
+3. Next Select the Subnet / Subnets that will be used for IP address assignment for the ES resources. Please make sure that there are adequite IP addresses available in the subnets.
+4. Next Select the `Security Group` that will control access to and from the ES Domain resources. By default the security group should only allow access to and from Elastic Search based on ports needed for the service to function correctly.
+5. This concludes the settings for VPC enablement.
 
 <br>
 
