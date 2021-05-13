@@ -8,12 +8,12 @@
 <br>
 Security Engineering
 
-**Last Update:** *05/12/2021*
+**Last Update:** *05/13/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
-  - [1. ElasticSearch Service Domain deployed within a private VPC preventing public access](#1-ElasticSearch-Service-Domain-deployed-within-a-private-VPC-preventing-public-access)
+  - [1. ElasticSearch deployed within VPC to Prevent Public Access](#1-ElasticSearch-deployed-within-VPC-to-Prevent-Public-Access)
   - [2. ElasticSearch Users and Roles defined following least privilege model](#2-ElasticSearch-Users-and-Roles-defined-following-least-privilege-model)
   - [3. ElasticSearch resources are Encrypted using CG managed keys](#3-ElasticSearch-reources-are-Encrypted-using-CG-managed-keys)
   - [4. ElasticSearch connections are Encrypted in transit using TLS 1.2](#4-ElasticSearch-connections-are-Encrypted-in-transit-using-TLS-1-2)
@@ -43,7 +43,27 @@ Amazon Elasticsearch Service lets you pay only for what you use – there are no
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. ElasticSearch Service Domain deployed within a private VPC preventing public access
+### 1. ElasticSearch deployed within VPC to Prevent Public Access
+Following CG's stringent cloud security controls, you should ElasticSearch within a private VPC.
+<br>
+
+**Capital Group Controls:** 
+<br>
+
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012318](https://capitalgroup.service-now.com/cg_grc?sys_id=534f8d4b1bea6850371277741a4bcbc2&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones. |
+<br>
+
+**Why?**<br>
+CG has stringent cloud security controls around how services need to be secured, so that they are not publicly accessible. One of the ways to ensure that a service is only accessible to CG networks is to deploy the service within a private VPC.
+
+Placing an Amazon ES domain within a VPC enables secure communication between Amazon ES and other services within the VPC without the need for an internet gateway, NAT device, or VPN connection. All traffic remains securely within the AWS Cloud. Because of their logical isolation, domains that reside within a VPC have an extra layer of security when compared to domains that use public endpoints.
+
+**How?**<br>
+
+
+<br>
 
 ### 2. ElasticSearch Users and Roles defined following least privilege model
 `This Section will be updated soon.`
@@ -76,9 +96,10 @@ Amazon Elasticsearch Service lets you pay only for what you use – there are no
 
 ## Endnotes
 **Resources**<br>
-1. link 1 
+1. https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-vpc.html
 2. https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/encryption-at-rest.html
 3. https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/ntn.html
+4. https://docs.aws.amazon.com/elasticsearch-service/latest/developerguide/es-ac.html
 <br><br>
 
 ## Capital Group Glossory 
