@@ -31,7 +31,7 @@ Amazon Simple Queue Service (SQS) is a fully managed message queuing service tha
 
 SQS offers two types of message queues. Standard queues offer maximum throughput, best-effort ordering, and at-least-once delivery. SQS FIFO queues are designed to guarantee that messages are processed exactly once, in the exact order that they are sent.
 
-<img src="/docs/img/sqs/sqx_example.png" width="800"><br>
+<img src="/docs/img/sqs/sqs_example.png" width="800"><br>
 
 ### Features & Benefits
  - Eliminate administrative overhead
