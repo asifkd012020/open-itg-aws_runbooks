@@ -60,12 +60,11 @@ CG has stringent cloud security controls around how services need to be secured,
 
 **How?**<br>
 
- - **NOTE:** `You can use Amazon Virtual Private Cloud only with HTTPS Amazon SQS endpoints.`<br>
-
 When establishing a private connection between your virtual private cloud (VPC) and the Amazon SQS service, you should create an interface VPC endpoint. You can use this connection to call the Amazon SQS service from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon SQS service without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
 
 Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon SQS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon SQS requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. 
 
+ - **NOTE:** `You can use Amazon Virtual Private Cloud only with HTTPS Amazon SQS endpoints.`<br>
 
 ### Below are the steps to implement Interface VPC Endpoints for SQS:
 <br>
