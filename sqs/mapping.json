@@ -12,8 +12,80 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Enable TLS1.2 or higher for communication sessions",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md",
+            "requirement_name": "SQS Utilizes VPC Endpoints to Prevent Public Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md#1-SQS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "SQS Users and Roles defined following least privilege model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md#2-SQS-Users-and-Roles-defined-following-least-privilege-model",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "SQS resources are Encrypted using CG Managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md#3-SQS-reources-are-Encrypted-using-CG-Managed-KMS-Keys",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "SQS connections are Encrypted in transit using TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md#4-SQS-connections-are-Encrypted-in-transit-using-TLS-1-2",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "SQS Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md#1-SQS-Resources-are-tagged-according-to-CG-standards",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sqs/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags": [],
             "severity": {
                 "Prod": "medium",
