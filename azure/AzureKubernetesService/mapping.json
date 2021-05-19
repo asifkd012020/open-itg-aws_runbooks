@@ -13,7 +13,7 @@
   "mapping": [
       {
           "requirement_name": "AKS deployed in Private VNET with no public access",
-          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#1-AKS-deployed-in-Private-VNET-with-no-public-access",
           "tags":[],
           "severity": {
               "Prod": "critical",
@@ -25,7 +25,7 @@
       },
       {
           "requirement_name": "AKS enforce least privilege for access to API server & nodes",
-          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#2-AKS-Data-is-protected-using-a-CG-Managed-Key",
           "tags":[],
           "severity": {
               "Prod": "high",
@@ -37,7 +37,7 @@
       },
       {
           "requirement_name": "AKS utilizes managed identities with least priviledge assigned",
-          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#3-AKS-enforces-least-privilege-for-access-to-API-server--nodes",
           "tags":[],
           "severity": {
               "Prod": "high",
@@ -49,7 +49,7 @@
       },
       {
           "requirement_name": "AKS connections are protected with TLS 1.2",
-          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#4-AKS-utilizes-managed-identities-with-least-priviledge-assigned",
           "tags":[],
           "severity": {
               "Prod": "high",
@@ -61,7 +61,7 @@
       },
       {
           "requirement_name": "Data is protected using a CG Managed Key",
-          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#5-ASL-connections-are-protected-with-TLS-12",
           "tags":[],
           "severity": {
               "Prod": "high",
@@ -73,7 +73,7 @@
       },
       {
           "requirement_name": "AKS Resources are tagged according to CG standards",
-          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#1-AKS-resources-are-tagged-according-to-cg-standards",
           "tags":[],
           "severity": {
               "Prod": "medium",
@@ -85,7 +85,7 @@
       },
       {
           "requirement_name": "AKS logging enabled and sent to Splunk",
-          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#2-AKS-logging-enabled-and-sent-to-splunk",
           "tags":[],
           "severity": {
               "Prod": "medium",
