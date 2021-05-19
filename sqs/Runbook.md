@@ -82,7 +82,7 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
   4. The SQS service will now be accessible via the private endpoint for all requests within the VPC.
 <br><br>
 
-**Creation of strict VPC Endpoint Policy:**<br>
+**Creatomg a strict VPC Endpoint Policy:**<br>
 Once we have setup a VPC Endpoint, we still need to mandate the use of the VPC Endpoint. Enforcement takes the form of a custom VPC Endpoint policy as seen below:
 
   1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
