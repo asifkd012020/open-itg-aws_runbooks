@@ -28,12 +28,12 @@ Security Engineering
 ## Overview
 AWS X-Ray helps developers analyze and debug production, distributed applications, such as those built using a microservices architecture. With X-Ray, you can understand how your application and its underlying services are performing to identify and troubleshoot the root cause of performance issues and errors. X-Ray provides an end-to-end view of requests as they travel through your application, and shows a map of your application’s underlying components. You can use X-Ray to analyze both applications in development and in production, from simple three-tier applications to complex microservices applications consisting of thousands of services.
 
+<img src="/docs/img/xray/xray_example.png" width="800"><br>
+
 ### Benefits & Features
  - Review request behavior
  - Discover application issues
  - Improve application performance
-
-<img src="/docs/img/xray/xray_example.png" width="800"><br>
 
 **NOTE:** <br>
 >`X-Ray is an AWS Managed service offering, the underlying Infrastructure including Network and Compute resources are all managed by AWS as explained in the Shared Responsibility Model. Due to this fact, CG's standard public access controls cannot be applied and the application of appropriate controls to keep the service from external or public accessibility falls on AWS.`
