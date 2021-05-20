@@ -18,7 +18,7 @@ Security Engineering
   - [3. GuardDuty resources are Encrypted using CG Managed KMS Keys](#3-GuardDuty-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
   - [4. GuardDuty connections are Encrypted in transitusing TLS 1.2](#4-GuardDuty-connections-are-Encrypted-in-transitusing-TLS-1-2)
 - [Detective Controls](#Detective-Controls)
-  - [1. EventBridge Resources are tagged according to CG standards](#1-EventBridge-Resources-are-tagged-according-to-CG-standards)
+  - [1. GuardDuty Resources are tagged according to CG standards](#1-GuardDuty-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
