@@ -34,6 +34,7 @@ AWS X-Ray helps developers analyze and debug production, distributed application
  - Review request behavior
  - Discover application issues
  - Improve application performance
+<br>
 
 **NOTE:** <br>
 >`X-Ray is an AWS Managed service offering, the underlying Infrastructure including Network and Compute resources are all managed by AWS as explained in the Shared Responsibility Model. Due to this fact, CG's standard public access controls cannot be applied and the application of appropriate controls to keep the service from external or public accessibility falls on AWS.`
