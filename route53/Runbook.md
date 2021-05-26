@@ -13,12 +13,12 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. SQS Utilizes VPC Endpoints to Prevent Public Access](#1-SQS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [2. SQS Users and Roles defined following least privilege model](#2-SQS-Users-and-Roles-defined-following-least-privilege-model)
-  - [3. SQS resources are Encrypted using CG Managed KMS Keys](#3-SQS-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [4. SQS connections are Encrypted in transit using TLS 1.2](#4-SQS-connections-are-Encrypted-in-transit-using-TLS-1-2)
+  - [1. Route53 Utilizes VPC Endpoints to Prevent Public Access](#1-Route53-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [2. Route53 Users and Roles defined following least privilege model](#2-Route53-Users-and-Roles-defined-following-least-privilege-model)
+  - [3. Route53 resources are Encrypted using CG Managed KMS Keys](#3-Route53-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
+  - [4. Route53 connections are Encrypted in transit using TLS 1.2](#4-Route53-connections-are-Encrypted-in-transit-using-TLS-1-2)
 - [Detective Controls](#Detective-Controls)
-  - [1. SQS Resources are tagged according to CG standards](#1-SQS-Resources-are-tagged-according-to-CG-standards)
+  - [1. Route53 Resources are tagged according to CG standards](#1-Route53-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Respond & Recover](#Respond/Recover)
@@ -27,7 +27,7 @@ Security Engineering
 <br><br>
 
 ## Overview
-Amazon Route 53 is a highly available and scalable cloud Domain Name System (DNS) web service. It is designed to give developers and businesses an extremely reliable and cost effective way to route end users to Internet applications by translating names like www.capgroup.com into the numeric IP addresses like 192.0.2.1 that computers use to connect to each other. Amazon Route 53 is fully compliant with IPv6 as well.
+Amazon Route 53 is a highly available and scalable cloud Domain Name System (DNS) web service. It is designed to give developers and businesses an extremely reliable and cost effective way to route end users to Internet applications by translating names like account1.capgroup.com into the numeric IP addresses like 192.0.2.1 that computers use to connect to each other. Amazon Route 53 is fully compliant with IPv6 as well.
 
 Amazon Route 53 effectively connects user requests to infrastructure running in AWS – such as Amazon EC2 instances, Elastic Load Balancing load balancers, or Amazon S3 buckets – and can also be used to route users to infrastructure outside of AWS. You can use Amazon Route 53 to configure DNS health checks to route traffic to healthy endpoints or to independently monitor the health of your application and its endpoints. Amazon Route 53 Traffic Flow makes it easy for you to manage traffic globally through a variety of routing types, including Latency Based Routing, Geo DNS, Geoproximity, and Weighted Round Robin—all of which can be combined with DNS Failover in order to enable a variety of low-latency, fault-tolerant architectures. Using Amazon Route 53 Traffic Flow’s simple visual editor, you can easily manage how your end-users are routed to your application’s endpoints—whether in a single AWS region or distributed around the globe. Amazon Route 53 also offers Domain Name Registration – you can purchase and manage domain names such as capgroup.com and Amazon Route 53 will automatically configure DNS settings for your domains.
 <br>
