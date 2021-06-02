@@ -12,13 +12,13 @@
     "phase": "General Availability (GA)",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/trustedadvisor/Runbook.md",
+            "requirement_name": "Please See the AWS Support Runbook",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md",
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
+                "Prod": "low",
+                "SNP": "low",
+                "NP": "low"
             },
             "control_mapping": [],
             "implementations": []
