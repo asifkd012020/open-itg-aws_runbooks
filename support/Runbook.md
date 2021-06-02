@@ -43,13 +43,10 @@ On behalf of our customers, we are focused on solving some of the toughest chall
 ### 1. Support Users and Roles defined following least privilege model
 `This Section will be updated soon.`
 
-### 2. Support access limited to Security Teams
+### 2. Support resources are Encrypted using CG Managed KMS Keys
 `This Section will be updated soon.`
 
-### 3. Support resources are Encrypted using CG Managed KMS Keys
-`This Section will be updated soon.`
-
-### 4. Support connections are Encrypted in transitusing TLS 1.2
+### 3. Support connections are Encrypted in transitusing TLS 1.2
 `This Section will be updated soon.`
 <br><br>
 
