@@ -71,7 +71,8 @@ On behalf of our customers, we are focused on solving some of the toughest chall
 
 ## Endnotes
 **Resources**<br>
-1. 
+1. https://docs.aws.amazon.com/awssupport/latest/user/security.html
+2. https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html
 <br><br>
 
 ## Capital Group Glossory 
