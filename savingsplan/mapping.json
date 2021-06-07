@@ -12,8 +12,8 @@
     "phase": "General Availability (GA)",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/savingsplan/Runbook.md",
+            "requirement_name": "Please see the Billing and Cost Management Runbook",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md",
             "tags":[],
             "severity": {
                 "Prod": "medium",
