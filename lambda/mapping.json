@@ -95,7 +95,7 @@
                 "SNP": "critical",
                 "NP": "medium"
             },
-            "control_mapping": [],
+            "control_mapping": ["CS0012300"],
             "implementations": [
                 {
                     "provider": "sentinel",
