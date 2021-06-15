@@ -16,6 +16,7 @@ Security Engineering
   - [1. API Gateway Deployed with Private Endpoints](#1-API-Gateway-Deployed-with-Private-Endpoints)
   - [2. API Gateway Deployed with IAM Access Policies](#2-API-Gateway-Deployed-with-IAM-Access-Policies)
   - [3. Encrypt all data in the Cloud](#3-Encrypt-all-data-in-the-Cloud)
+  - [4. Deploy NLB with PrivateLink for Access to Internal Resources](#4-Deploy-NLB-with-PrivateLink-for-Access-to-Internal-Resources)
 - [Detective Controls](#Detective-Controls)
   - [1. API Gateway Resources are tagged according to CG standards](#1-API-Gateway-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -136,6 +137,13 @@ The configuration options that need to be selected are listed below:
 ### 3. Encrypt all data in the Cloud
 `This Section will be updated soon.`
 
+### 4. Deploy NLB with PrivateLink for Access to Internal Resources
+API Gateway does not run on the CG Managed VPC, even when a private endpoint is used. In order to allow API Gateway to access CG internal resources (such as EC2s, EC2, or other backend resources), NLB with Private Link.
+
+1. Go to the EC2 Console, and navigate to the Target Groups console. Create a new target group that targets either the EC2, ECS, or relevant IP address
+2. Create a new Network Load balancer targeting that group, as private network load balancer attached to the CG default vpc1
+3. Go to API Gateway, and go to the 'VPC Links' and create a new VPC Link targeting that Load Balancer
+
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
@@ -161,6 +169,7 @@ The configuration options that need to be selected are listed below:
 1. https://aws.amazon.com/blogs/compute/introducing-amazon-api-gateway-private-endpoints/
 2. https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-private-apis.html#apigateway-private-api-create-interface-vpc-endpoint
 3. https://docs.aws.amazon.com/apigateway/latest/developerguide/security.html
+4. https://docs.aws.amazon.com/apigateway/latest/developerguide/set-up-nlb-for-vpclink-using-console.html
 <br>
 
 ## Capital Group Glossory 
