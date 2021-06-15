@@ -20,7 +20,7 @@ Security Engineering
 - [Detective Controls](#Detective-Controls)
   - [1. Backup resources are tagged according to CG standards](#1-Backup-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [3. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
+  - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
   - [4. Backup activity monitoring enabled](#4-Backup-activity-monitoring-enabled)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
