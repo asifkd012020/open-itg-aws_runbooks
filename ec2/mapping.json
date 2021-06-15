@@ -176,6 +176,46 @@
             },
             "control_mapping": [],
             "implementations": []
+        },
+        {
+            "requirement_name": "EC2 instance should have SSM Managed",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#4-ec2-instance-should-have-ssm-managed",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "aws_config",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/SecurityConformancePack/PermissionBoundaryPipeline/ssminstancescompliancelambda"
+                    ],
+                    "type": "detect"
+                }
+            ]
+        },
+        {
+            "requirement_name": "EC2 instance should have Qualys agent installed",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#5-ec2-instance-should-have-qualys-agent-installed",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "aws_config",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/SecurityConformancePack/PermissionBoundaryPipeline/QualysAgentDetectConfigRuleLamda"
+                    ],
+                    "type": "detect"
+                }
+            ]
         }
     ]
 }
