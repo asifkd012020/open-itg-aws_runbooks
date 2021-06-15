@@ -9,11 +9,83 @@
         "SNP": "approved",
         "NP": "approved"
     },
-    "phase": "discovery",
+    "phase": "General Availability (GA)",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/detective/Runbook.md",
+            "requirement_name": "Detective Users and Roles defined following least privilege model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/detective/Runbook.md#1-Detective-Users-and-Roles-defined-following-least-privilege-model",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Detective access limited to Security Teams",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/detective/Runbook.md#2-Detective-access-limited-to-Security-Teams",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Detective resources are Encrypted using CG Managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/detective/Runbook.md#3-Detective-reources-are-Encrypted-using-CG-Managed-KMS-Keys",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Detective connections are Encrypted in transitusing TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/detective/Runbook.md#4-Detective-connections-are-Encrypted-in-transitusing-TLS-1-2",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Detective Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/detective/Runbook.md#1-Detective-Resources-are-tagged-according-to-CG-standards",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/detective/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/detective/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags":[],
             "severity": {
                 "Prod": "medium",
