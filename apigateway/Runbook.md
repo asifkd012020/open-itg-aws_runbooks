@@ -141,8 +141,14 @@ The configuration options that need to be selected are listed below:
 API Gateway does not run on the CG Managed VPC, even when a private endpoint is used. In order to allow API Gateway to access CG internal resources (such as EC2s, EC2, or other backend resources), NLB with Private Link.
 
 1. Go to the EC2 Console, and navigate to the Target Groups console. Create a new target group that targets either the EC2, ECS, or relevant IP address
+<img src="/docs/img/apigw/targetgroup.png" width="800"> 
+
 2. Create a new Network Load balancer targeting that group, as private network load balancer attached to the CG default vpc1
+<img src="/docs/img/apigw/loadbalancersummary.png" width="800"> 
+
 3. Go to API Gateway, and go to the 'VPC Links' and create a new VPC Link targeting that Load Balancer
+<img src="/docs/img/apigw/vpclinkcreate.png" width="800"> 
+
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
