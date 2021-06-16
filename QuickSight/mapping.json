@@ -9,7 +9,7 @@
         "SNP": "denied",
         "NP": "denied"
     },
-    "phase": "discovery",
+    "phase": "Discovery",
     "mapping": [
         {
             "requirement_name": "Discovery in progress",
