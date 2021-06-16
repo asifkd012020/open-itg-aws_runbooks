@@ -46,7 +46,7 @@ The AWS Serverless Application Repository is deeply integrated with the AWS Lamb
 ## Preventative Controls
 <img src="Prevent.png" width="50"> 
 
-### 1. Publishers can set application permissions to enforce least privilege model  
+### 1. Publishers must set application permissions to private or privately shared  
 <!-- NIST CSF:  
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
