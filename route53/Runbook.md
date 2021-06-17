@@ -13,10 +13,12 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. Route53 Utilizes VPC Endpoints to Prevent Public Access](#1-Route53-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [2. Route53 Users and Roles defined following least privilege model](#2-Route53-Users-and-Roles-defined-following-least-privilege-model)
-  - [3. Route53 resources are Encrypted using CG Managed KMS Keys](#3-Route53-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [4. Route53 connections are Encrypted in transit using TLS 1.2](#4-Route53-connections-are-Encrypted-in-transit-using-TLS-1-2)
+  - [1. Route53 deployed with Private Hosted Zones Only](#1-Route53-deployed-for-Private-Hosted-Zones-Only)
+  - [2. Route53 Utilizes DNS Endpoints to Prevent Unauthorized Access](#2-Route53-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [3. Route53 Administrative access is reserved for Network Engineering only](#3-Route53-Administrative-access-is-reserved-for-Network-Engineering-only)
+  - [4. Route53 Users and Roles defined following least privilege model](#4-Route53-Users-and-Roles-defined-following-least-privilege-model)
+  - [5. Route53 resources are Encrypted using CG Managed KMS Keys](#5-Route53-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
+  - [6. Route53 connections are Encrypted in transit using TLS 1.2](#6-Route53-connections-are-Encrypted-in-transit-using-TLS-1-2)
 - [Detective Controls](#Detective-Controls)
   - [1. Route53 Resources are tagged according to CG standards](#1-Route53-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -30,9 +32,74 @@ Security Engineering
 Amazon Route 53 is a highly available and scalable cloud Domain Name System (DNS) web service. It is designed to give developers and businesses an extremely reliable and cost effective way to route end users to Internet applications by translating names like account1.capgroup.com into the numeric IP addresses like 192.0.2.1 that computers use to connect to each other. Amazon Route 53 is fully compliant with IPv6 as well.
 
 Amazon Route 53 effectively connects user requests to infrastructure running in AWS – such as Amazon EC2 instances, Elastic Load Balancing load balancers, or Amazon S3 buckets – and can also be used to route users to infrastructure outside of AWS. You can use Amazon Route 53 to configure DNS health checks to route traffic to healthy endpoints or to independently monitor the health of your application and its endpoints. Amazon Route 53 Traffic Flow makes it easy for you to manage traffic globally through a variety of routing types, including Latency Based Routing, Geo DNS, Geoproximity, and Weighted Round Robin—all of which can be combined with DNS Failover in order to enable a variety of low-latency, fault-tolerant architectures. Using Amazon Route 53 Traffic Flow’s simple visual editor, you can easily manage how your end-users are routed to your application’s endpoints—whether in a single AWS region or distributed around the globe. Amazon Route 53 also offers Domain Name Registration – you can purchase and manage domain names such as capgroup.com and Amazon Route 53 will automatically configure DNS settings for your domains.
-<br>
-<br>
-<br>
 
-# Baseline configuration will create Private Hosted Zone with naming convention of' 'sub-domain+capgroup.com'
-# Consumers with appropriate access management privileges will create individual host records (e.g., 'host1.scarif.aws-dev.capgroup.com'
+<img src="/docs/img/route53/cg_deployment.png" width="800">
+<br><br>
+
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
+
+### 1. Route53 deployed with Private Hosted Zones Only
+`This Section will be updated soon.`
+
+### 2. Route53 Utilizes DNS Endpoints to Prevent Unauthorized Access
+`This Section will be updated soon.`
+
+### 3. Route53 Administrative access is reserved for Network Engineering only
+`This Section will be updated soon.`
+
+### 4. Route53 Users and Roles defined following least privilege model
+`This Section will be updated soon.`
+
+### 5. Route53 resources are Encrypted using CG Managed KMS Keys
+`This Section will be updated soon.`
+
+### 6. Route53 connections are Encrypted in transit using TLS 1.2
+`This Section will be updated soon.`
+<br><br>
+
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
+
+### 1. Route53 Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
+
+## Respond/Recover
+<img src="/docs/img/Monitor.png" width="50">
+
+`This Section will be updated soon.`
+<br><br>
+
+## Endnotes
+**Resources**<br>
+1. [Network Engineering Design and Deployment Documentation](https://confluence.capgroup.com/pages/viewpage.action?spaceKey=NETT&title=Route53+Private+Hosted+Zone+DNS+Domain+Design)
+2. https://aws.amazon.com/blogs/security/simplify-dns-management-in-a-multiaccount-environment-with-route-53-resolver/
+3. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html
+4. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-forwarding-inbound-queries-managing.html
+5. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-forwarding-outbound-queries-managing.html
+<br><br>
+
+## Capital Group Glossory 
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
+ 
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
+
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual. 
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
+<br><br><br>
+
+### Controls to review
+-  Baseline configuration will create Private Hosted Zone with naming convention of' 'sub-domain+capgroup.com'
+-  Consumers with appropriate access management privileges will create individual host records (e.g., 'host1.scarif.aws-dev.capgroup.com'
