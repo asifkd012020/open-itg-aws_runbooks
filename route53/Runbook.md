@@ -43,6 +43,9 @@ Amazon Route 53 effectively connects user requests to infrastructure running in 
 `This Section will be updated soon.`
 
 ### 2. Route53 Utilizes DNS Endpoints to Prevent Unauthorized Access
+ - Inbound Endpoint
+ - Outbound Endpoint
+
 `This Section will be updated soon.`
 
 ### 3. Route53 Administrative access is reserved for Network Engineering only
