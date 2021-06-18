@@ -16,9 +16,9 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#1-Route53-deployed-for-Private-Hosted-Zones-Only",
             "tags": [],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "high"
             },
             "control_mapping": [],
             "implementations": []
@@ -28,9 +28,9 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#2-Route53-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
             "tags": [],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "high"
             },
             "control_mapping": [],
             "implementations": []
@@ -40,8 +40,8 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#3-Route53-Administrative-access-is-reserved-for-Network-Engineering-only",
             "tags": [],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
+                "Prod": "high",
+                "SNP": "high",
                 "NP": "medium"
             },
             "control_mapping": [],
