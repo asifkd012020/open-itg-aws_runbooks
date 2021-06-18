@@ -40,12 +40,29 @@ Amazon Route 53 effectively connects user requests to infrastructure running in 
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Route53 deployed with Private Hosted Zones Only
-`This Section will be updated soon.`
+Amazon Route 53 private hosted zone is a container that holds information about how you want Route 53 to respond to DNS queries for domain and its subdomains within one or more VPCs that you create with the Amazon VPC service. Route53 needs to be configured to restrict access to only CG resources, and this requirement will provide detail on how this can be accomplished.
+
+**Why?**<br>
+Deploying Route53 as Private Hosted Zones only will allow the service to adhere to CG's stringent public access controls as the DNS service will only be available on CG owned VPC's and only accessible through DNS Endpoints discussed in another section of this document.
+
+**How?**<br>
+A private hosted zone only responds to queries coming from within the associated VPC and it is not used for hosting a website that need to be publicly accessed. The information below details how this is setup.
+
+#### Creating a Private Hosted Zone
+1. For each VPC that we want to associate with the Amazon Route 53 hosted zone, change the following VPC settings to true (by default VPC enables them though):
+   - enableDnsHostnames
+   - enableDnsSupport
+2. In the `"Create Private Hosted Zone"` pane, enter a domain name and, optionally, a comment.
+3. In the `"Type"` list, choose `"Private Hosted Zone"` in the navigation pane.<br>
+<img src="/docs/img/route53/Create_Hosted.png" width="500">
+
+4. Click the `Create` button.
+5. After the Private Hosted Zone is created, one will still need to add a `DNS Record Set` and verify that A-Records are created and accessible.
+
 
 ### 2. Route53 Utilizes DNS Endpoints to Prevent Unauthorized Access
  - Inbound Endpoint
  - Outbound Endpoint
-
 `This Section will be updated soon.`
 
 ### 3. Route53 Administrative access is reserved for Network Engineering only
@@ -105,4 +122,5 @@ Amazon Route 53 effectively connects user requests to infrastructure running in 
 
 ### Controls to review
 -  Baseline configuration will create Private Hosted Zone with naming convention of' 'sub-domain+capgroup.com'
+      In order to provide flexibility and agility creating and removing DNS records for the consumer, as a baseline build, a Route53 private hosted zone with a sub-domain from the capgroup.com parent domain is created and delegated from CG's on-premises IPAM/DNS management system.
 -  Consumers with appropriate access management privileges will create individual host records (e.g., 'host1.scarif.aws-dev.capgroup.com'

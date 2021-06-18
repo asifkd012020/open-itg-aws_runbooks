@@ -68,7 +68,7 @@
                 "SNP": "medium",
                 "NP": "medium"
             },
-            "control_mapping": [],
+            "control_mapping": ["CS0012233"],
             "implementations": []
         },
         {
@@ -80,7 +80,7 @@
                 "SNP": "medium",
                 "NP": "medium"
             },
-            "control_mapping": [],
+            "control_mapping": ["CS0012233"],
             "implementations": []
         }
     ]
