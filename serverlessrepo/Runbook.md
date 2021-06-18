@@ -12,7 +12,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->  
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
-  - [1. Implement access controls to enforce least privilege](#1-preventative-item-1)
+  - [1. Publishers must set application permissions to private or privately shared with CG organization accounts](#1-preventative-item-1)
   - [2. Data is protected at-rest and in-transit](#2-preventative-item-2)
   - [3. SAR Utilizes TLS 1.2 to secure data in transit](#3-preventative-item-3)
 - [Detective](#detective)
@@ -46,7 +46,7 @@ The AWS Serverless Application Repository is deeply integrated with the AWS Lamb
 ## Preventative Controls
 <img src="Prevent.png" width="50"> 
 
-### 1. Publishers must set application permissions to private or privately shared  
+### 1. Publishers must set application permissions to private or privately shared with CG organization accounts
 <!-- NIST CSF:  
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -60,6 +60,8 @@ Capital Group:
 |Control Statement|Description|
 |------|----------------------|
 |5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
+|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
+|7|Use of AWS IAM accounts are restricted to CG networks.|
 |8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
 |10|Administrative access to AWS resources will have MFA enabled|
 -->
@@ -133,9 +135,11 @@ aws serverlessrepo put-application-policy \
 
 <br>
 
-### **Publicly Shared** 
-1. *Share an Application Publicly*   
-To make an application public, you share it with everyone by specifying "*" as the principal, as in the following example. Applications that are shared publicly are available in all Regions.  
+### **Avoid Publicly Shared Applications** 
+1. *Avoid Sharing an Application Publicly*   
+An application is made public, when you only specify "*" as the principal, as in the following example. Applications should never be shared publicly, and this permisson should be **avoided**. Applications are private by default, but always check to make sure that no unwanted changes were made.
+
+<span style="color:red">**Avoid the Following:**</span>
 ```
 aws serverlessrepo put-application-policy \
 --region region \
@@ -145,29 +149,6 @@ aws serverlessrepo put-application-policy \
 Resource based Policies: https://docs.aws.amazon.com/serverlessrepo/latest/devguide/security_iam_resource-based-policy-examples.html
 
 <br>
-
-### 2. Data is protected at-rest and in-transit
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-|||
-|||
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|1||
-|2||
-|||
-
-**Why?**   
-`This Section will be updated soon.`   
-**How?**   
-`This Section will be updated soon.` 
-
-
 
 ## Detective
 <img src="Detect.png" width="50">
