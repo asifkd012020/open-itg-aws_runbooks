@@ -42,6 +42,12 @@ Amazon Route 53 effectively connects user requests to infrastructure running in 
 ### 1. Route53 deployed with Private Hosted Zones Only
 Amazon Route 53 private hosted zone is a container that holds information about how you want Route 53 to respond to DNS queries for domain and its subdomains within one or more VPCs that you create with the Amazon VPC service. Route53 needs to be configured to restrict access to only CG resources, and this requirement will provide detail on how this can be accomplished.
 
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
 **Why?**<br>
 Deploying Route53 as Private Hosted Zones only will allow the service to adhere to CG's stringent public access controls as the DNS service will only be available on CG owned VPC's and only accessible through DNS Endpoints discussed in another section of this document.
 
@@ -104,6 +110,7 @@ A private hosted zone only responds to queries coming from within the associated
 3. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver.html
 4. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-forwarding-inbound-queries-managing.html
 5. https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/resolver-forwarding-outbound-queries-managing.html
+6. https://www.bogotobogo.com/DevOps/AWS/aws-Route53-DNS-Private-Hosted-Zone.php
 <br><br>
 
 ## Capital Group Glossory 
