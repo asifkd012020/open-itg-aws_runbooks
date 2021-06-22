@@ -93,20 +93,23 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
   5. The CloudFormation service will now be accessible via the private endpoint for all requests within the VPC.
 <br>
 
-### 2. EventBridge Users and Roles defined following least privilege model
+### 2. CloudFormation Users and Roles defined following least privilege model
 `This Section will be updated soon.`
 
-### 3. EventBridge resources are Encrypted using CG Managed KMS Keys
+### 3. CloudFormation resources are Encrypted using CG Managed KMS Keys
 `This Section will be updated soon.`
 
-### 4. EventBridge connections are Encrypted in transitusing TLS 1.2
+### 4. CloudFormation connections are Encrypted in transitusing TLS 1.2
+`This Section will be updated soon.`
+
+### 5. CloudFormation templates do not contain embeded credentials
 `This Section will be updated soon.`
 <br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
-### 1. EventBridge Resources are tagged according to CG standards
+### 1. CloudFormation Resources are tagged according to CG standards
 `This Section will be updated soon.`
 
 ### 2. CloudTrail logging enabled and sent to Splunk
