@@ -13,18 +13,39 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. Direct Connect ](#1-Direct-Connect)
+  - [1. Direct Connect Provisioned in Private VPC Connectivity model only](#1-Direct-Connect-Provisioned-in-Private-VPC-Connectivity-model-only)
+  - [2. Provisioning of DirectConnect restricted to Network Engineering Team](#2-Provisioning-of-DirectConnect-restricted-to-Network-Engineering-Team)
+  - [3. DirectConnect is Encrypted End-to-End thereby adhering to CG Standards](#3-DirectConnect-is-Encrypted-End-to-End-thereby-adhering-to-CG-Standards)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
-`This Section will be updated soon.`
+AWS Direct Connect is a cloud service solution that makes it easy to establish a dedicated network connection from your premises to AWS. Using AWS Direct Connect, you establish a private connection between AWS and your datacenter, office, or colocation environment. This can increase bandwidth throughput and provide a more consistent network experience than internet-based connections.
+
+AWS Direct Connect is compatible with all AWS services accessible over the Internet, and is available in speeds starting at 50 Mbps and scaling up to 100 Gbps.
+
+<img src="/docs/img/directconnect/directconnect.png" width="800">
+
+**Features & Benefits**
+ - Consistent network performance
+ - Protects data in transit
+ - Lower bandwidth costs
+ - Flexible connection options
+
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
+### 1. Direct Connect Provisioned in Private VPC Connectivity model only
+
+<img src="/docs/img/directconnect/deployment.png" width="800">
+
+### 2. Provisioning of DirectConnect restricted to Network Engineering Team
+`This Section will be updated soon.`
+
+### 3. DirectConnect is Encrypted End-to-End thereby adhering to CG Standards
 `This Section will be updated soon.`
 
 ## Detective Controls
@@ -40,7 +61,8 @@ Security Engineering
 
 ## Endnotes
 **Resources**<br>
-`This Section will be updated soon.`
+1. [Network Engineering - AWS DirectConnect deployment documentation](https://confluence.capgroup.com/display/NETT/Private+VPC+Connectivity+Model)
+2. [AWS Direct Connect - Getting Started Documentation](https://aws.amazon.com/directconnect/getting-started/?nc=sn&loc=4&dn=1)
 
 <br>
 
