@@ -76,7 +76,6 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
 
  - The security group attached to the VPC endpoint must allow incoming connections on port 443 from the private subnet of the VPC.
  
- <br>
 
 ### Below are the steps to implement Interface VPC Endpoints for CloudFormation:
 
@@ -91,7 +90,7 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
      - Now add the appropriate `CG standard tags`.
   4. Click `Create Endpoint` to complete the process.
   5. The CloudFormation service will now be accessible via the private endpoint for all requests within the VPC.
-<br>
+
 
 ### 2. CloudFormation Users and Roles defined following least privilege model
 `This Section will be updated soon.`
