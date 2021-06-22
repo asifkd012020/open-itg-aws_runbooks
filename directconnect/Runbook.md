@@ -24,7 +24,7 @@ Security Engineering
 ## Overview
 AWS Direct Connect is a cloud service solution that makes it easy to establish a dedicated network connection from your premises to AWS. Using AWS Direct Connect, you establish a private connection between AWS and your datacenter, office, or colocation environment. This can increase bandwidth throughput and provide a more consistent network experience than internet-based connections.
 
-AWS Direct Connect is compatible with all AWS services accessible over the Internet, and is available in speeds starting at 50 Mbps and scaling up to 100 Gbps.
+AWS Direct Connect is compatible with all AWS services accessible over the Internet, and is available in speeds starting at `50 Mbps` and scaling up to `100 Gbps`.
 
 <img src="/docs/img/directconnect/directconnect.png" width="800">
 
@@ -33,14 +33,58 @@ AWS Direct Connect is compatible with all AWS services accessible over the Inter
  - Protects data in transit
  - Lower bandwidth costs
  - Flexible connection options
-
+<br><br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. Direct Connect Provisioned in Private VPC Connectivity model only
+### 1. Direct Connect Provisioned in Private VPC Connectivity model only<br>
+AWS Direct Connect as the name implies allows an organization to directly connect to AWS, this can can can be done using one of the following methods: `Present at AWS Direct Connect Location`, `Connect from your premises` or `Connection via AWS Direct Connect Partner`. To adhere to CG's stringent cloud security controls, the connection method used by CG is currently using is to connect direcly from our premesis or our Equinix hosted CXDC's to be precise.
 
-<img src="/docs/img/directconnect/deployment.png" width="800">
+<img src="/docs/img/directconnect/deployment.png" width="800"><br>
+
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why & How?**
+
+Controlling public accessibility to CG cloud resources is one of our core tenets for cloud deployed resources and has been since our first resources were deployed. DirectConnect setup with from our core internet firewalls connecting directly into AWS is the best way to ensure that all traffic to / from AWS is only available to CG, as well as affording us lower latency and higher bandwith to AWS.
+
+ - **Design Characteristics**
+   - Intra-Environment VPC communication (e.g., DEV VPC to DEV VPC) cross accounts within the region is routed via Transit Gateway; The communication is allowed by default
+   - Intra-Environment VPC communication (e.g., DEV VPC to DEV VPC) across accounts and across regions are routed via on-prem CXDC over CG WAN; The communication is allowed by default.<br>
+    `Note: There are exceptions in some use-cases that require low latency Intra-Env. VPC communications between US-WEST-1 and US-WEST-2 regions.  For this requirement, Transit Gateway peering between regions is used for the communication (see section Transit Gateway Inter-Region Peering)`
+   - Inter-Environment VPC communication (e.g., DEV VPC to PROD VPC) across accounts within the region is routed via on-prem CXDC and restricted by CXDC firewall; The communication is blocked by default
+   - Inter-Environment VPC communication (e.g., DEV VPC to PROD VPC) across accounts and across regions are routed via on-prem CXDC over CG WAN and restricted by CXDC firewall; The communication is blocked by default
+   - Internet bound traffic from VPCs are backhauled to on-prem CXDC and egress out of respective Internet POP infrastructure
+
+ - **AWS Component Configuration Details**
+    - *AWS Transit Gateway (TGW)*
+        - Is a network transit hub that is used to interconnect VPCs that are in the same environment type (e.g., dev, qa, prod, etc.) in the same region
+        - Each TGW maintains its routeTable entries and routes are propagated when VPC is attached to TGW
+        - In each region, there are four TGWs dedicated for environment types maintaining the environment/zone separations
+        - Communications between VPCs that are attached to same TGW will stay within AWS network; they do not traverse through on-prem CXDC network
+        - TGW also provides connectivity to on-premise via AWS Direct Connect Gateway
+        - TGW resources are deployed in aws-hub account
+
+    - *AWS Direct Connect Gateway*
+        - Is used to establish connectivity to on-premise that spans VPCs via TGW spread across multiple AWS Regions
+        - Reduces number of BGP sessions; BGP peering established with Direct Connect Gateway.  No longer need to establish multiple BGP sessions for each VPC previously before Direct Connect Gateway introduced
+        - 4 x Transit Virtual Interfaces (TVIFs) are deployed at each NA CXDC facilities associated to Direct Connect Gateways.
+
+    - *AWS Direct Connect*
+        - AWS Direct Connect links CG L3 device to an AWS Direct Connect location over a standard cross-connect Ethernet fiber-optic cable. One end of the cable is connected to CXSW devices, the other to an AWS Direct Connect router
+        - Over the connection, transit virtual interfaces are created for logical L3 connectivity such as BGP adjacencies are established between CXSW and AWS Direct Connect router
+
+    - *Transit Gateway Inter-Region Peering*
+        - Transit Gateway Peering is provided for Inter-Region connectivity for intra zone/environment communications
+
+        <img src="/docs/img/directconnect/transitgw.png" width="600">
+        <br>
+
 
 ### 2. Provisioning of DirectConnect restricted to Network Engineering Team
 `This Section will be updated soon.`
@@ -51,7 +95,15 @@ AWS Direct Connect is compatible with all AWS services accessible over the Inter
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
+### 1. DirectConnect Resources are tagged according to CG standards
 `This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
 
 ## Respond/Recover
 <img src="/docs/img/Monitor.png" width="50">
