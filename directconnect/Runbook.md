@@ -60,6 +60,8 @@ Controlling public accessibility to CG cloud resources is one of our core tenets
    - Inter-Environment VPC communication (e.g., DEV VPC to PROD VPC) across accounts within the region is routed via on-prem CXDC and restricted by CXDC firewall; The communication is blocked by default
    - Inter-Environment VPC communication (e.g., DEV VPC to PROD VPC) across accounts and across regions are routed via on-prem CXDC over CG WAN and restricted by CXDC firewall; The communication is blocked by default
    - Internet bound traffic from VPCs are backhauled to on-prem CXDC and egress out of respective Internet POP infrastructure
+   
+   <br>
 
  - **AWS Component Configuration Details**
     - *AWS Transit Gateway (TGW)*
@@ -91,6 +93,7 @@ Controlling public accessibility to CG cloud resources is one of our core tenets
 
 ### 3. DirectConnect is Encrypted End-to-End thereby adhering to CG Standards
 `This Section will be updated soon.`
+<br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
