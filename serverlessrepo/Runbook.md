@@ -7,26 +7,24 @@
 [Josh Linus (JHZL)](https://cgweb3/profile/JHZL)  
 Security Engineering
 
-**Last Update:** *06/14/2021*
+**Last Update:** *06/23/2021*
 
 ## Table of Contents <!-- omit in toc -->  
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
-  - [1. Publishers must set application permissions to private or privately shared with CG organization accounts](#1-preventative-item-1)
-  - [2. Data is protected at-rest and in-transit](#2-preventative-item-2)
-  - [3. SAR Utilizes TLS 1.2 to secure data in transit](#3-preventative-item-3)
+  - [1. Publishers must set application permissions to private or privately shared with CG organization accounts](#1-Publishers-must-set-application-permissions-to-private-or-privately-shared-with-CG-organization-accounts)
+  - [2. SAR Data is protected at-rest](#2-SAR-Data-is-protected-at-rest)
+  - [3. SAR Utilizes TLS 1.2 to secure data in transit](#3-SAR-Utilizes-TLS-1-2-to-secure-data-in-transit)
 - [Detective](#detective)
-  - [1. AWS CloudTrail Logging enabled](#1-detective-item-1)
-  - [2. Detective Item 2](#2-detective-item-2)
-  - [3. Detective Item 3](#3-detective-item-3)
-- [Respond/Recover](#respondrecover)
-  - [1. Respond/Recover Item 1](#1-respondrecover-item-1)
-  - [2. Respond/Recover Item 2](#2-respondrecover-item-2)
-  - [3. Respond/Recover Item 3](#3-respondrecover-item-3)
-- [Endnotes](#endnotes)
+  - [1. SAR Resources are tagged according to CG standards](#1-SAR-Resources-are-tagged-according-to-CG-standards)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
+- [Respond & Recover](#Respond/Recover)
+- [Endnotes](#Endnotes)
+- [Capital Group Glossory](#Capital-Group-Glossory) 
+<br><br>
 
 ## Overview
-
 AWS Serverless Repository is a managed repository that enables teams and individual developers to find, store and share reusable applications. Uploading your application to the severless repository is as simple as uploading the code, along with a AWS SAM template. Integration with AWS Identity and Access Management(IAM) provides resource level control of each application, enabling you to publically or privately share applications and thier permissions as needed.
 
 The AWS Serverless Application Repository is deeply integrated with the AWS Lambda console. To use an application, you simply choose it, configure any required fields, and deploy it with a few clicks.
@@ -39,32 +37,22 @@ The AWS Serverless Application Repository is deeply integrated with the AWS Lamb
  - Ensure Best Practices
 
 **NOTE:**
->'Serverless Repository is an AWS Managed service offering, the underlying Infrastructure including Network and Compute resources are all managed by AWS as explained in the Shared Responsibility Model. Due to this fact, CG's standard public access controls cannot be applied and the application of appropriate controls to keep the service from external or public accessibility falls on AWS. The IAM and Encryption controls however remain CG's responsibility and are listed in the sections below.' 
+>Serverless Repository is an AWS Managed service offering, the underlying Infrastructure including Network and Compute resources are all managed by AWS as explained in the Shared Responsibility Model. Due to this fact, CG's standard public access controls cannot be applied and the application of appropriate controls to keep the service from external or public accessibility falls on AWS. The IAM and Encryption controls however remain CG's responsibility and are listed in the sections below.
 
-<br>  
+<br><br> 
 
 ## Preventative Controls
 <img src="Prevent.png" width="50"> 
 
 ### 1. Publishers must set application permissions to private or privately shared with CG organization accounts
-<!-- NIST CSF:  
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
-|PR.AC-3|Remote access is managed|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
-|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
+<br>
 
-Capital Group:
+**Capital Group Controls:** 
+<br>
 |Control Statement|Description|
 |------|----------------------|
-|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
-|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
-|7|Use of AWS IAM accounts are restricted to CG networks.|
-|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
-|10|Administrative access to AWS resources will have MFA enabled|
--->
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
 **Why?**  
 AWS Serverless Application Repository application policies are used to by publishers to grant premissions to consumers when they deploy thier applications. Publishers can set application permissions to the following three categories:
  - **Private** – Applications that were created with the same account, and haven't been shared with any other account. Only consumers that share your AWS account have permission to deploy private applications.
@@ -85,10 +73,12 @@ When working with AWS CLI you can also set permisions for the following actions:
 
 
 **NOTE:**
->After you have published an application to the AWS Serverless Application Repository, by default it is set to **private**.  
+>After you have published an application to the AWS Serverless Application Repository, by default it is set to **private**. 
+
+<br>
 
 **How?**     
-### **Private**
+### Private
 1. *Make an Application Private*  
 You can make an application private, so it's not shared with anyone and can only be deployed by the AWS account that owns it. To do so, you clear out the principals and actions from the policy, which also removes permissions from other accounts within your AWS organization from deploying your application.
 ```
@@ -99,7 +89,7 @@ aws serverlessrepo put-application-policy \
 ```
 <br>
 
-### **Privately shared**
+### Privately shared
 1. *Share an Application with Another Account*   
 To share an application with another specific account, but keep it from being shared with others, you specify the AWS account ID that you want to share with as the principal. This is also known as setting the application to privately shared. To do this, use the following AWS CLI command.
 ```
@@ -135,7 +125,7 @@ aws serverlessrepo put-application-policy \
 
 <br>
 
-### **Avoid Publicly Shared Applications** 
+### Avoid Publicly Shared Applications
 1. *Avoid Sharing an Application Publicly*   
 An application is made public, when you only specify "*" as the principal, as in the following example. Applications should never be shared publicly, and this permisson should be **avoided**. Applications are private by default, but always check to make sure that no unwanted changes were made.
 
@@ -146,40 +136,35 @@ aws serverlessrepo put-application-policy \
 --application-id application-arn \
 --statements Principals=*,Actions=Deploy
 ```
-Resource based Policies: https://docs.aws.amazon.com/serverlessrepo/latest/devguide/security_iam_resource-based-policy-examples.html
+Resource based Policies: 
+https://docs.aws.amazon.com/serverlessrepo/latest/devguide/security_iam_resource-based-policy-examples.html
 
 <br>
 
-## Detective
-<img src="Detect.png" width="50">
+## Detective Controls
+<img src="/docs/img/Detect.png" width="50">
 
-`This Section will be updated soon.`  
+### 1. SAR Resources are tagged according to CG standards
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+<br><br>
 
 ## Respond/Recover
 <img src="Monitor.png" width="50">
 
 `This Section will be updated soon.`
+<br><br>
 
 ## Endnotes
 **Resources**
-### What is this Service:  
-https://docs.aws.amazon.com/serverlessrepo/latest/devguide/what-is-serverlessrepo.html  
-
-### Resource Based Policies: 
-https://docs.aws.amazon.com/serverlessrepo/latest/devguide/security_iam_resource-based-policy-examples.html 
-
-
-## Capital Group Control Statements
-1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
-2. All Data-in-transit must be encrypted using certificates using CG Certificate Authority.
-3. Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.
-4. AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.
-5. Local AWS IAM accounts are restricted to services and no user accounts are to be provisioned including IaaS resources.
-6. Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.
-7. Use of AWS IAM accounts are restricted to CG networks.
-8. Local IAM secrets are rotated every 90 days, including accounts IaaS resources.
-9. Encryption keys are rotated annually.
-10. Root accounts must have 2FA/MFA enabled.
+1.  https://docs.aws.amazon.com/serverlessrepo/latest/devguide/what-is-serverlessrepo.html  
+2. https://docs.aws.amazon.com/serverlessrepo/latest/devguide/security_iam_resource-based-policy-examples.html 
+<br><br>
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  

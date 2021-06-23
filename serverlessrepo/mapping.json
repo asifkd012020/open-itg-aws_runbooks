@@ -9,20 +9,81 @@
         "SNP": "approved",
         "NP": "approved"
     },
-    "phase": "discovery",
+    "phase": "General Availability (GA)",
     "mapping": [
         {
-            "requirement_name": "Publishers can set application permissions to enforce least privilege model",
-            "policy": "",
+            "requirement_name": "Publishers must set application permissions to private or privately shared with CG organization accounts",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#1-Publishers-must-set-application-permissions-to-private-or-privately-shared-with-CG-organization-accounts",
             "tags":[],
             "severity": {
                 "Prod": "critical",
                 "SNP": "critical",
                 "NP": "medium"
             },
+            "control_mapping": ["CS0012300"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "SAR Data is protected at-rest",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#2-SAR-Data-is-protected-at-rest",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "low"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "SAR Utilizes TLS 1.2 to secure data in transit",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#3-SAR-Utilizes-TLS-1-2-to-secure-data-in-transit",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "low"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "SAR Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#1-SAR-Resources-are-tagged-according-to-CG-standards",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "low"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "low"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "low"
+            },
             "control_mapping": [],
             "implementations": []
         }
+        
     ]
 }    
 
