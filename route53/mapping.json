@@ -12,8 +12,44 @@
     "phase": "General Availability (GA)",
     "mapping": [
         {
-            "requirement_name": "Baseline configuration will create Private Hosted Zone with naming convention of' 'sub-domain+capgroup.com'",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md",
+            "requirement_name": "Route53 deployed with Private Hosted Zones Only",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#1-Route53-deployed-for-Private-Hosted-Zones-Only",
+            "tags": [],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "high"
+            },
+            "control_mapping": ["CS0012300"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Route53 Utilizes DNS Endpoints to Prevent Unauthorized Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#2-Route53-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "tags": [],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "high"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Route53 Administrative access is reserved for Network Engineering only",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#3-Route53-Administrative-access-is-reserved-for-Network-Engineering-only",
+            "tags": [],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Route53 Users and Roles defined following least privilege model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#4-Route53-Users-and-Roles-defined-following-least-privilege-model",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -24,8 +60,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Consumers with appropriate access management privileges will create individual host records (e.g., 'host1.scarif.aws-dev.capgroup.com')",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md",
+            "requirement_name": "Route53 resources are Encrypted using CG Managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#5-Route53-reources-are-Encrypted-using-CG-Managed-KMS-Keys",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -33,6 +69,54 @@
                 "NP": "medium"
             },
             "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Route53 connections are Encrypted in transit using TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#6-Route53-connections-are-Encrypted-in-transit-using-TLS-1-2",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Route53 Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#1-Route53-Resources-are-tagged-according-to-CG-standards",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012233"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012233"],
             "implementations": []
         }
     ]
