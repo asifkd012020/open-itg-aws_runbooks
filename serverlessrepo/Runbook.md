@@ -57,7 +57,7 @@ The AWS Serverless Application Repository is deeply integrated with the AWS Lamb
 AWS Serverless Application Repository application policies are used to by publishers to grant premissions to consumers when they deploy thier applications. Publishers can set application permissions to the following three categories:
  - **Private** – Applications that were created with the same account, and haven't been shared with any other account. Only consumers that share your AWS account have permission to deploy private applications.
  - **Privately shared** – Applications that the publisher has explicitly shared with a specific set of AWS accounts, or with AWS accounts in an AWS organization. Consumers have permission to deploy applications that have been shared with their AWS account or AWS organization.
- - **Publicly shared** – Applications that the publisher has shared with everyone. All consumers have permission to deploy any publicly shared application.  
+ - **Publicly shared** – Applications that the publisher has shared with everyone. All consumers have permission to deploy any publicly shared application. *Do Not Use*  
 
 When working with AWS CLI you can also set permisions for the following actions:
 
@@ -73,7 +73,7 @@ When working with AWS CLI you can also set permisions for the following actions:
 
 
 **NOTE:**
->After you have published an application to the AWS Serverless Application Repository, by default it is set to **private**. 
+>After you have published an application to the AWS Serverless Application Repository, by default it is set to **private**. It is imperative that your application permissons only be private or privately shared with our CG AWS accounts. This is because sccording to CG security controls, applications and databases containing sensitive information must be isolated and not accessible from unapproved segments of the network.They must be compartmentalized to safe areas with defined trust boundaries. 
 
 <br>
 
@@ -125,7 +125,7 @@ aws serverlessrepo put-application-policy \
 
 <br>
 
-### Avoid Publicly Shared Applications
+### <span style="color:red">Avoid Publicly Shared Applications</span>
 1. *Avoid Sharing an Application Publicly*   
 An application is made public, when you only specify "*" as the principal, as in the following example. Applications should never be shared publicly, and this permisson should be **avoided**. Applications are private by default, but always check to make sure that no unwanted changes were made.
 
