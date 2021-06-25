@@ -73,7 +73,7 @@ When working with AWS CLI you can also set permisions for the following actions:
 
 
 **NOTE:**
->After you have published an application to the AWS Serverless Application Repository, by default it is set to **private**. It is imperative that your application permissons only be private or privately shared with our CG AWS accounts. This is because sccording to CG security controls, applications and databases containing sensitive information must be isolated and not accessible from unapproved segments of the network.They must be compartmentalized to safe areas with defined trust boundaries. 
+>After you have published an application to the AWS Serverless Application Repository, by default it is set to **private**. It is imperative that your application permissons only be private or privately shared with our CG AWS accounts. This is because according to CG security controls, applications and databases containing sensitive information must be isolated and not accessible from unapproved segments of the network.They must be compartmentalized to safe areas with defined trust boundaries. 
 
 <br>
 
