@@ -1,0 +1,27 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::marketplace::*"
+    ],
+    "servicedisplay_name": "Marketplace (Foundation)",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "General Availability (GA)",
+    "mapping": [
+        {
+            "requirement_name": "Discovery in progress",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/securityhub/Runbook.md",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
