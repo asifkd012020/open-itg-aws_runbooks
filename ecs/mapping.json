@@ -76,6 +76,13 @@
                         "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#43"
                     ],
                     "type": "detect"
+                },
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/broad_policies/privacy_standards/ecs_standards.sentinel"
+                    ],
+                    "type": "prevent"
                 }
             ]
         },
