@@ -62,6 +62,13 @@
                         "https://github.com/open-itg/aws-security/blob/master/SCP/AddOn-CGBaseSecControl/AddOn-CGBaseSecControlPolicy.json"
                     ],
                     "type": "prevent"
+                },
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/ec2_policies/data_standards.sentinel"
+                    ],
+                    "type": "prevent"
                 }
             ]
         },
