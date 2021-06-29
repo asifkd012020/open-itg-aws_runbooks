@@ -9,11 +9,71 @@
         "SNP": "approved",
         "NP": "approved"
     },
-    "phase": "discovery",
+    "phase": "General Availability (GA)",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/directconnect/Runbook.md",
+            "requirement_name": "DirectConnect Provisioned in Private VPC Connectivity model only",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/directconnect/Runbook.md#1-DirectConnect-Provisioned-in-Private-VPC-Connectivity-model-only",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "critical"
+            },
+            "control_mapping": ["CS0012300"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Provisioning of DirectConnect restricted to Network Engineering Team",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/directconnect/Runbook.md#2-Provisioning-of-DirectConnect-restricted-to-Network-Engineering-Team",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "critical"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "DirectConnect is Encrypted End-to-End thereby adhering to CG Standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/directconnect/Runbook.md#3-DirectConnect-is-Encrypted-End-to-End-thereby-adhering-to-CG-Standards",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "DirectConnect Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/directconnect/Runbook.md#1-DirectConnect-Resources-are-tagged-according-to-CG-standards",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/directconnect/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/directconnect/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags":[],
             "severity": {
                 "Prod": "medium",

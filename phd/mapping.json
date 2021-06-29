@@ -12,8 +12,68 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/phd/Runbook.md",
+            "requirement_name": "PHD IAM Users and Roles Enforce Least Priviledge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/phd/Runbook.md#1-PHD-IAM-Users-and-Roles-Enforce-Least-Priviledge",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "critical"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "PHD data is Encrypted using CG managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/phd/Runbook.md#2-PHD-data-is-Encrypted-using-CG-managed-KMS-Keys",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "PHD data is encrypted in transit using TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/phd/Runbook.md#3-PHD-data-is-encrypted-in-transit-using-TLS-1-2",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "PHD Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/phd/Runbook.md#1-PHD-Resources-are-tagged-according-to-CG-standards",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/phd/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/phd/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags":[],
             "severity": {
                 "Prod": "medium",
