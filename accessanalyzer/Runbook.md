@@ -20,7 +20,7 @@ Security Engineering
 ## Overview
 AWS IAM Access Analyzer helps you review existing and future policies to help you identify misconfigured, unintended, or unused permissions. IAM Access Analyzer provides numerious policy checks that help you proactively validate policies during policy authoring. These checks analyze your policy and report errors, warnings, and suggestions with actionable recommendations that direct you to set secure and functional permissions.  
 
-<img src="access_analyzer.png" width="800">
+<img src="/docs/img/accessanalyzer/access_analyzer.png" width="800"><br>
 
 ### Key Features
   - Comprehensive analysis for public and cross-account access
@@ -32,7 +32,7 @@ AWS IAM Access Analyzer helps you review existing and future policies to help yo
 <br><br> 
 
 ## Preventative Controls
-<img src="Prevent.png" width="50"> 
+<img src="/docs/img/Prevent.png" width="50">
 
 **Why?**  
 
@@ -47,7 +47,7 @@ AWS IAM Access Analyzer helps you review existing and future policies to help yo
 <br><br>
 
 ## Respond/Recover
-<img src="Monitor.png" width="50">
+<img src="/docs/img/Monitor.png" width="50">
 
 `This Section will be updated soon.`
 <br><br>
