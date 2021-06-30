@@ -134,7 +134,7 @@ Removing unused or unattached EBS volumes is a must, as both a cost saving and d
 
 There are a few different ways to find unused EBS volumes and have been documented as follows:
 
-### 1. Stopped EC2 Instances
+#### 1. Stopped EC2 Instances
 To remove an unused EBS Volume attached to an EC2, one should follow the steps outlined below:
 1. Sign in to AWS Management Console.
 2. Navigate to `EC2 dashboard` at https://console.aws.amazon.com/ec2/.
@@ -145,13 +145,13 @@ To remove an unused EBS Volume attached to an EC2, one should follow the steps o
    - If the current state of the instance is set to stopped, the selected EBS volume is attached to a stopped AWS EC2 instance.
    - Determine if this EC2 is still needed, if not both the EC2 and associated EBS can be removed.
 
-### 2. Unattached EBS Volumes
+#### 2. Unattached EBS Volumes
 To remove an unused, unattached EBS Volume, one should follow the steps outlined below:
 1. Login to the AWS Management Console.
 2. Navigate to EC2 dashboard at https://console.aws.amazon.com/ec2/.
 3. In the navigation panel, under Elastic Block Store, click Volumes.
 4. To identify any unattached EBS volumes, check their status under State column:<br>
-   <img src="/docs/img/ebs/ebs_status.png" width="300">
+  <img src="/docs/img/ebs/ebs_status.png" width="300">
    - If the status is in-use, the volume is currently attached and cannot be deleted.
    - If the status is available, the volume is not attached to an EC2 instance and can be safely deleted.
 
