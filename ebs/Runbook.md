@@ -75,7 +75,7 @@ To ensure that your EBS snapshots have been securely set to Private, please foll
 2. Navigate to **EC2 dashboard** at https://console.aws.amazon.com/ec2/.
 3. In the left navigation panel, under `ELASTIC BLOCK STORE` section, choose `Snapshots`.
 4. Select the volume snapshot that you want to modify.
-5. Select `Permissions tab` from the dashboard bottom panel and check the snapshot access permissions. If the selected EBS volume snapshot is publicly accessible, the EC2 dashboard will display the following `status: "This snapshot is currently Public."`. Otherwise it will show as `Private`. If the snapshot is listed as public, one should click the edit button and change to permission to Private as soon as possible.
+5. Select `Permissions tab` from the dashboard bottom panel and check the snapshot access permissions. If the selected EBS volume snapshot is publicly accessible, the EC2 dashboard will display the following `status: "This snapshot is currently Private."`. Otherwise it will show as `Public`. If the snapshot is listed as public, one should click the `edit` button and change to permission to Private as soon as possible.
 
    <img src="/docs/img/ebs/private.png" width="300">
 
