@@ -80,8 +80,20 @@
             "implementations": []
         },
         {
+            "requirement_name": "EBS Snapshot age should not exceed retention period",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#6-EBS-Snapshot-age-should-not-exceed-retention-period",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
             "requirement_name": "EBS Users and Roles defined following least privileged model",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#6-EBS-Users-and-Roles-defined-following-least-privileged-model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#7-EBS-Users-and-Roles-defined-following-least-privileged-model",
             "tags": [],
             "severity": {
                 "Prod": "medium",

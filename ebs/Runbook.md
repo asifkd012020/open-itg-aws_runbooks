@@ -18,7 +18,8 @@ Security Engineering
   - [3. EBS Snapshot permissions are set to Private](#3-EBS-Snapshot-permissions-are-set-to-Private)
   - [4. EBS Snapshots will only be shared between CG accounts](#4-EBS-Snapshots-will-only-be-shared-between-CG-accounts)
   - [5. EBS Volumes should be removed if unattached or no longer required](#5-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
-  - [6. EBS Users and Roles defined following least privileged model](#6-EBS-Users-and-Roles-defined-following-least-privileged-model)
+  - [6. EBS Snapshot age should not exceed retention period](#6-EBS-Snapshot-age-should-not-exceed-retention-period)
+  - [7. EBS Users and Roles defined following least privileged model](#7-EBS-Users-and-Roles-defined-following-least-privileged-model)
 - [Detective Controls](#Detective-Controls)
   - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -155,7 +156,11 @@ To remove an unused, unattached EBS Volume, one should follow the steps outlined
    - If the status is in-use, the volume is currently attached and cannot be deleted.
    - If the status is available, the volume is not attached to an EC2 instance and can be safely deleted.
 
-### 6. EBS Users and Roles defined following least privileged model
+### 6. EBS Snapshot age should not exceed retention period
+`This Section will be updated soon.`
+<br><br>
+
+### 7. EBS Users and Roles defined following least privileged model
 `This Section will be updated soon.`
 <br><br>
 
