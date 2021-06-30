@@ -46,6 +46,7 @@ Encryption operations for EBS storage occurs on the servers that host EC2 instan
 <img src="/docs/img/ebs/encrypt.png" width="800">
 
 [EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
+<br>
 
 ### 2. EBS Snapshots are Encrypted using CG Managed KMS Keys
 CG's Cloud Security standards require that we ensure that the AWS EBS volume snapshots that hold sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption. The EBS snapshot data encryption and decryption is handled transparently once it has been enabled. Details on EBS Snapshot encryption is detailed in the EC2 Runbook linked below:
@@ -53,9 +54,32 @@ CG's Cloud Security standards require that we ensure that the AWS EBS volume sna
 <img src="/docs/img/ebs/snapshot.png" width="800">
 
 [EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
+<br>
 
 ### 3. EBS Snapshot permissions are set to Private
-`This Section will be updated soon.`
+
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why?**
+
+As mentioned previously, CG requires that all data in the cloud be secured against public accessibility. To ensure snapshots are correctly secured we don't just rely on the VPC controls, but need to also mark the snapshot as `Private`.  This is part of a defence in depth strategy, helping to further protect against misconfiguration.
+
+**How?**
+
+To ensure that your EBS snapshots have been securely set to Private, please follow the steps below:
+1. Sign in to the AWS Management Console.
+2. Navigate to **EC2 dashboard** at https://console.aws.amazon.com/ec2/.
+3. In the left navigation panel, under `ELASTIC BLOCK STORE` section, choose `Snapshots`.
+4. Select the volume snapshot that you want to modify.
+5. Select `Permissions tab` from the dashboard bottom panel and check the snapshot access permissions. If the selected EBS volume snapshot is publicly accessible, the EC2 dashboard will display the following `status: "This snapshot is currently Public."`.
+6. Repeat steps no. 4 and 5 to verify the access permissions are `private` for other EBS volume snapshots available in the current region.
+7. Change the AWS region from the navigation bar and repeat the audit process for the EBS snapshots in other regions as needed.
+<img src="/docs/img/ebs/private.png" width="200">
+<br>
 
 ### 4. EBS Snapshots will only be shared between CG accounts
 `This Section will be updated soon.`
