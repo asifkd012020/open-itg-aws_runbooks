@@ -81,11 +81,43 @@ To ensure that your EBS snapshots have been securely set to Private, please foll
 
 6. Repeat steps no. 4 and 5 to verify the access permissions are `private` for other EBS volume snapshots available in the current region.
 7. Change the AWS region from the navigation bar and repeat the audit process for the EBS snapshots in other regions as needed.
-
 <br>
 
 ### 4. EBS Snapshots will only be shared between CG accounts
-`This Section will be updated soon.`
+
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why?**
+
+CG's public access requirements for cloud state that resources and data in the cloud should not be shared and as such EBS volumes should only be shared with and within CG accounts. The reason is when you give another AWS account permission to both copy the snapshot and create a volume from it. Most of the time your AWS EBS snapshots will contain mirrors of your applications (including their data), therefore sharing your snapshots allows access to this data.
+
+**How?**
+
+>**Important:**
+*When you share a snapshot, you are giving others access to all of the data on the snapshot. Share snapshots only with accounts that you trust with all of your snapshot data.*
+
+### 1. Before you share a EBS snapshot
+The following considerations apply to sharing snapshots:
+
+ - Snapshots are constrained to the Region in which they were created. To share a snapshot with another Region, copy the snapshot to that Region and then share the copy.
+ - You can't share snapshots that are encrypted with the default AWS managed key. You can only share snapshots that are encrypted with a customer managed key. This shouldnt be an issue as CG Managed Keys are required.
+- When you share an encrypted snapshot, you must also share the customer managed key used to encrypt the snapshot. This will be covered in the [KMS Runbook](https://github.com/open-itg/aws_runbooks/blob/master/kms/Runbook.md).
+<br>
+
+### 2. Sharing an EBS snapshot
+Below is the series of steps needed to share an EBS Snapshot:
+1. Open the Amazon `EC2 console` at https://console.aws.amazon.com/ec2/.
+2. Choose `Snapshots` in the navigation pane.
+3. Select the snapshot and then choose Actions, Modify Permissions.
+4. To share the snapshot with one or more AWS accounts
+    - Choose `Private`
+    - Enter the `AWS account ID` *(without hyphens)* in AWS Account Number, and choose `Add Permission`. 
+    - Repeat for any additional AWS accounts.
+5. Choose `Save`.
 
 ### 5. EBS Volumes should be removed if unattached or no longer required
 `This Section will be updated soon.`
