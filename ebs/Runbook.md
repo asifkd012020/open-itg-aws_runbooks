@@ -106,7 +106,6 @@ The following considerations apply to sharing snapshots:
  - Snapshots are constrained to the Region in which they were created. To share a snapshot with another Region, copy the snapshot to that Region and then share the copy.
  - You can't share snapshots that are encrypted with the default AWS managed key. You can only share snapshots that are encrypted with a customer managed key. This shouldnt be an issue as CG Managed Keys are required.
 - When you share an encrypted snapshot, you must also share the customer managed key used to encrypt the snapshot. This will be covered in the [KMS Runbook](https://github.com/open-itg/aws_runbooks/blob/master/kms/Runbook.md).
-<br>
 
 ### 2. Sharing an EBS snapshot
 Below is the series of steps needed to share an EBS Snapshot:
