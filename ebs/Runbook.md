@@ -19,7 +19,7 @@ Security Engineering
   - [4. EBS Snapshots will only be shared between CG accounts](#4-EBS-Snapshots-will-only-be-shared-between-CG-accounts)
   - [5. EBS Volumes should be removed if unattached or no longer required](#5-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
   - [6. EBS Snapshot age should not exceed retention period](#6-EBS-Snapshot-age-should-not-exceed-retention-period)
-  - [7. EBS Users and Roles defined following least privileged model](#7-EBS-Users-and-Roles-defined-following-least-privileged-model)
+  - [7. EBS Utilizes VPC Endpoints to Prevent Public Access](#7-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
 - [Detective Controls](#Detective-Controls)
   - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -124,7 +124,7 @@ Below is the series of steps needed to share an EBS Snapshot:
 <br>
 |Control Statement|Description|
 |------|----------------------|
-| - | Description 
+| Control Needed | Description Needed|
 
 **Why?**
 
@@ -157,11 +157,63 @@ To remove an unused, unattached EBS Volume, one should follow the steps outlined
    - If the status is available, the volume is not attached to an EC2 instance and can be safely deleted.
 
 ### 6. EBS Snapshot age should not exceed retention period
-`This Section will be updated soon.`
-<br><br>
 
-### 7. EBS Users and Roles defined following least privileged model
-`This Section will be updated soon.`
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+| Control Needed | Description Needed|
+
+**Why?**
+
+Making sure that EBS Snapshots do not exceed the CG standard retention period both saves money on storage costs and at the same time aids in assuring that possibly sensitive data does not persist past its usefulness.
+<br>
+
+**How?**
+Determining whether a snapshot exceeds the CG mandated retention period should be done through automation, but there also may be a need to perform a manual check as below:
+
+### Manually Checking EBS Snapshot Retention
+1. Login to the AWS Management Console.
+2. Navigate to `EC2 dashboard` at https://console.aws.amazon.com/ec2/.
+3. In the navigation panel, under `Elastic Block Store`, click Snapshots.
+4. Select the `EBS volume snapshot` that you need to examine.
+5. Select the `Description tab` from the bottom panel.
+6. Under `Volume ID` check for the `Started parameter value` to determine the date and time when the selected snapshot was taken:<br>
+  <img src="/docs/img/ebs/ebs_persist.png" width="300"> 
+   - check for the Started parameter value to determine the date and time when the selected snapshot was taken.
+   - If the volume snapshot is older than the CG Standard Retention, the Snapshot should be deleted.
+   - A review of the automation should also be performed to determine why the Snapshot in question persisted.
+<br>
+
+### 7. EBS Utilizes VPC Endpoints to Prevent Public Access
+AWS EBS currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why?**<br>
+EBS is a service that allows for the storage and processing of data on the AWS EC2 Service. Due to the possibility of sensitive data being stored and processed through EBS, We need to make sure that this traffic is not transmitted directly over the Public Internet. 
+<br>
+
+**How?**<br>
+Establishing a private connection between your virtual private cloud (VPC) and the Amazon EBS API, you should create an interface VPC endpoint. You can use this connection to call the Amazon EBS API from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon EBS API without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
+
+Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon EBS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon EBS API requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. Below are the steps to implement Interface VPC Endpoints for EBS:
+
+**Creation of Interface VPC Endpoint**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.ebs`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate `CG standard tags`.
+  4. Click `Create Endpoint` to complete the process.
 <br><br>
 
 ## Detective Controls
