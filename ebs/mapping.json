@@ -105,7 +105,7 @@
         },
         {
             "requirement_name": "EBS Resources are tagged according to CG standards",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#1-EBS-Resources-are-tagged-according-to-CG-standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#8-EBS-Resources-are-tagged-according-to-CG-standards",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -117,7 +117,7 @@
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#9-CloudTrail-logging-enabled-and-sent-to-Splunk",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -129,7 +129,7 @@
         },
         {
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#10-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags": [],
             "severity": {
                 "Prod": "medium",

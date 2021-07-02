@@ -12,7 +12,7 @@ Security Engineering
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-- [Preventative Controls](#Preventative-Controls)
+- [Cloud Security Requirements](#Cloud-Security-Requirements)
   - [1. EBS is Encrypted using CG Managed KMS Keys](#1-EBS-is-Encrypted-using-CG-Managed-KMS-Keys)
   - [2. EBS Snapshots are Encrypted using CG Managed KMS Keys](#2-EBS-Snapshots-are-Encrypted-using-CG-Managed-KMS-Keys)
   - [3. EBS Snapshot permissions are set to Private](#3-EBS-Snapshot-permissions-are-set-to-Private)
@@ -20,11 +20,9 @@ Security Engineering
   - [5. EBS Volumes should be removed if unattached or no longer required](#5-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
   - [6. EBS Snapshot age should not exceed retention period](#6-EBS-Snapshot-age-should-not-exceed-retention-period)
   - [7. EBS Utilizes VPC Endpoints to Prevent Public Access](#7-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-- [Detective Controls](#Detective-Controls)
-  - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
-  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
-- [Respond & Recover](#Respond/Recover)
+  - [8. EBS Resources are tagged according to CG standards](#8-EBS-Resources-are-tagged-according-to-CG-standards)
+  - [9. CloudTrail logging enabled and sent to Splunk](#9-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [10. CloudWatch logging enabled and sent to Splunk](#10-CloudWatch-logging-enabled-and-sent-to-Splunk)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
@@ -38,7 +36,7 @@ AWS recommends Amazon EBS for data that must be quickly accessible and requires 
 <img src="/docs/img/ebs/ebs_example.png" width="800"><br>
 <br>
 
-## Preventative Controls
+## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. EBS is Encrypted using CG Managed KMS Keys
@@ -216,13 +214,11 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
   4. Click `Create Endpoint` to complete the process.
 <br><br>
 
-## Detective Controls
-<img src="/docs/img/Detect.png" width="50">
 
-### 1. EBS Resources are tagged according to CG standards
+### 8. EBS Resources are tagged according to CG standards
 `This Section will be updated soon.`
 
-### 2. CloudTrail logging enabled and sent to Splunk
+### 9. CloudTrail logging enabled and sent to Splunk
 
 **Why?**
 
@@ -235,16 +231,10 @@ The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a s
 2. All trail data stored in the S3 bucket should be forwarded to CG's enterprise log management tool, Splunk for archival.
 
 
-
-### 3. CloudWatch logging enabled and sent to Splunk
+### 10. CloudWatch logging enabled and sent to Splunk
 `This Section will be updated soon.`
 <br><br>
 
-## Respond/Recover
-<img src="/docs/img/Monitor.png" width="50">
-
-`This Section will be updated soon.`
-<br><br>
 
 ## Endnotes
 **Resources**<br>
