@@ -223,7 +223,18 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
 `This Section will be updated soon.`
 
 ### 2. CloudTrail logging enabled and sent to Splunk
-`This Section will be updated soon.`
+
+**Why?**
+
+The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a service that provides a record of actions taken by a user, role, or an AWS service in the EBS direct APIs. CloudTrail captures StartSnapshot and CompleteSnapshot API calls for the EBS direct APIs as events. You can use the information collected by CloudTrail to determine the request that was made to the EBS direct APIs, the IP address from which the request was made, who made the request, when it was made, and additional details.
+
+**How?**
+
+1. A trail should be created to enable continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for the EBS direct APIs. 
+
+2. All trail data stored in the S3 bucket should be forwarded to CG's enterprise log management tool, Splunk for archival.
+
+
 
 ### 3. CloudWatch logging enabled and sent to Splunk
 `This Section will be updated soon.`
