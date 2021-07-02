@@ -27,22 +27,29 @@ AWS IAM Access Analyzer helps you review existing and future policies to help yo
   - Uses mathematics to analyze for all possible access requests
   - Guided policy authoring
   - Continuously monitors and reduces permissions
+
 <br><br>
 
-<br><br> 
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
+### 1. First Preventative Rule Goes here
 **Why?**  
 
 **How?**     
-
 <br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
+### 1. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 2. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 3. Access Analyzer Resources are tagged according to CG standards
 `This Section will be updated soon.`
 <br><br>
 
@@ -53,7 +60,8 @@ AWS IAM Access Analyzer helps you review existing and future policies to help yo
 <br><br>
 
 ## Endnotes
-**Resources**
+**Resources**  
+https://docs.aws.amazon.com/IAM/latest/UserGuide/what-is-access-analyzer.html
 
 <br><br>
 
