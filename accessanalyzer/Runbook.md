@@ -13,6 +13,10 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
 - [Detective](#detective)
+  - [1. CloudWatch logging enabled and sent to Splunk](#1-CloudWatch-logging-enabled-and-sent-to-Splunk)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)   
+  - [3. Access Analyzer Resources are tagged according to CG standards](#3-Access-Analyzer-Resources-are-tagged-according-to-CG-standards)
+- [Respond & Recover](#Respond/Recover)  
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 <br><br>
