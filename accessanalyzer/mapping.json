@@ -1,0 +1,76 @@
+{
+    "serviceprovider":"aws",
+        "servicerequirement_name": [
+            "AWS::Accessanalyzer::*"
+        ],
+        "servicedisplay_name": "Accessanalyzer",
+        "serviceapproval_status": {
+            "Prod": "approved",
+            "SNP": "approved",
+            "NP": "approved"
+        },
+        "phase": "General Availability (GA)",
+        "mapping": [
+            {
+                "requirement_name": "Access Analyzer full access should only be given to CG IAM admins",
+                "policy": "https://github.com/open-itg/aws_runbooks/blob/master/accessanalyzer/Runbook.md#1-Access-Analyzer-full-access-should-only-be-given-to-CG-IAM-admins",
+                "tags":[],
+                "severity": {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                },
+                "control_mapping": [],
+                "implementations": []
+            },
+            {
+                "requirement_name": "Access Analyzer must only be enabled in CG supported AWS regions",
+                "policy": "https://github.com/open-itg/aws_runbooks/blob/master/accessanalyzer/Runbook.md#2-Access-Analyzer-must-only-be-enabled-in-CG-supported-AWS-regions",
+                "tags":[],
+                "severity": {
+                    "Prod": "critical",
+                    "SNP": "critical",
+                    "NP": "medium"
+                },
+                "control_mapping": [],
+                "implementations": []
+            },
+            {
+                "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+                "policy": "https://github.com/open-itg/aws_runbooks/blob/master/accessanalyzer/Runbook.md#1-CloudWatch-logging-enabled-and-sent-to-Splunk",
+                "tags":[],
+                "severity": {
+                    "Prod": "medium",
+                    "SNP": "medium",
+                    "NP": "low"
+                },
+                "control_mapping": [],
+                "implementations": []
+            },
+            {
+                "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+                "policy": "https://github.com/open-itg/aws_runbooks/blob/master/accessanalyzer/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+                "tags":[],
+                "severity": {
+                    "Prod": "medium",
+                    "SNP": "medium",
+                    "NP": "low"
+                },
+                "control_mapping": [],
+                "implementations": []
+            },
+            {
+                "requirement_name": "Access Analyzer Resources are tagged according to CG standards",
+                "policy": "https://github.com/open-itg/aws_runbooks/blob/master/accessanalyzer/Runbook.md#3-Access-Analyzer-Resources-are-tagged-according-to-CG-standards",
+                "tags":[],
+                "severity": {
+                    "Prod": "medium",
+                    "SNP": "medium",
+                    "NP": "low"
+                },
+                "control_mapping": [],
+                "implementations": []
+            }
+            
+        ]
+    }    

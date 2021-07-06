@@ -38,10 +38,114 @@ AWS IAM Access Analyzer helps you review existing and future policies to help yo
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. First Preventative Rule Goes here
-**Why?**  
+### 1. Access Analyzer full access should only be given to CG IAM admins 
+To successfully configure and use Access Analyzer, the account you use must be granted the required permissions. AWS IAM Access Analyzer provides 2 AWS managed policies. One that provides full access, while the other is read only. Only CG IAM admins should be granted full access.
+<br>
 
-**How?**     
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[???]|`This Section will be updated soon.`.|
+
+<br>
+
+**Why?**  
+In accordance with CGs principle of least privilege, only admins will need to have full access. Everyone else (specified users, groups of users, or roles) should only have read access to view findings.  
+
+**How?**   
+AWS IAM Access Analyzer has 2 different managed policies:  
+
+```IAMAccessAnalyzerFullAccess``` - Allows full access to Access Analyzer for administrators. This policy also allows creating the service-linked roles that are required to allow Access Analyzer to analyze resources in your account or AWS organization.
+
+```IAMAccessAnalyzerReadOnlyAccess``` - Allows read-only access to Access Analyzer. You must add additional policies to your IAM identities (users, groups of users, or roles) to allow them to view.
+
+Access Analyzer is a feature of AWS IAM, so getting full access is done through there. From there the admin can give read only access to the appropriate users. Full acccess looks like this:  
+```
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "access-analyzer:*"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Effect": "Allow",
+      "Action": "iam:CreateServiceLinkedRole",
+      "Resource": "*",
+      "Condition": {
+        "StringEquals": {
+          "iam:AWSServiceName": "access-analyzer.amazonaws.com"
+        }
+      }
+    },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "organizations:DescribeAccount",
+        "organizations:DescribeOrganization",
+        "organizations:DescribeOrganizationalUnit",
+        "organizations:ListAccounts",
+        "organizations:ListAccountsForParent",
+        "organizations:ListAWSServiceAccessForOrganization",
+        "organizations:ListChildren",
+        "organizations:ListDelegatedAdministrators",
+        "organizations:ListOrganizationalUnitsForParent",
+        "organizations:ListParents",
+        "organizations:ListRoots"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+```    
+
+### 2. Access Analyzer must only be enabled in CG supported AWS regions
+Access Analyzer allows you to your organization or account as the 'Zone of Trust'. Although Access Analyzer analyzes only policies that are applied to resources in the same AWS Region that it's enabled in. To monitor all resources in your AWS environment, you must create an analyzer to enable Access Analyzer in each Region where you're using supported AWS resources.  
+<br>
+
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[???]|`This Section will be updated soon.`.|
+
+<br>
+
+**Why?**  
+CG standard only allows a select number of AWS Regions to use our services on. Any Regions outside this will be unsupported and should not be used. Access Analyzer should not be set up for these unsupported Regions. Another consideration to be aware of is Access Analyzer analyzes only policies that are applied to resources in the same AWS Region that it's enabled in. If your product/service uses multiple Regions, you must ensure that Access Analyzer is set up for each of these Regions.
+
+**How?**   
+Setting up AWS regions is done when you first create an analyzer. You can set your account or an organization as the 'zone of trust'. If anyone outside this zone of trust is given access of any sort you will be notified. Keep in mind that Access Analyzer is Regional. You must enable Access Analyzer in each Region independently (create a new analyzer for each Region).  
+
+*To create an analyzer with the account as the zone of trust:*
+
+1. Open the IAM console at https://console.aws.amazon.com/iam/.
+2. Choose Access analyzer.
+3. Choose Create analyzer.
+4. On the Create analyzer page, confirm that the Region displayed is the Region where you want to enable Access Analyzer.
+5. Enter a name for the analyzer.
+6. Choose the account as the zone of trust for the analyzer.
+7. Optional. Add any tags that you want to apply to the analyzer.
+8. Choose Create Analyzer.  
+
+*To create an analyzer with the organization as the zone of trust*
+
+1. Open the IAM console at https://console.aws.amazon.com/iam/.
+2. Choose Access analyzer.
+3. Choose Create analyzer.
+4. On the Create analyzer page, confirm that the Region displayed is the Region where you want to enable Access Analyzer.
+5. Enter a name for the analyzer.
+6. Choose your organization as the zone of trust for the analyzer.
+7. Optional. Add any tags that you want to apply to the analyzer.
+8. Choose Create Analyzer.
+
+**Note**
+>Access Analyzer analyzes the resource-based policies that are applied to AWS resources in the Region where you enabled Access Analyzer. Only **resource-based policies** are analyzed.
+
 <br><br>
 
 ## Detective Controls
