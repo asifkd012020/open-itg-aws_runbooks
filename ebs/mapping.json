@@ -116,8 +116,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#9-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "requirement_name": "CloudTrail logging enabled for EBS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#9-CloudTrail-logging-enabled-for-EBS",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -128,8 +128,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#10-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "requirement_name": "CloudWatch logging enabled for EBS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#10-CloudWatch-logging-enabled-for-EBS",
             "tags": [],
             "severity": {
                 "Prod": "medium",
