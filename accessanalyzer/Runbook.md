@@ -12,6 +12,8 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->  
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
+  - [1. Access Analyzer full access should only be given to CG IAM admins](#1-Access-Analyzer-full-access-should-only-be-given-to-CG-IAM-admins)
+  - [2. Access Analyzer must only be enabled in CG supported AWS regions](#2-Access-Analyzer-must-only-be-enabled-in-CG-supported-AWS-regions)
 - [Detective](#detective)
   - [1. CloudWatch logging enabled and sent to Splunk](#1-CloudWatch-logging-enabled-and-sent-to-Splunk)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)   
