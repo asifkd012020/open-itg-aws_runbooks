@@ -21,8 +21,8 @@ Security Engineering
   - [6. EBS Snapshot age should not exceed retention period](#6-EBS-Snapshot-age-should-not-exceed-retention-period)
   - [7. EBS Utilizes VPC Endpoints to Prevent Public Access](#7-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [8. EBS Resources are tagged according to CG standards](#8-EBS-Resources-are-tagged-according-to-CG-standards)
-  - [9. CloudTrail logging enabled and sent to Splunk](#9-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [10. CloudWatch logging enabled and sent to Splunk](#10-CloudWatch-logging-enabled-and-sent-to-Splunk)
+  - [9. CloudTrail logging enabled for EBS](#9-CloudTrail-logging-enabled-for-EBS)
+  - [10. CloudWatch logging enabled for EBS](#10-CloudWatch-logging-enabled-for-EBS)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
@@ -45,7 +45,7 @@ Encryption operations for EBS storage occurs on the servers that host EC2 instan
 <img src="/docs/img/ebs/encrypt.png" width="800">
 
 [EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
-<br>
+<br><br>
 
 ### 2. EBS Snapshots are Encrypted using CG Managed KMS Keys
 CG's Cloud Security standards require that we ensure that the AWS EBS volume snapshots that hold sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption. The EBS snapshot data encryption and decryption is handled transparently once it has been enabled. Details on EBS Snapshot encryption is detailed in the EC2 Runbook linked below:
@@ -53,7 +53,7 @@ CG's Cloud Security standards require that we ensure that the AWS EBS volume sna
 <img src="/docs/img/ebs/snapshot.png" width="800">
 
 [EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
-<br>
+<br><br>
 
 ### 3. EBS Snapshot permissions are set to Private
 
@@ -80,7 +80,7 @@ To ensure that your EBS snapshots have been securely set to Private, please foll
 
 6. Repeat steps no. 4 and 5 to verify the access permissions are `private` for other EBS volume snapshots available in the current region.
 7. Change the AWS region from the navigation bar and repeat the audit process for the EBS snapshots in other regions as needed.
-<br>
+<br><br>
 
 ### 4. EBS Snapshots will only be shared between CG accounts
 
@@ -116,6 +116,7 @@ Below is the series of steps needed to share an EBS Snapshot:
     - Enter the `AWS account ID` *(without hyphens)* in AWS Account Number, and choose `Add Permission`. 
     - Repeat for any additional AWS accounts.
 5. Choose `Save`.
+<br><br>
 
 ### 5. EBS Volumes should be removed if unattached or no longer required
 **Capital Group Controls:** 
@@ -153,6 +154,7 @@ To remove an unused, unattached EBS Volume, one should follow the steps outlined
   <img src="/docs/img/ebs/ebs_status.png" width="300">
    - If the status is in-use, the volume is currently attached and cannot be deleted.
    - If the status is available, the volume is not attached to an EC2 instance and can be safely deleted.
+<br><br>
 
 ### 6. EBS Snapshot age should not exceed retention period
 
@@ -181,7 +183,7 @@ Determining whether a snapshot exceeds the CG mandated retention period should b
    - check for the Started parameter value to determine the date and time when the selected snapshot was taken.
    - If the volume snapshot is older than the CG Standard Retention, the Snapshot should be deleted.
    - A review of the automation should also be performed to determine why the Snapshot in question persisted.
-<br>
+<br><br>
 
 ### 7. EBS Utilizes VPC Endpoints to Prevent Public Access
 AWS EBS currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
@@ -216,23 +218,56 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
 
 
 ### 8. EBS Resources are tagged according to CG standards
-`This Section will be updated soon.`
+**Capital Group:** <br>
 
-### 9. CloudTrail logging enabled and sent to Splunk
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
 
-**Why?**
+**What, Why & How?**
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
+
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
+<br><br>
+
+### 9. CloudTrail logging enabled for EBS
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+**What, Why & How?**
 
 The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a service that provides a record of actions taken by a user, role, or an AWS service in the EBS direct APIs. CloudTrail captures StartSnapshot and CompleteSnapshot API calls for the EBS direct APIs as events. You can use the information collected by CloudTrail to determine the request that was made to the EBS direct APIs, the IP address from which the request was made, who made the request, when it was made, and additional details.
 
-**How?**
+- A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for the EBS direct APIs. This will enable the forwarding of logs into Splunk for long term archival and reporting.
+- Creation of non-default Cloud Trails should be avoided where possible as all EBS data should be logged and monitored though the aforementioned default trail.
+<br><br>
 
-1. A trail should be created to enable continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for the EBS direct APIs. 
+### 10. CloudWatch logging enabled for EBS
 
-2. All trail data stored in the S3 bucket should be forwarded to CG's enterprise log management tool, Splunk for archival.
+**Capital Group:** <br>
 
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
 
-### 10. CloudWatch logging enabled and sent to Splunk
-`This Section will be updated soon.`
+**What, Why & How?**
+
+The EBS Service allows for the collection of `CloudWatch Events`. EBS emits notifications based on Amazon CloudWatch Events for a variety of volume, snapshot, and encryption status changes. With CloudWatch Events, you can establish rules that trigger programmatic actions in response to a change in volume, snapshot, or encryption key state. 
+
+For example, when a snapshot is created, you can trigger an AWS Lambda function to share the completed snapshot with another account or copy it to another Region for disaster-recovery purposes. CloudWatch Events are not logged to Splunk by default, and require that the account owner request this logging take place. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
+
+Event Notification to consider enabling for EBS:
+- EBS volume events
+- EBS snapshot events
+- EBS volume modification events
+- EBS fast snapshot restore events
+
+Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
 <br><br>
 
 
@@ -243,6 +278,7 @@ The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a s
 3. https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
 4. https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-parameters
 5. https://aws.amazon.com/blogs/compute/must-know-best-practices-for-amazon-ebs-encryption/
+6. https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-cloud-watch-events.html
 <br><br>
 
 ## Capital Group Glossory 
