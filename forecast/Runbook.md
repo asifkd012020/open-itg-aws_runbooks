@@ -21,7 +21,7 @@ Security Engineering
 ## Overview
 Amazon Forecast
 
-<img src="/docs/img/forecast/forecast_example.jpg" width="800"><br>
+<img src="/docs/img/forecast/forecast_example.png" width="800"><br>
 
 **Features & Benefits**
  -
