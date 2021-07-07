@@ -1,0 +1,16 @@
+{
+    "serviceprovider":"aws",
+        "servicerequirement_name": [
+            "AWS:forecast::*"
+        ],
+        "servicedisplay_name": "forecast",
+        "serviceapproval_status": {
+            "Prod": "approved",
+            "SNP": "approved",
+            "NP": "approved"
+        },
+        "phase": "General Availability (GA)",
+        "mapping": [
+               
+        ]
+    }    
