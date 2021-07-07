@@ -18,6 +18,17 @@ Security Engineering
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 <br><br>
 
+## Overview
+Amazon Forecast
+
+<img src="/docs/img/forecast/forecast_example.jpg" width="800"><br>
+
+**Features & Benefits**
+ -
+ - 
+ - 
+
+<br><br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
