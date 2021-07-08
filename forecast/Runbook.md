@@ -19,27 +19,46 @@ Security Engineering
 <br><br>
 
 ## Overview
-Amazon Forecast
+Forecasting is the process of making models/predictions based on past and present data by analysis of trends. Amazon Forecast is a fully managed service that helps predict accurate time-series forecasts by using machine learning and statistical algorithms.
+
+Time-series forecasting is useful in multiple fields, including retail, finance, logistics, and healthcare. You can also use Forecast to predict domain-specific metrics for your inventory, workforce, web traffic, server capacity, finances, etc.
 
 <img src="/docs/img/forecast/forecast_example.png" width="800"><br>
 
 **Features & Benefits**
- -
- - 
- - 
-
+ - Automated machine learning
+ - State-of-the-art algorithms
+ - Missing value support
+ - Built-in featurizations
+  
 <br><br>
 
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">
 
+### ?. Forecast Users and Roles defined following least privilege model
 `This Section will be updated soon.`
+
+### ?. Forecast Resources are encrypted using CG managed KMS Keys
+`This Section will be updated soon.`
+
+### ?. Forecast Connections are Encrypted in transit using TLS 1.2
+`This Section will be updated soon.`
+
+
 <br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
+### 1. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon. May not be applicable  metrics`
+
+### 2. CloudTrail logging enabled and sent to Splunk
 `This Section will be updated soon.`
+
+### 3. Access Analyzer Resources are tagged according to CG standards
+`This Section will be updated soon.`  
 <br><br>
 
 ## Respond/Recover
