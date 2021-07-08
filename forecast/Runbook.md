@@ -11,9 +11,7 @@ Security Engineering
 
 ## Table of Contents <!-- omit in toc -->  
 - [Overview](#overview)
-- [Preventative Controls](#preventative-controls)
-- [Detective](#detective)
-- [Respond & Recover](#Respond/Recover)  
+- [Cloud Security Requirements](#Cloud-Security-Requirements)  
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 <br><br>
@@ -33,7 +31,7 @@ Time-series forecasting is useful in multiple fields, including retail, finance,
   
 <br><br>
 
-## Preventative Controls
+## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
 
 ### ?. Forecast Users and Roles defined following least privilege model
@@ -45,31 +43,20 @@ Time-series forecasting is useful in multiple fields, including retail, finance,
 ### ?. Forecast Connections are Encrypted in transit using TLS 1.2
 `This Section will be updated soon.`
 
-
-<br><br>
-
-## Detective Controls
-<img src="/docs/img/Detect.png" width="50">
-
-### 1. CloudWatch logging enabled and sent to Splunk
+### ?. CloudWatch logging enabled and sent to Splunk
 `This Section will be updated soon. May not be applicable  metrics`
 
-### 2. CloudTrail logging enabled and sent to Splunk
+### ?. CloudTrail logging enabled and sent to Splunk
 `This Section will be updated soon.`
 
-### 3. Access Analyzer Resources are tagged according to CG standards
+### ?. Access Analyzer Resources are tagged according to CG standards
 `This Section will be updated soon.`  
-<br><br>
-
-## Respond/Recover
-<img src="/docs/img/Monitor.png" width="50">
-
-`This Section will be updated soon.`
 <br><br>
 
 ## Endnotes
 **Resources**  
-
+https://docs.aws.amazon.com/forecast/latest/dg/what-is-forecast.html
+https://docs.aws.amazon.com/forecast/latest/dg/security.html
 <br><br>
 
 ## Capital Group Glossory 
