@@ -7,11 +7,17 @@
 [Josh Linus (JHZL)](https://cgweb3/profile/JHZL)  
 Security Engineering
 
-**Last Update:** *07/07/2021*
+**Last Update:** *07/09/2021*
 
 ## Table of Contents <!-- omit in toc -->  
 - [Overview](#overview)
-- [Cloud Security Requirements](#Cloud-Security-Requirements)  
+- [Cloud Security Requirements](#Cloud-Security-Requirements)
+    - [Forecast Users and Roles defined following least privilege model](#Forecast-Users-and-Roles-defined-following-least-privilege-model)
+    - [Forecast Resources are encrypted using CG managed KMS Keys](#Forecast-Resources-are-encrypted-using-CG-managed-KMS-Keys)
+    - [Forecast Connections are Encrypted in transit using TLS 1.2](#Forecast-Connections-are-Encrypted-in-transit-using-TLS-1.2)
+    - [CloudWatch logging enabled and sent to Splunk](#CloudWatch-logging-enabled-and-sent-to-Splunk)
+    - [CloudTrail logging enabled and sent to Splunk](#CloudTrail-logging-enabled-and-sent-to-Splunk)
+    - [Forecast Resources are tagged according to CG standards](#Forecast-Resources-are-tagged-according-to-CG-standards)  
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 <br><br>
@@ -29,27 +35,55 @@ Time-series forecasting is useful in multiple fields, including retail, finance,
  - Missing value support
  - Built-in featurizations
   
+ **NOTE:** <br>
+>`Forecast is an AWS Managed service offering, the underlying Infrastructure including Network and Compute resources are all managed by AWS as explained in the Shared Responsibility Model. Due to this fact, CG's standard public access controls cannot be applied and the application of appropriate controls to keep the service from external or public accessibility falls on AWS. The IAM and Encryption controls however remain CG's responsibility and are listed in the sections below.`
+
 <br><br>
 
 ## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
 
-### ?. Forecast Users and Roles defined following least privilege model
+### 1. Forecast Users and Roles defined following least privilege model
 `This Section will be updated soon.`
+<br><br>
 
-### ?. Forecast Resources are encrypted using CG managed KMS Keys
+### 2. Forecast Resources are encrypted using CG managed KMS Keys
 `This Section will be updated soon.`
+<br><br>
 
-### ?. Forecast Connections are Encrypted in transit using TLS 1.2
+### 3. Forecast Connections are Encrypted in transit using TLS 1.2
 `This Section will be updated soon.`
+<br><br>
 
-### ?. CloudWatch logging enabled and sent to Splunk
+### 4. CloudWatch logging enabled and sent to Splunk  
+
+**Capital Group:**
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
 `This Section will be updated soon. May not be applicable  metrics`
+<br><br>
 
-### ?. CloudTrail logging enabled and sent to Splunk
+### 5. CloudTrail logging enabled and sent to Splunk
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
 `This Section will be updated soon.`
+<br><br>
 
-### ?. Access Analyzer Resources are tagged according to CG standards
+### 6. Forecast Resources are tagged according to CG standards
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
 `This Section will be updated soon.`  
 <br><br>
 
