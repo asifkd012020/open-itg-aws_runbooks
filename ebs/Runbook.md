@@ -271,6 +271,9 @@ Event Notification to consider enabling for EBS:
 Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
 <br><br>
 
+## Other Operational Expectations
+<img src="/docs/img/Operations.png" width="50">
+<br><br>
 
 ## Endnotes
 **Resources**<br>
