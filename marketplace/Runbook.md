@@ -17,10 +17,10 @@ Security Engineering
   - [2. Private Marketplace utilizes VPC Endpoints to prevent public access](#2-Private-Marketplace-utilizes-VPC-Endpoints-to-prevent-public-access)
   - [3. Private Marketplace Experiences limited based on account need](#3-Private-Marketplace-Experiences-limited-based-on-account-need)
   - [4. IAM Policy Enforces Least Priviledge for Private Marketplace Resources](#1-IAM-Policy-Enforces-Least-Priviledge-for-Private-Marketplace-Resources)
+  - [5. CloudTrail logging enabled for Private Marketplace](#5-CloudTrail-logging-enabled-for-Private-Marketplace)
+  - [6. CloudWatch logging enabled for Private Marketplace](#6-CloudWatch-logging-enabled-for-Private-Marketplace)
 - [Other Operational Expectations](#Other-Operational-Expectations)
   - [1. Private Marketplace Resources are tagged according to CG standards](#1-Private-Marketplace-Resources-are-tagged-according-to-CG-standards)
-  - [2. CloudTrail logging enabled for Private Marketplace](#2-CloudTrail-logging-enabled-for-Private-Marketplace)
-  - [3. CloudWatch logging enabled for Private Marketplace](#3-CloudWatch-logging-enabled-for-Private-Marketplace)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
@@ -38,199 +38,15 @@ A private marketplace provides you with a broad catalog of products available in
 ## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. EBS is Encrypted using CG Managed KMS Keys
-Encryption operations for EBS storage occurs on the servers that host EC2 instances, ensuring the security of both data-at-rest and data-in-transit between an instance and its attached EBS storage. Due to this fact, the encryption of EBS storage is detailed in the EC2 Runbook linked below:
+### 1. Private Marketplace administrative rights only assigned to Platform Design Team
 
-<img src="/docs/img/ebs/encrypt.png" width="800">
+### 2. Private Marketplace utilizes VPC Endpoints to prevent public access
 
-[EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
-<br><br>
+### 3. Private Marketplace Experiences limited based on account need
 
-### 2. EBS Snapshots are Encrypted using CG Managed KMS Keys
-CG's Cloud Security standards require that we ensure that the AWS EBS volume snapshots that hold sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption. The EBS snapshot data encryption and decryption is handled transparently once it has been enabled. Details on EBS Snapshot encryption is detailed in the EC2 Runbook linked below:
+### 4. IAM Policy Enforces Least Priviledge for Private Marketplace Resources
 
-<img src="/docs/img/ebs/snapshot.png" width="800">
-
-[EBS Encryption Requirements](https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced)
-<br><br>
-
-### 3. EBS Snapshot permissions are set to Private
-
-**Capital Group Controls:** 
-<br>
-|Control Statement|Description|
-|------|----------------------|
-|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
-
-**Why?**
-
-As mentioned previously, CG requires that all data in the cloud be secured against public accessibility. To ensure snapshots are correctly secured we don't just rely on the VPC controls, but need to also mark the snapshot as `Private`.  This is part of a defence in depth strategy, helping to further protect against misconfiguration.
-
-**How?**
-
-To ensure that your EBS snapshots have been securely set to Private, please follow the steps below:
-1. Sign in to the AWS Management Console.
-2. Navigate to **EC2 dashboard** at https://console.aws.amazon.com/ec2/.
-3. In the left navigation panel, under `ELASTIC BLOCK STORE` section, choose `Snapshots`.
-4. Select the volume snapshot that you want to modify.
-5. Select `Permissions tab` from the dashboard bottom panel and check the snapshot access permissions. If the selected EBS volume snapshot is publicly accessible, the EC2 dashboard will display the following `status: "This snapshot is currently Private."`. Otherwise it will show as `Public`. If the snapshot is listed as public, one should click the `edit` button and change to permission to Private as soon as possible.
-
-   <img src="/docs/img/ebs/private.png" width="300">
-
-6. Repeat steps no. 4 and 5 to verify the access permissions are `private` for other EBS volume snapshots available in the current region.
-7. Change the AWS region from the navigation bar and repeat the audit process for the EBS snapshots in other regions as needed.
-<br><br>
-
-### 4. EBS Snapshots will only be shared between CG accounts
-
-**Capital Group Controls:** 
-<br>
-|Control Statement|Description|
-|------|----------------------|
-|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
-
-**Why?**
-
-CG's public access requirements for cloud state that resources and data in the cloud should not be shared and as such EBS volumes should only be shared with and within CG accounts. The reason is when you give another AWS account permission to both copy the snapshot and create a volume from it. Most of the time your AWS EBS snapshots will contain mirrors of your applications (including their data), therefore sharing your snapshots allows access to this data.
-
-**How?**
-
->**Important:**
-*When you share a snapshot, you are giving others access to all of the data on the snapshot. Share snapshots only with accounts that you trust with all of your snapshot data.*
-
-#### 1. Before you share a EBS snapshot
-The following considerations apply to sharing snapshots:
-
- - Snapshots are constrained to the Region in which they were created. To share a snapshot with another Region, copy the snapshot to that Region and then share the copy.
- - You can't share snapshots that are encrypted with the default AWS managed key. You can only share snapshots that are encrypted with a customer managed key. This shouldnt be an issue as CG Managed Keys are required.
-- When you share an encrypted snapshot, you must also share the customer managed key used to encrypt the snapshot. Sharing of KMS Keys and the associated process will be covered in the [KMS Runbook](https://github.com/open-itg/aws_runbooks/blob/master/kms/Runbook.md).
-
-#### 2. Sharing an EBS snapshot
-Below is the series of steps needed to share an EBS Snapshot:
-1. Open the Amazon `EC2 console` at https://console.aws.amazon.com/ec2/.
-2. Choose `Snapshots` in the navigation pane.
-3. Select the snapshot and then choose Actions, Modify Permissions.
-4. To share the snapshot with one or more AWS accounts
-    - Choose `Private`
-    - Enter the `AWS account ID` *(without hyphens)* in AWS Account Number, and choose `Add Permission`. 
-    - Repeat for any additional AWS accounts.
-5. Choose `Save`.
-<br><br>
-
-### 5. EBS Volumes should be removed if unattached or no longer required
-**Capital Group Controls:** 
-<br>
-|Control Statement|Description|
-|------|----------------------|
-| Control Needed | Description Needed|
-
-**Why?**
-
-Removing unused or unattached EBS volumes is a must, as both a cost saving and data sanitization exercise. Whether an EBS volume is used or not does not change the billing on the resource, so it’s a good idea to remove any unused volumes and therefore avoid paying for unused resources. The bigger reason to remove unused volumes is the fact that CG data will persist on all volumes until they are removed. So to make sure sensitive data is removed when no longer needed, we need to remove any volumes past their usefulness. 
-<br>
-
-**How?**
-
-There are a few different ways to find unused EBS volumes and have been documented as follows:
-
-#### 1. Stopped EC2 Instances
-To remove an unused EBS Volume attached to an EC2, one should follow the steps outlined below:
-1. Sign in to AWS Management Console.
-2. Navigate to `EC2 dashboard` at https://console.aws.amazon.com/ec2/.
-3. In the left navigation panel, under Elastic Block Store, click Volumes.
-4. Choose the `EBS volume` that you want to examine for possible removal.
-5. Select the `Description tab` from the bottom panel and click the `EC2 instance identifier (ID)` listed as value for the Attachment information attribute. This will redirect you to the Instances page on the EC2 dashboard.
-6. On the EC2 Instances page, verify the current state of the EC2 instance associated with the selected EBS volume, available in the `Instance State` column. 
-   - If the current state of the instance is set to stopped, the selected EBS volume is attached to a stopped AWS EC2 instance.
-   - Determine if this EC2 is still needed, if not both the EC2 and associated EBS can be removed.
-
-#### 2. Unattached EBS Volumes
-To remove an unused, unattached EBS Volume, one should follow the steps outlined below:
-1. Login to the AWS Management Console.
-2. Navigate to EC2 dashboard at https://console.aws.amazon.com/ec2/.
-3. In the navigation panel, under Elastic Block Store, click Volumes.
-4. To identify any unattached EBS volumes, check their status under State column:<br>
-  <img src="/docs/img/ebs/ebs_status.png" width="300">
-   - If the status is in-use, the volume is currently attached and cannot be deleted.
-   - If the status is available, the volume is not attached to an EC2 instance and can be safely deleted.
-<br><br>
-
-### 6. EBS Snapshot age should not exceed retention period
-
-**Capital Group Controls:** 
-<br>
-|Control Statement|Description|
-|------|----------------------|
-| Control Needed | Description Needed|
-
-**Why?**
-
-Making sure that EBS Snapshots do not exceed the CG standard retention period both saves money on storage costs and at the same time aids in assuring that possibly sensitive data does not persist past its usefulness.
-<br>
-
-**How?**
-Determining whether a snapshot exceeds the CG mandated retention period should be done through automation, but there also may be a need to perform a manual check as below:
-
-### Manually Checking EBS Snapshot Retention
-1. Login to the AWS Management Console.
-2. Navigate to `EC2 dashboard` at https://console.aws.amazon.com/ec2/.
-3. In the navigation panel, under `Elastic Block Store`, click Snapshots.
-4. Select the `EBS volume snapshot` that you need to examine.
-5. Select the `Description tab` from the bottom panel.
-6. Under `Volume ID` check for the `Started parameter value` to determine the date and time when the selected snapshot was taken:<br>
-  <img src="/docs/img/ebs/ebs_persist.png" width="300"> 
-   - check for the Started parameter value to determine the date and time when the selected snapshot was taken.
-   - If the volume snapshot is older than the CG Standard Retention, the Snapshot should be deleted.
-   - A review of the automation should also be performed to determine why the Snapshot in question persisted.
-<br><br>
-
-### 7. EBS Utilizes VPC Endpoints to Prevent Public Access
-AWS EBS currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
-<br>
-
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
-
-**Why?**<br>
-EBS is a service that allows for the storage and processing of data on the AWS EC2 Service. Due to the possibility of sensitive data being stored and processed through EBS, We need to make sure that this traffic is not transmitted directly over the Public Internet. 
-<br>
-
-**How?**<br>
-Establishing a private connection between your virtual private cloud (VPC) and the Amazon EBS API, you should create an interface VPC endpoint. You can use this connection to call the Amazon EBS API from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon EBS API without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
-
-Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon EBS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon EBS API requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. Below are the steps to implement Interface VPC Endpoints for EBS:
-
-**Creation of Interface VPC Endpoint**
-  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
-  2. Choose Create Endpoint.
-     - For Service category, choose AWS service. 
-     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.ebs`).
-     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
-     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
-     - Make sure that you `Enable` the Enable Private DNS Name check box.
-     - Now add the appropriate `CG standard tags`.
-  4. Click `Create Endpoint` to complete the process.
-<br><br>
-
-
-### 8. EBS Resources are tagged according to CG standards
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-
-**What, Why & How?**
-
-Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
-
-[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
-<br><br>
-
-### 9. CloudTrail logging enabled for EBS
+### 5. CloudTrail logging enabled for Private Marketplace
 
 **Capital Group:** <br>
 
@@ -246,7 +62,7 @@ The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a s
 - Creation of non-default Cloud Trails should be avoided where possible as all EBS data should be logged and monitored though the aforementioned default trail.
 <br><br>
 
-### 10. CloudWatch logging enabled for EBS
+### 6. CloudWatch logging enabled for Private Marketplace
 
 **Capital Group:** <br>
 
@@ -256,7 +72,7 @@ The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a s
 
 **What, Why & How?**
 
-The EBS Service allows for the collection of `CloudWatch Events`. EBS emits notifications based on Amazon CloudWatch Events for a variety of volume, snapshot, and encryption status changes. With CloudWatch Events, you can establish rules that trigger programmatic actions in response to a change in volume, snapshot, or encryption key state. 
+The Marketplace Service allows for the collection of `CloudWatch Events`. EBS emits notifications based on Amazon CloudWatch Events for a variety of volume, snapshot, and encryption status changes. With CloudWatch Events, you can establish rules that trigger programmatic actions in response to a change in volume, snapshot, or encryption key state. 
 
 For example, when a snapshot is created, you can trigger an AWS Lambda function to share the completed snapshot with another account or copy it to another Region for disaster-recovery purposes. CloudWatch Events are not logged to Splunk by default, and require that the account owner request this logging take place. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
 
@@ -271,6 +87,20 @@ Utilizing CloudWatch event notifications for EBS can be useful in detecting anom
 
 ## Other Operational Expectations
 <img src="/docs/img/Operations.png" width="50">
+
+### 1. Private Marketplace Resources are tagged according to CG standards
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+**What, Why & How?**
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
+
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
 <br><br>
 
 ## Endnotes
