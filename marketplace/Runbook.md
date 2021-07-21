@@ -8,7 +8,7 @@
 <br>
 Security Engineering
 
-**Last Update:** *06/29/2021*
+**Last Update:** *07/21/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -20,7 +20,7 @@ Security Engineering
   - [5. EBS Utilizes VPC Endpoints to Prevent Public Access](#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [6. CloudTrail logging enabled for EBS](#6-CloudTrail-logging-enabled-for-EBS)
   - [7. CloudWatch logging enabled for EBS](#7-CloudWatch-logging-enabled-for-EBS)
-- [Operational Best Practices]()
+- [Other Operational Expectations](#Other-Operational-Expectations)
   - [1. EBS Volumes should be removed if unattached or no longer required](#1-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
   - [2. EBS Snapshot age should not exceed retention period](#2-EBS-Snapshot-age-should-not-exceed-retention-period)
   - [3. EBS Resources are tagged according to CG standards](#3-EBS-Resources-are-tagged-according-to-CG-standards)
@@ -271,6 +271,9 @@ Event Notification to consider enabling for EBS:
 Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
 <br><br>
 
+## Other Operational Expectations
+<img src="/docs/img/Operations.png" width="50">
+<br><br>
 
 ## Endnotes
 **Resources**<br>
