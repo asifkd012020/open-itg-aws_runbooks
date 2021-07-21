@@ -8,7 +8,7 @@
 <br>
 Security Engineering
 
-**Last Update:** *06/29/2021*
+**Last Update:** *07/21/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -17,16 +17,16 @@ Security Engineering
   - [2. EBS Snapshots are Encrypted using CG Managed KMS Keys](#2-EBS-Snapshots-are-Encrypted-using-CG-Managed-KMS-Keys)
   - [3. EBS Snapshot permissions are set to Private](#3-EBS-Snapshot-permissions-are-set-to-Private)
   - [4. EBS Snapshots will only be shared between CG accounts](#4-EBS-Snapshots-will-only-be-shared-between-CG-accounts)
-  - [5. EBS Volumes should be removed if unattached or no longer required](#5-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
-  - [6. EBS Snapshot age should not exceed retention period](#6-EBS-Snapshot-age-should-not-exceed-retention-period)
-  - [7. EBS Utilizes VPC Endpoints to Prevent Public Access](#7-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [8. EBS Resources are tagged according to CG standards](#8-EBS-Resources-are-tagged-according-to-CG-standards)
-  - [9. CloudTrail logging enabled for EBS](#9-CloudTrail-logging-enabled-for-EBS)
-  - [10. CloudWatch logging enabled for EBS](#10-CloudWatch-logging-enabled-for-EBS)
-- [Operational Best Practices]()
+  - [5. EBS Utilizes VPC Endpoints to Prevent Public Access](#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+- [Operational Best Practices](#Other-Operational-Expectations)
+  - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
+  - [2. CloudTrail logging enabled for EBS](#2-CloudTrail-logging-enabled-for-EBS)
+  - [3. CloudWatch logging enabled for EBS](#3-CloudWatch-logging-enabled-for-EBS)
+  - [4. EBS Volumes should be removed if unattached or no longer required](#4-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
+  - [5. EBS Snapshot age should not exceed retention period](#5-EBS-Snapshot-age-should-not-exceed-retention-period)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
-
+<br><br>
 
 ## Overview
 Amazon Elastic Block Store (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes behave like raw, unformatted block devices. You can mount these volumes as devices on your instances. EBS volumes that are attached to an instance are exposed as storage volumes that persist independently from the life of the instance. You can create a file system on top of these volumes, or use them in any way you would use a block device (such as a hard drive). You can dynamically change the configuration of a volume attached to an instance.
@@ -119,7 +119,93 @@ Below is the series of steps needed to share an EBS Snapshot:
 5. Choose `Save`.
 <br><br>
 
-### 5. EBS Volumes should be removed if unattached or no longer required
+### 6. EBS Utilizes VPC Endpoints to Prevent Public Access
+AWS EBS currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why?**<br>
+EBS is a service that allows for the storage and processing of data on the AWS EC2 Service. Due to the possibility of sensitive data being stored and processed through EBS, We need to make sure that this traffic is not transmitted directly over the Public Internet. 
+<br>
+
+**How?**<br>
+Establishing a private connection between your virtual private cloud (VPC) and the Amazon EBS API, you should create an interface VPC endpoint. You can use this connection to call the Amazon EBS API from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon EBS API without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
+
+Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon EBS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon EBS API requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. Below are the steps to implement Interface VPC Endpoints for EBS:
+
+**Creation of Interface VPC Endpoint**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.ebs`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate `CG standard tags`.
+  4. Click `Create Endpoint` to complete the process.
+<br><br>
+
+## Other Operational Expectations
+<img src="/docs/img/Operations.png" width="50">
+
+### 1. EBS Resources are tagged according to CG standards
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+**What, Why & How?**
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
+
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
+<br><br>
+
+### 2. CloudTrail logging enabled for EBS
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+**What, Why & How?**
+
+The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a service that provides a record of actions taken by a user, role, or an AWS service in the EBS direct APIs. CloudTrail captures StartSnapshot and CompleteSnapshot API calls for the EBS direct APIs as events. You can use the information collected by CloudTrail to determine the request that was made to the EBS direct APIs, the IP address from which the request was made, who made the request, when it was made, and additional details.
+
+- A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for the EBS direct APIs. This will enable the forwarding of logs into Splunk for long term archival and reporting.
+- Creation of non-default Cloud Trails should be avoided where possible as all EBS data should be logged and monitored though the aforementioned default trail.
+<br><br>
+
+### 3. CloudWatch logging enabled for EBS
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+**What, Why & How?**
+
+The EBS Service allows for the collection of `CloudWatch Events`. EBS emits notifications based on Amazon CloudWatch Events for a variety of volume, snapshot, and encryption status changes. With CloudWatch Events, you can establish rules that trigger programmatic actions in response to a change in volume, snapshot, or encryption key state. 
+
+For example, when a snapshot is created, you can trigger an AWS Lambda function to share the completed snapshot with another account or copy it to another Region for disaster-recovery purposes. CloudWatch Events are not logged to Splunk by default, and require that the account owner request this logging take place. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
+
+Event Notification to consider enabling for EBS:
+- EBS volume events
+- EBS snapshot events
+- EBS volume modification events
+- EBS fast snapshot restore events
+
+Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
+
+### 4. EBS Volumes should be removed if unattached or no longer required
 **Capital Group Controls:** 
 <br>
 |Control Statement|Description|
@@ -157,7 +243,7 @@ To remove an unused, unattached EBS Volume, one should follow the steps outlined
    - If the status is available, the volume is not attached to an EC2 instance and can be safely deleted.
 <br><br>
 
-### 6. EBS Snapshot age should not exceed retention period
+### 5. EBS Snapshot age should not exceed retention period
 
 **Capital Group Controls:** 
 <br>
@@ -184,95 +270,6 @@ Determining whether a snapshot exceeds the CG mandated retention period should b
    - check for the Started parameter value to determine the date and time when the selected snapshot was taken.
    - If the volume snapshot is older than the CG Standard Retention, the Snapshot should be deleted.
    - A review of the automation should also be performed to determine why the Snapshot in question persisted.
-<br><br>
-
-### 7. EBS Utilizes VPC Endpoints to Prevent Public Access
-AWS EBS currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
-<br>
-
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
-
-**Why?**<br>
-EBS is a service that allows for the storage and processing of data on the AWS EC2 Service. Due to the possibility of sensitive data being stored and processed through EBS, We need to make sure that this traffic is not transmitted directly over the Public Internet. 
-<br>
-
-**How?**<br>
-Establishing a private connection between your virtual private cloud (VPC) and the Amazon EBS API, you should create an interface VPC endpoint. You can use this connection to call the Amazon EBS API from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon EBS API without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
-
-Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon EBS in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon EBS API requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. Below are the steps to implement Interface VPC Endpoints for EBS:
-
-**Creation of Interface VPC Endpoint**
-  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
-  2. Choose Create Endpoint.
-     - For Service category, choose AWS service. 
-     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.ebs`).
-     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
-     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
-     - Make sure that you `Enable` the Enable Private DNS Name check box.
-     - Now add the appropriate `CG standard tags`.
-  4. Click `Create Endpoint` to complete the process.
-<br><br>
-
-
-### 8. EBS Resources are tagged according to CG standards
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-
-**What, Why & How?**
-
-Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
-
-[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
-<br><br>
-
-### 9. CloudTrail logging enabled for EBS
-
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-
-**What, Why & How?**
-
-The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a service that provides a record of actions taken by a user, role, or an AWS service in the EBS direct APIs. CloudTrail captures StartSnapshot and CompleteSnapshot API calls for the EBS direct APIs as events. You can use the information collected by CloudTrail to determine the request that was made to the EBS direct APIs, the IP address from which the request was made, who made the request, when it was made, and additional details.
-
-- A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for the EBS direct APIs. This will enable the forwarding of logs into Splunk for long term archival and reporting.
-- Creation of non-default Cloud Trails should be avoided where possible as all EBS data should be logged and monitored though the aforementioned default trail.
-<br><br>
-
-### 10. CloudWatch logging enabled for EBS
-
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-
-**What, Why & How?**
-
-The EBS Service allows for the collection of `CloudWatch Events`. EBS emits notifications based on Amazon CloudWatch Events for a variety of volume, snapshot, and encryption status changes. With CloudWatch Events, you can establish rules that trigger programmatic actions in response to a change in volume, snapshot, or encryption key state. 
-
-For example, when a snapshot is created, you can trigger an AWS Lambda function to share the completed snapshot with another account or copy it to another Region for disaster-recovery purposes. CloudWatch Events are not logged to Splunk by default, and require that the account owner request this logging take place. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
-
-Event Notification to consider enabling for EBS:
-- EBS volume events
-- EBS snapshot events
-- EBS volume modification events
-- EBS fast snapshot restore events
-
-Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
-<br><br>
-
-## Other Operational Expectations
-<img src="/docs/img/Operations.png" width="50">
 <br><br>
 
 ## Endnotes
