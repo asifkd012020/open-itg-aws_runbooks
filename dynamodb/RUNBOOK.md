@@ -19,7 +19,6 @@ Security Engineering
   - [5. Utilize DynamoDB streams to support data-plane logging](#make-sure-this-is-correct-link)
   - [6. Log DynamoDB Operations with AWS CloudTrail](#make-sure-this-is-correct-link)
   - [7. Create CloudWatch Alarms to monitor DynamoDB](#make-sure-this-is-correct-link)
-  - [8. etc..](#make-sure-this-is-correct-link)
 - [Operational Best Practices](#cloud-security-requirements)
     - [1. Tagging](#make-sure-this-is-correct-link)
     - [2. DynamoDB Continuous Backups](#make-sure-this-is-correct-link)
@@ -29,230 +28,117 @@ Security Engineering
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
+Amazon DynamoDB is a hosted NoSQL database offered by Amazon Web Services. It supports key-value and document database and delivers performance at any scale. It's a fully managed, multi-region, multi-active, durable database with built-in security, backup and restore, and in-memory caching for internet-scale applications.
 
+DynamoDB is particularly useful for cases such as:
+ - Applications with large amounts of data and strict latency requirements
+ - Serverless applications using AWS Lambda
+ - Data sets with simple, known access patterns 
+
+**Features & Benefits**
+ - Performance at scale
+ - No servers to manage
+ - Enterprise ready
 
 ## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">  
 
 ### 1. Enforce least privilege for all DynamoDB users and roles
 <!-- This Requirement is good, just needs new controls-->
-**Why?** 
+**Why?**   
+`This Section will be updated soon.`
 
-**How?** 
+**How?**   
+`This Section will be updated soon.`
 
-AWS IAM policies are JSON documents that are used for setting permissions on users, groups, and roles within AWS services. There are many AWS-managed policies available to pick from, or you can create your own policies using the IAM policy builder, or by just writing the JSON policy. Each user and role should have its own set of permissions. The permissions for a role or user should only allow specific actions that that principal requires to complete its business purpose. The following examples show granular policies that only allow certain actions under certain circumstances, by using policy conditions.
 
-Example 1 - Allows access to only two specific attributes in a table by adding the dynamodb:Attributes condition key. These attributes can be read, written, or evaluated in a conditional write or scan filter:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "LimitAccessToSpecificAttributes",
-            "Effect": "Allow",
-            "Action": [
-                "dynamodb:UpdateItem",
-                "dynamodb:GetItem",
-                "dynamodb:Query",
-                "dynamodb:BatchGetItem",
-                "dynamodb:Scan"
-            ],
-            "Resource": [
-                "arn:aws:dynamodb:us-west-2:123456789012:table/GameScores"
-            ],
-            "Condition": {
-                "ForAllValues:StringEquals": {
-                    "dynamodb:Attributes": [
-                        "UserId",
-                        "TopScore"
-                    ]
-                },
-                "StringEqualsIfExists": {
-                    "dynamodb:Select": "SPECIFIC_ATTRIBUTES",
-                    "dynamodb:ReturnValues": [
-                        "NONE",
-                        "UPDATED_OLD",
-                        "UPDATED_NEW"
-                    ]
-                }
-            }
-        }
-    ]
-}
-```
-
-Example 2 - Grants permissions that allow a set of DynamoDB actions on the GamesScore table. It uses the dynamodb:LeadingKeys condition key to limit user actions only on the items whose UserID partition key value matches the Login with Amazon unique user ID for this app.:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "FullAccessToUserItems",
-            "Effect": "Allow",
-            "Action": [
-                "dynamodb:GetItem",
-                "dynamodb:BatchGetItem",
-                "dynamodb:Query",
-                "dynamodb:PutItem",
-                "dynamodb:UpdateItem",
-                "dynamodb:DeleteItem",
-                "dynamodb:BatchWriteItem"
-            ],
-            "Resource": [
-                "arn:aws:dynamodb:us-west-2:123456789012:table/GameScores"
-            ],
-            "Condition": {
-                "ForAllValues:StringEquals": {
-                    "dynamodb:LeadingKeys": [
-                        "${www.amazon.com:user_id}"
-                    ]
-                }
-            }
-        }
-    ]
-}
-```
 <!-- I think we need to split this into At Rest, and in-transit encryption as controls can apply better. -->
-### 2. Data Protection Standards are Enforced
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
+### 2. Tables are encrypted using CG CMK
+**Why?**   
+`This Section will be updated soon.`
 
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
-|2|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
-|3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
+**How?**   
+`This Section will be updated soon.`
 
-**Why?** Amazon DynamoDB provides a highly durable storage infrastructure designed for mission-critical and primary data storage. Data is redundantly stored on multiple devices across multiple facilities in an Amazon DynamoDB Region.  
-DynamoDB protects user data stored at rest and also data in transit between on-premises clients and DynamoDB, and between DynamoDB and other AWS resources within the same AWS Region.
-
-DynamoDB encryption at rest provides an additional layer of data protection by securing your data in an encrypted table—including its primary key, local and global secondary indexes, streams, global tables, backups, and DynamoDB Accelerator (DAX) clusters whenever the data is stored in durable media. Organizational policies, industry or government regulations, and compliance requirements often require the use of encryption at rest to increase the data security of your applications. 
-
-**How?** You can use the AWS Management Console or the AWS Command Line Interface (AWS CLI) to specify the encryption key on new tables and update the encryption keys on existing tables in Amazon DynamoDB. 
-
-#### Creating an Encrypted Table (Console) <!-- omit in toc -->
-1. Sign in to the AWS Management Console and open the DynamoDB console at <https://console.aws.amazon.com/dynamodb/>.
-2. In the navigation pane on the left side of the console, choose **Tables**.
-3. Choose **Create Table**. Enter a table name, primary key, and sort key.
-4. In **Table settings**, make sure that **Use default settings** is NOT selected.
-    ```
-    Note
-    If Use default settings is selected, tables are encrypted at rest with the AWS owned customer master key (CMK) at no additional cost.
-    ```
-5. Under **Encryption at rest**, choose **KMS – Customer managed CMK**. The key is stored in your account and is created, owned, and managed by you.
-Choose **Create** to create the encrypted table. To confirm the encryption type, check the table details on the **Overview** tab.
-
-<!-- Can get rid of the CLI stuff I think, only need to show the gui steps as below would be automated -->
-#### Updating an Encryption Key (Console) <!-- omit in toc -->
-1. Sign in to the AWS Management Console and open the DynamoDB console at <https://console.aws.amazon.com/dynamodb/>.
-2. In the navigation pane on the left side of the console, choose **Tables**.
-3. Choose the table that you want to update, and then choose the **Overview** tab.
-4. Choose **Manage Encryption**.
-5. Choose **KMS – Customer managed CMK**. The key is stored in your account and is created, owned, and managed by you.
-6. Then choose **Save** to update the encrypted table. To confirm the encryption type, check the table details under the **Overview** tab.
-
-#### Updating an Encryption Key (AWS CLI) <!-- omit in toc -->
-The following examples show how to update an encrypted table using the AWS CLI.
-```
-aws dynamodb update-table \
-  --table-name ExampleTable \
-  --sse-specification Enabled=true,SSEType=KMS,KMSMasterKeyId=abcd1234-abcd-1234-a123-ab1234a1b234
-```
-*The **SSEDescription** status of the table description is set to `ENABLED` and the **SSEType** is `KMS`.*
-```json
-"SSEDescription": {
-  "SSEType": "KMS",
-  "Status": "ENABLED",
-  "KMSMasterKeyArn": "arn:aws:kms:us-east-1:123456789012:key/abcd1234-abcd-1234-a123-ab1234a1b234",
-}
-```
 <!-- Maybe add this as a note in an appropriate section, maybe operational best practice? -->
-#### Amazon DynamoDB Accelerator (DAX) <!-- omit in toc -->  
+>**NOTE:**   
 Due to limitations in key management, Amazon DynamoDB Accelerator (DAX) is not an approved feature within Capital Group, and is therefore not allowed to be used in any environment.
-<!-- keep the above waring -->
+<!-- keep the above warning -->
 
 
-### 3. Create a VPC Endpoint for DynamoDB
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.PT-4|Communications and control networks are protected|
-|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
-|PR.AC-3|Remote access is managed|
-|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
-|7|Use of AWS IAM accounts are restricted to CG networks.|
-
+### 3. Data in Transit is encrypted using TLS 1.2
 <!-- Need to CGify :), I had a generic template I used for most of these ones.-->
-**Why?** A VPC endpoint for DynamoDB enables Amazon EC2 instances in your VPC to use their private IP addresses to access DynamoDB with no exposure to the public internet. Your EC2 instances do not require public IP addresses, and you don't need an internet gateway, a NAT device, or a virtual private gateway in your VPC. You use endpoint policies to control access to DynamoDB. Traffic between your VPC and the AWS service does not leave the Amazon network.
+**Why?**   
+`This Section will be updated soon.`
+
+**How?**    
+`This Section will be updated soon.`
+
+### 4. DynamoDB Utilizes VPC Endpoints to Prevent Public Access
+
+**Why?**    
+A VPC endpoint for DynamoDB enables Amazon EC2 instances in your VPC to use their private IP addresses to access DynamoDB with no exposure to the public internet. Your EC2 instances do not require public IP addresses, and you don't need an internet gateway, a NAT device, or a virtual private gateway in your VPC. You use endpoint policies to control access to DynamoDB. Traffic between your VPC and the AWS service does not leave the Amazon network.
 
 When you create a VPC endpoint for DynamoDB, any requests to a DynamoDB endpoint within the Region (for example, dynamodb.us-west-2.amazonaws.com) are routed to a private DynamoDB endpoint within the Amazon network. You don't need to modify your applications running on EC2 instances in your VPC. The endpoint name remains the same, but the route to DynamoDB stays entirely within the Amazon network, and does not access the public internet.
 
 **How?**  
-1. Determine your VPC identifier.
-```
-aws ec2 describe-vpcs
-```
-2. For the `--vpc-id` parameter, specify the VPC ID from the previous step. Use the `--route-table-ids` parameter to associate the endpoint with your route tables.
-```
-aws ec2 create-vpc-endpoint --vpc-id vpc-1abc234d --service-name com.amazonaws.us-east-1.dynamodb --route-table-ids rtb-11aa22bb
-```
-3. Verify that you can access DynamoDB through the VPC endpoint.
-```
-aws dynamodb list-tables
-```
+`This Section will be updated soon.`
 
-### 1. Utilize DynamoDB streams to support data-plane logging
 
-**Why?** 
+### 5. Utilize DynamoDB streams to support data-plane logging
 
-**How?** 
+**Why?**   
+`This Section will be updated soon.`
 
-#### Using the DynamoDB Streams Kinesis Adapter to Process Stream Records<a name="Streams.KCLAdapter"> <!-- omit in toc -->
-
-Using the Amazon Kinesis Adapter is the recommended way to consume streams from Amazon DynamoDB\. The DynamoDB Streams API is intentionally similar to that of Kinesis Data Streams, a service for real\-time processing of streaming data at massive scale\. In both services, data streams are composed of shards, which are containers for stream records\. Both services' APIs contain `ListStreams`, `DescribeStream`, `GetShards`, and `GetShardIterator` operations\. \(Although these DynamoDB Streams actions are similar to their counterparts in Kinesis Data Streams, they are not 100 percent identical\.\)
-
-You can write applications for Kinesis Data Streams using the Kinesis Client Library \(KCL\)\. The KCL simplifies coding by providing useful abstractions above the low\-level Kinesis Data Streams API\. For more information about the KCL, see the [Developing Consumers Using the Kinesis Client Library](https://docs.aws.amazon.com/kinesis/latest/dev/developing-consumers-with-kcl.html) in the *Amazon Kinesis Data Streams Developer Guide*\.
-
-As a DynamoDB Streams user, you can use the design patterns found within the KCL to process DynamoDB Streams shards and stream records\. To do this, you use the DynamoDB Streams Kinesis Adapter\. The Kinesis Adapter implements the Kinesis Data Streams interface so that the KCL can be used for consuming and processing records from DynamoDB Streams\.
-
-With the DynamoDB Streams Kinesis Adapter in place, you can begin developing against the KCL interface, with the API calls seamlessly directed at the DynamoDB Streams endpoint\.
-
-When your application starts, it calls the KCL to instantiate a worker\. You must provide the worker with configuration information for the application, such as the stream descriptor and AWS credentials, and the name of a record processor class that you provide\. As it runs the code in the record processor, the worker performs the following tasks:
-+ Connects to the stream\.
-+ Enumerates the shards within the stream\.
-+ Coordinates shard associations with other workers \(if any\)\.
-+ Instantiates a record processor for every shard it manages\.
-+ Pulls records from the stream\.
-+ Pushes the records to the corresponding record processor\.
-+ Checkpoints processed records\.
-+ Balances shard\-worker associations when the worker instance count changes\.
-+ Balances shard\-worker associations when shards are split\.
-
-**Note**  
-For a description of the KCL concepts listed here, see [Developing Consumers Using the Kinesis Client Library](https://docs.aws.amazon.com/kinesis/latest/dev/developing-consumers-with-kcl.html) in the *Amazon Kinesis Data Streams Developer Guide*\.
+**How?**   
+`This Section will be updated soon.`
 
 <!-- This will be pretty generic for all runbooks as CloudTrail RB should handle this.. -->
-### 2. Log DynamoDB Operations with AWS CloudTrail
+### 6. CloudTrail logging enabled for DynamoDB  
 
-**Why?** 
+**Capital Group:** <br>
 
-**How?** 
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
 
-### 1. Create CloudWatch Alarms to monitor DynamoDB
+**What, Why & How?**  
+`This Section will be updated soon.`
 
+<br><br>
+### 7. Create CloudWatch Alarms to monitor DynamoDB
 
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+**What, Why & How?**  
+`This Section will be updated soon.`
+
+<br><br>  
+
+## Operational Best Practices
+### 1. Tagging
 **Why?**
 
-**How?** 
+**How?**
 
+### 2. DynamoDB Continuous Backups
+**Why?**
+
+**How?**
+
+### 3. DynamoDB Backup / Restore setup
+**Why?**
+
+**How?**
+
+### 4. Unused Tables should be removed
+**Why?**
+
+**How?**
 
 ## Endnotes
 
