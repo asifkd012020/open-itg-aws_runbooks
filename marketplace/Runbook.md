@@ -40,11 +40,58 @@ A private marketplace provides you with a broad catalog of products available in
 
 ### 1. Private Marketplace administrative rights only assigned to Platform Design Team
 
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
 ### 2. Private Marketplace utilizes VPC Endpoints to prevent public access
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why?**<br>
+marketplace is a service that allows for the storage and processing of data on the AWS EC2 Service. Due to the possibility of sensitive data being stored and processed through marketplace, We need to make sure that this traffic is not transmitted directly over the Public Internet. 
+<br>
+
+**How?**<br>
+Establishing a private connection between your virtual private cloud (VPC) and the Amazon marketplace API, you should create an interface VPC endpoint. You can use this connection to call the Amazon marketplace API from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon marketplace API without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
+
+Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon marketplace in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon marketplace API requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. Below are the steps to implement Interface VPC Endpoints for marketplace:
+
+**Creation of Interface VPC Endpoint**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.marketplace`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate `CG standard tags`.
+  4. Click `Create Endpoint` to complete the process.
+  <br><br>
 
 ### 3. Private Marketplace Experiences limited based on account need
 
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+<br><br>
+
 ### 4. IAM Policy Enforces Least Priviledge for Private Marketplace Resources
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+<br><br>
 
 ### 5. CloudTrail logging enabled for Private Marketplace
 
