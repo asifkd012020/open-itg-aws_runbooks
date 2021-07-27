@@ -12,18 +12,18 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
-  - [1. Enforce least privilege for all DynamoDB users and roles](#make-sure-this-is-correct-link)
-  - [2. Tables are encrypted using CG CMK](#make-sure-this-is-correct-link)
-  - [3. Data in Transit is encrypted using TLS 1.2](#make-sure-this-is-correct-link)
-  - [4. DynamoDB Utilizes VPC Endpoints to Prevent Public Access](#make-sure-this-is-correct-link)
-  - [5. Utilize DynamoDB streams to support data-plane logging](#make-sure-this-is-correct-link)
-  - [6. Log DynamoDB Operations with AWS CloudTrail](#make-sure-this-is-correct-link)
-  - [7. Create CloudWatch Alarms to monitor DynamoDB](#make-sure-this-is-correct-link)
-- [Operational Best Practices](#cloud-security-requirements)
-    - [1. Tagging](#make-sure-this-is-correct-link)
-    - [2. DynamoDB Continuous Backups](#make-sure-this-is-correct-link)
-    - [3. DynamoDB Backup / Restore setup](#make-sure-this-is-correct-link)
-    - [4. Unused Tables should be removed](#make-sure-this-is-correct-link)     <-- Cost Savings..
+  - [1. Enforce least privilege for all DynamoDB users and roles](#Enforce-least-privilege-for-all-DynamoDB-users-and-roles)
+  - [2. Tables are encrypted using CG CMK](#Tables-are-encrypted-using-CG-CMK)
+  - [3. Data in Transit is encrypted using TLS 1.2](#Data-in-Transit-is-encrypted-using-TLS-1.2)
+  - [4. DynamoDB Utilizes VPC Endpoints to Prevent Public Access](#DynamoDB-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [5. Utilize DynamoDB streams to support data-plane logging](#Utilize-DynamoDB-streams-to-support-data-plane-logging)
+  - [6. Log DynamoDB Operations with AWS CloudTrail](#Log-DynamoDB-Operations-with-AWS-CloudTrail)
+  - [7. Create CloudWatch Alarms to monitor DynamoDB](#Create-CloudWatch-Alarms-to-monitor-DynamoDB)
+- [Operational Best Practices](#Operational-Best-Practices)
+    - [1. Tagging](#Tagging)
+    - [2. DynamoDB Continuous Backups](#DynamoDB-Continuous-Backups)
+    - [3. DynamoDB Backup / Restore setup](#DynamoDB-Backup-/-Restore-setup)
+    - [4. Unused Tables should be removed](#Unused-Tables-should-be-removed)  
 - [Endnotes](#endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
@@ -44,56 +44,207 @@ DynamoDB is particularly useful for cases such as:
 <img src="/docs/img/Prevent.png" width="50">  
 
 ### 1. Enforce least privilege for all DynamoDB users and roles
-<!-- This Requirement is good, just needs new controls-->
-**Why?**   
-`This Section will be updated soon.`
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+<br>
+
+**Why?**
+
+CG utlizes the least privilege model when using IAM for services. In accordance with CGs principle of least privilege, only admins will need to have full access. Everyone else (specified users, groups of users, or roles) should only have read access to view findings. 
+
+When you grant permissions in DynamoDB, you can specify conditions that determine how a permissions policy takes effect. Implementing least privilege is key in reducing security risk and the impact that can result from errors or malicious intent.
 
 **How?**   
-`This Section will be updated soon.`
+There are several ways to grant permissions in DynamoDB. The two main default permissons are to grant permissions for all DynamoDb actions, and grant permissions to to allow for read-only.
 
+Examples:
 
-<!-- I think we need to split this into At Rest, and in-transit encryption as controls can apply better. -->
-### 2. Tables are encrypted using CG CMK
-**Why?**   
-`This Section will be updated soon.`
+`"Action": "dynamodb:*"` : Grants permissions for all DynamoDB actions
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllAPIActionsOnBooks",
+            "Effect": "Allow",
+            "Action": "dynamodb:*",
+            "Resource": "arn:aws:dynamodb:us-west-2:123456789012:table/Books"
+        }
+    ]
+}
+```
+The following permissions policy grants permissions for the `GetItem`, `BatchGetItem`, `Scan`, `Query`, and `ConditionCheckItem` DynamoDB actions only, and as a result, sets read-only access on the Books table.
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "ReadOnlyAPIActionsOnBooks",
+            "Effect": "Allow",
+            "Action": [
+                "dynamodb:GetItem",
+                "dynamodb:BatchGetItem",
+                "dynamodb:Scan",
+                "dynamodb:Query",
+                "dynamodb:ConditionCheckItem"
+            ],
+            "Resource": "arn:aws:dynamodb:us-west-2:123456789012:table/Books"
+        }
+    ]
+}
+```
 
-**How?**   
-`This Section will be updated soon.`
+<br><br>
 
-<!-- Maybe add this as a note in an appropriate section, maybe operational best practice? -->
+### 2. Tables are encrypted using CG CMK  
+**Why?**
+
+CG's Cloud Security standards require that we ensure that the AWS services that hold sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption. The DynamoDB data encryption and decryption is handled transparently once it has been enabled.
+
+**How?**  
+
+To get started with DynamoDB encryption at rest using a customer managed CMK, sign in to the AWS Management Console. To create a new table and use a customer managed CMK for its encryption, follow these steps:
+
+1. Create a customer managed CMK in AWS KMS. For more information, see [Creating Keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).  
+2. Under **Table settings**, clear the **Use default settings** check box (choosing **Use default settings** encrypts tables by using an AWS owned CMK, which we aren’t doing in this example).  
+3. Under **Encryption At Rest**, choose “**KMS – Customer managed CMK**”.  
+4. From the drop-down menu, choose the AWS KMS customer managed CMK you would like to use to encrypt the table. In the following screenshot, we have chosen `dynamodb-cmk`. Choose **Create**.
+
+If you already have a table and want to use a customer managed CMK for its encryption, follow these steps:
+
+1. Create your customer managed CMK in AWS KMS. For more information, see [Creating Keys](https://docs.aws.amazon.com/kms/latest/developerguide/create-keys.html).
+2. In the DynamoDB console, choose **Overview** and then choose **Manage Encryption**.
+3. Choose “**KMS – Customer managed CMK**”. From the drop-down menu, choose the AWS KMS customer managed CMK you would like to use to encrypt the table. In the following screenshot, we have chosen `dynamodb-cmk`. Choose **Save**.
+
 >**NOTE:**   
 Due to limitations in key management, Amazon DynamoDB Accelerator (DAX) is not an approved feature within Capital Group, and is therefore not allowed to be used in any environment.
-<!-- keep the above warning -->
+
+<br><br>
 
 
 ### 3. Data in Transit is encrypted using TLS 1.2
-<!-- Need to CGify :), I had a generic template I used for most of these ones.-->
 **Why?**   
-`This Section will be updated soon.`
+TLS 1.2 and above is the standard when it comes to network security.
 
 **How?**    
-`This Section will be updated soon.`
+DynamoDB supports TLS 1.2
+
+<br><br>
 
 ### 4. DynamoDB Utilizes VPC Endpoints to Prevent Public Access
 
-**Why?**    
-A VPC endpoint for DynamoDB enables Amazon EC2 instances in your VPC to use their private IP addresses to access DynamoDB with no exposure to the public internet. Your EC2 instances do not require public IP addresses, and you don't need an internet gateway, a NAT device, or a virtual private gateway in your VPC. You use endpoint policies to control access to DynamoDB. Traffic between your VPC and the AWS service does not leave the Amazon network.
+AWS DynamoDB currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
 
-When you create a VPC endpoint for DynamoDB, any requests to a DynamoDB endpoint within the Region (for example, dynamodb.us-west-2.amazonaws.com) are routed to a private DynamoDB endpoint within the Amazon network. You don't need to modify your applications running on EC2 instances in your VPC. The endpoint name remains the same, but the route to DynamoDB stays entirely within the Amazon network, and does not access the public internet.
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+<br>
+
+**Why?**    
+A VPC endpoint for DynamoDB enables tables in your VPC to use their private IP addresses to access DynamoDB with no exposure to the public internet. Your EC2 instances do not require public IP addresses, and you don't need an internet gateway, a NAT device, or a virtual private gateway in your VPC. You use endpoint policies to control access to DynamoDB. Traffic between your VPC and the AWS service does not leave the Amazon network. Due to the possibility of sensitive data being stored and processed through EBS, We need to make sure that this traffic is not transmitted directly over the Public Internet.
+
+When you create a VPC endpoint for DynamoDB, any requests to a DynamoDB endpoint within the Region (for example, dynamodb.us-west-2.amazonaws.com) are routed to a private DynamoDB endpoint within the Amazon network. You don't need to modify your applications running on DynamoDB in your VPC. The endpoint name remains the same, but the route to DynamoDB stays entirely within the Amazon network, and does not access the public internet. 
 
 **How?**  
-`This Section will be updated soon.`
+1. Before you begin, verify that you can communicate with DynamoDB using its public endpoint.
+```
+aws dynamodb list-tables
+```
 
+2. Verify that DynamoDB is an available service for creating VPC endpoints in the current Amazon Region. (The command is shown in bold text, followed by example output.)
+```
+aws ec2 describe-vpc-endpoint-services
+ 
+{
+    "ServiceNames": [
+        "com.amazonaws.us-east-1.s3",
+        "com.amazonaws.us-east-1.dynamodb"
+    ]
+}
+```
+3. Verify that DynamoDB is an available service for creating VPC endpoints in the current Amazon Region. (The command is shown in bold text, followed by example output.)
+```
+aws ec2 describe-vpcs
+ 
+{
+    "Vpcs": [
+        {
+            "VpcId": "vpc-0bbc736e", 
+            "InstanceTenancy": "default", 
+            "State": "available", 
+            "DhcpOptionsId": "dopt-8454b7e1", 
+            "CidrBlock": "172.31.0.0/16", 
+            "IsDefault": true
+        }
+    ]
+}
+```
+4. Create the VPC endpoint. For the --vpc-id parameter, specify the VPC ID from the previous step. Use the --route-table-ids parameter to associate the endpoint with your route tables.
+```
+aws ec2 create-vpc-endpoint --vpc-id vpc-0bbc736e --service-name com.amazonaws.us-east-1.dynamodb --route-table-ids rtb-11aa22bb
+ 
+{
+    "VpcEndpoint": {
+        "PolicyDocument": "{\"Version\":\"2008-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":\"*\",\"Action\":\"*\",\"Resource\":\"*\"}]}", 
+        "VpcId": "vpc-0bbc736e", 
+        "State": "available", 
+        "ServiceName": "com.amazonaws.us-east-1.dynamodb", 
+        "RouteTableIds": [
+            "rtb-11aa22bb"
+        ],
+        "VpcEndpointId": "vpce-9b15e2f2", 
+        "CreationTimestamp": "2017-07-26T22:00:14Z"
+    }
+}
+```
+5. Verify that you can access DynamoDB through the VPC endpoint.  
+```
+aws dynamodb list-tables
+```
+
+<br><br>
 
 ### 5. Utilize DynamoDB streams to support data-plane logging
 
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[???]|`This Section will be updated soon.`.|
+
+<br> 
+
 **Why?**   
-`This Section will be updated soon.`
+ DynamoDB Streams is a powerful service that you can combine with other AWS services to solve many similar issues. When you enable DynamoDB Streams, it captures a time-ordered sequence of item-level modifications in a DynamoDB table and durably stores the information for up to 24 hours. Applications can access a series of stream records, which contain an item change, from a DynamoDB stream in near real time. The following are examples of use cases:
+
+ - Audit or Archive Data
+ - Trigger an event based on a particular item change
+ - Replicate data across multiple tables
+
 
 **How?**   
-`This Section will be updated soon.`
+1. Sign in to the AWS Management Console and open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
+2. On the DynamoDB console dashboard, choose Tables and select an existing table.
+3. On the Overview tab, choose Manage Stream.
+4. In the Manage Stream window, choose the information that will be written to the stream whenever the data in the table is modified:
 
-<!-- This will be pretty generic for all runbooks as CloudTrail RB should handle this.. -->
+  - **Keys only** — Only the key attributes of the modified item.  
+  - **New image** — The entire item, as it appears after it was modified.  
+  - **Old image** — The entire item, as it appeared before it was modified.  
+  - **New and old images** — Both the new and the old images of the item.  
+When the settings are as you want them, choose **Enable**.
+5. (Optional) To disable an existing stream, choose Manage Stream and then choose Disable.
+
+<br><br>
+
 ### 6. CloudTrail logging enabled for DynamoDB  
 
 **Capital Group:** <br>
@@ -102,10 +253,16 @@ When you create a VPC endpoint for DynamoDB, any requests to a DynamoDB endpoint
 |------|----------------------|
 |Control Definition Needed|Control Definition Description Needed|
 
+<br>
+
 **What, Why & How?**  
-`This Section will be updated soon.`
+
+DynamoDB is integrated with Amazon CloudTrail, a service that provides a record of actions taken by a user, role, or an Amazon service in DynamoDB. CloudTrail captures all API calls for DynamoDB as events. Using the information collected by CloudTrail, you can determine the request that was made to DynamoDB, the IP address from which the request was made, who made the request, when it was made, and additional details.
+
+- A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for DynamoDB. This will enable the forwarding of logs into Splunk for long term archival and reporting.
 
 <br><br>
+
 ### 7. Create CloudWatch Alarms to monitor DynamoDB
 
 **Capital Group:** <br>
@@ -114,34 +271,95 @@ When you create a VPC endpoint for DynamoDB, any requests to a DynamoDB endpoint
 |------|----------------------|
 |Control Definition Needed|Control Definition Description Needed|
 
+<br>
+
 **What, Why & How?**  
-`This Section will be updated soon.`
+The DynamoDB Service allows for the collection of CloudWatch Events, Logs and Alarms. At least one these these tools must be used.
+
+ - **Amazon CloudWatch Alarms** – Watch a single metric over a time period that you specify, and perform one or more actions based on the value of the metric relative to a given threshold over a number of time periods.
+ - **Amazon CloudWatch Logs** – Monitor, store, and access your log files from Amazon CloudTrail or other sources.
+ - **Amazon CloudWatch Events** – Match events and route them to one or more target functions or streams to make changes, capture state information, and take corrective action.
+
+ Utilizing these CloudWatch tools together can be useful in detecting anomolous activity and patterns in data access within the DynamoDB service. It is recommended that CloudWatch is used to monitor any critical services in use at CG. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
 
 <br><br>  
 
 ## Operational Best Practices
 ### 1. Tagging
-**Why?**
+**Why?** 
 
-**How?**
+You can assign metadata to your AWS resources in the form of tags. Each tag is a simple label consisting of a customer-defined key and an optional value that can make it easier to manage, search for, and filter resources.
+
+Tagging allows for grouped controls to be implemented. Although there are no inherent types of tags, they enable you to categorize resources by purpose, owner, environment, or other criteria. The following are some examples:
+
+**How?** 
+
+To tag resources on creation (console)
+
+1. Sign in to the AWS Management Console and open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
+2. In the navigation pane, choose Tables, and then choose Create table.
+3. On the Create DynamoDB table page, provide a name and primary key. Choose Add tags and enter the tags that you want to use.
+4. For information about tag structure, see Tagging Restrictions in DynamoDB.
+5. For more information about creating tables, see Basic Operations on DynamoDB Tables.
+
+To tag existing resources (console)
+
+1. Open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
+2. In the navigation pane, choose Tables.
+3. Choose a table in the list, and then choose the Tags tab to add, edit, or delete your tags.
+
+<br><br>
 
 ### 2. DynamoDB Continuous Backups
-**Why?**
+**Why?**  
+This type of backup on the other hand allows you to perform point-in-time restore. It’s really helpful in protecting against accidental writes or delete operations. So for example, if you ran a script to transform the data within a table and it accidentally removed or corrupted your data; you could simply restore your table to any point in the last 35 days. DynamoDB does this by maintaining an incremental backup of your table. It even does this automatically, so you don’t have to worry about creating, maintaining, or scheduling on-demand backups.
 
 **How?**
+
+1. Log in to the AWS Management Console at https://console.aws.amazon.com/.
+2. Open the Amazon DynamoDB console.
+3. Navigate to the desired DynamoDB table, then select the Backups tab.
+4. In the Point-in-time recovery section, choose Edit.
+5. Select Enable Point-in-time-recovery and choose Save changes.
+
+The Earliest restore date and Latest restore date are visible within a few seconds
+
+<br><br>
 
 ### 3. DynamoDB Backup / Restore setup
-**Why?**
+**Why?**  
+DynamoDB achieves a high degree of data availability and durability by replicating your data across three different facilities within a given region. However, DynamoDB does not provide an SLA for the data durability. This means that you should backup your database tables.
+
+ A backup is useful for long-term data retention and archival. The backup is retained even if the table is deleted. You can use the backup to restore to a different table name. And this can make it useful for replicating tables.
 
 **How?**
+1. Sign in to the AWS Management Console and open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
+2. In the navigation pane on the left side of the console, choose Backups. Then choose Create backup.
+3. Make sure you have the correct table name, and enter backup name. 
+4. Then, choose Create to create the backup
 
 ### 4. Unused Tables should be removed
-**Why?**
+**Why?**  
+The advantages of removing unused objects is keeping the schema (and the system) clean and simple, this helps maintenance. Just make sure you create a backup before deletion, just in case.
 
-**How?**
+**How?**    
+Verify is table is unused:
+1. Login to the AWS Management Console.
+2. Navigate to DynamoDB dashboard at https://console.aws.amazon.com/dynamodb/.
+3. In the left navigation panel, under Dashboard, click Tables.
+4. Choose the DynamoDB table that you want to examine then click on its identifier (name) link:
+5. On the table configuration panel, inside the Table details section, verify the Item count parameter value. If the Item count current value is equal to 0:
+6. Repeat step no. 4 and 5 to verify the usage (ItemCount parameter value) of other DynamoDB tables provisioned in the current region.
+7. Change the AWS region from the navigation bar and repeat the entire audit process for other regions.
 
+Delete table:
+1. Login to the AWS Management Console.
+2. Navigate to DynamoDB dashboard at https://console.aws.amazon.com/dynamodb/.
+3. Choose Tables from the navigation pane, and choose the table desired for deletion from the table list.
+4. Finally, select Delete Table. After choosing Delete Table, a confirmation appears. Your table is then deleted.
 ## Endnotes
-
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/security.html
 
 ## Capital Group Control Statements 
 1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
