@@ -24,31 +24,28 @@
             "implementations": []
         },
         {
-            "requirement_name": "Data Protection Standards are Enforced",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#2-data-protection-standards-are-enforced",
+            "requirement_name": "Tables are encrypted using CG CMK",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#3-Tables-are-encrypted-using-CG-CMK",
             "tags":[],
             "severity": {
                 "Prod": "critical",
                 "SNP": "critical",
                 "NP": "medium"
             },
-            "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "dome9",
-                    "implementation": [
-                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-Database.json#3"
-                    ],
-                    "type": "detect"
-                },
-                {
-                    "provider": "sentinel",
-                    "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/encryption_policies/encryption_standards.sentinel"
-                    ],
-                    "type": "prevent"
-                }
-            ]
+            "control_mapping": ["CS0012300"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data in Transit is encrypted using TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#3-Data-in-Transit-is-encrypted-using-TLS-1.2",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012300"],
+            "implementations": []
         },
         {
             "requirement_name": "Create a VPC Endpoint for DynamoDB",
@@ -75,8 +72,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Log DynamoDB Operations with AWS CloudTrail",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#2-log-dynamodb-operations-with-aws-cloudtrail",
+            "requirement_name": "CloudTrail logging enabled for DynamoDB",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#2-CloudTrail-logging-enabled-for-DynamoDB",
             "tags":[],
             "severity": {
                 "Prod": "critical",
