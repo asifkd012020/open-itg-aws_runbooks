@@ -8,17 +8,14 @@
 <br>
 Security Engineering
 
-**Last Update:** *07/21/2021*
+**Last Update:** *07/28/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Cloud Security Requirements](#Cloud-Security-Requirements)
   - [1. Private Marketplace administrative rights only assigned to Platform Design Team](#1-Private-Marketplace-administrative-rights-only-assigned-to-Platform-Design-Team)
-  - [2. Private Marketplace utilizes VPC Endpoints to prevent public access](#2-Private-Marketplace-utilizes-VPC-Endpoints-to-prevent-public-access)
-  - [3. Private Marketplace Experiences limited based on account need](#3-Private-Marketplace-Experiences-limited-based-on-account-need)
-  - [4. IAM Policy Enforces Least Priviledge for Private Marketplace Resources](#1-IAM-Policy-Enforces-Least-Priviledge-for-Private-Marketplace-Resources)
-  - [5. CloudTrail logging enabled for Private Marketplace](#5-CloudTrail-logging-enabled-for-Private-Marketplace)
-  - [6. CloudWatch logging enabled for Private Marketplace](#6-CloudWatch-logging-enabled-for-Private-Marketplace)
+  - [2. IAM Policy Enforces Least Priviledge for Private Marketplace Resources](#2-IAM-Policy-Enforces-Least-Priviledge-for-Private-Marketplace-Resources)
+  - [3. CloudTrail logging enabled for Private Marketplace](#3-CloudTrail-logging-enabled-for-Private-Marketplace)
 - [Other Operational Expectations](#Other-Operational-Expectations)
   - [1. Private Marketplace Resources are tagged according to CG standards](#1-Private-Marketplace-Resources-are-tagged-according-to-CG-standards)
 - [Endnotes](#Endnotes)
@@ -26,7 +23,7 @@ Security Engineering
 
 
 ## Overview
-Private marketplace controls which products users in your AWS account, such as business users and engineering teams, can procure from AWS Marketplace. It is built on top of AWS Marketplace, and enables your administrators to create and customize curated digital catalogs of approved independent software vendors (ISVs) and products that conform to their in-house policies. Users in your AWS account can find, buy, and deploy approved products from your private marketplace, and ensure that all available products comply with your organization’s policies and standards.
+Private marketplace controls which products users in your AWS account are able to access. As such business users and engineering teams might be able to procure only certain items from AWS Marketplace based on their role. It is built on top of AWS Marketplace, and enables your administrators to create and customize curated digital catalogs of approved independent software vendors (ISVs) and products that conform to their in-house policies. Users in your AWS account can find, buy, and deploy approved products from your private marketplace, and ensure that all available products comply with your organization’s policies and standards.
 
 Your private marketplace is shared across your organization. With AWS Organizations, you can create a series of accounts linked for permissions and payments. You can create one or more private marketplace experiences that are associated with one or more accounts in your organization, each with its own set of approved products. Your administrators can also apply company branding to each private marketplace experience with your company or team’s logo, messaging, and color scheme.
 
@@ -44,56 +41,106 @@ A private marketplace provides you with a broad catalog of products available in
 
 |Control Statement|Description|
 |------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-
-### 2. Private Marketplace utilizes VPC Endpoints to prevent public access
-
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
-
-**Why?**<br>
-marketplace is a service that allows for the storage and processing of data on the AWS EC2 Service. Due to the possibility of sensitive data being stored and processed through marketplace, We need to make sure that this traffic is not transmitted directly over the Public Internet. 
+|[CS0012299](https://capitalgroup.service-now.com/cg_grc?id=cg_grc_action_item_details&sys_id=44df48c01bac20506a50beef034bcb34&table=sn_compliance_policy_statement&view=sp)|Access to change cloud resource-based access policies is restricted to authorized personnel. |
 <br>
 
-**How?**<br>
-Establishing a private connection between your virtual private cloud (VPC) and the Amazon marketplace API, you should create an interface VPC endpoint. You can use this connection to call the Amazon marketplace API from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the Amazon marketplace API without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
+**Why?** <br>
+As AWS Private Marketplace provides access for users to provision many types of resources, which may be either costly or possibly insecure, the permissions to add new catalogue items for teams to provision will be limited to only the Platform Design Team at this time.
+<br><br>
 
-Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for Amazon marketplace in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves Amazon marketplace API requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. Below are the steps to implement Interface VPC Endpoints for marketplace:
+**How?** <br>
+To create a role for the PDS Team, simply attach the `AWSMarketplaceProcurementSystemAdminFullAccess` policy to the appropriate IAM identities.
 
-**Creation of Interface VPC Endpoint**
-  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
-  2. Choose Create Endpoint.
-     - For Service category, choose AWS service. 
-     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.us-east-1.marketplace`).
-     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
-     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
-     - Make sure that you `Enable` the Enable Private DNS Name check box.
-     - Now add the appropriate `CG standard tags`.
-  4. Click `Create Endpoint` to complete the process.
-  <br><br>
+This policy grants admin permissions that allow managing all aspects of an AWS Marketplace eProcurement integration, including listing the accounts in your organization. For more information about eProcurement integrations, see Integrating AWS Marketplace with procurement systems .
 
-### 3. Private Marketplace Experiences limited based on account need
+#### Permissions Details:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "aws-marketplace:PutProcurementSystemConfiguration",
+                "aws-marketplace:DescribeProcurementSystemConfiguration",
+                "organizations:Describe*",
+                "organizations:List*"
+            ],
+            "Resource": [
+                "*"
+            ]
+        }
+    ]
+}
+```
+<br>
+
+### 2. IAM Policy Enforces Least Priviledge for Private Marketplace Resources
 
 **Capital Group:** <br>
 
 |Control Statement|Description|
 |------|----------------------|
 |Control Definition Needed|Control Definition Description Needed|
+<br>
+
+**Why?** <br>
+A core tenet of CG's cloud migration, and security strategy is the principal of least priviledge. This means providing users and groups the least ammount of access needed to perform the tasks that they need to be successful. In this case, with private marketplace teams will only be presented an `experience` with items that they have been pre-approved to install or provision.
 <br><br>
 
-### 4. IAM Policy Enforces Least Priviledge for Private Marketplace Resources
+**How?** <br>
+The implementation and maintenance of permissions on a per account basis will be delivered via the CG `BroadAccess-Role` in each account. Below is the default set of permissions that will be added as a baseline.
 
-**Capital Group:** <br>
+#### Permissions Detail:
+1. **AWSPrivateMarketplaceRequests**<br>
+   This policy will allow user to create request for any unapproved product.
+   ```
+   {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "aws-marketplace:CreatePrivateMarketplaceRequests",
+                "aws-marketplace:ListPrivateMarketplaceRequests",
+                "aws-marketplace:DescribePrivateMarketplaceRequests"
+            ],
+            "Resource": "*"
+        }
+     ]
+   }
+   ```
 
-|Control Statement|Description|
-|------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-<br><br>
+2. **AWSMarketplaceManageSubscriptions**<br>
+This policy Provides the ability to subscribe and unsubscribe from approved AWS Marketplace software.
+   ```
+   {
+      "Version": "2012-10-17",
+      "Statement": [
+        {
+            "Action": [
+                "aws-marketplace:ViewSubscriptions",
+                "aws-marketplace:Subscribe",
+                "aws-marketplace:Unsubscribe"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "aws-marketplace:CreatePrivateMarketplaceRequests",
+                "aws-marketplace:ListPrivateMarketplaceRequests",
+                "aws-marketplace:DescribePrivateMarketplaceRequests"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        }
+     ]
+   }
+   ```
+<br>
 
-### 5. CloudTrail logging enabled for Private Marketplace
+### 3. CloudTrail logging enabled for Private Marketplace
 
 **Capital Group:** <br>
 
@@ -103,33 +150,10 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
 
 **What, Why & How?**
 
-The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a service that provides a record of actions taken by a user, role, or an AWS service in the EBS direct APIs. CloudTrail captures StartSnapshot and CompleteSnapshot API calls for the EBS direct APIs as events. You can use the information collected by CloudTrail to determine the request that was made to the EBS direct APIs, the IP address from which the request was made, who made the request, when it was made, and additional details.
+The Marketplace direct APIs service is integrated with AWS CloudTrail. CloudTrail is a service that provides a record of actions taken by a user, role, or an AWS service in the Marketplace direct APIs. CloudTrail captures multiple items including StartChangeSet, DescribeChangeSet and ListChange Set calls for the Marketplace APIs as events. You can use the information collected by CloudTrail to determine the request that was made to the Marketplace APIs, the IP address from which the request was made, who made the request, when it was made, and additional details.
 
-- A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for the EBS direct APIs. This will enable the forwarding of logs into Splunk for long term archival and reporting.
+- A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for the Marketplace APIs. This will enable the forwarding of logs into Splunk for long term archival and reporting.
 - Creation of non-default Cloud Trails should be avoided where possible as all EBS data should be logged and monitored though the aforementioned default trail.
-<br><br>
-
-### 6. CloudWatch logging enabled for Private Marketplace
-
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-
-**What, Why & How?**
-
-The Marketplace Service allows for the collection of `CloudWatch Events`. EBS emits notifications based on Amazon CloudWatch Events for a variety of volume, snapshot, and encryption status changes. With CloudWatch Events, you can establish rules that trigger programmatic actions in response to a change in volume, snapshot, or encryption key state. 
-
-For example, when a snapshot is created, you can trigger an AWS Lambda function to share the completed snapshot with another account or copy it to another Region for disaster-recovery purposes. CloudWatch Events are not logged to Splunk by default, and require that the account owner request this logging take place. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
-
-Event Notification to consider enabling for EBS:
-- EBS volume events
-- EBS snapshot events
-- EBS volume modification events
-- EBS fast snapshot restore events
-
-Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
 <br><br>
 
 ## Other Operational Expectations
@@ -152,12 +176,9 @@ Tagging resources in the cloud is an easy way for teams to provide information r
 
 ## Endnotes
 **Resources**<br>
-1. https://aws.amazon.com/ebs/features/
-2. https://aws.amazon.com/ebs/volume-types/
-3. https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html
-4. https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-parameters
-5. https://aws.amazon.com/blogs/compute/must-know-best-practices-for-amazon-ebs-encryption/
-6. https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-cloud-watch-events.html
+1. https://docs.aws.amazon.com/marketplace/latest/buyerguide/private-marketplace.html
+2. https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/logging-api-calls-with-cloudtrail.html
+3. [PDS Team - AWS Marketplace Documentation](https://confluence.capgroup.com/pages/viewpage.action?spaceKey=HCEA&title=AWS+Private+Marketplace)
 <br><br>
 
 ## Capital Group Glossory 
