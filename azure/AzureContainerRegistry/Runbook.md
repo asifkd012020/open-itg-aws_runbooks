@@ -23,8 +23,8 @@ Security Engineering
 - [Preventative Controls](#preventative-controls)
   - [1. ACR deployed with no public access](#1-acr-deployed-with-no-public-access)
   - [2. Data is protected using a CG Managed Key](#2-data-is-protected-using-a-cg-managed-key)
-  - [3. ACR utilizes Azure RBAC with least priviledge assigned roles to users & Azure services](#3-acr-utilizes-azure-rbac-with-least-priviledge-assigned-roles-to-users--azure-services)
-  - [4. ACR connections are protected with TLS 1.2](#4-acr-connections-are-protected-with-tls-12)
+  - [3. ACR connections are protected with TLS 1.2](#3-acr-connections-are-protected-with-tls-12)
+  - [4. ACR utilizes Azure RBAC with least priviledge assigned roles to users & Azure services](#4-acr-utilizes-azure-rbac-with-least-priviledge-assigned-roles-to-users--azure-services)
 - [Detective Controls](#detective-controls)
   - [1. Run vulnerability scans on images stored in ACR with Prisma Cloud.](#1-run-vulnerability-scans-on-images-stored-in-acr-with-prisma-cloud)
   - [2. ACR is tagged according to CG standards](#2-acr-is-tagged-according-to-cg-standards)
@@ -35,7 +35,7 @@ Security Engineering
 
 ## Overview
 Azure Container Registry (ACR) allows you to build, store, and manage container images and artifacts in a private registry. 
-The following playbook will outline what the Azure best practices are and how to implement these best practices when provisioning ACR. 
+The following playbook will outline what the Azure best practices are and how to implement these best practices when provisioning ACR.  <br>
 Terraform sample code will be taken from this ACR Repo -  `https://github.com/open-itg/azure-acr-module/blob/master/main.tf` 
 <br><br>
 
@@ -59,7 +59,8 @@ Azure container registries by default accept connections over the internet from 
 <br>
 
 **How?**<br>
-Public access can be disabled via configuration, but will require a Azure Private Link & Endpoint to access the registry.
+Public access can be disabled via configuration, but will require a Azure Private Endpoint to access the registry. 
+The private link handles the connectivity between the consumer and services over the Azure backbone network.
 
 <br>
 
@@ -162,7 +163,25 @@ Once the pre-reqs are completed below example shows how to configure CMK for ACR
    <img src="docs/img/../../../docs/img/acr/acr-encryption.png" width="400">
    <br>
 
-### 3. ACR utilizes Azure RBAC with least priviledge assigned roles to users & Azure services
+### 3. ACR connections are protected with TLS 1.2
+<br>
+
+**Capital Group:** <br>
+|Control Statement|Description|
+|------|----------------------|
+|[PLACEHOLDER](https://capitalgroup.service-now.com/cg_grc?sys_id=57ef99521b5a8050da4bdca4bd4bcb33&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|PLACEHOLDER|
+
+<br>
+
+**Why?**<br>
+Data should be protected in-transit between the customer and Azure, as well as within Azure Services using NIST-approved encryption mechanism.
+
+**How?**<br>
+Azure Container Registry enforces data encryption in transit to the service and requires all secure connections from servers and applications to use TLS 1.2. Enable TLS 1.2 by using any recent docker client (version 18.03.0 or later). Support for TLS 1.0 and 1.1 is retired.
+<br>
+<br>
+
+### 4. ACR utilizes Azure RBAC with least priviledge assigned roles to users & Azure services
 `https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#differentiate-users-and-services`
 
 <br>
@@ -193,22 +212,6 @@ Terraform example on how to grant AKS cluster AcrPull Access. <br><br>
    ```
 
 
-### 4. ACR connections are protected with TLS 1.2
-<br>
-
-**Capital Group:** <br>
-|Control Statement|Description|
-|------|----------------------|
-|[CS0012257](https://capitalgroup.service-now.com/cg_grc?sys_id=57ef99521b5a8050da4bdca4bd4bcb33&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|External facing applications must use enterprise approved certificates.|
-
-<br>
-
-**Why?**<br>
-Data should be protected in-transit between the customer and Azure, as well as within Azure Services using NIST-approved encryption mechanism.
-
-**How?**<br>
-Azure Container Registry enforces data encryption in transit to the service and requires all secure connections from servers and applications to use TLS 1.2. Enable TLS 1.2 by using any recent docker client (version 18.03.0 or later). Support for TLS 1.0 and 1.1 is retired.
-
 <br><br>
 
 ## Detective Controls
@@ -225,10 +228,8 @@ NIST CSF:
 
 **Why?** Prisma Cloud container scanning helps in identifying software vulnerabilities in your container images. You can review the scan findings for information about the security of the container images that are being deployed.
 
-**How?** You can manually scan container images stored in Amazon ECR, or you can configure your repositories to scan images when you push them to a repository. The last completed image scan findings can be retrieved for each image. Amazon ECR sends an event to Amazon EventBridge when an image scan is completed. For details on how to set up scans on an image or repository, see [Endnote 3](#endnote-3).
+**How?** Reach out to PDS Team(PDS_-_Platform_Design_services@capgroup.com) for onboarding your Azure Container Registry to Prisma Cloud. 
 
-
-`This Section will be updated soon.`
 
 ### 2. ACR is tagged according to CG standards
 
