@@ -64,7 +64,7 @@ Public access can be disabled via configuration, but will require a Azure Privat
 <br>
 
 **Disabling Public Access and Enabling Private Endpoints**<br>
-In this section instructions are for ACR provisioning with private endpoints.<br><br>
+Instructions for ACR provisioning with private endpoints.<br><br>
    **Step 1:** Disable public network access (https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_registry#public_network_access_enabled) <br> 
    ```
    resource "azurerm_container_registry" "acr" {
@@ -113,20 +113,48 @@ Data should be protected in-transit between the customer and Azure, as well as w
 
 **How?**<br>
 
-By default, when using ACR, Azure encrypts at rest with service-managed keys. You can specify your own customer managed keys via Azure Key Vault for for encryption. 
+By default, when using ACR, Azure encrypts at rest with service-managed keys. You can specify your own customer managed keys in Azure Key Vault for encryption. 
 
-You'll need the following pre-reqs to configure CMK
+You'll need the following pre-reqs to configure encryption with Customer Managed Key
 `https://github.com/open-itg/azure-acr-module/blob/master/main.tf#L10` 
 - CMK stored in Azure Key Vault
 - Managed Identity with Access Policy to access key in Azure Key Vault
 
 Once the pre-reqs are completed below example shows how to configure CMK for ACR.   
 ```
-#Enable customer managed key for disk encryption
-  encryption {
-    enabled            = true
-    key_vault_key_id   = var.key_vault_key_id
-    identity_client_id = azurerm_user_assigned_identity.keyvault_access_identity.client_id
+  #Provision ACR with customer managed key for encryption
+  resource "azurerm_container_registry" "acr" {
+    name                          = var.acr_name
+
+    encryption {
+      enabled            = true
+      key_vault_key_id   = var.key_vault_key_id
+      identity_client_id = azurerm_user_assigned_identity.keyvault_access_identity.client_id
+    }
+  }
+
+  #Create managed identity to access key vault
+  resource "azurerm_user_assigned_identity" "keyvault_access_identity" {
+    resource_group_name = azurerm_resource_group.acr_resource_group.name
+    location            = azurerm_resource_group.acr_resource_group.location
+
+    name = var.keyvault_identity_name
+    tags = var.tags
+
+  }
+
+  #Grant key permission to managed identity access to use CMK in Azure Key Vault
+  resource "azurerm_key_vault_access_policy" "policy" {
+    key_vault_id = var.key_vault_id
+    tenant_id    = azurerm_user_assigned_identity.keyvault_access_identity.tenant_id
+    object_id    = azurerm_user_assigned_identity.keyvault_access_identity.principal_id
+
+    key_permissions = [
+      "Get",
+      "UnwrapKey",
+      "WrapKey"
+    ]
+
   }
 ```
 <br>
@@ -187,7 +215,8 @@ Azure Container Registry enforces data encryption in transit to the service and 
 <img src="/docs/img/Detect.png" width="50">
 
 ### 1. Run vulnerability scans on images stored in ACR with Prisma Cloud. 
-`https://docs.paloaltonetworks.com/prisma/prisma-cloud/prisma-cloud-admin-compute/vulnerability_management/registry_scanning0/scan_acr.html`
+`https://docs.paloaltonetworks.com/prisma/prisma-cloud/prisma-cloud-admin-compute/vulnerability_management/registry_scanning0/scan_acr.html` <br>
+<br>
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -217,7 +246,7 @@ NIST CSF:
 1. https://docs.microsoft.com/en-us/azure/container-registry/
 2. https://docs.microsoft.com/en-us/azure/container-registry/container-registry-private-link
 3. https://docs.microsoft.com/en-us/security/benchmark/azure/baselines/container-registry-security-baseline
-4. 
+   
 
 ## Capital Group Glossary 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
