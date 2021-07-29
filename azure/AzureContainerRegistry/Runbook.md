@@ -247,6 +247,7 @@ NIST CSF:
 1. https://docs.microsoft.com/en-us/azure/container-registry/
 2. https://docs.microsoft.com/en-us/azure/container-registry/container-registry-private-link
 3. https://docs.microsoft.com/en-us/security/benchmark/azure/baselines/container-registry-security-baseline
+4. https://docs.microsoft.com/en-us/azure/container-registry/container-registry-customer-managed-keys
    
 
 ## Capital Group Glossary 
