@@ -1,0 +1,87 @@
+{
+  "serviceprovider":"azure",
+  "servicerequirement_name": [
+      "Azure::ACR::*"
+  ],
+  "servicedisplay_name": "ACR",
+  "serviceapproval_status": {
+      "Prod": "approved",
+      "SNP": "aproved",
+      "NP": "approved"
+  },
+  "phase": "discovery",
+  "mapping": [
+      {
+          "requirement_name": "ACR deployed with no public access",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#1-AKS-deployed-in-Private-VNET-with-no-public-access",
+          "tags":[],
+          "severity": {
+              "Prod": "critical",
+              "SNP": "critical",
+              "NP": "high"
+          },
+          "control_mapping": [],
+          "implementations": []
+      },
+      {
+          "requirement_name": "Data is protected using a CG Managed Key",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#2-AKS-Data-is-protected-using-a-CG-Managed-Key",
+          "tags":[],
+          "severity": {
+              "Prod": "high",
+              "SNP": "high",
+              "NP": "medium"
+          },
+          "control_mapping": [],
+          "implementations": []
+      },
+      {
+          "requirement_name": "ACR utilizes Azure RBAC with least priviledge assigned roles to users & Azure services",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#3-AKS-enforces-least-privilege-for-access-to-API-server--nodes",
+          "tags":[],
+          "severity": {
+              "Prod": "high",
+              "SNP": "high",
+              "NP": "medium"
+          },
+          "control_mapping": [],
+          "implementations": []
+      },
+      {
+          "requirement_name": "ACR connections are protected with TLS 1.2",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#4-AKS-utilizes-managed-identities-with-least-priviledge-assigned",
+          "tags":[],
+          "severity": {
+              "Prod": "high",
+              "SNP": "high",
+              "NP": "medium"
+          },
+          "control_mapping": [],
+          "implementations": []
+      },
+      {
+          "requirement_name": "Run vulnerability scans on images stored in ACR with Prisma Cloud",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#1-AKS-resources-are-tagged-according-to-cg-standards",
+          "tags":[],
+          "severity": {
+              "Prod": "medium",
+              "SNP": "medium",
+              "NP": "medium"
+          },
+          "control_mapping": [],
+          "implementations": []
+      },
+      {
+          "requirement_name": "ACR is tagged according to CG standards",
+          "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#2-AKS-logging-enabled-and-sent-to-splunk",
+          "tags":[],
+          "severity": {
+              "Prod": "medium",
+              "SNP": "medium",
+              "NP": "medium"
+          },
+          "control_mapping": [],
+          "implementations": []
+      }
+  ]
+}
