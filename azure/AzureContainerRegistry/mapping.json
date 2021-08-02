@@ -12,7 +12,7 @@
   "phase": "discovery",
   "mapping": [
       {
-          "requirement_name": "ACR deployed with no public access",
+          "requirement_name": "ACR deployed with private endpoints and public access disabled ",
           "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#1-AKS-deployed-in-Private-VNET-with-no-public-access",
           "tags":[],
           "severity": {
@@ -24,7 +24,7 @@
           "implementations": []
       },
       {
-          "requirement_name": "Data is protected using a CG Managed Key",
+          "requirement_name": "ACR Data is encrypted using CG Managed Keys",
           "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#2-AKS-Data-is-protected-using-a-CG-Managed-Key",
           "tags":[],
           "severity": {
@@ -36,7 +36,7 @@
           "implementations": []
       },
       {
-          "requirement_name": "ACR utilizes Azure RBAC with least priviledge assigned roles to users & Azure services",
+          "requirement_name": "ACR connections are protected with TLS 1.2",
           "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#3-AKS-enforces-least-privilege-for-access-to-API-server--nodes",
           "tags":[],
           "severity": {
@@ -60,7 +60,7 @@
           "implementations": []
       },
       {
-          "requirement_name": "Run vulnerability scans on images stored in ACR with Prisma Cloud",
+          "requirement_name": "Images stored in ACR are being scanned for vulnerabilities and compliance checks",
           "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/AzureKubernetesService/Runbook.md#1-AKS-resources-are-tagged-according-to-cg-standards",
           "tags":[],
           "severity": {

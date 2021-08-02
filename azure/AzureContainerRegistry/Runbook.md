@@ -34,7 +34,7 @@ Security Engineering
 
 ## Overview
 Azure Container Registry (ACR) allows you to build, store, and manage container images and artifacts in a private registry. 
-The following playbook will outline what the Azure best practices are and how to implement these best practices when provisioning ACR.  <br>
+The following playbook will outline what the Azure best practices are and how to implement these best practices when provisioning ACR. <br> <br>
 Terraform sample code will be taken from this ACR Repo -  https://github.com/open-itg/azure-acr-module/blob/master/main.tf
 <br><br>
 
@@ -63,8 +63,8 @@ The private link handles the connectivity between the consumer and services over
 
 <br>
 
-**Disabling Public Access and Enabling Private Endpoints**<br>
-Instructions for ACR provisioning with private endpoints.<br><br>
+**Steps for Disabling Public Access and Enabling Private Endpoints**<br> <br>
+
    **Step 1:** Disable public network access (https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/container_registry#public_network_access_enabled) <br> 
    ```
    resource "azurerm_container_registry" "acr" {
@@ -116,9 +116,9 @@ CG's Cloud Security standards require that we ensure registries that holds sensi
 By default, when using ACR, Azure encrypts at rest with service-managed keys. You can specify your own customer managed keys in Azure Key Vault for encryption. 
 
 You'll need the following pre-reqs to configure encryption with Customer Managed Key
-https://github.com/open-itg/azure-acr-module/blob/master/main.tf#L10
 - CMK stored in Azure Key Vault
 - Managed Identity with Access Policy to access key in Azure Key Vault
+- Terraform example of pre-reqs found here - https://github.com/open-itg/azure-acr-module/blob/master/main.tf#L10
 
 Once the pre-reqs are completed below example shows how to configure CMK for ACR.   
 ```
