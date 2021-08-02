@@ -26,7 +26,7 @@ Security Engineering
   - [3. ACR connections are protected with TLS 1.2](#3-acr-connections-are-protected-with-tls-12)
   - [4. Least privilege is assigned to users & Azure services that need access to ACR.](#4-least-privilege-is-assigned-to-users--azure-services-that-need-access-to-acr)
 - [Operational Best Practices](#operational-best-practices)
-  - [1. Images stored in ACR are being scanned for vulnerabilities and compliance checks.](#1-images-stored-in-acr-are-being-scanned-for-vulnerabilities-and-compliance-checks)
+  - [1. Images stored in ACR are being scanned for vulnerabilities and compliance checks. <br>](#1-images-stored-in-acr-are-being-scanned-for-vulnerabilities-and-compliance-checks-)
   - [2. ACR is tagged according to CG standards](#2-acr-is-tagged-according-to-cg-standards)
 - [Endnotes](#endnotes)
 - [Capital Group Glossary](#capital-group-glossary)
@@ -115,12 +115,12 @@ CG's Cloud Security standards require that we ensure registries that holds sensi
 
 By default, when using ACR, Azure encrypts at rest with service-managed keys. You can specify your own customer managed keys in Azure Key Vault for encryption. 
 
-You'll need the following pre-reqs to configure encryption with Customer Managed Key
+You'll need the following pre-reqs to configure encryption with Customer Managed Key(CMK)
 - CMK stored in Azure Key Vault
 - Managed Identity with Access Policy to access key in Azure Key Vault
 - Terraform example of pre-reqs found here - https://github.com/open-itg/azure-acr-module/blob/master/main.tf#L10
 
-Once the pre-reqs are completed below example shows how to configure CMK for ACR.   
+Once the pre-reqs are completed below example shows how to encrypt ACR with CMK. 
 ```
   #Provision ACR with customer managed key for encryption
   resource "azurerm_container_registry" "acr" {
@@ -192,7 +192,7 @@ https://docs.microsoft.com/en-us/azure/container-registry/container-registry-rol
 <br>
 
 **Why?**<br>
-Limit the privileges you assign to users & resources through Azure RBAC to what the roles require. 
+Limit the privileges you assign to users & resources through Azure RBAC to what the role(s) require. 
 
 **How?**
 Use Azure role-based access control (Azure RBAC) to assign specific permissions to users, service principals, or other identities that need to interact with a registry, for example to pull or push container images. You can also define custom roles with fine-grained permissions to a registry for different operations.
@@ -216,18 +216,20 @@ Terraform example on how to grant AKS cluster AcrPull Access. <br><br>
 ## Operational Best Practices
 <img src="/docs/img/Detect.png" width="50">
 
-### 1. Images stored in ACR are being scanned for vulnerabilities and compliance checks. 
+### 1. Images stored in ACR are being scanned for vulnerabilities and compliance checks. <br>
 
-<br>
+
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
 |DE.CM-4|Malicious code is detected|
 |DE.CM-8|Vulnerability scans are performed|
 
-**Why?** Prisma Cloud container scanning helps in identifying software vulnerabilities in your container images. You can review the scan findings for information about the security of the container images that are being deployed.
+**Why?** 
+Prisma Cloud container scanning helps in identifying software vulnerabilities in your container images. You can review the scan findings for information about the security of the container images that are being deployed.
 
-**How?** Reach out to PDS Team(PDS_-_Platform_Design_services@capgroup.com) for onboarding your Azure Container Registry to Prisma Cloud. 
+**How?**
+ Reach out to PDS Team(PDS_-_Platform_Design_services@capgroup.com) for onboarding your Azure Container Registry to Prisma Cloud. 
 https://docs.paloaltonetworks.com/prisma/prisma-cloud/prisma-cloud-admin-compute/vulnerability_management/registry_scanning0/scan_acr.html 
 <br>
 
