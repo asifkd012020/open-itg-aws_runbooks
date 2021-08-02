@@ -35,7 +35,7 @@ Security Engineering
 ## Overview
 Azure Container Registry (ACR) allows you to build, store, and manage container images and artifacts in a private registry. 
 The following playbook will outline what the Azure best practices are and how to implement these best practices when provisioning ACR.  <br>
-Terraform sample code will be taken from this ACR Repo -  `https://github.com/open-itg/azure-acr-module/blob/master/main.tf` 
+Terraform sample code will be taken from this ACR Repo -  https://github.com/open-itg/azure-acr-module/blob/master/main.tf
 <br><br>
 
 ## Cloud Security Requirements
@@ -109,14 +109,14 @@ Instructions for ACR provisioning with private endpoints.<br><br>
 <br>
 
 **Why?**<br>
-Data should be protected in-transit between the customer and Azure, as well as within Azure Services using NIST-approved encryption mechanism.
+CG's Cloud Security standards require that we ensure registries that holds sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption.
 
 **How?**<br>
 
 By default, when using ACR, Azure encrypts at rest with service-managed keys. You can specify your own customer managed keys in Azure Key Vault for encryption. 
 
 You'll need the following pre-reqs to configure encryption with Customer Managed Key
-`https://github.com/open-itg/azure-acr-module/blob/master/main.tf#L10` 
+https://github.com/open-itg/azure-acr-module/blob/master/main.tf#L10
 - CMK stored in Azure Key Vault
 - Managed Identity with Access Policy to access key in Azure Key Vault
 
@@ -181,7 +181,7 @@ Azure Container Registry enforces data encryption in transit to the service and 
 <br>
 
 ### 4. Least privilege is assigned to users & Azure services that need access to ACR. 
-`https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#differentiate-users-and-services`
+https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#differentiate-users-and-services
 
 <br>
 
@@ -192,7 +192,7 @@ Azure Container Registry enforces data encryption in transit to the service and 
 <br>
 
 **Why?**<br>
-Limit the privileges you assign to users & resources through Azure RBAC to what the roles require for least privilege. 
+Limit the privileges you assign to users & resources through Azure RBAC to what the roles require. 
 
 **How?**
 Use Azure role-based access control (Azure RBAC) to assign specific permissions to users, service principals, or other identities that need to interact with a registry, for example to pull or push container images. You can also define custom roles with fine-grained permissions to a registry for different operations.
