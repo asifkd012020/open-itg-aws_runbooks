@@ -20,15 +20,14 @@ Security Engineering
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-- [Preventative Controls](#preventative-controls)
-  - [1. ACR deployed with no public access](#1-acr-deployed-with-no-public-access)
-  - [2. Data is protected using a CG Managed Key](#2-data-is-protected-using-a-cg-managed-key)
+- [Cloud Security Requirements](#cloud-security-requirements)
+  - [1. ACR deployed with private endpoints and public access disabled](#1-acr-deployed-with-private-endpoints-and-public-access-disabled)
+  - [2. ACR Data is encrypted using CG Managed Keys](#2-acr-data-is-encrypted-using-cg-managed-keys)
   - [3. ACR connections are protected with TLS 1.2](#3-acr-connections-are-protected-with-tls-12)
-  - [4. ACR utilizes Azure RBAC with least priviledge assigned roles to users & Azure services](#4-acr-utilizes-azure-rbac-with-least-priviledge-assigned-roles-to-users--azure-services)
-- [Detective Controls](#detective-controls)
-  - [1. Run vulnerability scans on images stored in ACR with Prisma Cloud.](#1-run-vulnerability-scans-on-images-stored-in-acr-with-prisma-cloud)
+  - [4. Least privilege is assigned to users & Azure services that need access to ACR.](#4-least-privilege-is-assigned-to-users--azure-services-that-need-access-to-acr)
+- [Operational Best Practices](#operational-best-practices)
+  - [1. Images stored in ACR are being scanned for vulnerabilities and compliance checks.](#1-images-stored-in-acr-are-being-scanned-for-vulnerabilities-and-compliance-checks)
   - [2. ACR is tagged according to CG standards](#2-acr-is-tagged-according-to-cg-standards)
-- [Respond/Recover](#respondrecover)
 - [Endnotes](#endnotes)
 - [Capital Group Glossary](#capital-group-glossary)
 <br><br>
@@ -39,10 +38,10 @@ The following playbook will outline what the Azure best practices are and how to
 Terraform sample code will be taken from this ACR Repo -  `https://github.com/open-itg/azure-acr-module/blob/master/main.tf` 
 <br><br>
 
-## Preventative Controls
+## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. ACR deployed with no public access
+### 1. ACR deployed with private endpoints and public access disabled 
 ACR can be configured to disable public access.  Private endpoints must created in CG subnet to allow network traffic to remain on a private network only. 
 <br>
 
@@ -99,7 +98,7 @@ Instructions for ACR provisioning with private endpoints.<br><br>
 
 <br>
 
-### 2. Data is protected using a CG Managed Key 
+### 2. ACR Data is encrypted using CG Managed Keys
 <br>
 
 **Capital Group:** <br>
@@ -181,7 +180,7 @@ Azure Container Registry enforces data encryption in transit to the service and 
 <br>
 <br>
 
-### 4. ACR utilizes Azure RBAC with least priviledge assigned roles to users & Azure services
+### 4. Least privilege is assigned to users & Azure services that need access to ACR. 
 `https://docs.microsoft.com/en-us/azure/container-registry/container-registry-roles?tabs=azure-cli#differentiate-users-and-services`
 
 <br>
@@ -214,11 +213,11 @@ Terraform example on how to grant AKS cluster AcrPull Access. <br><br>
 
 <br><br>
 
-## Detective Controls
+## Operational Best Practices
 <img src="/docs/img/Detect.png" width="50">
 
-### 1. Run vulnerability scans on images stored in ACR with Prisma Cloud. 
-`https://docs.paloaltonetworks.com/prisma/prisma-cloud/prisma-cloud-admin-compute/vulnerability_management/registry_scanning0/scan_acr.html` <br>
+### 1. Images stored in ACR are being scanned for vulnerabilities and compliance checks. 
+
 <br>
 NIST CSF:
 |NIST Subcategory Control|Description|
@@ -229,18 +228,24 @@ NIST CSF:
 **Why?** Prisma Cloud container scanning helps in identifying software vulnerabilities in your container images. You can review the scan findings for information about the security of the container images that are being deployed.
 
 **How?** Reach out to PDS Team(PDS_-_Platform_Design_services@capgroup.com) for onboarding your Azure Container Registry to Prisma Cloud. 
+https://docs.paloaltonetworks.com/prisma/prisma-cloud/prisma-cloud-admin-compute/vulnerability_management/registry_scanning0/scan_acr.html 
+<br>
 
 
 ### 2. ACR is tagged according to CG standards
+**Capital Group:** <br>
 
-`This Section will be updated soon.`
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+**What, Why & How?**
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
+
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
 <br><br>
 
-## Respond/Recover
-<img src="/docs/img/Monitor.png" width="50">
-
-`This Section will be updated soon.`
-<br><br>
 
 ## Endnotes
 **Resources**<br>
