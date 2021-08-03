@@ -16,21 +16,19 @@ Security Engineering
   - [2. Tables are encrypted using CG CMK](#Tables-are-encrypted-using-CG-CMK)
   - [3. Data in Transit is encrypted using TLS 1.2](#Data-in-Transit-is-encrypted-using-TLS-1.2)
   - [4. DynamoDB Utilizes VPC Endpoints to Prevent Public Access](#DynamoDB-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [5. Utilize DynamoDB streams to support data-plane logging](#Utilize-DynamoDB-streams-to-support-data-plane-logging)
-  - [6. Log DynamoDB Operations with AWS CloudTrail](#Log-DynamoDB-Operations-with-AWS-CloudTrail)
-  - [7. Create CloudWatch Alarms to monitor DynamoDB](#Create-CloudWatch-Alarms-to-monitor-DynamoDB)
+  - [5. Log DynamoDB Operations with AWS CloudTrail](#Log-DynamoDB-Operations-with-AWS-CloudTrail)
+  - [6. Create CloudWatch Alarms to monitor DynamoDB](#Create-CloudWatch-Alarms-to-monitor-DynamoDB)
+  - [7. DynamoDB Continuous Backups](#DynamoDB-Continuous-Backups)
+  - [8. DynamoDB Backup / Restore setup](#DynamoDB-Backup-/-Restore-setup)
 - [Operational Best Practices](#Operational-Best-Practices)
     - [1. Tagging](#Tagging)
-    - [2. DynamoDB Continuous Backups](#DynamoDB-Continuous-Backups)
-    - [3. DynamoDB Backup / Restore setup](#DynamoDB-Backup-/-Restore-setup)
-    - [4. Unused Tables should be removed](#Unused-Tables-should-be-removed)  
+    - [2. Unused Tables should be removed](#Unused-Tables-should-be-removed)
+    - [3. Utilize DynamoDB streams to support data-plane logging](#Utilize-DynamoDB-streams-to-support-data-plane-logging)  
 - [Endnotes](#endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
 ## Overview
-Amazon DynamoDB is a hosted NoSQL database offered by Amazon Web Services. It supports key-value and document database and delivers performance at any scale. It's a fully managed, multi-region, multi-active, durable database with built-in security, backup and restore, and in-memory caching for internet-scale applications.
-
-DynamoDB is particularly useful for cases such as:
+Amazon DynamoDB is a hosted NoSQL database offered by Amazon Web Services. It supports key-value and document database and delivers performance at any scale. It's a fully managed, multi-region, multi-active, durable database with built-in security, backup and restore, and in-memory caching for internet-scale applications. DynamoDB is particularly useful for cases such as:
  - Applications with large amounts of data and strict latency requirements
  - Serverless applications using AWS Lambda
  - Data sets with simple, known access patterns 
@@ -40,6 +38,9 @@ DynamoDB is particularly useful for cases such as:
  - No servers to manage
  - Enterprise ready
 
+Operational/Setup Guidance: 
+https://confluence.capgroup.com/display/CDP/Data+Platform+Architecture
+
 ## Preventative Controls
 <img src="/docs/img/Prevent.png" width="50">  
 
@@ -48,8 +49,8 @@ DynamoDB is particularly useful for cases such as:
 
 |Control Statement|Description|
 |------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-
+|CS0012298 |Access to change cloud identity access and service control policies is restricted to authorized cloud administrative personnel.|
+|CS0012299|Access to change cloud resource-based access policies is restricted to authorized personnel.|
 <br>
 
 **Why?**
@@ -58,25 +59,14 @@ CG utlizes the least privilege model when using IAM for services. In accordance 
 
 When you grant permissions in DynamoDB, you can specify conditions that determine how a permissions policy takes effect. Implementing least privilege is key in reducing security risk and the impact that can result from errors or malicious intent.
 
-**How?**   
-There are several ways to grant permissions in DynamoDB. The two main default permissons are to grant permissions for all DynamoDb actions, and grant permissions to to allow for read-only.
+**How?**  
 
-Examples:
+AWS IAM policies are JSON documents that are used for setting permissions on users, groups, and roles within AWS services. There are many AWS-managed policies available to pick from, or you can create your own policies using the IAM policy builder, or by just writing the JSON policy. Each user and role should have its own set of permissions. The permissions for a role or user should only allow specific actions that that principal requires to complete its business purpose. The following examples show granular policies that only allow certain actions under certain circumstances, by using policy conditions.
 
-`"Action": "dynamodb:*"` : Grants permissions for all DynamoDB actions
-```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AllAPIActionsOnBooks",
-            "Effect": "Allow",
-            "Action": "dynamodb:*",
-            "Resource": "arn:aws:dynamodb:us-west-2:123456789012:table/Books"
-        }
-    ]
-}
-```
+Accounts should **NOT** be given full access unless absolutely nessessary. Do **NOT** use `"Action": "dynamodb:*"` 
+
+Using read-only permissions is recomended for most accounts:
+
 The following permissions policy grants permissions for the `GetItem`, `BatchGetItem`, `Scan`, `Query`, and `ConditionCheckItem` DynamoDB actions only, and as a result, sets read-only access on the Books table.
 ```
 {
@@ -101,6 +91,15 @@ The following permissions policy grants permissions for the `GetItem`, `BatchGet
 <br><br>
 
 ### 2. Tables are encrypted using CG CMK  
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|CS0012168|Strong encryption key management controls are in place for cloud provider services to protect data at rest.|
+
+<br>
+
 **Why?**
 
 CG's Cloud Security standards require that we ensure that the AWS services that hold sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption. The DynamoDB data encryption and decryption is handled transparently once it has been enabled.
@@ -127,11 +126,24 @@ Due to limitations in key management, Amazon DynamoDB Accelerator (DAX) is not a
 
 
 ### 3. Data in Transit is encrypted using TLS 1.2
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|CS0012261|Cloud based data in transit must be encrypted with enterprise approved algorithms.|
+
+<br>
+
 **Why?**   
 TLS 1.2 and above is the standard when it comes to network security.
 
 **How?**    
-DynamoDB supports TLS 1.2
+As of March 31, 2021, AWS updated all AWS Federal Information Processing Standard (FIPS) endpoints to a minimum Transport Layer Security (TLS) version TLS 1.2. (TLS 1.0 and 1.1 will be deprecated)
+
+AWS CLI version 2 uses an internal Python script that's compiled to use a minimum of TLS 1.2 when the service it's talking to supports it. No further steps are needed to enforce this minimum. 
+
+More info on enforcing TLS: https://docs.aws.amazon.com/cli/latest/userguide/cli-security-enforcing-tls.html
 
 <br><br>
 
@@ -212,46 +224,13 @@ aws dynamodb list-tables
 
 <br><br>
 
-### 5. Utilize DynamoDB streams to support data-plane logging
-
-**Capital Group Controls:** 
-<br>
-|Control Statement|Description|
-|------|----------------------|
-|[???]|`This Section will be updated soon.`.|
-
-<br> 
-
-**Why?**   
- DynamoDB Streams is a powerful service that you can combine with other AWS services to solve many similar issues. When you enable DynamoDB Streams, it captures a time-ordered sequence of item-level modifications in a DynamoDB table and durably stores the information for up to 24 hours. Applications can access a series of stream records, which contain an item change, from a DynamoDB stream in near real time. The following are examples of use cases:
-
- - Audit or Archive Data
- - Trigger an event based on a particular item change
- - Replicate data across multiple tables
-
-
-**How?**   
-1. Sign in to the AWS Management Console and open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
-2. On the DynamoDB console dashboard, choose Tables and select an existing table.
-3. On the Overview tab, choose Manage Stream.
-4. In the Manage Stream window, choose the information that will be written to the stream whenever the data in the table is modified:
-
-  - **Keys only** — Only the key attributes of the modified item.  
-  - **New image** — The entire item, as it appears after it was modified.  
-  - **Old image** — The entire item, as it appeared before it was modified.  
-  - **New and old images** — Both the new and the old images of the item.  
-When the settings are as you want them, choose **Enable**.
-5. (Optional) To disable an existing stream, choose Manage Stream and then choose Disable.
-
-<br><br>
-
-### 6. CloudTrail logging enabled for DynamoDB  
+### 5. CloudTrail logging enabled for DynamoDB  
 
 **Capital Group:** <br>
 
 |Control Statement|Description|
 |------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
+|Control|Control Definition|
 
 <br>
 
@@ -261,15 +240,17 @@ DynamoDB is integrated with Amazon CloudTrail, a service that provides a record 
 
 - A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for DynamoDB. This will enable the forwarding of logs into Splunk for long term archival and reporting.
 
+More info on monitoring: https://confluence.capgroup.com/display/DBP/DynamoDB+-+Monitoring
+
 <br><br>
 
-### 7. Create CloudWatch Alarms to monitor DynamoDB
+### 6. Create CloudWatch Alarms to monitor DynamoDB
 
 **Capital Group:** <br>
 
 |Control Statement|Description|
 |------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
+|Control |Control Definition|
 
 <br>
 
@@ -282,7 +263,65 @@ The DynamoDB Service allows for the collection of CloudWatch Events, Logs and Al
 
  Utilizing these CloudWatch tools together can be useful in detecting anomolous activity and patterns in data access within the DynamoDB service. It is recommended that CloudWatch is used to monitor any critical services in use at CG. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
 
-<br><br>  
+More info on monitoring: https://confluence.capgroup.com/display/DBP/DynamoDB+-+Monitoring
+
+<br><br> 
+
+### 7. DynamoDB Continuous Backups
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|CS0012142|Backups must adhere to enterprise backup and retention requirements.|
+
+<br>
+
+**Why?**  
+This type of backup on the other hand allows you to perform point-in-time restore. It’s really helpful in protecting against accidental writes or delete operations. So for example, if you ran a script to transform the data within a table and it accidentally removed or corrupted your data; you could simply restore your table to any point in the last 35 days. DynamoDB does this by maintaining an incremental backup of your table. It even does this automatically, so you don’t have to worry about creating, maintaining, or scheduling on-demand backups.
+
+**How?**
+
+1. Log in to the AWS Management Console at https://console.aws.amazon.com/.
+2. Open the Amazon DynamoDB console.
+3. Navigate to the desired DynamoDB table, then select the Backups tab.
+4. In the Point-in-time recovery section, choose Edit.
+5. Select Enable Point-in-time-recovery and choose Save changes.
+
+The Earliest restore date and Latest restore date are visible within a few seconds
+
+<br><br>
+
+### 8. DynamoDB Backup / Restore setup
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|CS0012142|Backups must adhere to enterprise backup and retention requirements.|
+
+<br>
+
+**Why?**  
+DynamoDB achieves a high degree of data availability and durability by replicating your data across three different facilities within a given region. However, DynamoDB does not provide an SLA for the data durability. This means that you should backup your database tables.
+
+ A backup is useful for long-term data retention and archival. The backup is retained even if the table is deleted. You can use the backup to restore to a different table name. And this can make it useful for replicating tables.
+
+**How?**  
+Create Backup
+1. Sign in to the AWS Management Console and open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
+2. In the navigation pane on the left side of the console, choose Backups. Then choose Create backup.
+3. Make sure you have the correct table name, and enter backup name. 
+4. Then, choose Create to create the backup
+
+Restore Backup
+1. Sign in to the AWS Management Console and open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
+2. In the navigation pane on the left side of the console, choose Backups.
+3. In the list of backups, choose you desired backup
+4. Choose Restore backup.
+5. Enter the new table name. Confirm the backup name and other backup details. Then choose Restore table to start the restore process.
+
+<br><br>
 
 ## Operational Best Practices
 ### 1. Tagging
@@ -310,35 +349,7 @@ To tag existing resources (console)
 
 <br><br>
 
-### 2. DynamoDB Continuous Backups
-**Why?**  
-This type of backup on the other hand allows you to perform point-in-time restore. It’s really helpful in protecting against accidental writes or delete operations. So for example, if you ran a script to transform the data within a table and it accidentally removed or corrupted your data; you could simply restore your table to any point in the last 35 days. DynamoDB does this by maintaining an incremental backup of your table. It even does this automatically, so you don’t have to worry about creating, maintaining, or scheduling on-demand backups.
-
-**How?**
-
-1. Log in to the AWS Management Console at https://console.aws.amazon.com/.
-2. Open the Amazon DynamoDB console.
-3. Navigate to the desired DynamoDB table, then select the Backups tab.
-4. In the Point-in-time recovery section, choose Edit.
-5. Select Enable Point-in-time-recovery and choose Save changes.
-
-The Earliest restore date and Latest restore date are visible within a few seconds
-
-<br><br>
-
-### 3. DynamoDB Backup / Restore setup
-**Why?**  
-DynamoDB achieves a high degree of data availability and durability by replicating your data across three different facilities within a given region. However, DynamoDB does not provide an SLA for the data durability. This means that you should backup your database tables.
-
- A backup is useful for long-term data retention and archival. The backup is retained even if the table is deleted. You can use the backup to restore to a different table name. And this can make it useful for replicating tables.
-
-**How?**
-1. Sign in to the AWS Management Console and open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
-2. In the navigation pane on the left side of the console, choose Backups. Then choose Create backup.
-3. Make sure you have the correct table name, and enter backup name. 
-4. Then, choose Create to create the backup
-
-### 4. Unused Tables should be removed
+### 2. Unused Tables should be removed
 **Why?**  
 The advantages of removing unused objects is keeping the schema (and the system) clean and simple, this helps maintenance. Just make sure you create a backup before deletion, just in case.
 
@@ -357,6 +368,32 @@ Delete table:
 2. Navigate to DynamoDB dashboard at https://console.aws.amazon.com/dynamodb/.
 3. Choose Tables from the navigation pane, and choose the table desired for deletion from the table list.
 4. Finally, select Delete Table. After choosing Delete Table, a confirmation appears. Your table is then deleted.
+
+<br><br>
+
+### 3. Utilize DynamoDB streams to support data-plane logging
+**Why?**   
+ DynamoDB Streams is a powerful service that you can combine with other AWS services to solve many similar issues. When you enable DynamoDB Streams, it captures a time-ordered sequence of item-level modifications in a DynamoDB table and durably stores the information for up to 24 hours. Applications can access a series of stream records, which contain an item change, from a DynamoDB stream in near real time. The following are examples of use cases:
+
+ - Audit or Archive Data
+ - Trigger an event based on a particular item change
+ - Replicate data across multiple tables
+
+
+**How?**   
+1. Sign in to the AWS Management Console and open the DynamoDB console at https://console.aws.amazon.com/dynamodb/.
+2. On the DynamoDB console dashboard, choose Tables and select an existing table.
+3. On the Overview tab, choose Manage Stream.
+4. In the Manage Stream window, choose the information that will be written to the stream whenever the data in the table is modified:
+
+  - **Keys only** — Only the key attributes of the modified item.  
+  - **New image** — The entire item, as it appears after it was modified.  
+  - **Old image** — The entire item, as it appeared before it was modified.  
+  - **New and old images** — Both the new and the old images of the item.  
+When the settings are as you want them, choose **Enable**.
+5. (Optional) To disable an existing stream, choose Manage Stream and then choose Disable.
+
+<br><br>
 ## Endnotes
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html
 https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/security.html
