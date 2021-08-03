@@ -22,11 +22,11 @@ Security Engineering
   - [5. Specifying sensitive data using AWS secrets manager](#5-specifying-sensitive-data-using-aws-secrets-manager)
   - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
   - [7. Creating a Trail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
-  - [8. Running the X\-Ray Daemon](#8-running-the-x-ray-daemon)
-  - [9. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)](#9-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only)
+  - [8. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)](#8-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only)
 - [Operational Best Practices](#Other-Operational-Expectations)  
   - [1. Utilizing AWS CloudWatch Container Insights](#1-utilizing-aws-cloudwatch-container-insights)
   - [2. Utilize Amazon ECS Events and Eventbridge](#2-utilize-amazon-ecs-events-and-eventbridge)
+  - [3. Running the X\-Ray Daemon](#3-running-the-x-ray-daemon)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory)
   <br><br>
@@ -39,14 +39,17 @@ These NIST Controls and Subcategories are not applicable to this service: PR.AT,
 
 These capital group control statements are not applicable to the ECS service: 5,7,8,9,10. 
 
-## 1. Implement least privilege IAM Roles for Tasks
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
-|PR.PT-3|The principle of least functionality is incorporated by configuring systems to provide only essential capabilities|
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
+
+### 1. Enforce least privilege IAM Roles for Tasks
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
+
+<br>
 ___
 
 ### IAM Roles for Tasks
