@@ -36,11 +36,7 @@ Tony DeMarco
 - [Glossary](#glossary)
 
 ## Overview
-AWS provides a number of security features for Amazon S3 which help you comply with the NIST Cybersecurity Framework. The following playbook will outline what the AWS best practices are, how they align to NIST, and how to implement these best practices within your organization.
-
-These NIST Controls and Subcategories are not applicable to this service: ID, PR.AC-2, PR.AT, PR.DS (Unless stated), PR.IP (Unless Stated), PR.MA, PR.PT-2, DE.AE-4, DE.AE-5, DE.CM-2, DE.CM-6, DE.DP, RS.RP, RS.CO, RS.MI, RS.IM, RC
-
-These Capital Group Control Statements are not applicable to this service: [9](#capital-group-control-statements)
+`This Section will be updated soon.`
 
 ## Preventative Controls
 ### 1. Manage Strict Access Controls to Protect Data from Unauthorized Access
