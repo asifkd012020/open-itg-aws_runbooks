@@ -13,7 +13,7 @@
     "mapping": [
         {
             "requirement_name": "KMS roles defined following least privilege model",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kms/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kms/Runbook.md#1-KMS-roles-defined-following-least-privilege-model",
             "tags": [],
             "severity": {
                 "Prod": "medium",

@@ -20,7 +20,7 @@
                 "SNP": "critical",
                 "NP": "medium"
             },
-            "control_mapping": ['cs0012299'],
+            "control_mapping": ["cs0012299"],
             "implementations": [
                 {
                     "provider": "dome9",

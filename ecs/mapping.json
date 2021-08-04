@@ -61,7 +61,7 @@
         },
         {
             "requirement_name": "Configuring VPC endpoint for ECS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#3-configuring-vpc-endpoint-for-ecs",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.#3-Configuring-VPC-Endpoints-for-ECR/ECS",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -88,7 +88,7 @@
         },
         {
             "requirement_name": "Configuring AWS Systems Manager Parameter Store and AWS Secrets Manager for reference of secrets into Container Definitions",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.md#4-configuring-aws-systems-manager-parameter-store-and-aws-secrets-manager-for-reference-of-secrets-into-container-definitions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecs/RUNBOOK.#4-Consider-using-AWS-Systems-Manager-Parameter-Store-or-AWS-Secrets-Manager-for-reference-of-secrets-into-Container-Definitions",
             "tags":[],
             "severity": {
                 "Prod": "critical",

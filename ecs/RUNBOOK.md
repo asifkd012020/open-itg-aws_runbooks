@@ -16,8 +16,8 @@ Tony DeMarco
 - [Overview](#overview)
 - [1. Implement least privilege IAM Roles for Tasks](#1-implement-least-privilege-iam-roles-for-tasks)
 - [2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images](#2-using-elastic-container-registry-ecr-for-storing-and-retrieving-docker-images)
-- [3. Configuring VPC endpoint for ECS](#3-configuring-vpc-endpoint-for-ecs)
-- [4. Configuring AWS Systems Manager Parameter Store and AWS Secrets Manager for reference of secrets into Container Definitions](#4-configuring-aws-systems-manager-parameter-store-and-aws-secrets-manager-for-reference-of-secrets-into-container-definitions)
+- [3. Configuring VPC Endpoints for ECR/ECS](#3-Configuring-VPC-Endpoints-for-ECR/ECS)
+- [4. Consider using AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions](#4-Consider-using-AWS-Systems-Manager-Parameter-Store-or-AWS-Secrets-Manager-for-reference-of-secrets-into-Container-Definitions)
 - [5. Specifying sensitive data using AWS secrets manager](#5-specifying-sensitive-data-using-aws-secrets-manager)
 - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
 - [7. Creating a Trail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
@@ -793,6 +793,7 @@ You can modify the following attributes of an interface endpoint:
 + [TagResource](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_UntagResource.html) \(AWS Tools for Windows PowerShell\)
 
 ## 4. Consider using AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
+
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|

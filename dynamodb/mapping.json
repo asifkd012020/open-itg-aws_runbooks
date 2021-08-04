@@ -97,7 +97,7 @@
             },
             "control_mapping": [],
             "implementations": []
-        }
+        },
         {
             "requirement_name": "DynamoDB Continuous Backups",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#2-DynamoDB-Continuous-Backups",

@@ -13,7 +13,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. CloudWatch IAM Policy Enforce Least Priviledge for CloudWatch Resources](#1-CloudWatch-IAM-Policy-Enforce-Least-Priviledge-tforo-CloudWatch-Resources)
+  - [1. CloudWatch IAM Policy Enforce Least Priviledge for CloudWatch Resources](#1-CloudWatch-IAM-Policy-Enforce-Least-Priviledge-for-CloudWatch-Resources)
   - [2. Log groups for new services will be submitted to the SIRI team to be enabled and forwarded to Splunk](#2-Log-groups-for-new-services-will-be-submitted-to-the-SIRI-team-to-be-enabled-and-forwarded-to-Splunk)
   - [3. CloudWatch enforces TLS 1.2 for all communication](#3-CloudWatch-enforces-TLS-1-2-for-all-communication)
   - [4. CloudWatch log groups encrypted using CG KMS](#4-Cloudtrail-log-groups-encrypted-using-CG-KMS)
