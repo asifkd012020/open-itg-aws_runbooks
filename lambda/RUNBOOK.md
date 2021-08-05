@@ -12,25 +12,34 @@ Security Engineering
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-- [Preventative Controls](#preventative-controls)
+- [Cloud Security Requirements](#cloud-security-requirements)
   - [1. Enforce Strict Access Policies for Lambda Users and Roles](#1-enforce-strict-access-policies-for-lambda-users-and-roles)
   - [2. Data Protection](#2-data-protection)
-- [Detective](#detective)
-  - [1. Log AWS Lambda API Calls with AWS CloudTrail](#1-log-aws-lambda-api-calls-with-aws-cloudtrail)
-  - [2. Utilize Amazon CloudWatch logs for AWS Lambda](#2-utilize-amazon-cloudwatch-logs-for-aws-lambda)
-  - [3. Monitor AWS Lambda Function metrics in AWS CLoudwatch](#3-monitor-aws-lambda-function-metrics-in-aws-cloudwatch)
+  - [3. Log AWS Lambda API Calls with AWS CloudTrail](#3-log-aws-lambda-api-calls-with-aws-cloudtrail)
+  - [4. Utilize Amazon CloudWatch logs for AWS Lambda](#4-utilize-amazon-cloudwatch-logs-for-aws-lambda)
+  - [5. Monitor AWS Lambda Function metrics in AWS CLoudwatch](#5-monitor-aws-lambda-function-metrics-in-aws-cloudwatch)
+- [Operational Best Practices](#other-operational-expectations)
+  - [1. Lambda Resources are tagged according to CG standards](#1-lambda-resources-are-tagged-according-to-cg-standards)
 - [Endnotes](#endnotes)
-- [Capital Group Control Statements](#capital-group-control-statements)
-- [Glossary](#glossary)
+- [Capital Group Glossary](#capital-group-glossary)
+<br><br>
 
 ## Overview
-AWS provides a number of security features for AWS Lambda which help you comply with the NIST Cybersecurity Framework. The following playbook will outline what the AWS best practices are, how they align to NIST, and how to implement these best practices within your organization.
+AWS Lambda is a serverless compute service that lets you run code without provisioning or managing servers, creating workload-aware cluster scaling logic, maintaining event integrations, or managing runtimes. With Lambda, you can run code for virtually any type of application or backend service - all with zero administration. Just upload your code as a ZIP file or container image, and Lambda automatically and precisely allocates compute execution power and runs your code based on the incoming request or event, for any scale of traffic. You can set up your code to automatically trigger from over 200 AWS services and SaaS applications or call it directly from any web or mobile app. You can write Lambda functions in your favorite language (Node.js, Python, Go, Java, and more) and use both serverless and container tools, such as AWS SAM or Docker CLI, to build, test, and deploy your functions.
 
-These NIST Controls and Subcategories are not applicable to this service: ID, PR.AC-2, PR.AT, PR.DS (Unless stated), PR.IP (Unless Stated), PR.MA, PR.PT-2, DE.AE-4, DE.AE-5, DE.CM-2, DE.CM-6, DE.DP, RS.RP, RS.CO, RS.MI, RS.IM, RC
+<img src="/docs/img/lambda/example.png" width="800">
+<br>
 
-These Capital Group Control Statements are not applicable to this service: [6, 9](#capital-group-control-statements)
+### Features & Benefits
+ - No servers to manage
+ - Continuous scaling
+ - Cost optimized with millisecond metering
+ - Consistent performance at any scale
+ <br><br>
 
-## Preventative Controls
+## Cloud Security Requirements
+<img src="/docs/img/Prevent.png" width="50">
+
 ### 1. Enforce Strict Access Policies for Lambda Users and Roles
 NIST CSF:
 |NIST Subcategory Control|Description|
