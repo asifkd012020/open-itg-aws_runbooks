@@ -18,12 +18,12 @@ Security Engineering
   - [3. EBS Snapshot permissions are set to Private](#3-EBS-Snapshot-permissions-are-set-to-Private)
   - [4. EBS Snapshots will only be shared between CG accounts](#4-EBS-Snapshots-will-only-be-shared-between-CG-accounts)
   - [5. EBS Utilizes VPC Endpoints to Prevent Public Access](#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [6. CloudTrail logging enabled for EBS](#6-CloudTrail-logging-enabled-for-EBS)
+  - [7. CloudWatch logging enabled for EBS](#7-CloudWatch-logging-enabled-for-EBS)
 - [Operational Best Practices](#Other-Operational-Expectations)
   - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
-  - [2. CloudTrail logging enabled for EBS](#2-CloudTrail-logging-enabled-for-EBS)
-  - [3. CloudWatch logging enabled for EBS](#3-CloudWatch-logging-enabled-for-EBS)
-  - [4. EBS Volumes should be removed if unattached or no longer required](#4-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
-  - [5. EBS Snapshot age should not exceed retention period](#5-EBS-Snapshot-age-should-not-exceed-retention-period)
+  - [2. EBS Volumes should be removed if unattached or no longer required](#2-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
+  - [3. EBS Snapshot age should not exceed retention period](#3-EBS-Snapshot-age-should-not-exceed-retention-period)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 <br><br>
@@ -119,7 +119,7 @@ Below is the series of steps needed to share an EBS Snapshot:
 5. Choose `Save`.
 <br><br>
 
-### 6. EBS Utilizes VPC Endpoints to Prevent Public Access
+### 5. EBS Utilizes VPC Endpoints to Prevent Public Access
 AWS EBS currently supports VPC Interface Endpoints, and as such allows the service to meet CG's stringent Public Access control requirements.
 <br>
 
@@ -150,24 +150,7 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
   4. Click `Create Endpoint` to complete the process.
 <br><br>
 
-## Other Operational Expectations
-<img src="/docs/img/Operations.png" width="50">
-
-### 1. EBS Resources are tagged according to CG standards
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
-
-**What, Why & How?**
-
-Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
-
-[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
-<br><br>
-
-### 2. CloudTrail logging enabled for EBS
+### 6. CloudTrail logging enabled for EBS
 
 **Capital Group:** <br>
 
@@ -183,7 +166,7 @@ The EBS direct APIs service is integrated with AWS CloudTrail. CloudTrail is a s
 - Creation of non-default Cloud Trails should be avoided where possible as all EBS data should be logged and monitored though the aforementioned default trail.
 <br><br>
 
-### 3. CloudWatch logging enabled for EBS
+### 7. CloudWatch logging enabled for EBS
 
 **Capital Group:** <br>
 
@@ -205,12 +188,29 @@ Event Notification to consider enabling for EBS:
 
 Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
 
-### 4. EBS Volumes should be removed if unattached or no longer required
+## Other Operational Expectations
+<img src="/docs/img/Operations.png" width="50">
+
+### 1. EBS Resources are tagged according to CG standards
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|N/A| No security control currently defined.|
+
+**What, Why & How?**
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
+
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
+<br><br>
+
+### 2. EBS Volumes should be removed if unattached or no longer required
 **Capital Group Controls:** 
 <br>
 |Control Statement|Description|
 |------|----------------------|
-| Control Needed | Description Needed|
+|N/A| No security control currently defined.|
 
 **Why?**
 
@@ -243,13 +243,13 @@ To remove an unused, unattached EBS Volume, one should follow the steps outlined
    - If the status is available, the volume is not attached to an EC2 instance and can be safely deleted.
 <br><br>
 
-### 5. EBS Snapshot age should not exceed retention period
+### 3. EBS Snapshot age should not exceed retention period
 
 **Capital Group Controls:** 
 <br>
 |Control Statement|Description|
 |------|----------------------|
-| Control Needed | Description Needed|
+|N/A| No security control currently defined.|
 
 **Why?**
 

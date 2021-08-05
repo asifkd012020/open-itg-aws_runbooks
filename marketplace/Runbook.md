@@ -165,7 +165,7 @@ The Marketplace direct APIs service is integrated with AWS CloudTrail. CloudTrai
 
 |Control Statement|Description|
 |------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
+|N/A| No security control currently defined.|
 
 **What, Why & How?**
 

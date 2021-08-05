@@ -68,32 +68,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "EBS Volumes should be removed if unattached or no longer required",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#5-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "EBS Snapshot age should not exceed retention period",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#6-EBS-Snapshot-age-should-not-exceed-retention-period",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
             "requirement_name": "EBS Utilizes VPC Endpoints to Prevent Public Access",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#7-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
             "tags": [],
             "severity": {
                 "Prod": "high",
@@ -104,20 +80,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "EBS Resources are tagged according to CG standards",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#8-EBS-Resources-are-tagged-according-to-CG-standards",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
             "requirement_name": "CloudTrail logging enabled for EBS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#9-CloudTrail-logging-enabled-for-EBS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#6-CloudTrail-logging-enabled-for-EBS",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -129,7 +93,43 @@
         },
         {
             "requirement_name": "CloudWatch logging enabled for EBS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#10-CloudWatch-logging-enabled-for-EBS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#7-CloudWatch-logging-enabled-for-EBS",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+        {
+            "requirement_name": "EBS Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#1-EBS-Resources-are-tagged-according-to-CG-standards",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "EBS Volumes should be removed if unattached or no longer required",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#2-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "EBS Snapshot age should not exceed retention period",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#3-EBS-Snapshot-age-should-not-exceed-retention-period",
             "tags": [],
             "severity": {
                 "Prod": "medium",
