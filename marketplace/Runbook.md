@@ -89,10 +89,10 @@ A core tenet of CG's cloud migration, and security strategy is the principal of 
 <br><br>
 
 **How?** <br>
-The implementation and maintenance of permissions on a per account basis will be delivered via the CG `BroadAccess-Role` in each account. Below is the default set of permissions that will be added as a baseline.
+The implementation and maintenance of permissions on a per account basis will be delivered via the CG `Broad-Access-Role` in each account. Below is the default set of permissions that will be added as a baseline.
 
 #### Permissions Detail:
-1. **AWSPrivateMarketplaceRequests**<br>
+1. **PDS Team Admin Role**<br>
    This policy will allow user to create request for any unapproved product.
    ```
    {
@@ -111,33 +111,30 @@ The implementation and maintenance of permissions on a per account basis will be
    }
    ```
 
-2. **AWSMarketplaceManageSubscriptions**<br>
+2. **Broad-Access-Role**<br>
 This policy Provides the ability to subscribe and unsubscribe from approved AWS Marketplace software.
    ```
    {
-      "Version": "2012-10-17",
-      "Statement": [
-        {
-            "Action": [
-                "aws-marketplace:ViewSubscriptions",
-                "aws-marketplace:Subscribe",
-                "aws-marketplace:Unsubscribe"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        },
-        {
-            "Action": [
-                "aws-marketplace:CreatePrivateMarketplaceRequests",
-                "aws-marketplace:ListPrivateMarketplaceRequests",
-                "aws-marketplace:DescribePrivateMarketplaceRequests"
-            ],
-            "Effect": "Allow",
-            "Resource": "*"
-        }
-     ]
+	"Version": "2012-10-17",
+	"Statement": [
+			{
+					"Action": [
+							"aws-marketplace:ViewSubscriptions",
+							"aws-marketplace:Subscribe",
+							"aws-marketplace:Unsubscribe",
+							"aws-marketplace:CreatePrivateMarketplaceRequests",
+							"aws-marketplace:ListPrivateMarketplaceRequests",
+							"aws-marketplace:DescribePrivateMarketplaceRequests",
+							"aws-marketplace:StartBuild",
+							"aws-marketplace:ListBuilds"
+					],
+					"Effect": "Allow",
+					"Resource": "*"
+			}
+	   ]
    }
    ```
+
 <br>
 
 ### 3. CloudTrail logging enabled for Private Marketplace
