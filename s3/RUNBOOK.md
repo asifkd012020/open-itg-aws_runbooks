@@ -9,52 +9,29 @@ Security Engineering
 
 **Last Update:** *08/08/2021*
 
-<!---
 Table of Contents
 - [Disclaimer](#disclaimer)
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
   - [1. Enforce least privilege for all S3 users and roles](#1-Enforce-least-privilege-for-all-S3-users-and-roles)
-  - [?. Buckets are encrypted using CG CMK] (#?-Buckets-are-encrypted-using-CG-CMK)
-  - [?. Data in Transit is encrypted using TLS 1.2](#?-Data-in-Transit-is-encrypted-using-TLS-1.2)
-  - [?. Block Public Access](#?-Block-Public-Access)
-  - [?. S3 Utilizes VPC Endpoints to Prevent Public Access](#?-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [?. Enable Access Server Logs](#?-Enable-Access-Server-Logs) 
-  - [?. Enable S3 Replication](#?-Enable-S3-Replication) 
-  - [?. Enable S3 Versioning](#?-Enable-S3-Versioning)
-  - [?. CloudTrail logging enabled for S3](#?-CloudTrail-logging-enabled-for-S3)
-  - [?. CloudWatch logging enabled for S3](#?-CloudWatch-logging-enabled-for-S3)
+  - [2. Buckets are encrypted using CG CMK](#2-Buckets-are-encrypted-using-CG-CMK)
+  - [3. Data in Transit is encrypted using TLS 1.2](#3-Data-in-Transit-is-encrypted-using-TLS-1.2)
+  - [4. Block Public Access](#4-Block-Public-Access)
+  - [5. S3 Utilizes VPC Endpoints to Prevent Public Access](#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [6. Enable Access Server Logs](#6-Enable-Access-Server-Logs) 
+  - [7. Enable S3 Replication](#7-Enable-S3-Replication) 
+  - [8. Enable S3 Versioning](#8-Enable-S3-Versioning)
+  - [9. CloudTrail logging enabled for S3](#9-CloudTrail-logging-enabled-for-S3)
+  - [10. CloudWatch logging enabled for S3](#10-CloudWatch-logging-enabled-for-S3)
 - [Operational Best Practices](#Operational-Best-Practices)
-  - [?. Resource Tags](#?-Resource-Tags)
-  - [?. Enable AWS Config] (#?-Enable-AWS-Config)
-  - [?. Enable AWS Trusted Advisor](#?-Enable-AWS-Trusted-Advisor)
-  - [?. Utilize Lifecycle Management](#?-Utilize-Lifecycle-Management)
+  - [1. Resource Tags](#1-Resource-Tags)
+  - [2. Enable AWS Config](#Enable-AWS-Config)
+  - [3. Enable AWS Trusted Advisor](#3-Enable-AWS-Trusted-Advisor)
+  - [4. Utilize Lifecycle Management](#4-Utilize-Lifecycle-Management)
 - [Endnotes](#endnotes)
 - [Capital Group Control Statements](#capital-group-control-statements)
 - [Glossary](#glossary)
--->
 
-## Table of Contents <!-- omit in toc -->
-- [Overview](#overview)
-- [Preventative Controls](#preventative-controls)
-  - [1. Manage Strict Access Controls to Protect Data from Unauthorized Access](#1-manage-strict-access-controls-to-protect-data-from-unauthorized-access)
-  - [2. Employ MFA for Sensitive S3 Resources](#2-employ-mfa-for-sensitive-s3-resources)
-  - [3. Enforce Data Protection Measures](#3-enforce-data-protection-measures)
-  - [4. Enhance Durability of Critical Data](#4-enhance-durability-of-critical-data)
-  - [5. Prevent S3 Bucket Sniping](#5-prevent-s3-bucket-sniping)
-  - [6. Isolate S3 Bucket Access from the Internet](#6-isolate-s3-bucket-access-from-the-internet)
-- [Detective](#detective)
-  - [1. Ensure Amazon S3 Inventory is enabled and monitored regularly](#1-ensure-amazon-s3-inventory-is-enabled-and-monitored-regularly)
-  - [2. Enable Amazon S3 server access logging](#2-enable-amazon-s3-server-access-logging)
-  - [3. Implement monitoring for Amazon S3 utilizing Amazon CloudWatch metrics](#3-implement-monitoring-for-amazon-s3-utilizing-amazon-cloudwatch-metrics)
-  - [4. Utilize AWS CLoudtrail to log Amazon S3 API calls](#4-utilize-aws-cloudtrail-to-log-amazon-s3-api-calls)
-  - [5. Enable AWS Config rules for Amazon S3](#5-enable-aws-config-rules-for-amazon-s3)
-  - [6. Use AWS CloudTrail to Identify Amazon S3 request](#6-use-aws-cloudtrail-to-identify-amazon-s3-request)
-- [Respond/Recover](#respondrecover)
-  - [1. Utilize Amazon SNS topics or SQS queue](#1-utilize-amazon-sns-topics-or-sqs-queue)
-- [Endnotes](#endnotes)
-- [Capital Group Control Statements](#capital-group-control-statements)
-- [Glossary](#glossary)
 
 ## Overview
 Amazon S3 is a core service offered by AWS that provides object storage. It allows you to store and retrieve any amount of data, at any time, from anywhere on the web. It gives any developer access to highly scalable, reliable, fast, and inexpensive data storage infrastructure; one of the foundational components to any platform.
@@ -71,7 +48,8 @@ Amazon S3 is a core service offered by AWS that provides object storage. It allo
 <br><br>
 
 ## Cloud Security Requirements
-### 1. Enforce least privilege for all S3 users and roles
+### 1. Enforce least privilege for all S3 users and roles  
+
 **Why?** Controls provide reasonable assurance that logical access to data is restricted to authorized and appropriate users, and such users are restricted to performing authorized and appropriate actions.
 
 Controls provide reasonable assurance that privileged functions are managed and monitored commensurate with the risk level.
@@ -110,18 +88,7 @@ The following S3 bucket policy denies permissions to any user to perform any Ama
 }
 ```
 
-### 2. Employ MFA for Sensitive S3 Resources
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
-|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|10|Administrative access to AWS resources will have MFA enabled|
+Employ MFA for Sensitive S3 Resources
 
 **Why?** S3 supports MFA-protected API access, a feature that can enforce multi-factor authentication (MFA) for access to your Amazon S3 resources. Multi-factor authentication provides an extra level of security that you can apply to your AWS environment. It is a security feature that requires users to prove physical possession of an MFA device by providing a valid MFA code. For more information, see [Endnote 1](#endnote-1). You can require MFA for any requests to access your Amazon S3 resources.
 
@@ -153,7 +120,7 @@ The `Null` condition in the Condition block evaluates to true if the `aws:MultiF
  }
 ```
 
-### 3. Enforce Data Protection Measures
+### 2. Buckets are encrypted using CG CMK
 NIST CSF:
 |NIST Subcategory Control|Description|
 |-----------|------------------------|
@@ -2176,315 +2143,114 @@ These query examples may also be useful for security monitoring\. You can review
 
 If you are using Amazon S3 server access logs, see [ Using Amazon S3 access logs to identify object access requests](using-s3-access-logs-to-identify-requests.md#using-s3-access-logs-to-identify-objects-access)\.
 
-## Respond/Recover
-### 1. Utilize Amazon SNS topics or SQS queue
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|RS.CO-2|Events are reported consistent with established criteria|
-|RS.co-3|Information is shared consistent with response plans|
-|RS.AN-4| Incidents are categorized consistent with response plans|
-|RS.AN-1|Notifications from detection systems are investigated|
-
-**Why?** 
-
-**How?** 
-Configure a bucket for notifications \(SNS topic or SQS queue\)<a name="ways-to-add-notification-config-to-bucket"></a>
-
-You can receive Amazon S3 notifications using Amazon Simple Notification Service; or Amazon Simple Queue Service\. In the following walkthrough, you will add a notification configuration to your bucket using an Amazon SNS topic and Amazon SQS queue\.
-
-
-#### Walkthrough summary<a name="notification-walkthrough-summary"><!-- omit in toc -->
-+ Publish events of the `s3:ObjectCreated:*` type to an Amazon SQS queue\.
-+ Publish events of the `s3:ReducedRedundancyLostObject` type to an Amazon SNS topic\.
-
-For information about notification configuration, see [ Configuring Amazon S3 event notifications](NotificationHowTo.md)\.
-
-You can do all these steps using the console, without writing any code\. In addition, code examples using AWS SDKs for Java and \.NET are also provided to help you add notification configurations programmatically\.
-
-You can do the following with this walkthrough:
-
-1. Create an Amazon SQS queue\.
-
-   Using the Amazon SQS console, you create an SQS queue\. You can access any messages Amazon S3 sends to the queue programmatically\. But for this walkthrough, you verify notification messages in the console\. 
-
-   You attach an access policy to the topic to grant Amazon S3 permission to post messages\.
-
-1. Create an Amazon SNS topic\.
-
-   Using the Amazon SNS console, you create an SNS topic and subscribe to the topic so that any events posted to it are delivered to you\. You specify email as the communications protocol\. After you create a topic, Amazon SNS sends an email\. You must click a link in the email to confirm the topic subscription\. 
-
-   You attach an access policy to the topic to grant Amazon S3 permission to post messages\. 
-
-1. Add notification configuration to a bucket\. 
-
-#### Step 1: Create an Amazon SQS queue<a name="step1-create-sqs-queue-for-notification"><!-- omit in toc -->
-
-Follow the steps to create and subscribe to an Amazon Simple Queue Service \(Amazon SQS\) queue\.
-
-1. Using the Amazon SQS console, create a queue\. For instructions, see [Getting Started with Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-getting-started.html) in the *Amazon Simple Queue Service Developer Guide*\. 
-
-1. Replace the access policy attached to the queue with the following policy\. \(In the Amazon SQS console, select the queue, and in the **Permissions** tab, choose **Edit Policy Document \(Advanced\)**\.
-
-   ```
-   {
-    "Version": "2012-10-17",
-    "Id": "example-ID",
-    "Statement": [
-     {
-      "Sid": "example-statement-ID",
-      "Effect": "Allow",
-      "Principal": {
-       "AWS":"*"  
-      },
-      "Action": [
-       "SQS:SendMessage"
-      ],
-      "Resource": "SQS-queue-ARN",
-      "Condition": {
-         "ArnLike": { "aws:SourceArn": "arn:aws:s3:*:*:bucket-name" },
-         "StringEquals": { "aws:SourceAccount": "bucket-owner-account-id" }
-      }
-     }
-    ]
-   }
-   ```
-
-1. \(Optional\) If the Amazon SQS queue or the Amazon SNS topic are server\-side encryption enabled with AWS Key Management Service \(AWS KMS\), add the following policy to the associated symmetric customer managed AWS KMS CMK\. 
-
-   You must add the policy to a customer managed CMK because you cannot modify the AWS managed CMK for Amazon SQS or Amazon SNS\. 
-
-   ```
-   {
-       "Version": "2012-10-17",
-       "Id": "example-ID",
-       "Statement": [
-           {
-               "Sid": "example-statement-ID",
-               "Effect": "Allow",
-               "Principal": {
-                   "Service": "s3.amazonaws.com"
-               },
-               "Action": [
-                   "kms:GenerateDataKey",
-                   "kms:Decrypt"
-               ],
-               "Resource": "*"
-           }
-       ]
-   }
-   ```
-
-   For more information about using SSE for Amazon SQS and Amazon SNS with AWS KMS, see the following:
-   + [Configuring AWS KMS Permissions for Amazon SNS](https://docs.aws.amazon.com/sns/latest/dg/sns-key-management.html) in the *Amazon Simple Notification Service Developer Guide*\.
-   + [Configuring AWS KMS Permissions for Amazon SQS](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-key-management.html) in the *Amazon Simple Queue Service Developer Guide*\.
-
-1. Note the queue ARN\. 
-
-   The SQS queue you created is another resource in your AWS account, and it has a unique Amazon Resource Name \(ARN\)\. You will need this ARN in the next step\. The ARN will be of the following format:
-
-   ```
-   arn:aws:sqs:aws-region:account-id:queue-name
-   ```
-
-#### Step 2: Create an Amazon SNS topic<a name="step1-create-sns-topic-for-notification"><!-- omit in toc -->
-
-Follow the steps to create and subscribe to an Amazon Simple Notification Service \(Amazon SNS\) topic\.
-
-1. Using Amazon SNS console create a topic\. For instructions, see [Create a Topic](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html) in the *Amazon Simple Notification Service Developer Guide*\. 
-
-1. Subscribe to the topic\. For this exercise, use email as the communications protocol\. For instructions, see [Subscribe to a Topic](https://docs.aws.amazon.com/sns/latest/dg/SubscribeTopic.html) in the *Amazon Simple Notification Service Developer Guide*\. 
-
-   You will get email requesting you to confirm your subscription to the topic\. Confirm the subscription\. 
-
-1. Replace the access policy attached to the topic with the following policy\. You must update the policy by providing your SNS topic Amazon Resource Name \(ARN\), bucket name, and bucket owner's account ID\.
-
-   ```
-   {
-    "Version": "2012-10-17",
-    "Id": "example-ID",
-    "Statement": [
-     {
-      "Sid": "example-statement-ID",
-      "Effect": "Allow",
-      "Principal": {
-       "AWS":"*"  
-      },
-      "Action": [
-       "SNS:Publish"
-      ],
-      "Resource": "SNS-topic-ARN",
-      "Condition": {
-         "ArnLike": { "aws:SourceArn": "arn:aws:s3:*:*:bucket-name" },
-         "StringEquals": { "aws:SourceAccount": "bucket-owner-account-id" }
-      }
-     }
-    ]
-   }
-   ```
-
-1. Note the topic ARN\.
-
-   The SNS topic you created is another resource in your AWS account, and it has a unique Amazon Resource Name \(ARN\)\. You will need this ARN in the next step\. The ARN will be of the following format:
-
-   ```
-   arn:aws:sns:aws-region:account-id:topic-name
-   ```
-
-#### Step 3: Add a notification configuration to your bucket<a name="step2-enable-notification"><!-- omit in toc -->
-
-You can enable bucket notifications either by using the Amazon S3 console or programmatically by using AWS SDKs\. Choose any one of the options to configure notifications on your bucket\. This section provides code examples using the AWS SDKs for Java and \.NET\.
-
-#### Step 3 \(option a\): Enable notifications on a bucket using the console<a name="step2-enable-notification-using-console"><!-- omit in toc -->
-
-Using the Amazon S3 console, add a notification configuration requesting Amazon S3 to:
-+ Publish events of the **All object create events** type to your Amazon SQS queue\.
-+ Publish events of the **Object in RRS lost** type to your Amazon SNS topic\.
-
-After you save the notification configuration, Amazon S3 posts a test message, which you get via email\. 
-
-For instructions, see [How Do I Enable and Configure Event Notifications for an S3 Bucket?](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/enable-event-notifications.html) in the *Amazon Simple Storage Service Console User Guide*\. 
-
-#### Step 3 \(option b\): Enable notifications on a bucket using the AWS SDK for \.NET<a name="step2-enable-notification-using-awssdk-dotnet"><!-- omit in toc -->
-
-The following C\# code example provides a complete code listing that adds a notification configuration to a bucket\. You need to update the code and provide your bucket name and SNS topic ARN\. 
-
-**Example**  
-
-```
-using Amazon;
-using Amazon.S3;
-using Amazon.S3.Model;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace Amazon.DocSamples.S3
-{
-    class EnableNotificationsTest
-    {
-        private const string bucketName = "*** bucket name ***";
-        private const string snsTopic = "*** SNS topic ARN ***";
-        private const string sqsQueue = "*** SQS topic ARN ***";
-        // Specify your bucket region (an example region is shown).
-        private static readonly RegionEndpoint bucketRegion = RegionEndpoint.USWest2;
-        private static IAmazonS3 client;
-
-        public static void Main()
-        {
-            client = new AmazonS3Client(bucketRegion);
-            EnableNotificationAsync().Wait();
-        }
-
-        static async Task EnableNotificationAsync()
-        {
-            try
-            {
-               PutBucketNotificationRequest request = new PutBucketNotificationRequest
-                {
-                    BucketName = bucketName
-                };
-
-                TopicConfiguration c = new TopicConfiguration
-                {
-                    Events = new List<EventType> { EventType.ObjectCreatedCopy },
-                    Topic = snsTopic
-                };
-                request.TopicConfigurations = new List<TopicConfiguration>();
-                request.TopicConfigurations.Add(c);
-                request.QueueConfigurations = new List<QueueConfiguration>();
-                request.QueueConfigurations.Add(new QueueConfiguration()
-                {
-                    Events = new List<EventType> { EventType.ObjectCreatedPut },
-                    Queue = sqsQueue
-                });
-                
-                PutBucketNotificationResponse response = await client.PutBucketNotificationAsync(request);
-            }
-            catch (AmazonS3Exception e)
-            {
-                Console.WriteLine("Error encountered on server. Message:'{0}' ", e.Message);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Unknown error encountered on server. Message:'{0}' ", e.Message);
-            }
-        }
-    }
-}
-```
-
-#### Step 3 \(option c\): Enable notifications on a bucket using the AWS SDK for Java<a name="step2-enable-notification-using-java"><!-- omit in toc -->
-
-The following example shows how to add a notification configuration to a bucket\.
-**Example**  
-
-```
-import com.amazonaws.AmazonServiceException;
-import com.amazonaws.SdkClientException;
-import com.amazonaws.auth.profile.ProfileCredentialsProvider;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.*;
-
-import java.io.IOException;
-import java.util.EnumSet;
-
-public class EnableNotificationOnABucket {
-
-    public static void main(String[] args) throws IOException {
-        String bucketName = "*** Bucket name ***";
-        Regions clientRegion = Regions.DEFAULT_REGION;
-        String snsTopicARN = "*** SNS Topic ARN ***";
-        String sqsQueueARN = "*** SQS Queue ARN ***";
-
-        try {
-            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
-                    .withCredentials(new ProfileCredentialsProvider())
-                    .withRegion(clientRegion)
-                    .build();
-            BucketNotificationConfiguration notificationConfiguration = new BucketNotificationConfiguration();
-
-            // Add an SNS topic notification.
-            notificationConfiguration.addConfiguration("snsTopicConfig",
-                    new TopicConfiguration(snsTopicARN, EnumSet.of(S3Event.ObjectCreated)));
-
-            // Add an SQS queue notification.
-            notificationConfiguration.addConfiguration("sqsQueueConfig",
-                    new QueueConfiguration(sqsQueueARN, EnumSet.of(S3Event.ObjectCreated)));
-
-            // Create the notification configuration request and set the bucket notification configuration.
-            SetBucketNotificationConfigurationRequest request = new SetBucketNotificationConfigurationRequest(
-                    bucketName, notificationConfiguration);
-            s3Client.setBucketNotificationConfiguration(request);
-        } catch (AmazonServiceException e) {
-            // The call was transmitted successfully, but Amazon S3 couldn't process 
-            // it, so it returned an error response.
-            e.printStackTrace();
-        } catch (SdkClientException e) {
-            // Amazon S3 couldn't be contacted for a response, or the client
-            // couldn't parse the response from Amazon S3.
-            e.printStackTrace();
-        }
-    }
-}
-```
-
-#### Step 4: Test the setup<a name="notification-walkthrough-1-test"><!-- omit in toc -->
-
-Now you can test the setup by uploading an object to your bucket and verifying the event notification in the Amazon SQS console\. For instructions, see [Receiving a Message](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-getting-started.htmlReceiveMessage.html) in the *Amazon Simple Queue Service Developer Guide "Getting Started" section*\. 
-
+## Operational Best Practices
+### 1. Resource Tags
+**What, Why & How?**  
+
+Identification of your IT assets is a crucial aspect of governance and security. You need to have visibility of all your Amazon S3 resources to assess their security posture and take action on potential areas of weakness.
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. Please see the documentation below for the latest tagging standards.
+
+<br><br>
+
+### 2. Enable AWS Config
+**Why?**
+
+AWS Config allows you to monitor your AWS resources, to assess, audit, and record configurations and changes. It is essentially a database to keep track of the historical metadata for the resources in an account. It allows for Continous monitoring, assessment, change management, and troubleshooting.
+
+**How?**  
+
+First you need to make sure that you have AWS Config set up. Follow the links for more information on AWS Config and how to set them up.
+
+  - AWS Config Setup: https://docs.aws.amazon.com/config/latest/developerguide/gs-console.html  
+  - AWS Config Runboook: https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md  
+
+Next we need to Enable AWS config and Amazon S3 Montioring:
+
+1. Sign into the AWS Management Console and open the AWS Config console.
+2. If this is your first time using AWS Config, select Get started. If you’ve already used AWS Config, select Settings.
+3. In the Settings page, under Resource types to record, clear the All resources checkbox. In the Specific types list, select Bucket under S3.
+4. Choose the Amazon S3 bucket for storing configuration history and snapshots. We’ll create a new Amazon S3 bucket.  
+    - If you prefer to use an existing Amazon S3 bucket in your account, select the Choose a bucket from your account radio button and, using the dropdown, select an existing bucket.
+5. Under Amazon SNS topic, check the box next to Stream configuration changes and notifications to an Amazon SNS topic, and then select the radio button to Create a topic.
+6. Under AWS Config role, choose Create a role (unless you already have a role you want to use). We’re using the auto-suggested role name.
+7. Select Next.
+8. Configure Amazon S3 bucket monitoring rules:
+    - On the AWS Config rules page, search for S3 and choose the s3-bucket-publice-read-prohibited and s3-bucket-public-write-prohibited rules, then click Next.
+    - On the Review page, select Confirm. AWS Config is now analyzing your Amazon S3 buckets, capturing their current configurations, and evaluating the configurations against the rules we selected.
+9. If you created a new Amazon SNS topic, open the Amazon SNS Management Console and locate the topic you created:
+10.Copy the ARN of the topic (the string that begins with arn:) because you’ll need it in a later step.
+11. Select the checkbox next to the topic, and then, under the Actions menu, select Subscribe to topic.
+12. Select Email as the protocol, enter your email address, and then select Create subscription.  
+After several minutes, you’ll receive an email asking you to confirm your subscription for notifications for this topic. Select the link to confirm the subscription.
+
+
+
+<br><br>
+
+### 3. Enable AWS Trusted Advisor
+**What, Why & How?** 
+
+Trust Advisor checks your AWS environment and makes recommendations when opportunities exist to save money, improve system availability and performance, or help close security gaps.
+
+Trusted Advisor has the following Amazon S3-related checks:
+
+  - Logging configuration of Amazon S3 buckets.
+  - Security checks for Amazon S3 buckets that have open access permissions.
+  - Fault tolerance checks for Amazon S3 buckets that don't have versioning enabled, or have versioning suspended.
+
+More info on [Trusted Advisor](https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html) in the *AWS Support Guide*
+
+<br><br>
+
+### 4.  Utilize Lifecycle Management
+**Why?**
+
+Managing your storage lifecycle is increasingly important as organizations seek to limit storage investments, especially when it comes to operating expenses like cloud storage. Lifecycle management allow a user's predetermined rules to automatically migrate data objects to other storage options or to schedule unnecessary or expired data to be deleted.
+
+More information on managing storage lifecycle: https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html
+
+**How?**
+1. Sign in to the AWS Management Console and open the Amazon S3 console at https://console.aws.amazon.com/s3/.
+2. In the Buckets list, choose the name of the bucket that you want to create a lifecycle rule for.
+3. Choose the Management tab, and choose Create lifecycle rule.
+4. In Lifecycle rule name, enter a name for your rule.
+(The name must be unique within the bucket.)
+5. Choose the scope of the lifecycle rule:
+    - To apply this lifecycle rule to all objects with a specific prefix or tag, choose Limit the scope to specific prefixes or tags.
+      - To limit the scope by prefix, in Prefix, enter the prefix.
+      - To limit the scope by tag, choose Add tag, and enter the tag key and value.
+    - For more information about object name prefixes, see Creating object key names. For more information about object tags, see Categorizing your storage using tags.
+    - To apply this lifecycle rule to all objects in the bucket, choose This rule applies to all objects in the bucket, and choose I acknowledge that this rule applies to all objects in the bucket.
+6. Under Lifecycle rule actions, choose the actions that you want your lifecycle rule to perform:
+    - Transition current versions of objects between storage classes
+    - Transition previous versions of objects between storage classes
+    - Expire current versions of objects
+    - Permanently delete previous versions of objects
+    - Delete expired delete markers or incomplete multipart uploads
+Depending on the actions that you choose, different options appear.
+7. To transition *current* versions of objects between storage classes, under Transition current versions of objects between storage classes:  
+  a. In Storage class transitions, choose the storage class to transition to:
+    - Standard-IA
+    - Intelligent-Tiering
+    - One Zone-IA
+    - Glacier
+    - Glacier Deep Archive
+
+    b. In Days after object creation, enter the number of days after creation to transition the object.
+8. Follow step 7 for *non-current* versions.
+9. To expire current versions of objects, under Expire previous versions of objects, in Number of days after object creation, enter the number of days.
+>**NOTE**  
+>In a non-versioned bucket the expiration action results in Amazon S3 permanently removing the object. For more information about lifecycle actions, see [Elements to describe lifecycle actions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/intro-lifecycle-rules.html#intro-lifecycle-rules-actions).
+10. To permanently delete previous versions of objects, under Permanently delete previous versions of objects, in Number of days after objects become previous versions, enter the number of days.
+11. Under Delete expired delete markers or incomplete multipart uploads, choose Delete expired object delete markers and Delete incomplete multipart uploads. Then, enter the number of days after the multipart upload initiation that you want to end and clean up incomplete multipart uploads.
+12. Choose Create rule.  
+If the rule does not contain any errors, Amazon S3 enables it, and you can see it on the Management tab under Lifecycle rules.
+
+<br><br>
 
 ## Endnotes
-### Endnote 1 <!-- omit in toc -->
-[https://aws.amazon.com/mfa/](https://aws.amazon.com/mfa/)
 
-### Endnote 2 <!-- omit in toc -->
-[https://docs.aws.amazon.com/AmazonS3/latest/user-guide/block-public-access.html](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/block-public-access.html)
-
-### Endnote 3 <!-- omit in toc -->
-[https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-example-walkthroughs.html](https://docs.aws.amazon.com/AmazonS3/latest/dev/replication-example-walkthroughs.html)
 
 ## Capital Group Control Statements 
 1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
