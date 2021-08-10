@@ -18,11 +18,10 @@ Table of Contents
   - [3. Data in Transit is encrypted using TLS 1.2](#3-Data-in-Transit-is-encrypted-using-TLS-1.2)
   - [4. Block Public Access](#4-Block-Public-Access)
   - [5. S3 Utilizes VPC Endpoints to Prevent Public Access](#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [6. Enable Access Server Logs](#6-Enable-Access-Server-Logs) 
-  - [7. Enable S3 Replication](#7-Enable-S3-Replication) 
-  - [8. Enable S3 Versioning](#8-Enable-S3-Versioning)
-  - [9. CloudTrail logging enabled for S3](#9-CloudTrail-logging-enabled-for-S3)
-  - [10. CloudWatch logging enabled for S3](#10-CloudWatch-logging-enabled-for-S3)
+  - [6. Enable Server Access Logs](#6-Enable-Server-Access-Logs)  
+  - [7. Implement Appropriate Backups](#8-Implement-Appropriate-Backups)
+  - [8. CloudTrail logging enabled for S3](#9-CloudTrail-logging-enabled-for-S3)
+  - [9. CloudWatch alarms enabled for S3](#10-CloudWatch-alarms-enabled-for-S3)
 - [Operational Best Practices](#Operational-Best-Practices)
   - [1. Resource Tags](#1-Resource-Tags)
   - [2. Enable AWS Config](#Enable-AWS-Config)
@@ -121,20 +120,10 @@ The `Null` condition in the Condition block evaluates to true if the `aws:MultiF
 ```
 
 ### 2. Buckets are encrypted using CG CMK
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
 
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
-|2|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
-|3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
+**Why?** 
 
-**Why?** Controls provide reasonable assurance that data is encrypted at-rest and in-transit throughout the lifecycle using a NIST-approved, CG-compliant encryption mechanism.
+Controls provide reasonable assurance that data is encrypted at-rest and in-transit throughout the lifecycle using a NIST-approved, CG-compliant encryption mechanism.
 
 **How?**
 #### Requiring Server-Side Encryption <!-- omit in toc -->
@@ -161,29 +150,32 @@ To require server-side encryption of all objects in a particular Amazon S3 bucke
    ]
 }
 ```
+### 3. Data in Transit is encrypted using TLS 1.2
 
-#### Using S3 Block Public Access <!-- omit in toc -->
-The following `put-public-access-block` example sets a restrictive block public access configuration for the specified bucket.
-```
-aws s3api put-public-access-block \
-    --bucket my-bucket \
-    --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
-```
-For instructions on setting up Block Public Access on a bucket from the S3 Console, see [Endnote 2](#endnote-2).
+**Capital Group:** <br>
 
-The following `put-public-access-block` example toggles all block public access settings to true for the specified account.
-```
-aws s3control put-public-access-block \
-    --account-id 123456789012 \
-    --public-access-block-configuration '{"BlockPublicAcls": true, "IgnorePublicAcls": true, "BlockPublicPolicy": true, "RestrictPublicBuckets": true}'
-```
+|Control Statement|Description|
+|------|----------------------|
+|CS0012261|Cloud based data in transit must be encrypted with enterprise approved algorithms.|
 
-Once S3 Block Public Access is set up, add a Service Control Policy to deny `s3:PutAccountPublicAccessBlock`.
+<br>
 
-#### Enforce Encryption of Data-In-Transit <!-- omit in toc -->
-All communications with the S3 API are encrypted using TLS, but file transfers to/from S3 buckets do not require secure transport by default. This can be changed, using S3 bucket policies.
+**Why?**   
 
-The following statement uses the Bool condition operator with the `aws:SecureTransport` key to specify that the request must use Secure Transport.
+TLS 1.2 and above is the standard when it comes to network security. CG requirements also need a service to support at least TLS1.2. 
+
+**How?**    
+
+As of March 31, 2021, AWS updated all AWS Federal Information Processing Standard (FIPS) endpoints to a minimum Transport Layer Security (TLS) version TLS 1.2. (TLS 1.0 and 1.1 will be deprecated)
+
+AWS CLI version 2 uses an internal Python script that's compiled to use a minimum of TLS 1.2 when the service it's talking to supports it. No further steps are needed to enforce this minimum. 
+
+More info on enforcing TLS: https://docs.aws.amazon.com/cli/latest/userguide/cli-security-enforcing-tls.html
+
+>**NOTE:**  
+>All communications with the S3 API are encrypted using TLS, but file transfers to/from S3 buckets do not require secure transport by default. This can be changed, using S3 bucket policies.
+>  
+>The following statement uses the Bool condition operator with the `aws:SecureTransport` key to specify that the request must use Secure Transport.
 ```json
 {
   "Version": "2012-10-17",
@@ -195,689 +187,171 @@ The following statement uses the Bool condition operator with the `aws:SecureTra
   }
 }
 ```
+<br><br>
 
-### 4. Enhance Durability of Critical Data
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.IP-4|Backups of information are conducted, maintained, and tested|
-|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+### 4. Block Public Access
 
-**Why?** The AWS global infrastructure is built around Regions and Availability Zones. AWS Regions provide multiple, physically separated and isolated Availability Zones that are connected with low latency, high throughput, and highly redundant networking. These Availability Zones offer you an effective way to design and operate applications and databases. They are more highly available, fault tolerant, and scalable than traditional single data center infrastructures or multi-data center infrastructures. If you specifically need to replicate your data over greater geographic distances, you can use Replication, which enables automatic, asynchronous copying of objects across buckets in different AWS Regions.
+**Capital Group:** <br>
 
-Each AWS Region has multiple Availability Zones. You can deploy your applications across multiple Availability Zones in the same Region for fault tolerance and low latency. Availability Zones are connected to each other with fast, private fiber-optic networking, enabling you to easily architect applications that automatically fail over between Availability Zones without interruption.
+|Control Statement|Description|
+|------|----------------------|
+|Control|Control Definition|
 
-In addition to the AWS global infrastructure, Amazon S3 offers several features to help support your data resiliency and backup needs.
+<br>
+
+**Why?** 
+
+CG's Cloud Security standards require that we ensure that the AWS services do not have public access. S3 buckets come with a permission that can change this. By default, new buckets, access points, and objects don't allow public access. However, it is good practice to manually check to make sure.
 
 **How?**
-#### Setting Up S3 Replication <!-- omit in toc -->
-Create a role for the replication service to use. This role will need a policy attached to it similar to the following:  
-```json
-{
-   "Version":"2012-10-17",
-   "Statement":[
-      {
-         "Action":[
-            "s3:ListBucket",
-            "s3:GetReplicationConfiguration",
-            "s3:GetObjectVersionForReplication",
-            "s3:GetObjectVersionAcl"
-         ],
-         "Effect":"Allow",
-         "Resource":[
-            "arn:aws:s3:::source",
-            "arn:aws:s3:::source/*"
-         ]
-      },
-      {
-         "Action":[
-            "s3:ReplicateObject",
-            "s3:ReplicateDelete",
-            "s3:ReplicateTags",
-            "s3:GetObjectVersionTagging"
-         ],
-         "Effect":"Allow",
-         "Condition":{
-            "StringLikeIfExists":{
-               "s3:x-amz-server-side-encryption":[
-                  "aws:kms",
-                  "AES256"
-               ],
-               "s3:x-amz-server-side-encryption-aws-kms-key-id":[
-                  "AWS KMS key IDs(in ARN format) to use for encrypting object replicas"  
-               ]
-            }
-         },
-         "Resource":"arn:aws:s3:::destination/*"
-      },
-      {
-         "Action":[
-            "kms:Decrypt"
-         ],
-         "Effect":"Allow",
-         "Condition":{
-            "StringLike":{
-               "kms:ViaService":"s3.us-east-1.amazonaws.com",
-               "kms:EncryptionContext:aws:s3:arn":[
-                  "arn:aws:s3:::source/*"
-               ]
-            }
-         },
-         "Resource":[
-            "AWS KMS key IDs(in ARN format) used to encrypt source objects." 
-         ]
-      },
-      {
-         "Action":[
-            "kms:Encrypt"
-         ],
-         "Effect":"Allow",
-         "Condition":{
-            "StringLike":{
-               "kms:ViaService":"s3.us-west-2.amazonaws.com",
-               "kms:EncryptionContext:aws:s3:arn":[
-                  "arn:aws:s3:::destination/*"
-               ]
-            }
-         },
-         "Resource":[
-            "AWS KMS key IDs(in ARN format) to use for encrypting object replicas" 
-         ]
-      }
-   ]
-}
-```
 
-Run the following CLI command:  
-```
-aws s3api put-bucket-replication \
-    --bucket my-bucket \
-    --replication-configuration file://replication.json
-```
+To edit block public access settings for all the S3 buckets in an AWS account:
 
-This will be the contents of the `replication.json` file referenced in the previous command. It outlines the rules for replication.  
-```json
-{
-    "Role": "arn:aws:iam::123456789012:role/s3-replication-role",
-    "Rules": [
-        {
-            "Status": "Enabled",
-            "SourceSelectionCriteria": {
-              "SseKmsEncryptedObjects": {
-                "Status": "Enabled"
-              }
-            },
-            "Priority": 1,
-            "DeleteMarkerReplication": { "Status": "Disabled" },
-            "Filter" : { "Prefix": ""},
-            "Destination": {
-                "Bucket": "arn:aws:s3:::my-bucket-backup",
-                "EncryptionConfiguration": {
-                  "ReplicaKmsKeyID": "AWS KMS key IDs(in ARN format) to use for encrypting object replicas"
-                }
-            }
-        }
-    ]
-}
-```
+1. Sign in to the AWS Management Console and open the Amazon S3 console at https://console.aws.amazon.com/s3/.
+2. Choose Account settings for Block Public Access.
+3. Choose Edit to change the block public access settings for all the buckets in your AWS account.
+4. Choose the settings that you want to change. Make sure the 'public access block' setting is applied and then choose Save changes.
+5. When you're asked for confirmation, enter confirm. Then choose Confirm to save your changes.
 
-Further information on setting up replication can be found in [Endnote 3](#endnote-3).
+For more info on blocking public access specific buckets: https://docs.aws.amazon.com/AmazonS3/latest/userguide/configuring-block-public-access-bucket.html
 
-#### Setting up S3 Versioning <!-- omit in toc -->
-Each bucket you create has a versioning subresource associated with it. By default, your bucket is unversioned, and accordingly the versioning subresource stores empty versioning configuration.
-```xml
-<VersioningConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"> 
-</VersioningConfiguration>
-```
-To enable versioning, you send a request to Amazon S3 with a versioning configuration that includes a status.
-```xml
-<VersioningConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"> 
-  <Status>Enabled</Status> 
-</VersioningConfiguration>
-```
-To suspend versioning, you set the status value to `Suspended`.
+<br><br>
 
-#### MFA delete <!-- omit in toc -->
-You can optionally add another layer of security by configuring a bucket to enable MFA (multi-factor authentication) Delete, which requires additional authentication for either of the following operations:
+### 5. S3 Utilizes VPC Endpoints to Prevent Public Access
 
-- Change the versioning state of your bucket
-- Permanently delete an object version
+**Capital Group:** <br>
 
-MFA Delete requires two forms of authentication together:
-
-- Your security credentials
-- The concatenation of a valid serial number, a space, and the six-digit code displayed on an approved authentication device
-
-MFA Delete thus provides added security in the event, for example, your security credentials are compromised.
-
-To enable or disable MFA Delete, you use the same API that you use to configure versioning on a bucket. Amazon S3 stores the MFA Delete configuration in the same versioning subresource that stores the bucket's versioning status.
-```xml
-<VersioningConfiguration xmlns="http://s3.amazonaws.com/doc/2006-03-01/"> 
-  <Status>VersioningState</Status>
-  <MfaDelete>MfaDeleteState</MfaDelete>  
-</VersioningConfiguration>
-```
-
-### 5. Prevent S3 Bucket Sniping
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.IP-6|Data is destroyed according to policy|
-|PR.IP-7|Protection processes are improved|
-|PR.IP-8|Effectiveness of protection technologies is shared|
-
-**Why?** While it is important to properly destroy S3 data in line with regulatory and internal requirements, it is prudent to maintain ownership of the S3 bucket name (by not deleting the bucket) to avoid someone getting access to a legacy bucket hoping for accidental and/or inadvertent uploads.
-
-**How?** Maintain S3 Buckets by adding an Service Control Policy denying `s3:DeleteBucket` and `s3:DeleteBucketPolicy`.
-
-When an S3 bucket is decommissioned, add a restrictive S3 bucket policy to the bucket which allows only the Account Administrators to perform `s3:*` actions. Remove all other statements from the bucket policy.
-
-### 6. Isolate S3 Bucket Access from the Internet
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.PT-4|Communications and control networks are protected|
-|PR.AC-3|Remote access is managed|
-|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
-
-Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
-|7|Use of AWS IAM accounts are restricted to CG networks.|
+|Control|Control Definition|
 
-**Why?** Controls provide reasonable assurance that direct access (with provided credentials) is not allowed to the AWS environment from outside the corporate network or AWS backbone.
+<br>
 
-**How?** Amazon S3 bucket policies can be used to control access to buckets from specific Amazon VPC endpoints, which will isolate network access to a given S3 bucket from only the specific VPC within the AWS network. 
+**Why?**
 
-The following is an example of an Amazon S3 bucket policy that restricts access to a specific bucket, `awsexamplebucket1`, only from the VPC endpoint with the ID `vpce-1a2b3c4d`. The policy denies all access to the bucket if the specified endpoint is not being used. The `aws:SourceVpce` condition is used to specify the endpoint. The `aws:SourceVpce` condition does not require an ARN for the VPC endpoint resource, only the VPC endpoint ID. 
+VPC Controls provide reasonable assurance that direct access (with provided credentials) is not allowed to the AWS environment from outside the corporate network or AWS backbone.
 
-> **Important**
-> Before using the following example policy, replace the VPC endpoint ID with an appropriate value for your use case. Otherwise, you won't be able to access your bucket.
+A VPC endpoint for S3 enables buckets in your VPC to use their private IP addresses to access S3 with no exposure to the public internet. You use endpoint policies to control access to S3. Traffic between your VPC and the AWS service does not leave the Amazon network. Due to the possibility of sensitive data being stored and processed through S3, we need to make sure that this traffic is not transmitted directly over the Public Internet.
 
-This policy disables console access to the specified bucket, because console requests don't originate from the specified VPC endpoint.
-```json
-{
-   "Version": "2012-10-17",
-   "Id": "Policy1415115909152",
-   "Statement": [
-     {
-       "Sid": "Access-to-specific-VPCE-only",
-       "Principal": "*",
-       "Action": "s3:*",
-       "Effect": "Deny",
-       "Resource": ["arn:aws:s3:::awsexamplebucket1",
-                    "arn:aws:s3:::awsexamplebucket1/*"],
-       "Condition": {
-         "StringNotEquals": {
-           "aws:SourceVpce": "vpce-1a2b3c4d"
-         }
-       }
-     }
-   ]
-}
-```
+When you create a VPC endpoint for S3, any requests to a S3 endpoint within the Region (for example, S3.us-west-2.amazonaws.com) are routed to a private S3 endpoint within the Amazon network. You don't need to modify your applications running on S3 in your VPC. The endpoint name remains the same, but the route to S3 stays entirely within the Amazon network, and does not access the public internet.
 
-## Detective
-### 1. Ensure Amazon S3 Inventory is enabled and monitored regularly
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-|ID.AM-1|physical devices and systems within the organization are inventoried|
-|ID.AM-2|Software platforms and applications within the organization are inventoried|
+**How?**
 
+1. Open the Amazon VPC console.
+2.    Using the Region selector in the navigation bar, set the AWS Region to the same Region as your VPC.
+3.    From the navigation pane, choose Endpoints.
+4.    Choose Create Endpoint.
+5.    For Service category, verify that "AWS services" is selected.
+6.    For Service Name, select the "s3" service name and "Gateway" type. For example, the service name in the US East (N. Virginia) Region is com.amazonaws.us-east-1.s3.
+7.    For VPC, select your VPC.
+8.    For Configure route tables, select the route tables based on the associated subnets that you want to be able to access the endpoint from.
+9.    For Policy, verify that Full Access is selected.
+10.    Choose Create endpoint.
+11.    Note the VPC Endpoint ID. You'll need this endpoint ID for a later step.
 
+<br><br>
 
-**Why?** 
-Amazon S3 inventory is one of the tools Amazon S3 provides to help manage your storage\. You can use it to audit and report on the replication and encryption status of your objects for business, compliance, and regulatory needs\.
+### 6. Enable Server Access Logs 
 
-**How?** 
-Set up Amazon S3 Inventory
+**Capital Group:** <br>
 
-#### How do I set up Amazon S3 inventory?<a name="storage-inventory-how-to-set-up"><!-- omit in toc -->
-
-This section describes how to set up an inventory, including details about the inventory source and destination buckets\.
-
-#### Amazon S3 inventory source and destination buckets<a name="storage-inventory-buckets"><!-- omit in toc -->
-
-The bucket that the inventory lists the objects for is called the *source bucket*\. The bucket where the inventory list file is stored is called the *destination bucket*\. 
-
-**Source Bucket**
-
-The inventory lists the objects that are stored in the source bucket\. You can get inventory lists for an entire bucket or filtered by \(object key name\) prefix\.
-
-The source bucket:
-+ Contains the objects that are listed in the inventory\.
-+ Contains the configuration for the inventory\.
-
-**Destination Bucket**
-
-Amazon S3 inventory list files are written to the destination bucket\. To group all the inventory list files in a common location in the destination bucket, you can specify a destination \(object key name\) prefix in the inventory configuration\.
-
-The destination bucket:
-+ Contains the inventory file lists\. 
-+ Contains the manifest files that list all the file inventory lists that are stored in the destination bucket\. 
-+ Must have a bucket policy to give Amazon S3 permission to verify ownership of the bucket and permission to write files to the bucket\. 
-+ Must be in the same AWS Region as the source bucket\.
-+ Can be the same as the source bucket\.
-+ Can be owned by a different AWS account than the account that owns the source bucket\.
-
-#### Setting up Amazon S3 inventory<a name="storage-inventory-setting-up"><!-- omit in toc -->
-
-Amazon S3 inventory helps you manage your storage by creating lists of the objects in an S3 bucket on a defined schedule\. You can configure multiple inventory lists for a bucket\. The inventory lists are published to CSV, ORC, or Parquet files in a destination bucket\. 
-
-The easiest way to set up an inventory is by using the AWS Management Console, but you can also use the REST API, AWS CLI, or AWS SDKs\. The console performs the first step of the following procedure for you: adding a bucket policy to the destination bucket\.
-
-**To set up Amazon S3 inventory for an S3 bucket**
-
-1. **Add a bucket policy for the destination bucket\.**
-
-   You must create a bucket policy on the destination bucket to grant permissions to Amazon S3 to write objects to the bucket in the defined location\. 
-
-1. **Configure an inventory to list the objects in a source bucket and publish the list to a destination bucket\.**
-
-   When you configure an inventory list for a source bucket, you specify the destination bucket where you want the list to be stored, and whether you want to generate the list daily or weekly\. You can also configure what object metadata to include and whether to list all object versions or only current versions\. 
-
-   You can specify that the inventory list file be encrypted by using an Amazon S3 managed key \(SSE\-S3\) or an AWS Key Management Service \(AWS KMS\) customer managed customer master key \(CMK\)\.  If you plan to use SSE\-KMS encryption, see Step 3\.
-   + For information about how to use the console to configure an inventory list, see [How Do I Configure Amazon S3 Inventory?](https://docs.aws.amazon.com/AmazonS3/latest/user-guide/configure-inventory.html) in the *Amazon Simple Storage Service Console User Guide*\.
-   + To use the Amazon S3 API to configure an inventory list, use the [PUT Bucket inventory configuration](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTInventoryConfig.html) REST API or the equivalent from the AWS CLI or AWS SDKs\. 
-
-1. **To encrypt the inventory list file with SSE\-KMS, grant Amazon S3 permission to use the CMK stored in AWS KMS\.**
-
-   You can configure encryption for the inventory list file by using the AWS Management Console, REST API, AWS CLI, or AWS SDKs\. Whichever way you choose, you must grant Amazon S3 permission to use the AWS KMS customer managed CMK to encrypt the inventory file\. You grant Amazon S3 permission by modifying the key policy for the customer managed CMK that you want to use to encrypt the inventory file\. 
-
-#### Granting Amazon S3 permission to use your AWS KMS CMK for encryption<a name="storage-inventory-kms-key-policy"><!-- omit in toc -->
-
-To grant Amazon S3 permission to encrypt using a customer managed AWS Key Management Service \(AWS KMS\) customer master key \(CMK\), you must use a key policy\. To update your key policy so that you can use an AWS KMS customer managed CMK to encrypt the inventory file, follow these steps\.
-
-**To grant permissions to encrypt using your AWS KMS CMK**
-
-1. Using the AWS account that owns the customer managed CMK, sign into the AWS Management Console\.
-
-1. Open the AWS KMS console at [https://console\.aws\.amazon\.com/kms](https://console.aws.amazon.com/kms)\.
-
-1. To change the AWS Region, use the Region selector in the upper\-right corner of the page\.
-
-1. In the left navigation pane, choose **Customer managed keys**\.
-
-1. Under **Customer managed keys**, choose the key that you want to use to encrypt the inventory file\. CMKs are Region specific and must be in the same Region as the source bucket\.
-
-1. Under **Key policy**, choose **Switch to policy view**\.
-
-1. To update the key policy, choose **Edit**\.
-
-1. Under **Edit key policy**, add the following key policy to the existing key policy\.
-
-   ```
-   {
-       "Sid": "Allow Amazon S3 use of the CMK",
-       "Effect": "Allow",
-       "Principal": {
-           "Service": "s3.amazonaws.com"
-       },
-       "Action": [
-           "kms:GenerateDataKey"
-       ],
-       "Resource": "*"
-   }
-   ```
-
-1. Choose **Save changes**\.
-
-   For more information about creating AWS KMS customer managed CMKs and using key policies, see the following topics in the *AWS Key Management Service Developer Guide*:
-   + [Getting Started](https://docs.aws.amazon.com/kms/latest/developerguide/getting-started.html)
-   + [Using Key Policies in AWS KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html)
-
-   You can also use the AWS KMS PUT key policy API [PutKeyPolicy](https://docs.aws.amazon.com/kms/latest/APIReference/API_PutKeyPolicy.html) to copy the key policy to the customer managed CMK that you want to use to encrypt the inventory file\. 
-
-#### What's included in an Amazon S3 inventory?<a name="storage-inventory-contents"><!-- omit in toc -->
-
-An inventory list file contains a list of the objects in the source bucket and metadata for each object\. The inventory lists are stored in the destination bucket as a CSV file compressed with GZIP, as an Apache optimized row columnar \(ORC\) file compressed with ZLIB, or as an Apache Parquet \(Parquet\) file compressed with Snappy\. 
-
-The inventory list contains a list of the objects in an S3 bucket and the following metadata for each listed object: 
-+ **Bucket name** – The name of the bucket that the inventory is for\.
-+ **Key name** – Object key name \(or key\) that uniquely identifies the object in the bucket\. When using the CSV file format, the key name is URL\-encoded and must be decoded before you can use it\.
-+ **Version ID** – Object version ID\. When you enable versioning on a bucket, Amazon S3 assigns a version number to objects that are added to the bucket\.  \(This field is not included if the list is only for the current version of objects\.\)
-+ **IsLatest** – Set to `True` if the object is the current version of the object\. \(This field is not included if the list is only for the current version of objects\.\)
-+ **Size** – Object size in bytes\.
-+ **Last modified date** – Object creation date or the last modified date, whichever is the latest\.
-+ **ETag** – The entity tag is a hash of the object\. The ETag reflects changes only to the contents of an object, not its metadata\. The ETag may or may not be an MD5 digest of the object data\. Whether it is depends on how the object was created and how it is encrypted\.
-+ **Storage class** – Storage class used for storing the object\. 
-+ **Intelligent\-Tiering access tier** – Access tier \(frequent or infrequent\) of the object if stored in Intelligent\-Tiering\. For more information, see [Amazon S3 Intelligent\-Tiering](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage-class-intro.html#sc-dynamic-data-access)\.
-+ **Multipart upload flag** – Set to `True` if the object was uploaded as a multipart upload\. 
-+ **Delete marker** – Set to `True`, if the object is a delete marker\.  \(This field is automatically added to your report if you've configured the report to include all versions of your objects\)\.
-+ **Replication status** – Set to `PENDING`, `COMPLETED`, `FAILED`, or `REPLICA.` 
-+ **Encryption status** – Set to `SSE-S3`, `SSE-C`, `SSE-KMS`, or `NOT-SSE`\. The server\-side encryption status for SSE\-S3, SSE\-KMS, and SSE with customer\-provided keys \(SSE\-C\)\. A status of `NOT-SSE` means that the object is not encrypted with server\-side encryption\. 
-+ **S3 Object Lock Retain until date** – The date until which the locked object cannot be deleted\. 
-+ **S3 Object Lock Mode** – Set to `Governance` or `Compliance` for objects that are locked\. 
-+ **S3 Object Lock Legal hold status ** – Set to `On` if a legal hold has been applied to an object; otherwise it is set to `Off`\. 
-
-We recommend that you create a lifecycle policy that deletes old inventory lists\. 
-
-#### Inventory consistency<a name="storage-inventory-contents-consistency"><!-- omit in toc -->
-
-All of your objects might not appear in each inventory list\. The inventory list provides eventual consistency for PUTs of both new objects and overwrites, and DELETEs\. Inventory lists are a rolling snapshot of bucket items, which are eventually consistent \(that is, the list might not include recently added or deleted objects\)\. 
-
-To validate the state of the object before you take action on the object, we recommend that you perform a `HEAD Object` REST API request to retrieve metadata for the object, or check the object's properties in the Amazon S3 console\. You can also check object metadata with the AWS CLI or the AWS SDKS\. For more information, see [HEAD Object](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectHEAD.html) in the *Amazon Simple Storage Service API Reference*\.
-
-#### Where are inventory lists located?<a name="storage-inventory-location"><!-- omit in toc -->
-
-When an inventory list is published, the manifest files are published to the following location in the destination bucket\.
-
-```
- destination-prefix/source-bucket/config-ID/YYYY-MM-DDTHH-MMZ/manifest.json
- destination-prefix/source-bucket/config-ID/YYYY-MM-DDTHH-MMZ/manifest.checksum
- destination-prefix/source-bucket/config-ID/hive/dt=YYYY-MM-DD-HH-MM/symlink.txt
-```
-+ *destination\-prefix* is the \(object key name\) prefix set in the inventory configuration, which can be used to group all the inventory list files in a common location within the destination bucket\.
-+ *source\-bucket* is the source bucket that the inventory list is for\. It is added to prevent collisions when multiple inventory reports from different source buckets are sent to the same destination bucket\.
-+ *config\-ID* is added to prevent collisions with multiple inventory reports from the same source bucket that are sent to the same destination bucket\. The *config\-ID* comes from the inventory report configuration, and is the name for the report that is defined on setup\.
-+ *YYYY\-MM\-DDTHH\-MMZ* is the timestamp that consists of the start time and the date when the inventory report generation begins scanning the bucket; for example, `2016-11-06T21-32Z`\.
-+ `manifest.json` is the manifest file\. 
-+ `manifest.checksum` is the MD5 of the content of the `manifest.json` file\. 
-+ `symlink.txt` is the Apache Hive\-compatible manifest file\. 
-
-The inventory lists are published daily or weekly to the following location in the destination bucket\.
-
-```
-      destination-prefix/source-bucket/config-ID/example-file-name.csv.gz
-      ...
-      destination-prefix/source-bucket/config-ID/example-file-name-1.csv.gz
-```
-+ *destination\-prefix* is the \(object key name\) prefix set in the inventory configuration\. It can be used to group all the inventory list files in a common location in the destination bucket\.
-+ *source\-bucket* is the source bucket that the inventory list is for\. It is added to prevent collisions when multiple inventory reports from different source buckets are sent to the same destination bucket\.
-+ *example\-file\-name*`.csv.gz` is one of the CSV inventory files\. ORC inventory names end with the file name extension `.orc`, and Parquet inventory names end with the file name extension `.parquet`\.
-
-#### What is an inventory manifest?<a name="storage-inventory-location-manifest"><!-- omit in toc -->
-
-The manifest files `manifest.json` and `symlink.txt` describe where the inventory files are located\. Whenever a new inventory list is delivered, it is accompanied by a new set of manifest files\. These files may overwrite each other and in versioning enabled buckets will create a new versions of the manifest files\. 
-
-Each manifest contained in the `manifest.json` file provides metadata and other basic information about an inventory\. This information includes the following:
-+ Source bucket name
-+ Destination bucket name
-+ Version of the inventory
-+ Creation timestamp in the epoch date format that consists of the start time and the date when the inventory report generation begins scanning the bucket
-+ Format and schema of the inventory files
-+ Actual list of the inventory files that are in the destination bucket
-
-Whenever a `manifest.json` file is written, it is accompanied by a `manifest.checksum` file that is the MD5 of the content of `manifest.json` file\.
-
-The following is an example of a manifest in a `manifest.json` file for a CSV\-formatted inventory\.
-
-```
-{
-    "sourceBucket": "example-source-bucket",
-    "destinationBucket": "arn:aws:s3:::example-inventory-destination-bucket",
-    "version": "2016-11-30",
-    "creationTimestamp" : "1514944800000",
-    "fileFormat": "CSV",
-    "fileSchema": "Bucket, Key, VersionId, IsLatest, IsDeleteMarker, Size, LastModifiedDate, ETag, StorageClass, IsMultipartUploaded, ReplicationStatus, EncryptionStatus, ObjectLockRetainUntilDate, ObjectLockMode, ObjectLockLegalHoldStatus",
-    "files": [
-        {
-            "key": "Inventory/example-source-bucket/2016-11-06T21-32Z/files/939c6d46-85a9-4ba8-87bd-9db705a579ce.csv.gz",
-            "size": 2147483647,
-            "MD5checksum": "f11166069f1990abeb9c97ace9cdfabc"
-        }
-    ]
-}
-```
-
-The following is an example of a manifest in a `manifest.json` file for an ORC\-formatted inventory\.
-
-```
-{
-    "sourceBucket": "example-source-bucket",
-    "destinationBucket": "arn:aws:s3:::example-destination-bucket",
-    "version": "2016-11-30",
-    "creationTimestamp" : "1514944800000",
-    "fileFormat": "ORC",
-    "fileSchema": "struct<bucket:string,key:string,version_id:string,is_latest:boolean,is_delete_marker:boolean,size:bigint,last_modified_date:timestamp,e_tag:string,storage_class:string,is_multipart_uploaded:boolean,replication_status:string,encryption_status:string,object_lock_retain_until_date:timestamp,object_lock_mode:string,object_lock_legal_hold_status:string>",
-    "files": [
-        {
-            "key": "inventory/example-source-bucket/data/d794c570-95bb-4271-9128-26023c8b4900.orc",
-            "size": 56291,
-            "MD5checksum": "5925f4e78e1695c2d020b9f6eexample"
-        }
-    ]
-}
-```
-
-The following is an example of a manifest in a `manifest.json` file for a Parquet\-formatted inventory\.
-
-```
-{
-    "sourceBucket": "example-source-bucket",
-    "destinationBucket": "arn:aws:s3:::example-destination-bucket",
-    "version": "2016-11-30",
-    "creationTimestamp" : "1514944800000",
-    "fileFormat": "Parquet",
-    "fileSchema": "message s3.inventory { required binary bucket (UTF8); required binary key (UTF8); optional binary version_id (UTF8); optional boolean is_latest; optional boolean is_delete_marker;  optional int64 size;  optional int64 last_modified_date (TIMESTAMP_MILLIS);  optional binary e_tag (UTF8);  optional binary storage_class (UTF8);  optional boolean is_multipart_uploaded;  optional binary replication_status (UTF8);  optional binary encryption_status (UTF8);}"
-  "files": [
-        {
-           "key": "inventory/example-source-bucket/data/d754c470-85bb-4255-9218-47023c8b4910.parquet",
-            "size": 56291,
-            "MD5checksum": "5825f2e18e1695c2d030b9f6eexample" 
-        }
-    ]
-}
-```
-
-The `symlink.txt` file is an Apache Hive\-compatible manifest file that allows Hive to automatically discover inventory files and their associated data files\. The Hive\-compatible manifest works with the Hive\-compatible services Athena and Amazon Redshift Spectrum\. It also works with Hive\-compatible applications, including [Presto](https://prestodb.io/), [Apache Hive](https://hive.apache.org/), [Apache Spark](https://databricks.com/spark/about/), and many others\.
-
-**Important**  
-The `symlink.txt` Apache Hive\-compatible manifest file does not currently work with AWS Glue\.  
-Reading `symlink.txt` with [Apache Hive](https://hive.apache.org/) and [Apache Spark](https://databricks.com/spark/about/) is not supported for ORC and Parquet\-formatted inventory files\. 
-
-#### How do I know when an inventory is complete?<a name="storage-inventory-notification"><!-- omit in toc -->
-
-You can set up an Amazon S3 event notification to receive notice when the manifest checksum file is created, which indicates that an inventory list has been added to the destination bucket\. The manifest is an up\-to\-date list of all the inventory lists at the destination location\.
-
-Amazon S3 can publish events to an Amazon Simple Notification Service \(Amazon SNS\) topic, an Amazon Simple Queue Service \(Amazon SQS\) queue, or an AWS Lambda function\. For more information, see [ Configuring Amazon S3 event notifications](NotificationHowTo.md)\.
-
-The following notification configuration defines that all `manifest.checksum` files newly added to the destination bucket are processed by the AWS Lambda `cloud-function-list-write`\.
-
-```
-<NotificationConfiguration>
-  <QueueConfiguration>
-      <Id>1</Id>
-      <Filter>
-          <S3Key>
-              <FilterRule>
-                  <Name>prefix</Name>
-                  <Value>destination-prefix/source-bucket</Value>
-              </FilterRule>
-              <FilterRule>
-                  <Name>suffix</Name>
-                  <Value>checksum</Value>
-              </FilterRule>
-          </S3Key>
-     </Filter>
-     <Cloudcode>arn:aws:lambda:us-west-2:222233334444:cloud-function-list-write</Cloudcode>
-     <Event>s3:ObjectCreated:*</Event>
-  </QueueConfiguration>
-  </NotificationConfiguration>
-```
-
-For more information, see [Using AWS Lambda with Amazon S3](https://docs.aws.amazon.com/lambda/latest/dg/with-s3.html) in the *AWS Lambda Developer Guide*\.
-
-#### Querying inventory with Amazon Athena<a name="storage-inventory-athena-query"><!-- omit in toc -->
-
-You can query Amazon S3 inventory using standard SQL by using Amazon Athena in all Regions where Athena is available\. To check for AWS Region availability, see the [AWS Region Table](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/)\. 
-
-Athena can query Amazon S3 inventory files in ORC, Parquet, or CSV format\. When you use Athena to query inventory, we recommend that you use ORC\-formatted or Parquet\-formatted inventory files\. ORC and Parquet formats provide faster query performance and lower query costs\. ORC and Parquet are self\-describing type\-aware columnar file formats designed for [Apache Hadoop](http://hadoop.apache.org/)\. The columnar format lets the reader read, decompress, and process only the columns that are required for the current query\. The ORC and Parquet formats for Amazon S3 inventory are available in all AWS Regions\.
-
-**To get started using Athena to query Amazon S3 inventory**
-
-1. Create an Athena table\. For information about creating a table, see [Creating Tables in Amazon Athena](https://docs.aws.amazon.com/athena/latest/ug/creating-tables.html) in the *Amazon Athena User Guide*\.
-
-   The following sample query includes all optional fields in an ORC\-formatted inventory report\. Drop any optional field that you did not choose for your inventory so that the query corresponds to the fields chosen for your inventory\. Also, you must use your bucket name and the location\. The location points to your inventory destination path; for example, `s3://destination-prefix/source-bucket/config-ID/hive/`\.
-
-   ```
-   CREATE EXTERNAL TABLE your_table_name(
-     `bucket` string,
-     key string,
-     version_id string,
-     is_latest boolean,
-     is_delete_marker boolean,
-     size bigint,
-     last_modified_date timestamp,
-     e_tag string,
-     storage_class string,
-     is_multipart_uploaded boolean,
-     replication_status string,
-     encryption_status string,
-     object_lock_retain_until_date timestamp,
-     object_lock_mode string,
-     object_lock_legal_hold_status string
-     )
-     PARTITIONED BY (dt string)
-     ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.orc.OrcSerde'
-     STORED AS INPUTFORMAT 'org.apache.hadoop.hive.ql.io.SymlinkTextInputFormat'
-     OUTPUTFORMAT  'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'
-     LOCATION 's3://destination-prefix/source-bucket/config-ID/hive/';
-   ```
-
-    When using Athena to query a Parquet\-formatted inventory report, use the following Parquet SerDe in place of the ORC SerDe in the `ROW FORMAT SERDE` statement\.
-
-   ```
-   ROW FORMAT SERDE 'org.apache.hadoop.hive.ql.io.parquet.serde.ParquetHiveSerDe'
-   ```
-
-    When using Athena to query a CSV\-formatted inventory report, use the following Parquet SerDe in place of the ORC SerDe in the `ROW FORMAT SERDE` statement\.
-
-   ```
-   ROW FORMAT SERDE 'org.apache.hadoop.hive.serde2.OpenCSVSerde'
-   ```
-
-1. To add new inventory lists to your table, use the following `MSCK REPAIR TABLE` command\.
-
-   ```
-   MSCK REPAIR TABLE your-table-name;
-   ```
-
-1. After performing the first two steps, you can run ad hoc queries on your inventory, as shown in the following examples\. 
-
-   ```
-   # Get list of latest inventory report dates available
-   SELECT DISTINCT dt FROM your-table-name ORDER BY 1 DESC limit 10;
-             
-   # Get encryption status for a provided report date.
-   SELECT encryption_status, count(*) FROM your-table-name WHERE dt = 'YYYY-MM-DD-HH-MM' GROUP BY encryption_status;
-             
-   # Get encryption status for report dates in the provided range.
-   SELECT dt, encryption_status, count(*) FROM your-table-name 
-   WHERE dt > 'YYYY-MM-DD-HH-MM' AND dt < 'YYYY-MM-DD-HH-MM' GROUP BY dt, encryption_status;
-   ```
-
-For more information about using Athena, see [Amazon Athena User Guide](https://docs.aws.amazon.com/athena/latest/ug/)\.
-
-#### Amazon S3 inventory REST APIs<a name="storage-inventory-related-resources"><!-- omit in toc -->
-
-The following are the REST operations used for Amazon S3 inventory\.
-+  [ DELETE Bucket Inventory ](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketDELETEInventoryConfiguration.html) 
-+  [ GET Bucket Inventory](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketGETInventoryConfig.html) 
-+  [ List Bucket Inventory](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketListInventoryConfigs.html) 
-+  [ PUT Bucket Inventory](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTBucketPUTInventoryConfig.html) 
-  
-
-### 2. Enable Amazon S3 server access logging 
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.AE-4|Impact of events is determined|
-
-Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
+|Control|Control Definition|
+
+<br>
 
 **Why?** 
-Server access logging provides detailed records of the requests that are made to a bucket\. Server access logs can assist you in security and access audits, help you learn about your customer base, and understand your Amazon S3 bill\.
+
+Server access logging provides detailed records of the requests that are made to a bucket. Server access logs can assist you in security and access audits, help you learn about your customer base, and understand your Amazon S3 bill.
 
 **How?** 
-#### Enable Amazon S3 server access logging<a name="ServerLogs"><!-- omit in toc -->
+1. Sign in to the AWS Management Console and open the Amazon S3 console at https://console.aws.amazon.com/s3/.
+2. In the Buckets list, choose the name of the bucket that you want to enable server access logging for.
+3. Choose Properties.
+4. In the Server access logging section, choose Edit.
+5. Under Server access logging, select Enable.
+6. For Target bucket, enter the name of the bucket that you want to receive the log record objects.  
+The target bucket must be in the same Region as the source bucket and must not have a default retention period configuration.
+7. Choose Save changes.
+When you enable logging on a bucket, the console both enables logging on the source bucket and adds a grant in the target bucket's access control list (ACL) granting write permission to the Log Delivery group.       
+You can view the logs in the target bucket. After you enable server access logging, it might take a few hours before the logs are delivered to the target bucket.
 
-Server access logging provides detailed records for the requests that are made to a bucket\. Server access logs are useful for many applications\. For example, access log information can be useful in security and access audits\. It can also help you learn about your customer base and understand your Amazon S3 bill\.
+For more info on logging server access, [click here](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerLogs.html)   
+For more information on properties, see [Viewing the properties for an S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/view-bucket-properties.html).
 
-**Note**  
-Server access logs don't record information about wrong\-region redirect errors for Regions that launched after March 20, 2019\. Wrong\-region redirect errors occur when a request for an object or bucket is made outside the Region in which the bucket exists\. 
+<br><br>
 
-#### How to enable server access logging<a name="server-access-logging-overview"><!-- omit in toc -->
+### 7. Implement Appropriate Backups
 
-To track requests for access to your bucket, you can enable server access logging\. Each access log record provides details about a single access request, such as the requester, bucket name, request time, request action, response status, and an error code, if relevant\. 
+**Capital Group:** <br>
 
-There is no extra charge for enabling server access logging on an Amazon S3 bucket, and you are not charged when the logs are PUT to your bucket\. However, any log files that the system delivers to your bucket accrue the usual charges for storage\. You can delete these log files at any time\. Subsequent reads and other requests to these log files are charged normally, as for any other object, including data transfer charges\.
+|Control Statement|Description|
+|------|----------------------|
+|Control|Control Definition|
 
-By default, logging is disabled\. When logging is enabled, logs are saved to a bucket in the same AWS Region as the source bucket\. 
+<br>
 
-To enable logging: 
+**What, Why & How?**
 
-1. Turn on logging on the Amazon S3 bucket that you want to monitor\. We refer to this bucket as the *source bucket*\. 
+Incorporating backups into your services increases the resilence, and  reliability of the data being used. Backups allow you keep you data safe, and protect you from unintented failures or events. In S3 the two main ways we require you to do this is with 'S3 Versioning' and 'S3 Cross-Region Replication'.
 
-1. Grant the Amazon S3 Log Delivery group write permission on the bucket where you want the access logs saved\. We refer to this bucket as the *target bucket*\. 
+**Versioning** - Versioning is a means of keeping multiple variants of an object in the same bucket. You can use versioning to preserve, retrieve, and restore every version of every object stored in your S3 bucket. You can easily recover from both unintended user actions and application failures. 
 
-**Note**  
-In Amazon S3 you can grant permission to deliver access logs through bucket access control lists \(ACLs\), but not through bucket policy\.
-Adding *deny* conditions to a bucket policy might prevent Amazon S3 from delivering access logs\.
-[Default bucket encryption](bucket-encryption.html) on the target bucket *can only be used* if **AES256 \(SSE\-S3\)** is selected\. SSE\-KMS encryption is not supported\. 
-S3 Object Lock cannot be enabled on the target bucket\.
+1. Sign in to the AWS Management Console and open the Amazon S3 console at https://console.aws.amazon.com/s3/.
+2. In the Buckets list, choose the name of the bucket that you want to enable versioning for.
+3. Choose Properties.
+4. Under Bucket Versioning, choose Edit.
+5. Choose Suspend or Enable, and then choose Save changes.
 
-To enable log delivery:
+**Cross-Region Replication** - Although Amazon S3 stores your data across multiple geographically diverse Availability Zones by default, compliance requirements might dictate that you store data at even greater distances. Cross-region replication (CRR) allows you to replicate data between distant AWS Regions to help satisfy these requirements.
 
-1. Provide the name of the target bucket where you want Amazon S3 to save the access logs as objects\. Both the source and target buckets must be in the same AWS Region and owned by the same account\. 
+The following [guide](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-walkthrough1.html) will walk you through how to set up replication and what each permission/setting means: https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-walkthrough1.html
 
-   You can have logs delivered to any bucket that you own that is in the same Region as the source bucket, including the source bucket itself\. But for simpler log management, we recommend that you save access logs in a different bucket\. 
+<br><br>
 
-   When your source bucket and target bucket are the same bucket, additional logs are created for the logs that are written to the bucket\. This might not be ideal because it could result in a small increase in your storage billing\. In addition, the extra logs about logs might make it harder to find the log that you are looking for\. If you choose to save access logs in the source bucket, we recommend that you specify a prefix for all log object keys so that the object names begin with a common string and the log objects are easier to identify\. 
+### 8. CloudTrail logging enabled for S3  
 
-   [Key prefixes](https://docs.aws.amazon.com/general/latest/gr/glos-chap.html#keyprefix) are also useful to distinguish between source buckets when multiple buckets log to the same target bucket\.
+**Capital Group:** <br>
 
-1. \(Optional\) Assign a prefix to all Amazon S3 log object keys\. The prefix makes it simpler for you to locate the log objects\. For example, if you specify the prefix value `logs/`, each log object that Amazon S3 creates begins with the `logs/` prefix in its key\.
+|Control Statement|Description|
+|------|----------------------|
+|Control|Control Definition|
 
-   ```
-   logs/2013-11-01-21-32-16-E568B2907131C0C0
-   ```
+<br>
 
-   The key prefix can also help when you delete the logs\. For example, you can set a lifecycle configuration rule for Amazon S3 to delete objects with a specific key prefix\. 
+**What, Why & How?**  
 
-1. \(Optional\) Set permissions so that others can access the generated logs\. By default, only the bucket owner always has full access to the log objects\. 
+S3 is integrated with Amazon CloudTrail, a service that provides a record of actions taken by a user, role, or an Amazon service in S3. CloudTrail captures all API calls for S3 as events. Using the information collected by CloudTrail, you can determine the request that was made to S3, the IP address from which the request was made, who made the request, when it was made, and additional details.
 
+- A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for S3 itself. This will enable the forwarding of logs into Splunk for long term archival and reporting.
 
+More info on monitoring and CloudTrail Events: https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudtrail-logging.html
 
+<br><br>
 
-Amazon S3 uses the following object key format for the log objects it uploads in the target bucket:
+### 9. CloudWatch alarms enabled for S3
 
-```
-TargetPrefixYYYY-mm-DD-HH-MM-SS-UniqueString/
-```
+**Capital Group:** <br>
 
-In the key, `YYYY`, `mm`, `DD`, `HH`, `MM`, and `SS` are the digits of the year, month, day, hour, minute, and seconds \(respectively\) when the log file was delivered\. These dates and times are in Coordinated Universal Time \(UTC\)\. 
+|Control Statement|Description|
+|------|----------------------|
+|Control |Control Definition|
 
-A log file delivered at a specific time can contain records written at any point before that time\. There is no way to know whether all log records for a certain time interval have been delivered or not\. 
+<br>
 
-The `UniqueString` component of the key is there to prevent overwriting of files\. It has no meaning, and log processing software should ignore it\. 
+**What, Why & How?**  
+AWS S3 Service allows for the collection of CloudWatch Events, Logs and Alarms. At least one these these tools must be used. Uses include daily storage metrics for buckets, request metrics, and replication metrics.
 
-The trailing slash */* is required to denote the end of the prefix\.
+ - **Amazon CloudWatch Alarms** – Watch a single metric over a time period that you specify, and perform one or more actions based on the value of the metric relative to a given threshold over a number of time periods.
+ - **Amazon CloudWatch Logs** – Monitor, store, and access your log files from Amazon CloudTrail or other sources.
+ - **Amazon CloudWatch Events** – Match events and route them to one or more target functions or streams to make changes, capture state information, and take corrective action.
 
+ Utilizing these [CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) tools together can be useful in detecting anomolous activity and patterns in data access within the S3 service. It is recommended that CloudWatch is used to monitor any critical services in use at CG. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
 
-Amazon S3 periodically collects access log records, consolidates the records in log files, and then uploads log files to your target bucket as log objects\. If you enable logging on multiple source buckets that identify the same target bucket, the target bucket will have access logs for all those source buckets\. However, each log object reports access log records for a specific source bucket\. 
+More info on monitoring: https://docs.aws.amazon.com/AmazonS3/latest/userguide/cloudwatch-monitoring.html
 
-Amazon S3 uses a special log delivery account, called the *Log Delivery* group, to write access logs\. These writes are subject to the usual access control restrictions\. You must grant the Log Delivery group write permission on the target bucket by adding a grant entry in the bucket's access control list \(ACL\)\. If you use the Amazon S3 console to enable logging on a bucket, the console both enables logging on the source bucket and updates the ACL on the target bucket to grant write permission to the Log Delivery group\.
-
-#### Best effort server log delivery<a name="LogDeliveryBestEffort"><!-- omit in toc -->
-
-Server access log records are delivered on a best effort basis\. Most requests for a bucket that is properly configured for logging result in a delivered log record\. Most log records are delivered within a few hours of the time that they are recorded, but they can be delivered more frequently\. 
-
-The completeness and timeliness of server logging is not guaranteed\. The log record for a particular request might be delivered long after the request was actually processed, or *it might not be delivered at all*\. The purpose of server logs is to give you an idea of the nature of traffic against your bucket\. It is rare to lose log records, but server logging is not meant to be a complete accounting of all requests\. 
-
-It follows from the best\-effort nature of the server logging feature that the usage reports available at the AWS portal \(Billing and Cost Management reports on the [AWS Management Console](https://console.aws.amazon.com/)\) might include one or more access requests that do not appear in a delivered server log\. 
-
-#### Bucket logging status changes take effect over time<a name="BucketLoggingStatusChanges"><!-- omit in toc -->
-
-Changes to the logging status of a bucket take time to actually affect the delivery of log files\. For example, if you enable logging for a bucket, some requests made in the following hour might be logged, while others might not\. If you change the target bucket for logging from bucket A to bucket B, some logs for the next hour might continue to be delivered to bucket A, while others might be delivered to the new target bucket B\. In all cases, the new settings eventually take effect without any further action on your part\. 
+<br><br> 
 
 ## Operational Best Practices
 ### 1. Resource Tags
