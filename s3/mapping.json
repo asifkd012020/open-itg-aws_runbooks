@@ -77,7 +77,7 @@
         },
         {
             "requirement_name": "S3 Utilizes VPC Endpoints to Prevent Public Access",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
             "tags": [],
             "severity": {
                 "Prod": "critical",
