@@ -19,9 +19,9 @@ Table of Contents
   - [4. Block Public Access](#4-Block-Public-Access)
   - [5. S3 Utilizes VPC Endpoints to Prevent Public Access](#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [6. Enable Server Access Logs](#6-Enable-Server-Access-Logs)  
-  - [7. Implement Appropriate Backups](#8-Implement-Appropriate-Backups)
-  - [8. CloudTrail logging enabled for S3](#9-CloudTrail-logging-enabled-for-S3)
-  - [9. CloudWatch alarms enabled for S3](#10-CloudWatch-alarms-enabled-for-S3)
+  - [7. Implement Appropriate Backups](#7-Implement-Appropriate-Backups)
+  - [8. CloudTrail logging enabled for S3](#8-CloudTrail-logging-enabled-for-S3)
+  - [9. CloudWatch alarms enabled for S3](#9-CloudWatch-alarms-enabled-for-S3)
 - [Operational Best Practices](#operational-best-practices)
   - [1. Resource Tags](#1-Resource-Tags)
   - [2. Enable AWS Config](#Enable-AWS-Config)
@@ -56,6 +56,8 @@ Amazon S3 is a core service offered by AWS that provides object storage. It allo
 |Control|Control Definition|
 |CS0012298 |Access to change cloud identity access and service control policies is restricted to authorized cloud administrative personnel.|
 |CS0012299|Access to change cloud resource-based access policies is restricted to authorized personnel.|
+|CS0012195|Multi-Factor Authentication (MFA) is enforced for enterprise network access to systems and data.|
+
 
 <br>
 
