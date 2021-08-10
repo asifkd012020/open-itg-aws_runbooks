@@ -53,7 +53,6 @@ Amazon S3 is a core service offered by AWS that provides object storage. It allo
 
 |Control Statement|Description|
 |------|----------------------|
-|Control|Control Definition|
 |CS0012298 |Access to change cloud identity access and service control policies is restricted to authorized cloud administrative personnel.|
 |CS0012299|Access to change cloud resource-based access policies is restricted to authorized personnel.|
 |CS0012195|Multi-Factor Authentication (MFA) is enforced for enterprise network access to systems and data.|
@@ -133,7 +132,6 @@ For more info on MFA Delete: https://docs.aws.amazon.com/AmazonS3/latest/usergui
 
 |Control Statement|Description|
 |------|----------------------|
-|Control|Control Definition|
 |CS0012168|Strong encryption key management controls are in place for cloud provider services to protect data at rest.|
 
 <br>
@@ -216,7 +214,6 @@ More info on enforcing TLS: https://docs.aws.amazon.com/cli/latest/userguide/cli
 
 |Control Statement|Description|
 |------|----------------------|
-|Control|Control Definition|
 |[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
 
 <br>
@@ -245,7 +242,6 @@ For more info on blocking public access specific buckets: https://docs.aws.amazo
 
 |Control Statement|Description|
 |------|----------------------|
-|Control|Control Definition|
 |[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
 
 <br>
@@ -280,7 +276,6 @@ When you create a VPC endpoint for S3, any requests to a S3 endpoint within the 
 
 |Control Statement|Description|
 |------|----------------------|
-|Control|Control Definition|
 |CS0012142|Backups must adhere to enterprise backup and retention requirements.|
 
 <br>
@@ -312,7 +307,6 @@ For more information on properties, see [Viewing the properties for an S3 bucket
 
 |Control Statement|Description|
 |------|----------------------|
-|Control|Control Definition|
 |CS0012142|Backups must adhere to enterprise backup and retention requirements.|
 
 <br>
