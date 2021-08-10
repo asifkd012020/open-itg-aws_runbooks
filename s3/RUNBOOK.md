@@ -22,7 +22,7 @@ Table of Contents
   - [7. Implement Appropriate Backups](#8-Implement-Appropriate-Backups)
   - [8. CloudTrail logging enabled for S3](#9-CloudTrail-logging-enabled-for-S3)
   - [9. CloudWatch alarms enabled for S3](#10-CloudWatch-alarms-enabled-for-S3)
-- [Operational Best Practices](#Operational-Best-Practices)
+- [Operational Best Practices](#operational-best-practices)
   - [1. Resource Tags](#1-Resource-Tags)
   - [2. Enable AWS Config](#Enable-AWS-Config)
   - [3. Enable AWS Trusted Advisor](#3-Enable-AWS-Trusted-Advisor)
@@ -47,51 +47,44 @@ Amazon S3 is a core service offered by AWS that provides object storage. It allo
 <br><br>
 
 ## Cloud Security Requirements
-### 1. Enforce least privilege for all S3 users and roles  
+### 1. Enforce least privilege for all S3 users and roles 
 
-**Why?** Controls provide reasonable assurance that logical access to data is restricted to authorized and appropriate users, and such users are restricted to performing authorized and appropriate actions.
+**Why?** 
 
-Controls provide reasonable assurance that privileged functions are managed and monitored commensurate with the risk level.
+CG utlizes the least privilege model when using IAM for services. In accordance with CGs principle of least privilege, only admins will need to have full access. Everyone else (specified users, groups of users, or roles) should only have read access to view findings.
 
-Controls provide reasonable assurance that users, devices, and other assets are authenticated commensurate with the risk level.
+When you grant permissions in AWS S3, you decide who is getting what permissions to which Amazon S3 resources. You enable specific actions that you want to allow on those resources. Therefore you should grant only the permissions that are required to perform a task. Implementing least privilege access is fundamental in reducing security risk and the impact that could result from errors or malicious intent.
 
-**How?** Manage permissions with IAM User Policies, S3 Bucket Policies, and S3 Access Control Lists (ACLs) to ensure appropriateness of access. IAM Roles should be used to manage temporary credentials for applications and AWS Services that need access to S3.  The assigned Role will supply temporary permissions that applications can use when they make calls to other AWS resources.
+**How?** 
+
+AWS IAM policies are JSON documents that are used for setting permissions on users, groups, and roles within AWS services. There are many AWS-managed policies available to pick from, or you can create your own policies using the IAM policy builder, or by just writing the JSON policy. Each user and role should have its own set of permissions.
+
+Manage permissions with IAM User Policies, S3 Bucket Policies, and S3 Access Control Lists (ACLs) to ensure appropriateness of access. IAM Roles should be used to manage temporary credentials for applications and AWS Services that need access to S3.  The assigned Role will supply temporary permissions that applications can use when they make calls to other AWS resources.
 
 IAM provides permissions on which API calls can be made by users to the service as well as who/what can access the service at a bucket and object level. Bucket policies and ACLs can be used separately and also in conjunction with IAM to control access to S3 buckets and objects.
 
-The following S3 bucket policy denies permissions to any user to perform any Amazon S3 operations on objects in the specified S3 bucket unless the request originates from the range of IP addresses specified in the condition.
 
-> **Important**  
-> This statement identifies the 54.240.143.0/24 as the range of allowed IP addresses.  
-> Replace the IP address range in this example with an appropriate value for your use case before using this policy. **Otherwise, you will lose the ability to access your bucket.**
+|Permission|Description|Needs Admin Privilege to Grant
+|------|----------------------|-------|
+|READ|Allows grantee to list the objects in the bucket.|❌|
+|WRITE|Allows grantee to create new objects in the bucket. For the bucket and object owners of existing objects, also allows deletions and overwrites of those objects.|✔️|
+|READ_ACP|Allows grantee to read the bucket ACL|✔️|
+|WRITE_ACP|Allows grantee to write the ACL for the applicable bucket|✔️|
+|FULL_CONTROL|Allows grantee the READ, WRITE, READ_ACP, and WRITE_ACP permissions on the bucket|✔️|
 
-```json
-{
-  "Version": "2012-10-17",
-  "Id": "S3PolicyId1",
-  "Statement": [
-    {
-      "Sid": "IPAllow",
-      "Effect": "Deny",
-      "Principal": "*",
-      "Action": "s3:*",
-      "Resource": [
-	 "arn:aws:s3:::awsexamplebucket1",
-         "arn:aws:s3:::awsexamplebucket1/*"
-      ],
-      "Condition": {
-	 "NotIpAddress": {"aws:SourceIp": "54.240.143.0/24"}
-      }
-    }
-  ]
-}
-```
+>**NOTE:**  
+>Do **NOT** ever use the **"All Users Group"** predefined group. This allows anyone in the world access to the resource and **MUST NOT  BE USED**. 
 
-Employ MFA for Sensitive S3 Resources
 
-**Why?** S3 supports MFA-protected API access, a feature that can enforce multi-factor authentication (MFA) for access to your Amazon S3 resources. Multi-factor authentication provides an extra level of security that you can apply to your AWS environment. It is a security feature that requires users to prove physical possession of an MFA device by providing a valid MFA code. For more information, see [Endnote 1](#endnote-1). You can require MFA for any requests to access your Amazon S3 resources.
+### Employ MFA for Sensitive S3 Resources
 
-**How?** You can enforce the MFA requirement using the `aws:MultiFactorAuthAge` key in a bucket policy. AWS Identity and Access Management (IAM) users can access Amazon S3 resources by using temporary credentials issued by the AWS Security Token Service (AWS STS). You provide the MFA code at the time of the AWS STS request.
+**Why?** 
+
+S3 supports MFA-protected API access, a feature that can enforce multi-factor authentication (MFA) for access to your Amazon S3 resources. Multi-factor authentication provides an extra level of security that you can apply to your AWS environment. It is a security feature that requires users to prove physical possession of an MFA device by providing a valid MFA code. You can require MFA for any requests to access your Amazon S3 resources.
+
+**How?** 
+
+You can enforce the MFA requirement using the `aws:MultiFactorAuthAge` key in a bucket policy. AWS Identity and Access Management (IAM) users can access Amazon S3 resources by using temporary credentials issued by the AWS Security Token Service (AWS STS). You provide the MFA code at the time of the AWS STS request.
 
 The following bucket policy includes two policy statements. One statement allows the `s3:GetObject` permission on a bucket (`awsexamplebucket1`) to everyone. Another statement further restricts access to the `awsexamplebucket1/examplefolder` folder in the bucket by requiring MFA.  
 The `Null` condition in the Condition block evaluates to true if the `aws:MultiFactorAuthAge` key value is null, indicating that the temporary security credentials in the request were created without the MFA key.
@@ -118,38 +111,45 @@ The `Null` condition in the Condition block evaluates to true if the `aws:MultiF
     ]
  }
 ```
+For more info on MFA Delete: https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiFactorAuthenticationDelete.html
+
+<br><br>
 
 ### 2. Buckets are encrypted using CG CMK
 
 **Why?** 
 
-Controls provide reasonable assurance that data is encrypted at-rest and in-transit throughout the lifecycle using a NIST-approved, CG-compliant encryption mechanism.
+CG's Cloud Security standards require that we ensure that the AWS services that hold sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption. The S3 data encryption and decryption is handled transparently once it has been enabled.
 
 **How?**
-#### Requiring Server-Side Encryption <!-- omit in toc -->
-To require server-side encryption of all objects in a particular Amazon S3 bucket, you can use a policy. For example, the following bucket policy denies upload object (`s3:PutObject`) permission to everyone if the request does not include the `x-amz-server-side-encryption` header requesting server-side encryption with SSE-KMS. The policy also specifies that a particular key must be used. 
-```json
-{
-   "Version":"2012-10-17",
-   "Id":"PutObjectPolicy",
-   "Statement":[{
-         "Sid":"DenyUnEncryptedObjectUploads",
-         "Effect":"Deny",
-         "Principal":"*",
-         "Action":"s3:PutObject",
-         "Resource":"arn:aws:s3:::awsexamplebucket1/*",
-         "Condition":{
-            "StringNotEquals":{
-               "s3:x-amz-server-side-encryption":"aws:kms"
-            },
-            "StringEquals":{
-               "s3:x-amz-server-side-encryption-aws-kms-key-id":"arn:aws:kms:region:acct-id:key/key-id"
-            }
-         }
-      }
-   ]
-}
-```
+
+To enable default encryption on an Amazon S3 bucket:
+
+1. Sign in to the AWS Management Console and open the Amazon S3 console at https://console.aws.amazon.com/s3/.
+2. In the Buckets list, choose the name of the bucket that you want.
+3. Choose Properties.
+4. Under Default encryption, choose Edit.
+5. To enable or disable server-side encryption, choose Enable or Disable.
+6. To enable server-side encryption using an Amazon S3-managed key, under Encryption key type, choose Amazon S3 key (SSE-S3).  
+For more information about using Amazon S3 server-side encryption to encrypt your data, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3).
+7. To enable server-side encryption using an AWS KMS CMK, follow these steps:
+    - Under Encryption key type, choose AWS Key Management Service key (SSE-KMS).
+    >**NOTE:**  
+    >If you use the AWS KMS option for your default encryption configuration, you are subject to the RPS (requests per second) limits of AWS KMS.
+    - Under AWS KMS key choose one of the following:
+      - AWS managed key (aws/s3)
+      - Choose from your KMS master keys, and choose your KMS master key.
+      - Enter KMS master key ARN, and enter your AWS KMS key ARN.    
+    > **NOTE:**
+    > You can only use KMS CMKs that are enabled in the same AWS Region as the bucket. When you choose Choose from your KMS master keys, the S3 console only lists 100 KMS CMKs per Region. If you have more than 100 CMKs in the same Region, you can only see the first 100 CMKs in the S3 console. To use a KMS CMK that is not listed in the console, choose Custom KMS ARN, and enter the KMS CMK ARN.
+    >
+    > When you use an AWS KMS CMK for server-side encryption in Amazon S3, you must choose a symmetric CMK. Amazon S3 only supports symmetric CMKs and not asymmetric CMKs.  
+8. To use S3 Bucket Keys, under Bucket Key, choose Enable.  
+When you configure your bucket to use default encryption with SSE-KMS, you can also enable S3 Bucket Key. S3 Bucket Keys decrease request traffic from Amazon S3 to AWS KMS and lower the cost of encryption.
+9. Choose Save changes.
+
+<br><br>
+
 ### 3. Data in Transit is encrypted using TLS 1.2
 
 **Capital Group:** <br>
