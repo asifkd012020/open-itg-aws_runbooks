@@ -76,7 +76,7 @@ Manage permissions with IAM User Policies, S3 Bucket Policies, and S3 Access Con
 IAM provides permissions on which API calls can be made by users to the service as well as who/what can access the service at a bucket and object level. Bucket policies and ACLs can be used separately and also in conjunction with IAM to control access to S3 buckets and objects.
 
 
-|Permission|Description|Needs Admin Privilege to Grant
+|Permission|Description|Needs Admin Privilege to Use
 |------|----------------------|-------|
 |READ|Allows grantee to list the objects in the bucket.|❌|
 |WRITE|Allows grantee to create new objects in the bucket. For the bucket and object owners of existing objects, also allows deletions and overwrites of those objects.|✔️|
@@ -485,7 +485,8 @@ If the rule does not contain any errors, Amazon S3 enables it, and you can see i
 <br><br>
 
 ## Endnotes
-
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/security.html
 
 ## Capital Group Control Statements 
 1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
