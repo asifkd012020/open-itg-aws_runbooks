@@ -1,9 +1,9 @@
 {
     "serviceprovider": "aws",
     "servicerequirement_name": [
-        "AWS::EC2::Volume"
+        "AWS::MWAA::Environment"
     ],
-    "servicedisplay_name": "Elastic Block Store (Foundation)",
+    "servicedisplay_name": "Amazon Managed Workflows for Apache Airflow",
     "serviceapproval_status": {
         "Prod": "",
         "SNP": "",
@@ -12,8 +12,8 @@
     "phase": "General Availability (GA)",
     "mapping": [
         {
-            "requirement_name": "EBS is Encrypted using CG Managed KMS Keys",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#1-EBS-is-Encrypted-using-CG-Managed-KMS-Keys",
+            "requirement_name": "MWAA is Encrypted using CG Managed KMS Keys",
+            "policy": "",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -25,111 +25,27 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/encryption_policies/encryption_standards.sentinel"
+                        ""
                     ],
                     "type": "prevent"
                 }
             ]
         },
         {
-            "requirement_name": "EBS Snapshots are Encrypted using CG Managed KMS Keys",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#2-EBS-Snapshots-are-Encrypted-using-CG-Managed-KMS-Keys",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "EBS Snapshot permissions are set to Private",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#3-EBS-Snapshot-permissions-are-set-to-Private",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": ["CS0012300"],
-            "implementations": []
-        },
-        {
-            "requirement_name": "EBS Snapshots will only be shared between CG accounts",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#4-EBS-Snapshots-will-only-be-shared-between-CG-accounts",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": ["CS0012300"],
-            "implementations": []
-        },
-        {
-            "requirement_name": "EBS Utilizes VPC Endpoints to Prevent Public Access",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "requirement_name": "MWAA Utilizes VPC Endpoints to Prevent Public Access",
+            "policy": "",
             "tags": [],
             "severity": {
                 "Prod": "high",
                 "SNP": "high",
                 "NP": "high"
             },
-            "control_mapping": ["CS0012300"],
-            "implementations": []
-        },
-        {
-            "requirement_name": "CloudTrail logging enabled for EBS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#6-CloudTrail-logging-enabled-for-EBS",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
             "control_mapping": [],
             "implementations": []
         },
         {
-            "requirement_name": "CloudWatch logging enabled for EBS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#7-CloudWatch-logging-enabled-for-EBS",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        }
-        {
-            "requirement_name": "EBS Resources are tagged according to CG standards",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#1-EBS-Resources-are-tagged-according-to-CG-standards",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "EBS Volumes should be removed if unattached or no longer required",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#2-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "EBS Snapshot age should not exceed retention period",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#3-EBS-Snapshot-age-should-not-exceed-retention-period",
+            "requirement_name": "MWAA Resources are tagged according to CG standards",
+            "policy": "",
             "tags": [],
             "severity": {
                 "Prod": "medium",

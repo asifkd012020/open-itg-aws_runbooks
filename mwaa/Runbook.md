@@ -27,7 +27,7 @@ Security Engineering
 - [Other Operational Expectations](#other-operational-expectations)
   - [1. MWAA Resources are tagged according to CG standards](#1-mwaa-resources-are-tagged-according-to-cg-standards)
 - [Endnotes](#endnotes)
-- [Capital Group Glossory](#capital-group-glossory)
+- [Capital Group Glossary](#capital-group-glossary)
 <br><br>
 
 ## Overview
@@ -286,7 +286,7 @@ Tagging resources in the cloud is an easy way for teams to provide information r
 6. 
 <br><br>
 
-## Capital Group Glossory 
+## Capital Group Glossary 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
  
 **Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
