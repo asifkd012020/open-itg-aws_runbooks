@@ -91,7 +91,8 @@ Before deploying a private MWAA , you'll need to create all of the required VPC 
 **Creation of VPC Endpoints via Cloud Formation**
 1. Here's a CloudFormation template you can use to create all the required VPC endpoints & security group.  You will have to select your VPC and Subnets during the stack deployment. 
 <br>
-```
+
+``` <br>
 AWSTemplateFormatVersion: "2010-09-09"
 
 Parameters:
