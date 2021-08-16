@@ -45,6 +45,8 @@ Airflow is an open source tool for programatically authoring, scheduling, and mo
 CG's Cloud Security standards require that we ensure that AWS Services that hold sensitive, critical or any other data are encrypted to fulfill compliance requirements for data-at-rest encryption. When creating a MWAA environment, you can specify a customer managed key for encryption.  
 
 **How?**<br>
+Users will be uploading DAGs to Amazon S3, reference the runbook for s3 to make sure it is compliant with CG [S3 Controls](https://github.com/open-itg/aws_runbooks/blob/CNTEN-3624-MWAA/s3/RUNBOOK.md) <br>
+
 [MWAA Encryption](https://docs.aws.amazon.com/mwaa/latest/userguide/encryption-at-rest.html)
 CMK Limitation as of 08/16 -  MWAA requires you use the same encryption key you use for S3 bucket encryption to encrypt the MWAA environment. 
 Our S3 KMS Key Policy does not allow encryption of airflow, so for testing purposes/poc purposes only, you have to update the s3 kms key policy to allow airflow service. 
