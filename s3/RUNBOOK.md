@@ -192,7 +192,7 @@ AWS CLI version 2 uses an internal Python script that's compiled to use a minimu
 More info on enforcing TLS: https://docs.aws.amazon.com/cli/latest/userguide/cli-security-enforcing-tls.html
 
 >**NOTE:**  
->All communications with the S3 API are encrypted using TLS, but file transfers to/from S3 buckets do not require secure transport by default. This can be changed, using S3 bucket policies.
+>All communications with the S3 API are encrypted using TLS, but secure transport file transfers to/from S3 buckets are not enabled by default. This **should** be changed, using S3 bucket policies.
 >  
 >The following statement uses the Bool condition operator with the `aws:SecureTransport` key to specify that the request must use Secure Transport.
 ```json
