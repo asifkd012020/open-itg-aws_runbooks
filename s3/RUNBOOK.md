@@ -54,9 +54,6 @@ Amazon S3 is a core service offered by AWS that provides object storage. It allo
 |Control Statement|Description|
 |------|----------------------|
 |CS0012298 |Access to change cloud identity access and service control policies is restricted to authorized cloud administrative personnel.|
-|CS0012299|Access to change cloud resource-based access policies is restricted to authorized personnel.|
-|CS0012195|Multi-Factor Authentication (MFA) is enforced for enterprise network access to systems and data.|
-
 
 <br>
 
