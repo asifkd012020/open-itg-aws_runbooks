@@ -108,8 +108,8 @@
             ]
         },
         {
-            "requirement_name": "Implement Appropriate Backups",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#7-Implement-Appropriate-Backups",
+            "requirement_name": "Buckets backups are in accordance with CG Standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#7-Buckets-backups-are-in-accordance-with-CG-Standards",
             "tags": [],
             "severity": {
                 "Prod": "critical",

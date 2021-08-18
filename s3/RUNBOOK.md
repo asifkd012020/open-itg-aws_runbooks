@@ -19,7 +19,7 @@ Table of Contents
   - [4. Deny public access by default utilizing bucket policy](#4-Deny-public-access-by-default-utilizing-bucket-policy)
   - [5. S3 Utilizes VPC Endpoints to Prevent Public Access](#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [6. Enable Server Access Logs](#6-Enable-Server-Access-Logs)  
-  - [7. Implement Appropriate Backups](#7-Implement-Appropriate-Backups)
+  - [7. Buckets backups are in accordance with CG Standards](#7-Buckets-backups-are-in-accordance-with-CG-Standards)
   - [8. CloudTrail logging enabled for S3](#8-CloudTrail-logging-enabled-for-S3)
   - [9. CloudWatch alarms enabled for S3](#9-CloudWatch-alarms-enabled-for-S3)
 - [Operational Best Practices](#operational-best-practices)
@@ -301,7 +301,7 @@ For more information on properties, see [Viewing the properties for an S3 bucket
 
 <br><br>
 
-### 7. Implement Appropriate Backups
+### 7. Buckets backups are in accordance with CG Standards
 
 **Capital Group:** <br>
 
