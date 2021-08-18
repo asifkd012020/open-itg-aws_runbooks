@@ -64,8 +64,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Block Public Access",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#4-Block-Public-Access",
+            "requirement_name": "Deny public access by default utilizing bucket policy",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#4-Deny-public-access-by-default-utilizing-bucket-policy",
             "tags": [],
             "severity": {
                 "Prod": "medium",
