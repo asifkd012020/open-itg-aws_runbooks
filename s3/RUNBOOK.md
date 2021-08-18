@@ -59,7 +59,7 @@ Amazon S3 is a core service offered by AWS that provides object storage. It allo
 
 **Why?** 
 
-CG utlizes the least privilege model when using IAM for services. In accordance with CGs principle of least privilege, only admins will need to have full access. Everyone else (specified users, groups of users, or roles) should only have read access to view findings.
+CG utlizes the least privilege model when using IAM for services. CG's standards require that users only have the minimum permissions assigned based on the need for them to perform their daily duties. In this case most individuals will only need read access.
 
 When you grant permissions in AWS S3, you decide who is getting what permissions to which Amazon S3 resources. You enable specific actions that you want to allow on those resources. Therefore you should grant only the permissions that are required to perform a task. Implementing least privilege access is fundamental in reducing security risk and the impact that could result from errors or malicious intent.
 
