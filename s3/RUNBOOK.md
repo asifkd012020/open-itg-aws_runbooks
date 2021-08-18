@@ -15,7 +15,7 @@ Table of Contents
 - [Cloud Security Requirements](#cloud-security-requirements)
   - [1. Enforce least privilege for all S3 users and roles](#enforce-least-privilege-for-all-S3-users-and-roles)
   - [2. Buckets are encrypted using CG CMK](#2-Buckets-are-encrypted-using-CG-CMK)
-  - [3. Data in Transit is encrypted using TLS 1.2](#3-Data-in-Transit-is-encrypted-using-TLS-1.2)
+  - [3. Data in Transit is encrypted using TLS 1.2](#3-Data-in-Transit-is-encrypted-using-TLS-12)
   - [4. Block Public Access](#4-Block-Public-Access)
   - [5. S3 Utilizes VPC Endpoints to Prevent Public Access](#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [6. Enable Server Access Logs](#6-Enable-Server-Access-Logs)  
