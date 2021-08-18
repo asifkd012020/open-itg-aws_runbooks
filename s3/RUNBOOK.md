@@ -13,7 +13,7 @@ Table of Contents
 - [Disclaimer](#disclaimer)
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
-  - [1. Enforce least privilege for all S3 users and roles](#enforce-least-privilege-for-all-S3-users-and-roles)
+  - [1. Enforce least privilege for all S3 users and roles](#Enforce-least-privilege-for-all-S3-users-and-roles)
   - [2. Buckets are encrypted using CG CMK](#2-Buckets-are-encrypted-using-CG-CMK)
   - [3. Data in Transit is encrypted using TLS 1.2](#3-Data-in-Transit-is-encrypted-using-TLS-12)
   - [4. Block Public Access](#4-Block-Public-Access)
