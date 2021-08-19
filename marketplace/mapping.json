@@ -1,0 +1,63 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::Marketplace:Private"
+    ],
+    "servicedisplay_name": "Private Marketplace (Foundation)",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "General Availability (GA)",
+    "mapping": [
+        {
+            "requirement_name": "Private Marketplace administrative rights only assigned to Platform Design Team",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/marketplace/Runbook.md#1-Private-Marketplace-administrative-rights-only-assigned-to-Platform-Design-Team",
+            "tags": [],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "high"
+            },
+            "control_mapping": ["CS0012299"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "IAM Policy Enforces Least Priviledge for Private Marketplace Resources",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/marketplace/Runbook.md#2-IAM-Policy-Enforces-Least-Priviledge-for-Private-Marketplace-Resources",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled for Private Marketplace",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/marketplace/Runbook.md#3-CloudTrail-logging-enabled-for-Private-Marketplace",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Private Marketplace Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/marketplace/Runbook.md#1-Private-Marketplace-Resources-are-tagged-according-to-CG-standards",
+            "tags": [],
+            "severity": {
+                "Prod": "low",
+                "SNP": "low",
+                "NP": "low"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
