@@ -14,20 +14,21 @@ Table of Contents
 - [Disclaimer](#disclaimer)
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
-  - [1. Enforce least privilege for all S3 users and roles](#1-Enforce-least-privilege-for-all-S3-users-and-roles)
-  - [2. Buckets are encrypted using CG CMK](#2-Buckets-are-encrypted-using-CG-CMK)
+  - [1. Enforce least privilege for all Lambda users and roles](#1-Enforce-least-privilege-for-all-S3-users-and-roles)
+  - [2. Envireoment variables are encrypted using CG CMK](#2-Functions-are-encrypted-using-CG-CMK)
   - [3. Data in Transit is encrypted using TLS 1.2](#3-Data-in-Transit-is-encrypted-using-TLS-12)
-  - [4. Deny public access by default utilizing bucket policy](#4-Deny-public-access-by-default-utilizing-bucket-policy)
-  - [5. S3 Utilizes VPC Endpoints to Prevent Public Access](#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [6. Enable Server Access Logs](#6-Enable-Server-Access-Logs)  
-  - [7. Buckets backups are in accordance with CG Standards](#7-Buckets-backups-are-in-accordance-with-CG-Standards)
-  - [8. CloudTrail logging enabled for S3](#8-CloudTrail-logging-enabled-for-S3)
-  - [9. CloudWatch alarms enabled for S3](#9-CloudWatch-alarms-enabled-for-S3)
+  - [5. Lambda Utilizes VPC Endpoints to Prevent Public Access](#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access) 
+  - [8. CloudTrail logging enabled for Lambda](#8-CloudTrail-logging-enabled-for-S3)
+  - [9. CloudWatch alarms enabled for lambda](#9-CloudWatch-alarms-enabled-for-S3)
+  - Secrets Management (Don't store sensistive information)(acm-checkout)
 - [Operational Best Practices](#operational-best-practices)
   - [1. Resource Tags](#1-Resource-Tags)
-  - [2. Enable AWS Config](#Enable-AWS-Config)
-  - [3. Enable AWS Trusted Advisor](#3-Enable-AWS-Trusted-Advisor)
-  - [4. Utilize Lifecycle Management](#4-Utilize-Lifecycle-Management)
+  - [2. Code Signing](#Enable-AWS-Config)???????????????????? ASK ROB Morning
+  - [3. Versioning](#3-Enable-AWS-Trusted-Advisor)
+  - [4. Cleanup unused functions](#4-Utilize-Lifecycle-Management)
+  - Sanitize input???????????????????? ASK ROB Morning (look at vericode)
+  - Monitor Dependancies (vericode does this)
+  - API Gateway (When do you need lambda to have a API Gateway?)
 - [Endnotes](#endnotes)
 - [Capital Group Control Statements](#capital-group-control-statements)
 - [Glossary](#glossary)
@@ -64,22 +65,6 @@ AWS Lambda is a serverless compute service that lets you run code without provis
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Enforce Strict Access Policies for Lambda Users and Roles
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
-|PR.AC-3|Remote access is managed|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
-|PR.AC-7|Users, devices, and other assets are authenticated (e.g., single-factor, multi-factor) commensurate with the risk of the transaction (e.g., individuals’ security and privacy risks and other organizational risks)|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
-|7|Use of AWS IAM accounts are restricted to CG networks.|
-|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
-|10|Administrative access to AWS resources will have MFA enabled|
 
 **Why?** By default, IAM users and roles don't have permission to create or modify Lambda resources. They also can't perform tasks using the AWS Management Console, AWS CLI, or AWS API. An IAM administrator must create IAM policies that grant users and roles permission to perform specific API operations on the specified resources they need. The administrator must then attach those policies to the IAM users or groups that require those permissions.
 
@@ -123,18 +108,6 @@ Example manage function policy permissions:
 The condition requires that the principal is Amazon SNS and not another service or account. The resource pattern requires that the function name is `test` and includes a version number or alias. For example, `test:v1`.
 
 ### 2. Data Protection
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
-|2|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
-|3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
 
 **Why?** 
 
@@ -164,20 +137,6 @@ Each Lambda execution environment also includes a writeable file system, availab
 
 ## Detective
 ### 1. Log AWS Lambda API Calls with AWS CloudTrail 
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.AE-2|Detected events are analyzed to understand attack targets and methods|
-|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
-|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
-|DE.CM-3|Personnel activity is monitored to detect potential cybersecurity events|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
 
 **Why?** 
 Using the information collected by CloudTrail, you can determine the request that was made to AWS Lambda, the IP address from which the request was made, who made the request, when it was made, and additional details\. 
@@ -282,19 +241,6 @@ CloudTrail also logs data events\. You can turn on data event logging so that yo
 
 
 ### 2. Utilize Amazon CloudWatch logs for AWS Lambda
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-|DE.AE-2|Detected events are analyzed to understand attack targets and methods|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.AE-4|Impact of events is determined|
-|DE.AE-5|Incident alert thresholds are established|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
 
 **Why?** 
 AWS Lambda automatically monitors Lambda functions on your behalf, reporting metrics through Amazon CloudWatch\. To help you troubleshoot failures in a function, Lambda logs all requests handled by your function and also automatically stores logs generated by your code through Amazon CloudWatch Logs\. 
@@ -321,17 +267,6 @@ There is no additional charge for using Lambda logs; however, standard CloudWatc
 1. Choose **View logs in CloudWatch**\.
 
 ### 3. Monitor AWS Lambda Function metrics in AWS CLoudwatch
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.AE-2|Detected events are analyzed to understand attack targets and methods|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.AE-4|Impact of events is determined|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
 
 **Why?** 
 When your function finishes processing an event, Lambda sends metrics about the invocation to Amazon CloudWatch\. You can build graphs and dashboards with these metrics in the CloudWatch console, and set alarms to respond to changes in utilization, performance, or error rates\. Use dimensions to filter and sort function metrics by function name, alias, or version\.
@@ -422,12 +357,6 @@ The console also shows reports from CloudWatch Logs Insights that are compiled f
 To view a query, choose **View in CloudWatch Logs Insights** from the menu in the top right of the report\.
 
 ### 4. Attach Lambda to VPC
-NIST CSF:
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
 
 **Why?** 
 When Lambdas are not attached to CG VPC's, it reduces traffic traversal of CG managed data through the public internet to reach CG assets. 
@@ -450,20 +379,6 @@ aws lambda update-function-configuration --function-name my-function \
 ```
 
 ## Endnotes
-### Endnote 1 <!-- omit in toc -->
-[https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-use-aws-defined-policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#bp-use-aws-defined-policies)
-
-### Endnote 2 <!-- omit in toc -->
-[https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#grant-least-privilege](https://docs.aws.amazon.com/IAM/latest/UserGuide/best-practices.html#grant-least-privilege)
-
-### Endnote 3 <!-- omit in toc -->
-[https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html)
-
-### Endnote 4 <!-- omit in toc -->
-[https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_condition.html)
-
-### Endnote 5 <!-- omit in toc -->
-[https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)
 
 ## Capital Group Control Statements 
 1. All Data-at-rest must be encrypted and use a CG BYOK encryption key.
