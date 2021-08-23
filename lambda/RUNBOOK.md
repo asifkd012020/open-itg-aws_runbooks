@@ -15,17 +15,17 @@ Table of Contents
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
   - [1. Enforce least privilege for all Lambda users and roles](#1-Enforce-least-privilege-for-all-S3-users-and-roles)
-  - [2. Envireoment variables are encrypted using CG CMK](#2-Functions-are-encrypted-using-CG-CMK)
+  - [2. Environment variables are encrypted using CG CMK](#2-Functions-are-encrypted-using-CG-CMK)
   - [3. Data in Transit is encrypted using TLS 1.2](#3-Data-in-Transit-is-encrypted-using-TLS-12)
-  - [5. Lambda Utilizes VPC Endpoints to Prevent Public Access](#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access) 
-  - [8. CloudTrail logging enabled for Lambda](#8-CloudTrail-logging-enabled-for-S3)
-  - [9. CloudWatch alarms enabled for lambda](#9-CloudWatch-alarms-enabled-for-S3)
-  - Secrets Management (Don't store sensistive information)(acm-checkout)
+  - [4. Lambda Utilizes VPC Endpoints to Prevent Public Access](#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access) 
+  - [5. Utilize Secrets Management for sensitive data] (acm-checkout)
+  - [6. CloudTrail logging enabled for Lambda](#8-CloudTrail-logging-enabled-for-S3)
+  - [7. CloudWatch alarms enabled for lambda](#9-CloudWatch-alarms-enabled-for-S3)
 - [Operational Best Practices](#operational-best-practices)
   - [1. Resource Tags](#1-Resource-Tags)
-  - [2. Code Signing](#Enable-AWS-Config)???????????????????? ASK ROB Morning
-  - [3. Versioning](#3-Enable-AWS-Trusted-Advisor)
-  - [4. Cleanup unused functions](#4-Utilize-Lifecycle-Management)
+  - [2. Versioning](#3-Enable-AWS-Trusted-Advisor)
+  - [3. Cleanup unused functions](#4-Utilize-Lifecycle-Management)
+  - [4. Code Signing](#Enable-AWS-Config)???????????????????? ASK ROB Morning
   - Sanitize input???????????????????? ASK ROB Morning (look at vericode)
   - Monitor Dependancies (vericode does this)
   - API Gateway (When do you need lambda to have a API Gateway?)
@@ -107,16 +107,13 @@ Example manage function policy permissions:
 
 The condition requires that the principal is Amazon SNS and not another service or account. The resource pattern requires that the function name is `test` and includes a version number or alias. For example, `test:v1`.
 
-### 2. Data Protection
+### 2. Environment variables are encrypted using CG CMK
 
 **Why?** 
 
+You can use environment variables to store secrets securely for use with Lambda functions. Lambda always encrypts environment variables at rest. Additionally, you can use the following features to customize how environment variables are encrypted.
+
 **How?**  
-#### Encryption In Transit <!-- omit in toc -->
-Lambda API endpoints only support secure connections over HTTPS. When you manage Lambda resources with the AWS Management Console, AWS SDK, or the Lambda API, all communication is encrypted with Transport Layer Security (TLS).
-
-When you connect your function to a file system, Lambda uses Encryption in transit for all connections.
-
 #### Encryption At Rest <!-- omit in toc -->
 You can use environment variables to store secrets securely for use with Lambda functions. Lambda always encrypts environment variables at rest. Additionally, you can use the following features to customize how environment variables are encrypted.
 
@@ -135,228 +132,20 @@ aws xray put-encryption-config --type KMS --key-id alias/aws/xray
 #### Consider purging /tmp after every invocation <!-- omit in toc -->
 Each Lambda execution environment also includes a writeable file system, available at `/tmp`. This storage is not accessible to other execution environments. As with the process state, files written to `/tmp` remain for the lifetime of the execution environment. This allows expensive transfer operations—such as downloading machine learning (ML) models—to be amortized across multiple invocations. Functions that do not want to persist data between invocations should either not write to `/tmp`, or delete their files from `/tmp` after each invocation. While `/tmp` is only accessible to a single invocation environment, it should be purged between invocations to help prevent disclosure or persistence of potentially sensitive data.
 
-## Detective
-### 1. Log AWS Lambda API Calls with AWS CloudTrail 
+<br><br>
 
-**Why?** 
-Using the information collected by CloudTrail, you can determine the request that was made to AWS Lambda, the IP address from which the request was made, who made the request, when it was made, and additional details\. 
-**How?** 
-#### Logging AWS Lambda API calls with AWS CloudTrail<a name="logging-using-cloudtrail"><!-- omit in toc -->
+## 3. Data in Transit is encrypted using TLS 1.2
+**Why?**
+Lambda API endpoints only support secure connections over HTTPS. When you manage Lambda resources with the AWS Management Console, AWS SDK, or the Lambda API, all communication is encrypted with Transport Layer Security (TLS).
 
-AWS Lambda is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in AWS Lambda\. CloudTrail captures API calls for AWS Lambda as events\. The calls captured include calls from the AWS Lambda console and code calls to the AWS Lambda API operations\. If you create a trail, you can enable continuous delivery of CloudTrail events to an Amazon S3 bucket, including events for AWS Lambda\. If you don't configure a trail, you can still view the most recent events in the CloudTrail console in **Event history**\. 
+When you connect your function to a file system, Lambda uses Encryption in transit for all connections.
 
-To learn more about CloudTrail, including how to configure and enable it, see the [AWS CloudTrail User Guide](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/)\.
+**How?**
 
-#### AWS Lambda information in CloudTrail<a name="service-name-info-in-cloudtrail"><!-- omit in toc -->
 
-CloudTrail is enabled on your AWS account when you create the account\. When supported event activity occurs in AWS Lambda, that activity is recorded in a CloudTrail event along with other AWS service events in **Event history**\. You can view, search, and download recent events in your AWS account\. For more information, see [Viewing events with CloudTrail event history](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events.html)\. 
+<br><br>
 
-For an ongoing record of events in your AWS account, including events for AWS Lambda, you create a trail\. A *trail* enables CloudTrail to deliver log files to an Amazon S3 bucket\. By default, when you create a trail in the console, the trail applies to all AWS Regions\. The trail logs events from all Regions in the AWS partition and delivers the log files to the Amazon S3 bucket that you specify\. Additionally, you can configure other AWS services to further analyze and act upon the event data collected in CloudTrail logs\. For more information, see the following: 
-+ [Overview for creating a trail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-create-and-update-a-trail.html)
-+ [CloudTrail supported services and integrations](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-aws-service-specific-topics.html#cloudtrail-aws-service-specific-topics-integrations)
-+ [Configuring Amazon SNS notifications for CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/getting_notifications_top_level.html)
-+ [Receiving CloudTrail log files from multiple regions](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/receive-cloudtrail-log-files-from-multiple-regions.html) and [Receiving CloudTrail log files from multiple accounts](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-receive-logs-from-multiple-accounts.html)
-
-AWS Lambda supports logging the following actions as events in CloudTrail log files:
-+ [AddPermission]
- 
-
-Every log entry contains information about who generated the request\. The user identity information in the log helps you determine whether the request was made with root or IAM user credentials, with temporary security credentials for a role or federated user, or by another AWS service\. For more information, see the **userIdentity** field in the [CloudTrail event reference](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-event-reference.html)\.
-
-You can store your log files in your bucket for as long as you want, but you can also define Amazon S3 lifecycle rules to archive or delete log files automatically\. By default, your log files are encrypted by using Amazon S3 server\-side encryption \(SSE\)\.
-
-You can choose to have CloudTrail publish Amazon SNS notifications when new log files are delivered if you want to take quick action upon log file delivery\. For more information, see [Configuring Amazon SNS notifications for CloudTrail](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/configure-sns-notifications-for-cloudtrail.html)\.
-
-You can also aggregate AWS Lambda log files from multiple AWS regions and multiple AWS accounts into a single S3 bucket\. For more information, see [Working with CloudTrail log files](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-working-with-log-files.html)\.
-
-#### Understanding AWS Lambda log file entries<a name="understanding-service-name-entries"><!-- omit in toc -->
-
-CloudTrail log files contain one or more log entries where each entry is made up of multiple JSON\-formatted events\. A log entry represents a single request from any source and includes information about the requested action, any parameters, the date and time of the action, and so on\. The log entries are not guaranteed to be in any particular order\. That is, they are not an ordered stack trace of the public API calls\.
-
-The following example shows CloudTrail log entries for the `GetFunction` and `DeleteFunction` actions\.
-
-```
-{
-  "Records": [
-    {
-      "eventVersion": "1.03",
-      "userIdentity": {
-        "type": "IAMUser",
-        "principalId": "A1B2C3D4E5F6G7EXAMPLE",
-        "arn": "arn:aws:iam::999999999999:user/myUserName",
-        "accountId": "999999999999",
-        "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
-        "userName": "myUserName"
-      },
-      "eventTime": "2015-03-18T19:03:36Z",
-      "eventSource": "lambda.amazonaws.com",
-      "eventName": "GetFunction",
-      "awsRegion": "us-east-1",
-      "sourceIPAddress": "127.0.0.1",
-      "userAgent": "Python-httplib2/0.8 (gzip)",
-      "errorCode": "AccessDenied",
-      "errorMessage": "User: arn:aws:iam::999999999999:user/myUserName is not authorized to perform: lambda:GetFunction on resource: arn:aws:lambda:us-west-2:999999999999:function:other-acct-function",
-      "requestParameters": null,
-      "responseElements": null,
-      "requestID": "7aebcd0f-cda1-11e4-aaa2-e356da31e4ff",
-      "eventID": "e92a3e85-8ecd-4d23-8074-843aabfe89bf",
-      "eventType": "AwsApiCall",
-      "recipientAccountId": "999999999999"
-    },
-    {
-      "eventVersion": "1.03",
-      "userIdentity": {
-        "type": "IAMUser",
-        "principalId": "A1B2C3D4E5F6G7EXAMPLE",
-        "arn": "arn:aws:iam::999999999999:user/myUserName",
-        "accountId": "999999999999",
-        "accessKeyId": "AKIAIOSFODNN7EXAMPLE",
-        "userName": "myUserName"
-      },
-      "eventTime": "2015-03-18T19:04:42Z",
-      "eventSource": "lambda.amazonaws.com",
-      "eventName": "DeleteFunction",
-      "awsRegion": "us-east-1",
-      "sourceIPAddress": "127.0.0.1",
-      "userAgent": "Python-httplib2/0.8 (gzip)",
-      "requestParameters": {
-        "functionName": "basic-node-task"
-      },
-      "responseElements": null,
-      "requestID": "a2198ecc-cda1-11e4-aaa2-e356da31e4ff",
-      "eventID": "20b84ce5-730f-482e-b2b2-e8fcc87ceb22",
-      "eventType": "AwsApiCall",
-      "recipientAccountId": "999999999999"
-    }
-  ]
-}
-```
-
-**Note**  
-The `eventName` may include date and version information, such as `"GetFunction20150331"`, but it is still referring to the same public API\. For more information, see [ Services supported by CloudTrail event history](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/view-cloudtrail-events-supported-services.html#view-cloudtrail-events-supported-apis-lambda) in the *AWS CloudTrail User Guide*\. 
-
-#### Using CloudTrail to track function invocations<a name="tracking-function-invocations"><!-- omit in toc -->
-
-CloudTrail also logs data events\. You can turn on data event logging so that you log an event every time Lambda functions are invoked\. This helps you understand what identities are invoking the functions and the frequency of their invocations\. 
-
-
-### 2. Utilize Amazon CloudWatch logs for AWS Lambda
-
-**Why?** 
-AWS Lambda automatically monitors Lambda functions on your behalf, reporting metrics through Amazon CloudWatch\. To help you troubleshoot failures in a function, Lambda logs all requests handled by your function and also automatically stores logs generated by your code through Amazon CloudWatch Logs\. 
-
-**How?** 
-#### Utilize Amazon CloudWatch logs for AWS Lambda<a name="monitoring-cloudwatchlogs"><!-- omit in toc -->
-
-
-You can insert logging statements into your code to help you validate that your code is working as expected\. Lambda automatically integrates with CloudWatch Logs and pushes all logs from your code to a CloudWatch Logs group associated with a Lambda function, which is named /aws/lambda/*<function name>*\. To learn more about log groups and accessing them through the CloudWatch console, see the [Monitoring system, application, and custom log files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatchLogs.html) in the *Amazon CloudWatch User Guide*\. 
-
-You can view logs for Lambda by using the Lambda console, the CloudWatch console, the AWS CLI, or the CloudWatch API\. The following procedure show you how to view the logs by using the Lambda console\. 
-
-**Note**  
-There is no additional charge for using Lambda logs; however, standard CloudWatch Logs charges apply\. For more information, see [CloudWatch pricing\.](https://aws.amazon.com/cloudwatch/pricing/)
-
-**To view logs using the Lambda console**
-
-1. Open the Lambda console [Functions page](https://console.aws.amazon.com/lambda/home#/functions)\.
-
-1. Choose a function\.
-
-1. Choose **Monitoring**\.  
-
-1. Choose **View logs in CloudWatch**\.
-
-### 3. Monitor AWS Lambda Function metrics in AWS CLoudwatch
-
-**Why?** 
-When your function finishes processing an event, Lambda sends metrics about the invocation to Amazon CloudWatch\. You can build graphs and dashboards with these metrics in the CloudWatch console, and set alarms to respond to changes in utilization, performance, or error rates\. Use dimensions to filter and sort function metrics by function name, alias, or version\.
-**How?** 
-Monitor AWS Lambda Function metrics from the CloudWatch console
-
-When your function finishes processing an event, Lambda sends metrics about the invocation to Amazon CloudWatch\. You can build graphs and dashboards with these metrics in the CloudWatch console, and set alarms to respond to changes in utilization, performance, or error rates\. Use dimensions to filter and sort function metrics by function name, alias, or version\.
-
-**To view metrics in the CloudWatch console**
-
-1. Open the [Amazon CloudWatch console Metrics page](https://console.aws.amazon.com/cloudwatch/home?region=us-east-1#metricsV2:graph=~();namespace=~'AWS*2fLambda) \(`AWS/Lambda` namespace\)\.
-
-2. Choose a dimension\.
-   + **By Function Name** \(`FunctionName`\) – View aggregate metrics for all versions and aliases of a function\.
-   + **By Resource** \(`Resource`\) – View metrics for a version or alias of a function\.
-   + **By Executed Version** \(`ExecutedVersion`\) – View metrics for a combination of alias and version\. Use the `ExecutedVersion` dimension to compare error rates for two versions of a function that are both targets of a [weighted alias](configuration-aliases.md)\.
-   + **Across All Functions** \(none\) – View aggregate metrics for all functions in the current AWS Region\.
-
-3. Choose metrics to add them to the graph\.
-
-By default, graphs use the `Sum` statistic for all metrics\. To choose a different statistic and customize the graph, use the options on the **Graphed metrics** tab\.
-
-The timestamp on a metric reflects when the function was invoked\. Depending on the duration of the execution, this can be several minutes before the metric is emitted\. If, for example, your function has a 10\-minute timeout, look more than 10 minutes in the past for accurate metrics\.
-
-For more information about CloudWatch, see the [https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/](https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/)\.
-
-
-#### Using invocation metrics<a name="monitoring-metrics-invocation"><!-- omit in toc -->
-
-Invocation metrics are binary indicators of the outcome of an invocation\. For example, if the function returns an error, Lambda sends the `Errors` metric with a value of 1\. To get a count of the number of function errors that occurred each minute, view the `Sum` of the `Errors` metric with a period of one minute\.
-
-You should view the following metrics with the `Sum` statistic\.
-
-**Invocation metrics**
-+ `Invocations` – The number of times your function code is executed, including successful executions and executions that result in a function error\. Invocations aren't recorded if the invocation request is throttled or otherwise resulted in an [invocation error](API_Invoke.md#API_Invoke_Errors)\. This equals the number of requests billed\.
-+ `Errors` – The number of invocations that result in a function error\. Function errors include exceptions thrown by your code and exceptions thrown by the Lambda runtime\. The runtime returns errors for issues such as timeouts and configuration errors\. To calculate the error rate, divide the value of `Errors` by the value of `Invocations`\.
-+ `DeadLetterErrors` – For [asynchronous invocation], the number of times Lambda attempts to send an event to a dead\-letter queue but fails\. Dead\-letter errors can occur due to permissions errors, misconfigured resources, or size limits\.
-+ `DestinationDeliveryFailures` – For asynchronous invocation, the number of times Lambda attempts to send an event to a [destination](gettingstarted-features.md#gettingstarted-features-destinations) but fails\. Delivery errors can occur due to permissions errors, misconfigured resources, or size limits\.
-+ `Throttles` – The number of invocation requests that are throttled\. When all function instances are processing requests and no concurrency is available to scale up, Lambda rejects additional requests with [TooManyRequestsException](API_Invoke.md#API_Invoke_Errors)\. Throttled requests and other invocation errors don't count as `Invocations` or `Errors`\.
-+ `ProvisionedConcurrencyInvocations` – The number of times your function code is executed on [provisioned concurrency]\.
-+ `ProvisionedConcurrencySpilloverInvocations` – The number of times your function code is executed on standard concurrency when all provisioned concurrency is in use\.
-
-#### Using performance metrics<a name="monitoring-metrics-performance"><!-- omit in toc -->
-
-Performance metrics provide performance details about a single invocation\. For example, the `Duration` metric indicates the amount of time in milliseconds that your function spends processing an event\. To get a sense of how fast your function processes events, view these metrics with the `Average` or `Max` statistic\.
-
-**Performance metrics**
-+ `Duration` – The amount of time that your function code spends processing an event\. For the first event processed by an instance of your function, this includes [initialization time](gettingstarted-features.md#gettingstarted-features-programmingmodel)\. The billed duration for an invocation is the value of `Duration` rounded up to the nearest 100 milliseconds\.
-+ `IteratorAge` – For [event source mappings] that read from streams, the age of the last record in the event\. The age is the amount of time between when the stream receives the record and when the event source mapping sends the event to the function\.
-
-`Duration` also supports [percentile statistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Percentiles)\. Use percentiles to exclude outlier values that skew average and maximum statistics\. For example, the P95 statistic shows the maximum duration of 95 percent of executions, excluding the slowest 5 percent\.
-
-#### Using concurrency metrics<a name="monitoring-metrics-concurrency"><!-- omit in toc -->
-
-Lambda reports concurrency metrics as an aggregate count of the number of instances processing events across a function, version, alias, or AWS Region\. To see how close you are to hitting concurrency limits, view these metrics with the `Max` statistic\.
-
-**Concurrency metrics**
-+ `ConcurrentExecutions` – The number of function instances that are processing events\. If this number reaches your [concurrent executions limit] for the Region, or the [reserved concurrency limit] that you configured on the function, additional invocation requests are throttled\.
-+ `ProvisionedConcurrentExecutions` – The number of function instances that are processing events on [provisioned concurrency]\. For each invocation of an alias or version with provisioned concurrency, Lambda emits the current count\.
-+ `ProvisionedConcurrencyUtilization` – For a version or alias, the value of `ProvisionedConcurrentExecutions` divided by the total amount of provisioned concurrency allocated\. For example, `.5` indicates that 50 percent of allocated provisioned concurrency is in use\.
-+ `UnreservedConcurrentExecutions` – For an AWS Region, the number of events that are being processed by functions that don't have reserved concurrency\.
-
-#### Monitoring functions in the AWS Lambda console<a name="monitoring-functions-access-metrics"><!-- omit in toc -->
-
-AWS Lambda monitors functions on your behalf and sends metrics to Amazon CloudWatch\. The metrics include total requests, duration, and error rates\. The Lambda console creates graphs for these metrics and shows them on the **Monitoring** page for each function\.
-
-**To access the monitoring console**
-
-1. Open the Lambda console [Functions page](https://console.aws.amazon.com/lambda/home#/functions)\.
-
-1. Choose **Monitoring**\.  
-
-The console provides the following graphs\.
-
-**Lambda monitoring graphs**
-+ **Invocations** – The number of times that the function was invoked in each 5\-minute period\.
-+ **Duration** – The average, minimum, and maximum execution times\.
-+ **Error count and success rate \(%\)** – The number of errors and the percentage of executions that completed without error\.
-+ **Throttles** – The number of times that execution failed due to concurrency limits\.
-+ **IteratorAge** – For stream event sources, the age of the last item in the batch when Lambda received it and invoked the function\.
-+ **Async delivery failures** – The number of errors that occurred when Lambda attempted to write to a destination or dead\-letter queue\.
-+ **Concurrent executions** – The number of function instances that are processing events\.
-
-To see the definition of a graph in CloudWatch, choose **View in metrics** from the menu in the top right of the graph\. 
-
-The console also shows reports from CloudWatch Logs Insights that are compiled from information in your function's logs\. You can add these reports to a custom dashboard in the CloudWatch Logs console\. Use the queries as a starting point for your own reports\.
-
-To view a query, choose **View in CloudWatch Logs Insights** from the menu in the top right of the report\.
-
-### 4. Attach Lambda to VPC
+### 4. Lambda Utilizes VPC Endpoints to Prevent Public Access
 
 **Why?** 
 When Lambdas are not attached to CG VPC's, it reduces traffic traversal of CG managed data through the public internet to reach CG assets. 
@@ -377,6 +166,28 @@ aws lambda create-function --function-name my-function \
 aws lambda update-function-configuration --function-name my-function \
 --vpc-config SubnetIds=subnet-071f712345678e7c8,subnet-07fd123456788a036,SecurityGroupIds=sg-085912345678492fb
 ```
+
+<br><br>
+
+## 5. Utilize Secrets Management for sensitive data
+**Why**
+
+
+**How?**
+
+
+<br><br>
+
+## 6. CloudTrail logging enabled for Lambda
+
+<br><br>
+
+## 7. CloudWatch alarms enabled for lambda 
+
+<br><br>
+
+## Cloud Security Requirements
+
 
 ## Endnotes
 
