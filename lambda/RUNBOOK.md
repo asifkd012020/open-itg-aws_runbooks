@@ -14,7 +14,7 @@ Table of Contents
 - [Disclaimer](#disclaimer)
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
-  - [1. Enforce least privilege for all Lambda users and roles](#1-Enforce-least-privilege-for-all-S3-users-and-roles)
+  - [1. Enforce least privilege for all Lambda users and roles](MFA???)(#1-Enforce-least-privilege-for-all-S3-users-and-roles)
   - [2. Environment variables are encrypted using CG CMK](#2-Functions-are-encrypted-using-CG-CMK)
   - [3. Data in Transit is encrypted using TLS 1.2](#3-Data-in-Transit-is-encrypted-using-TLS-12)
   - [4. Lambda Utilizes VPC Endpoints to Prevent Public Access](#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access) 
@@ -22,8 +22,8 @@ Table of Contents
   - [6. CloudTrail logging enabled for Lambda](#8-CloudTrail-logging-enabled-for-S3)
   - [7. CloudWatch alarms enabled for lambda](#9-CloudWatch-alarms-enabled-for-S3)
 - [Operational Best Practices](#operational-best-practices)
-  - [1. Resource Tags](#1-Resource-Tags)
-  - [2. Versioning](#3-Enable-AWS-Trusted-Advisor)
+  - [1. Enable Resource Tags](#1-Resource-Tags)
+  - [2. Enable Versioning](#3-Enable-AWS-Trusted-Advisor)
   - [3. Cleanup unused functions](#4-Utilize-Lifecycle-Management)
   - [4. Code Signing](#Enable-AWS-Config)???????????????????? ASK ROB Morning
   - Sanitize input???????????????????? ASK ROB Morning (look at vericode)
@@ -136,12 +136,19 @@ Each Lambda execution environment also includes a writeable file system, availab
 
 ## 3. Data in Transit is encrypted using TLS 1.2
 **Why?**
+TLS 1.2 and above is the standard when it comes to network security. CG requirements also need a service to support at least TLS1.2. 
+
+**How?**
 Lambda API endpoints only support secure connections over HTTPS. When you manage Lambda resources with the AWS Management Console, AWS SDK, or the Lambda API, all communication is encrypted with Transport Layer Security (TLS).
 
 When you connect your function to a file system, Lambda uses Encryption in transit for all connections.
 
-**How?**
+More info on enforcing TLS: https://docs.aws.amazon.com/cli/latest/userguide/cli-security-enforcing-tls.html
 
+<br>
+
+>**NOTE:**   
+> Always use **TLS 1.2** or above when communicating with AWS services
 
 <br><br>
 
@@ -180,14 +187,70 @@ aws lambda update-function-configuration --function-name my-function \
 
 ## 6. CloudTrail logging enabled for Lambda
 
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control|Control Definition|
+
+<br>
+
+**What, Why & How?**  
+
+AWS CloudTrail is a service that provides a record of actions taken by a user, role, or an AWS service. CloudTrail captures API calls as events. For an ongoing record of events in your AWS account, you create a trail. A trail enables CloudTrail to deliver log files of events to an Amazon S3 bucket.
+
+- A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon S3 bucket, including events for Lambda. This will enable the forwarding of logs into Splunk for long term archival and reporting.
+
+More info on monitoring and CloudTrail Events: https://docs.aws.amazon.com/lambda/latest/dg/with-cloudtrail.html
+
 <br><br>
 
 ## 7. CloudWatch alarms enabled for lambda 
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control |Control Definition|
+
+<br>
+
+**What, Why & How?**  
+AWS Lambda Serice allows for the collection of CloudWatch Events, Logs and Alarms. Use any and all features that best suits your situation. Uses include daily storage metrics for buckets, request metrics, and replication metrics.
+
+ - **Amazon CloudWatch Alarms** – Watch a single metric over a time period that you specify, and perform one or more actions based on the value of the metric relative to a given threshold over a number of time periods.
+ - **Amazon CloudWatch Logs** – Monitor, store, and access your log files from Amazon CloudTrail or other sources.
+ - **Amazon CloudWatch Events** – Match events and route them to one or more target functions or streams to make changes, capture state information, and take corrective action.
+
+ Utilizing these [CloudWatch](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html) tools together can be useful in detecting anomolous activity and patterns in data access within the S3 service. It is recommended that CloudWatch is used to monitor any critical services in use at CG. Please see the [CloudWatch Runbook](https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/RUNBOOK.md) for further information.
+
+More info on monitoring for Lambda: https://docs.aws.amazon.com/lambda/latest/dg/services-cloudwatchevents.html
 
 <br><br>
 
 ## Cloud Security Requirements
 
+## 1. Enable Resource Tags 
+
+**What, Why & How?**  
+
+Identification of your IT assets is a crucial aspect of governance and security. You need to have visibility of all your Amazon S3 resources to assess their security posture and take action on potential areas of weakness.
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. Please see the documentation below for the latest tagging standards.
+
+<br><br>
+
+## 2. Enable Versioning 
+
+<br><br>
+
+## 3. Cleanup unused functions 
+
+<br><br>
+
+## 4. ???????????????????? 
+
+<br><br>
 
 ## Endnotes
 
