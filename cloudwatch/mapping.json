@@ -13,8 +13,8 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "CloudWatch Metrics: Enable TLS1.2 or higher for communication sessions",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md",
+            "requirement_name": "CloudWatch IAM Policy Enforce Least Priviledge for CloudWatch Resources",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md#1-CloudWatch-IAM-Policy-Enforce-Least-Priviledge-for-CloudWatch-Resources",
             "tags":[],
             "severity": {
                 "Prod": "medium",

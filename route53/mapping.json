@@ -13,7 +13,7 @@
     "mapping": [
         {
             "requirement_name": "Route53 deployed with Private Hosted Zones Only",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#1-Route53-deployed-for-Private-Hosted-Zones-Only",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/route53/Runbook.md#1-Route53-deployed-with-Private-Hosted-Zones-Only",
             "tags": [],
             "severity": {
                 "Prod": "critical",
