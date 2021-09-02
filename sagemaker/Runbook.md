@@ -163,19 +163,21 @@ Amazon SageMaker Studio is the first fully integrated development environment (I
 |[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
 
 **Why?**<br>
+SageMaker Studio IDE is a service that data scientists and developers can quickly and easily build and train machine learning models, and then directly deploy them into a production-ready hosted environment. As the users may be working with sensitive data, We need to make sure that this traffic is not transmitted or accessible over the Public Internet and limited to only the CG VPC in which the infrastructure has been deployed.
 
 **How?**<br>
-### Creating an Amazon SageMaker Studio domain inside a VPC
+
+**Creating an Amazon SageMaker Studio domain inside a VPC**<br>
 With existing infrastructure in place, you can create an Amazon SageMaker Studio domain and assign it to an existing CG VPC.
 
 <img src="/docs/img/sagemaker/studio.jpg" width="800"/>
 
 To create a domain, you can use the following:
- - The AWS Command Line Interface (AWS CLI). For instructions, see create-domain.
- - The AWS SDK. For instructions, see CreateDomain.
+ - The AWS Command Line Interface (AWS CLI).
+ - The AWS SDK.
  - The AWS Management Console.
 
-To use the console to create a Studio domain and tie it to an existing CG VPC, complete the following steps:
+To use the **AWS Console** to create a Studio domain and tie it to an existing CG VPC, complete the following steps:
 
  - On the Amazon SageMaker console, choose SageMaker Studio.
 
