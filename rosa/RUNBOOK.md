@@ -31,7 +31,29 @@ Red Hat OpenShift Service on AWS is a managed service that's available through t
 
 ## Preventative Controls
 
-### 1. Preventative Controls for SRE Admin Access
+### 1. ROSA is deployed in a private VPC with DirectLink
+
+**Capital Group Controls:** 
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why?** 
+
+Preventing exposure to the internet access.
+
+**How?** 
+
+The Red Hat managed infrastructure that creates AWS PrivateLink clusters is hosted on private subnets. The connection between Red Hat and Capital Group provided infrastructure is created through PrivateLink VPC endpoints.  This configuration enables Capital Group to extend network into the cloud without exposing your network to the internet.
+
+
+<br>
+<img src="/docs/img/rosa/rosa_private-cluster.png" width="800"><br>
+- Cluster can be created without any requirements on public subnets, internet gateways, or network address translation (NAT) gateways.
+- In this configuration, Red Hat uses AWS PrivateLink (PrivateLink) to manage and monitor a cluster in order to avoid all public ingress network traffic
+<br>
+
+### 2. Preventative Controls for SRE Admin Access
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -73,7 +95,7 @@ Capital Group retains ownership of the AWS account and can terminate roles, poli
 the Private Link connection.  (This will affect Red Hat support and management of the cluster)
 <br><br>
 
-### 2. Preventative Controls for SRE Admin Access (Programmatic)
+### 3. Preventative Controls for SRE Admin Access (Programmatic)
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -113,9 +135,10 @@ Capital Group retains ownership of the AWS account and can terminate roles, poli
 |------|----------------------|
 |[CS0012261](https://capitalgroup.service-now.com/cg_grc?sys_id=efef99521b5a8050da4bdca4bd4bcb91&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud based data in transit must be encrypted with enterprise approved algorithms.|
 
-**Why?** 
+**Why?**
 
 User and application sessions must be protected from unauthorized capture of data in transit.
+
 **How?** 
 
 All Red Hat administration communication will occur over PrivateLink using an encrypted tunnel through a hardened SRE support pod.
@@ -132,6 +155,7 @@ All Red Hat administration communication will occur over PrivateLink using an en
 **Why?** 
 
 Customer data may be compromised if stored in non-secured repositories.
+
 **How?** 
 
 Although all ROSA clusters are backed up using AWS snapshots, this does NOT include customer data stored on persistent volumes (PVs).  Additionally, ROSA uses AWS KMS to securely manage keys for encrypted data.
