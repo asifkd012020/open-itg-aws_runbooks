@@ -48,8 +48,8 @@ The Red Hat managed infrastructure that creates AWS PrivateLink clusters is host
 
 <br>
 <img src="/docs/img/rosa/rosa-private-cluster.png" width="800"><br>
- - Cluster can be created without any requirements on public subnets, internet gateways, or network address translation (NAT) gateways.
- - In this configuration, Red Hat uses AWS PrivateLink (PrivateLink) to manage and monitor a cluster in order to avoid all public ingress network traffic.
+  - *Cluster can be created without any requirements on public subnets, internet gateways, or network address translation (NAT) gateways.
+  - *In this configuration, Red Hat uses AWS PrivateLink (PrivateLink) to manage and monitor a cluster in order to avoid all public ingress network traffic.
 <br>
 
 ### 2. Preventative Controls for SRE Admin Access
