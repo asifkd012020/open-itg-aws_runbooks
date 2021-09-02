@@ -8,23 +8,23 @@
 <br>
 Security Engineering
 
-**Last Update:** *04/27/2021*
+**Last Update:** *08/30/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-- [Preventative Controls](#Preventative-Controls)
+- [Cloud Security Requirements](#Cloud-Security-Requirements)
   - [1. SageMaker Utilizes VPC Endpoints to Prevent Public Access](#1-SageMaker-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [2. SageMaker notebook instances have Public Internet access disabled](#2-SageMaker-notebook-instances-have-Public-Internet-access-disabled)
-  - [3. SageMaker Users and Roles defined following least privilege model](#3-SageMaker-Users-and-Roles-defined-following-least-privilege-model)
-  - [4. SageMaker resources are Encrypted using CG Managed KMS Keys](#4-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
-  - [5. SageMaker connections are Encrypted in transitusing TLS 1.2](#5-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2)
-  - [6. SageMaker uses the CG instance of GitHub Enterprise as source code repository](#6-SageMaker-uses-the-CG-instance-of-GitHub-Enterprise-as-source-code-repository) 
-  - [7. SageMaker workloads execute within CG private network](#7-SageMaker-workloads-execute-within-CG-private-network)
-- [Detective Controls](#Detective-Controls)
+  - [3. SageMaker Studio IDE deployed in a Private VPC to prevent Public Access](#3-SageMaker-Studio-IDE-deployed-in-a-Private-VPC-to-prevent-Public-Access)
+  - [4. SageMaker Users and Roles defined following least privilege model](#4-SageMaker-Users-and-Roles-defined-following-least-privilege-model)
+  - [5. SageMaker resources are Encrypted using CG Managed KMS Keys](#5-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
+  - [6. SageMaker connections are Encrypted in transitusing TLS 1.2](#6-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2)
+  - [7. SageMaker uses the CG instance of GitHub Enterprise as source code repository](#7-SageMaker-uses-the-CG-instance-of-GitHub-Enterprise-as-source-code-repository) 
+  - [8. SageMaker workloads execute within CG private network](#8-SageMaker-workloads-execute-within-CG-private-network)
+  - [9. CloudTrail logging enabled and sent to Splunk](#9-CloudTrail-logging-enabled-and-sent-to-Splunk)
+  - [10. CloudWatch logging enabled and sent to Splunk](#10-CloudWatch-logging-enabled-and-sent-to-Splunk)
+- [Operational Best Practices](#Other-Operational-Expectations)
   - [1. SageMaker Resources are tagged according to CG standards](#1-SageMaker-Resources-are-tagged-according-to-CG-standards)
-  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
-- [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 
@@ -34,6 +34,11 @@ Amazon SageMaker is a fully-managed service that enables data scientists and dev
 
 <img src="/docs/img/sagemaker/sagemaker.png" width="800"><br>
 
+**NOTE:** <br>
+>`SageMaker Studio IDE is not a required component, and any sections related to Studion IDE are only pertinent if you are planning on an implementation that includes the Studio IDE product.`
+
+<br>
+
 ### Key Features
   - The first integrated development environment (IDE) for ML
   - Build, train, and tune models automatically
@@ -42,9 +47,10 @@ Amazon SageMaker is a fully-managed service that enables data scientists and dev
   - Purpose-built feature store for ML
   - One-click deployment to the cloud
   - Secure your data and code throughout the ML lifecycle
-  <br><br>
 
-## Preventative Controls
+<br>
+
+## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. SageMaker Utilizes VPC Endpoints to Prevent Public Access
@@ -56,9 +62,6 @@ SageMaker currently supports VPC Interface Endpoints in AWS, and as such allows 
 |Control Statement|Description|
 |------|----------------------|
 |[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
-|[CS0012264](https://capitalgroup.service-now.com/cg_grc?sys_id=67ef99521b5a8050da4bdca4bd4bcbb6&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Network connectivity to external services are configured to comply with enterprise approved patterns.|
-|[CS0012317](https://capitalgroup.service-now.com/cg_grc?sys_id=134f8d4b1bea6850371277741a4bcbb9&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Services using externally exposed APIs must employ enterprise approved security mechanisms. |
-|[CS0012318](https://capitalgroup.service-now.com/cg_grc?sys_id=534f8d4b1bea6850371277741a4bcbc2&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones. |
 <br>
 
 **Why?**<br>
@@ -122,6 +125,7 @@ aws sagemaker-runtime invoke-endpoint --endpoint-url VPC_Endpoint_ID.runtime.sag
     --content-type "Content_Type" \
             Output_File
 ```
+<br>
 
 ### 2. SageMaker notebook instances have Public Internet access disabled
 Amazon SageMaker provides fully managed instances running Jupyter Notebooks for data exploration and preprocessing. But by default public Internet access is enabled for each instance, and this will cause the instance to fail CG's cloud security standards. This section will explain how to use SageMaker lifecycle configuration to ensure cloud control adherence.
@@ -131,9 +135,6 @@ Amazon SageMaker provides fully managed instances running Jupyter Notebooks for 
 |Control Statement|Description|
 |------|----------------------|
 |[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
-|[CS0012264](https://capitalgroup.service-now.com/cg_grc?sys_id=67ef99521b5a8050da4bdca4bd4bcbb6&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Network connectivity to external services are configured to comply with enterprise approved patterns.|
-|[CS0012318](https://capitalgroup.service-now.com/cg_grc?sys_id=534f8d4b1bea6850371277741a4bcbc2&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones. |
-<br>
 
 **Why?**<br>
 SageMaker as mentioned before is a service that is used in Machine Learning and may involve sensitive data, for this reason we want a lifecycle configuration that automatically disconnects notebook instances from the public internet so that you can apply controlled security settings in your notebook instances by default.
@@ -149,41 +150,76 @@ Currently if you connect a notebook instance to your virtual private cloud (VPC)
    - To disable direct internet access, under Direct Internet access, simply choose `Disable – use VPC only`
    - Select the `Create notebook instance` button at the bottom.<br>
    <img src="/docs/img/sagemaker/sagemaker_vpc.gif" width="600"><br>
-   After a few minutes the New Notebook will be ready for use.
+   After a few minutes the New Notebook will be ready for use.<br><br>
 
-### 3. SageMaker Users and Roles defined following least privilege model
+
+### 3. SageMaker Studio IDE deployed in a Private VPC to prevent Public Access 
+Amazon SageMaker Studio is the first fully integrated development environment (IDE) for machine learning (ML). With a single click, data scientists and developers can quickly spin up Amazon SageMaker Studio Notebooks for exploring datasets and building models. With the new ability to launch Amazon SageMaker Studio in your Amazon Virtual Private Cloud (Amazon VPC), you can control the data flow from your Amazon SageMaker Studio notebooks. This allows you to restrict internet access, monitor and inspect traffic using standard AWS networking and security capabilities, and connect to other AWS resources through AWS PrivateLink or VPC endpoints.
+
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why?**<br>
+
+**How?**<br>
+### Creating an Amazon SageMaker Studio domain inside a VPC
+With existing infrastructure in place, you can create an Amazon SageMaker Studio domain and assign it to an existing CG VPC.
+
+<img src="/docs/img/sagemaker/studio.jpg" width="800"/>
+
+To create a domain, you can use the following:
+ - The AWS Command Line Interface (AWS CLI). For instructions, see create-domain.
+ - The AWS SDK. For instructions, see CreateDomain.
+ - The AWS Management Console.
+
+To use the console to create a Studio domain and tie it to an existing CG VPC, complete the following steps:
+
+ - On the Amazon SageMaker console, choose SageMaker Studio.
+
+> **NOTE:** If you don’t have a domain created, a screen appears.
+ - For Get Started, select Standard setup.
+ - For Authentication method, select AWS Identity and Access Management (IAM).
+ - For Execution role for all users, choose your notebook IAM role (the default is `studiovpc-notebook-role`).
+ - In the Network section, for VPC, choose your VPC (the default is `studiovpc-vpc`).
+ - For Subnet, choose your subnet (the default is `studiovpc-private-subnet`).
+
+Make sure to not choose studiovpc-endpoint-private-subnet.
+ - For Network Access for Studio, select `VPC Only`, **this piece is very important**.
+ - Choose Submit
+
+<br>
+
+### 4. SageMaker Users and Roles defined following least privilege model
 `This Section will be updated soon.`
 
-### 4. SageMaker resources are Encrypted using CG Managed KMS Keys
+### 5. SageMaker resources are Encrypted using CG Managed KMS Keys
 `This Section will be updated soon.`
 
-### 5. SageMaker connections are Encrypted in transitusing TLS 1.2
+### 6. SageMaker connections are Encrypted in transitusing TLS 1.2
 `This Section will be updated soon.`
 
-### 6. SageMaker uses the CG instance of GitHub Enterprise as source code repository
+### 7. SageMaker uses the CG instance of GitHub Enterprise as source code repository
 `This Section will be updated soon.`
 
-### 7. SageMaker workloads execute within CG private network
+### 8. SageMaker workloads execute within CG private network
 `This Section will be updated soon.`
-<br><br>
 
-## Detective Controls
+### 9. CloudTrail logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+### 10. CloudWatch logging enabled and sent to Splunk
+`This Section will be updated soon.`
+
+## Operational Best Practices
 <img src="/docs/img/Detect.png" width="50">
 
 ### 1. SageMaker Resources are tagged according to CG standards
 `This Section will be updated soon.`
 
-### 2. CloudTrail logging enabled and sent to Splunk
-`This Section will be updated soon.`
 
-### 3. CloudWatch logging enabled and sent to Splunk
-`This Section will be updated soon.`
-<br><br>
-
-## Respond/Recover
-<img src="/docs/img/Monitor.png" width="50">
-
-`This Section will be updated soon.`
 <br><br>
 
 ## Endnotes
@@ -192,6 +228,7 @@ Currently if you connect a notebook instance to your virtual private cloud (VPC)
 2. https://docs.aws.amazon.com/sagemaker/latest/dg/interface-vpc-endpoint.html
 3. https://sagemaker-workshop.com/security_for_sysops/team_resources/secure_networking.html
 4. https://confluence.capgroup.com/display/FSA/Sentinel+Policies?showComments=true&showCommentArea=true#SentinelPolicies-SageMakerPolicies.
+5. https://aws.amazon.com/blogs/machine-learning/securing-amazon-sagemaker-studio-connectivity-using-a-private-vpc/
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
