@@ -48,7 +48,6 @@ Amazon SageMaker is a fully-managed service that enables data scientists and dev
   - One-click deployment to the cloud
   - Secure your data and code throughout the ML lifecycle
 
-<br>
 
 ## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
@@ -193,7 +192,6 @@ Make sure to not choose studiovpc-endpoint-private-subnet.
  - For Network Access for Studio, select `VPC Only`, **this piece is very important**.
  - Choose Submit
 
-<br>
 
 ### 4. SageMaker Users and Roles defined following least privilege model
 `This Section will be updated soon.`
@@ -215,6 +213,7 @@ Make sure to not choose studiovpc-endpoint-private-subnet.
 
 ### 10. CloudWatch logging enabled and sent to Splunk
 `This Section will be updated soon.`
+<br><br>
 
 ## Operational Best Practices
 <img src="/docs/img/Detect.png" width="50">
@@ -222,8 +221,7 @@ Make sure to not choose studiovpc-endpoint-private-subnet.
 ### 1. SageMaker Resources are tagged according to CG standards
 `This Section will be updated soon.`
 
-
-<br><br>
+<br>
 
 ## Endnotes
 **Resources**<br>
