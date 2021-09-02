@@ -15,10 +15,9 @@ Platform Design Services
 - [Preventative Controls](#Cloud-Security-Requirements)
   - [1. Preventative Controls for SRE Admin Access](#1-security-irequirement-1)
   - [2. Preventative Controls for SRE Admin Access (Programmatic)](#2-security-irequirement-2)
-  - [3. Security Requirement 3](#3-security-irequirement-3)
-- [Other Operational Expectations](#Other-Operational-Expectations)
-  - [1. Operational Item 1](#1-Operational-item-1)
-  - [2. Operational Item 2](#2-Operational-item-2)
+- [Data Protection](#Other-Operational-Expectations)
+  - [1. Administrative Session Encryption](#1-Operational-item-1)
+  - [2. Data Encryption](#2-Operational-item-2)
   - [3. Operational Item 3](#3-Operational-item-3)
 - [Endnotes](#endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -105,22 +104,38 @@ Access to systems is disabled after a specified number of unsuccessful login att
 Capital Group retains ownership of the AWS account and can terminate roles, policies, and the Private Link connection.  (This will affect Red Hat support and management of the cluster)
 <br><br>
 
-### 3. Security Requirement 3
+## Data Protection
+
+### 1. Administrative session encryption
 
 **Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|[Control ID](https://link-to-grc)|Description of the control.|
+|[CS0012261](https://capitalgroup.service-now.com/cg_grc?sys_id=efef99521b5a8050da4bdca4bd4bcb91&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud based data in transit must be encrypted with enterprise approved algorithms.|
 
 **Why?** 
 
-Why is this requirement needed at CG?
+User and application sessions must be protected from unauthorized capture of data in transit.
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+All Red Hat administration communication will occur over PrivateLink using an encrypted tunnel through a hardened SRE support pod.
 <br><br>
 
-## Other Operational Expectations
+
+### 2. Data encryption
+
+**Capital Group Controls:** 
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012247](https://capitalgroup.service-now.com/cg_grc?sys_id=baef59521b5a8050da4bdca4bd4bcb4a&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Data extraction from one source to another source or target is approved by the business data owner prior to extraction. (Statement of Direction)|
+
+**Why?** 
+
+Customer data may be compromised if stored in non-secured repositories.
+**How?** 
+
+Although all ROSA clusters are backed up using AWS snapshots, this does NOT include customer data stored on persistent volumes (PVs).  Additionally, ROSA uses AWS KMS to securely manage keys for encrypted data.
+<br><br>
 
 ### 1. Operational Item 1
 
