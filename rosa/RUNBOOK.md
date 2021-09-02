@@ -12,8 +12,8 @@ Platform Design Services
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-- [Cloud Security Requirements](#Cloud-Security-Requirements)
-  - [1. Security Requirement 1](#1-security-irequirement-1)
+- [Preventative Controls](#Cloud-Security-Requirements)
+  - [1. Preventative Controls for SRE Admin Access](#1-security-irequirement-1)
   - [2. Security Requirement 2](#2-security-irequirement-2)
   - [3. Security Requirement 3](#3-security-irequirement-3)
 - [Other Operational Expectations](#Other-Operational-Expectations)
@@ -37,13 +37,13 @@ Red Hat OpenShift Service on AWS is a managed service that's available through t
 **Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|[CS0012152](https://capitalgroup.service-now.com/cg_grc?sys_id=d6df11521b5a8050da4bdca4bd4bcb48&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Description of the control.|
-|[CS0012196](https://capitalgroup.service-now.com/cg_grc?sys_id=48ef15521b5a8050da4bdca4bd4bcb9a&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Description of the control.|
-|[CS0012177](https://capitalgroup.service-now.com/cg_grc?sys_id=4fdf51521b5a8050da4bdca4bd4bcbdb&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Description of the control.|
-|[CS0012198](https://capitalgroup.service-now.com/cg_grc?sys_id=04ef15521b5a8050da4bdca4bd4bcbd5&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Description of the control.|
-|[CS0012199](https://capitalgroup.service-now.com/cg_grc?sys_id=0cef15521b5a8050da4bdca4bd4bcbde&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Description of the control.|
-|[CS0012190](https://capitalgroup.service-now.com/cg_grc?sys_id=e3dfd1521b5a8050da4bdca4bd4bcbad&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Description of the control.|
-|[CS0012233](https://capitalgroup.service-now.com/cg_grc?sys_id=c5ef95521b5a8050da4bdca4bd4bcbf7&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Description of the control.|
+|[CS0012152](https://capitalgroup.service-now.com/cg_grc?sys_id=d6df11521b5a8050da4bdca4bd4bcb48&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Third-party efforts must undergo data classification and risk assessments to ensure appropriate access to information systems and data.|
+|[CS0012196](https://capitalgroup.service-now.com/cg_grc?sys_id=48ef15521b5a8050da4bdca4bd4bcb9a&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Privileged user accounts must be inventoried, associated with an owner, and each account must be approved by an authorized approver(s).|
+|[CS0012177](https://capitalgroup.service-now.com/cg_grc?sys_id=4fdf51521b5a8050da4bdca4bd4bcbdb&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Users performing activities requiring Administrative level access must perform these activities from the designated secure administration environment.|
+|[CS0012198](https://capitalgroup.service-now.com/cg_grc?sys_id=04ef15521b5a8050da4bdca4bd4bcbd5&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Production administrative/privileged access is only granted on an authorized temporary, on-demand basis or assigned to specifically designated user account that is separate and distinct from a non-privileged network account.|
+|[CS0012199](https://capitalgroup.service-now.com/cg_grc?sys_id=0cef15521b5a8050da4bdca4bd4bcbde&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|After being authenticated to the enterprise network, Multi-Factor Authentication (MFA) is required to utilize accounts with privileged access.|
+|[CS0012190](https://capitalgroup.service-now.com/cg_grc?sys_id=e3dfd1521b5a8050da4bdca4bd4bcbad&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Privileged accounts are locked out after a predetermined number of consecutive failed logon attempts. (Statement of Direction)|
+|[CS0012233](https://capitalgroup.service-now.com/cg_grc?sys_id=c5ef95521b5a8050da4bdca4bd4bcbf7&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Information systems must create a log and record activities occurring on or originating from the information system. Logs must be made accessible to the enterprise SIEM solution. (Statement of Direction)|
 
 **Why?** 
 
