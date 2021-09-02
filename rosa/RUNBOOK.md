@@ -14,7 +14,7 @@ Platform Design Services
 - [Overview](#overview)
 - [Preventative Controls](#Cloud-Security-Requirements)
   - [1. Preventative Controls for SRE Admin Access](#1-security-irequirement-1)
-  - [2. Security Requirement 2](#2-security-irequirement-2)
+  - [2. Preventative Controls for SRE Admin Access (Programmatic)](#2-security-irequirement-2)
   - [3. Security Requirement 3](#3-security-irequirement-3)
 - [Other Operational Expectations](#Other-Operational-Expectations)
   - [1. Operational Item 1](#1-Operational-item-1)
@@ -68,26 +68,41 @@ SREs access private clusters using an encrypted tunnel through a hardened SRE su
 running in the cluster. Connections to the SRE support pod are permitted only from a secured Red 
 Hat network using an IP allow-list
 
-Red Hat does not have SRE teams in Russia, North Korea, or Iran, but one is based in Beijing.
+Red Hat does not have SRE teams in Russia, North Korea, or Iran, but one is based in Beijing (no support from Beijing office).
 
-The customer retains ownership of the AWS account and can terminate roles, policies, and 
+Capital Group retains ownership of the AWS account and can terminate roles, policies, and 
 the Private Link connection.  (This will affect Red Hat support and management of the cluster)
 <br><br>
 
-### 2. Security Requirement 2
+### 2. Preventative Controls for SRE Admin Access (Programmatic)
 
 **Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|[Control ID](https://link-to-grc)|Description of the control.|
+|[CS001231](https://capitalgroup.service-now.com/cg_grc?sys_id=134f8d4b1bea6850371277741a4bcbb9&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Services using externally exposed APIs must employ enterprise approved security mechanisms.|
+|[CS0012196](https://capitalgroup.service-now.com/cg_grc?sys_id=48ef15521b5a8050da4bdca4bd4bcb9a&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Privileged user accounts must be inventoried, associated with an owner, and each account must be approved by an authorized approver(s).|
+|[CS0012200](https://capitalgroup.service-now.com/cg_grc?sys_id=80ef15521b5a8050da4bdca4bd4bcbe4&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Password(s) to generic accounts with privileged access must be stored in an enterprise approved vault and access to the account is restricted to authorized users.|
+|[CS0012175](https://capitalgroup.service-now.com/cg_grc?sys_id=4fdf51521b5a8050da4bdca4bd4bcbc8&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Generic account passwords must be changed annually. (Statement of Direction)|
+|[CS0012190](https://capitalgroup.service-now.com/cg_grc?sys_id=e3dfd1521b5a8050da4bdca4bd4bcbad&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Privileged accounts are locked out after a predetermined number of consecutive failed logon attempts. (Statement of Direction)|
+|[CS0012233](https://capitalgroup.service-now.com/cg_grc?sys_id=c5ef95521b5a8050da4bdca4bd4bcbf7&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Information systems must create a log and record activities occurring on or originating from the information system. Logs must be made accessible to the enterprise SIEM solution. (Statement of Direction)|
 
 **Why?** 
 
-Why is this requirement needed at CG?
+Third-party programmatic accounts have back-end access to the customer environment and have the ability to modify the environment.  Security controls will be in place to prevent all forms of unauthorized access to the customer environment.
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+SREs access private clusters using hardened SRE support pod running in the cluster. Connections to the SRE support pod are permitted only from a secured Red Hat network using an IP allow-list.
+
+Programmatic access uses Kubernetes RBAC and AWS STS to achieve least privilege access.
+
+ROSA is certified for SOC 2 Type 2, requiring the regular rotation of passwords.
+
+Red Hat does not have SRE teams in Russia, North Korea, or Iran, but one is based in Beijing (no support from Beijing office)..
+
+Access to systems is disabled after a specified number of unsuccessful login attempts.
+
+Capital Group retains ownership of the AWS account and can terminate roles, policies, and the Private Link connection.  (This will affect Red Hat support and management of the cluster)
 <br><br>
 
 ### 3. Security Requirement 3
