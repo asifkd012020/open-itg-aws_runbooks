@@ -116,6 +116,7 @@ Capital Group retains ownership of the AWS account and can terminate roles, poli
 **Why?** 
 
 User and application sessions must be protected from unauthorized capture of data in transit.
+
 **How?** 
 
 All Red Hat administration communication will occur over PrivateLink using an encrypted tunnel through a hardened SRE support pod.
@@ -132,6 +133,7 @@ All Red Hat administration communication will occur over PrivateLink using an en
 **Why?** 
 
 Customer data may be compromised if stored in non-secured repositories.
+
 **How?** 
 
 Although all ROSA clusters are backed up using AWS snapshots, this does NOT include customer data stored on persistent volumes (PVs).  Additionally, ROSA uses AWS KMS to securely manage keys for encrypted data.
