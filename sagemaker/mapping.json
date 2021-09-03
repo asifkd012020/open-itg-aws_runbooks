@@ -9,7 +9,7 @@
         "SNP": "approved",
         "NP": "approved"
     },
-    "phase": "discovery",
+    "phase": "General Availability (GA)",
     "mapping": [
         {
             "requirement_name": "SageMaker Utilizes VPC Endpoints to Prevent Public Access",
@@ -52,8 +52,20 @@
             ]
         },
         {
+            "requirement_name": "SageMaker Studio IDE deployed in a Private VPC to prevent Public Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md##3-SageMaker-Studio-IDE-deployed-in-a-Private-VPC-to-prevent-Public-Access",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
             "requirement_name": "SageMaker Users and Roles defined following least privilege model",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#3-SageMaker-Users-and-Roles-defined-following-least-privilege-model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#4-SageMaker-Users-and-Roles-defined-following-least-privilege-model",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -65,7 +77,7 @@
         },
         {
             "requirement_name": "SageMaker resources are Encrypted using CG Managed KMS Keys",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#4-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#5-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -85,7 +97,7 @@
         },
         {
             "requirement_name": "SageMaker connections are Encrypted in transitusing TLS 1.2",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#5-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#6-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -97,7 +109,7 @@
         },
         {
             "requirement_name": "SageMaker uses the CG instance of GitHub Enterprise as source code repository",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#6-SageMaker-uses-the-CG-instance-of-GitHub-Enterprise-as-source-code-repository",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#7-SageMaker-uses-the-CG-instance-of-GitHub-Enterprise-as-source-code-repository",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -109,7 +121,7 @@
         },
         {
             "requirement_name": "SageMaker workloads execute within CG private network",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#7-SageMaker-workloads-execute-within-CG-private-network",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#8-SageMaker-workloads-execute-within-CG-private-network",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -133,7 +145,7 @@
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#9-CloudTrail-logging-enabled-and-sent-to-Splunk",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -145,7 +157,7 @@
         },
         {
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#10-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "tags": [],
             "severity": {
                 "Prod": "medium",
