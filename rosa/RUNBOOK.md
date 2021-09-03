@@ -44,11 +44,11 @@ Preventing exposure to the internet access.
 
 **How?** 
 
-The Red Hat managed infrastructure that creates AWS PrivateLink clusters is hosted on private subnets. The connection between Red Hat and Capital Group provided infrastructure is created through PrivateLink VPC endpoints.  This configuration enables Capital Group to extend network into the cloud without exposing your network to the internet.
+The Red Hat managed infrastructure that creates AWS PrivateLink clusters is hosted on private subnets. The connection between Red Hat and Capital Group provided infrastructure is created through PrivateLink VPC endpoints.  This configuration enables Capital Group to extend network into the cloud without exposing your network to the internet.<br>
 
 <img src="/docs/img/rosa/rosa-private-cluster.png" width="800">
-  - *Cluster can be created without any requirements on public subnets, internet gateways, or network address translation (NAT) gateways.*<br>
 
+  - *Cluster can be created without any requirements on public subnets, internet gateways, or network address translation (NAT) gateways.*
   - *In this configuration, Red Hat uses AWS PrivateLink (PrivateLink) to manage and monitor a cluster in order to avoid all public ingress network traffic.*<br>
 
 ### 2. Preventative Controls for SRE Admin Access
