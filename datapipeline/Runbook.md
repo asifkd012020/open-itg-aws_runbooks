@@ -14,7 +14,7 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. DataPipeline leverages IAM Users and Roles Enforce Least Priviledge](#1-DataPipeline-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge)
-  - [2. DataPipeline connections are protected with TLS 1.2](#2-DataPipeline-connections-are-protected-with-TLS-1-2)
+  - [2. DataPipeline connections are protected with TLS 1.2](#2-DataPipeline-connections-are-protected-with-TLS-1.2)
   - [3. DataPipeline data is encrypted using CG managed KMS Keys](#3-DataPipeline-data-is-encrypted-using-CG-managed-KMS-Keys)
 - [Detective Controls](#Detective-Controls)
   - [1. DataPipeline Resources are tagged according to CG standards](#1-DataPipeline-Resources-are-tagged-according-to-CG-standards)

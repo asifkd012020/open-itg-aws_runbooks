@@ -13,7 +13,7 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
-  - [1. Route53 deployed with Private Hosted Zones Only](#1-Route53-deployed-for-Private-Hosted-Zones-Only)
+  - [1. Route53 deployed with Private Hosted Zones Only](#1-Route53-deployed-with-Private-Hosted-Zones-Only)
   - [2. Route53 Utilizes DNS Endpoints to Prevent Unauthorized Access](#2-Route53-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [3. Route53 Administrative access is reserved for Network Engineering only](#3-Route53-Administrative-access-is-reserved-for-Network-Engineering-only)
   - [4. Route53 Users and Roles defined following least privilege model](#4-Route53-Users-and-Roles-defined-following-least-privilege-model)
