@@ -29,7 +29,7 @@ Red Hat OpenShift Service on AWS is a managed service that's available through t
 <img src="/docs/img/rosa/rosa_overview.png" width="800"><br>
 <br>
 
-## Preventative Controls
+## Cloud Security Requirements
 
 ### 1. ROSA is deployed in a private VPC with DirectLink
 
@@ -56,13 +56,7 @@ The Red Hat managed infrastructure that creates AWS PrivateLink clusters is host
 **Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|[CS0012152](https://capitalgroup.service-now.com/cg_grc?sys_id=d6df11521b5a8050da4bdca4bd4bcb48&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Third-party efforts must undergo data classification and risk assessments to ensure appropriate access to information systems and data.|
 |[CS0012196](https://capitalgroup.service-now.com/cg_grc?sys_id=48ef15521b5a8050da4bdca4bd4bcb9a&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Privileged user accounts must be inventoried, associated with an owner, and each account must be approved by an authorized approver(s).|
-|[CS0012177](https://capitalgroup.service-now.com/cg_grc?sys_id=4fdf51521b5a8050da4bdca4bd4bcbdb&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Users performing activities requiring Administrative level access must perform these activities from the designated secure administration environment.|
-|[CS0012198](https://capitalgroup.service-now.com/cg_grc?sys_id=04ef15521b5a8050da4bdca4bd4bcbd5&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Production administrative/privileged access is only granted on an authorized temporary, on-demand basis or assigned to specifically designated user account that is separate and distinct from a non-privileged network account.|
-|[CS0012199](https://capitalgroup.service-now.com/cg_grc?sys_id=0cef15521b5a8050da4bdca4bd4bcbde&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|After being authenticated to the enterprise network, Multi-Factor Authentication (MFA) is required to utilize accounts with privileged access.|
-|[CS0012190](https://capitalgroup.service-now.com/cg_grc?sys_id=e3dfd1521b5a8050da4bdca4bd4bcbad&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Privileged accounts are locked out after a predetermined number of consecutive failed logon attempts. (Statement of Direction)|
-|[CS0012233](https://capitalgroup.service-now.com/cg_grc?sys_id=c5ef95521b5a8050da4bdca4bd4bcbf7&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Information systems must create a log and record activities occurring on or originating from the information system. Logs must be made accessible to the enterprise SIEM solution. (Statement of Direction)|
 
 **Why?** 
 
@@ -70,63 +64,15 @@ Third-party human administrators have privileged back-end access to the customer
 
 **How?** 
 
-SRE user access requires separated or transferred SRE accounts are removed as authorized users through an automated process. 
-Additionally, the SRE performs periodic access review, including management sign-off of authorized 
-user lists.
-
-SREs generate a short-lived AWS access token using the AWS Security Token Service (STS). 
-Access to the STS token is audit-logged and traceable back to individual users
-
-Authentication requires multi-factor authentication (MFA) with
-industry-standard requirements for password complexity and account lockouts
-
-SRE adheres to the principle of least privilege when accessing Red Hat OpenShift Service 
-on AWS and AWS components
-
 SREs access private clusters using an encrypted tunnel through a hardened SRE support pod 
 running in the cluster. Connections to the SRE support pod are permitted only from a secured Red 
 Hat network using an IP allow-list
-
-Red Hat does not have SRE teams in Russia, North Korea, or Iran, but one is based in Beijing (no support from Beijing office).
 
 Capital Group retains ownership of the AWS account and can terminate roles, policies, and 
 the Private Link connection.  (This will affect Red Hat support and management of the cluster)
 <br><br>
 
-### 3. Preventative Controls for SRE Admin Access (Programmatic)
-
-**Capital Group Controls:** 
-|Control Statement|Description|
-|------|----------------------|
-|[CS001231](https://capitalgroup.service-now.com/cg_grc?sys_id=134f8d4b1bea6850371277741a4bcbb9&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Services using externally exposed APIs must employ enterprise approved security mechanisms.|
-|[CS0012196](https://capitalgroup.service-now.com/cg_grc?sys_id=48ef15521b5a8050da4bdca4bd4bcb9a&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Privileged user accounts must be inventoried, associated with an owner, and each account must be approved by an authorized approver(s).|
-|[CS0012200](https://capitalgroup.service-now.com/cg_grc?sys_id=80ef15521b5a8050da4bdca4bd4bcbe4&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Password(s) to generic accounts with privileged access must be stored in an enterprise approved vault and access to the account is restricted to authorized users.|
-|[CS0012175](https://capitalgroup.service-now.com/cg_grc?sys_id=4fdf51521b5a8050da4bdca4bd4bcbc8&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Generic account passwords must be changed annually. (Statement of Direction)|
-|[CS0012190](https://capitalgroup.service-now.com/cg_grc?sys_id=e3dfd1521b5a8050da4bdca4bd4bcbad&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Privileged accounts are locked out after a predetermined number of consecutive failed logon attempts. (Statement of Direction)|
-|[CS0012233](https://capitalgroup.service-now.com/cg_grc?sys_id=c5ef95521b5a8050da4bdca4bd4bcbf7&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Information systems must create a log and record activities occurring on or originating from the information system. Logs must be made accessible to the enterprise SIEM solution. (Statement of Direction)|
-
-**Why?** 
-
-Third-party programmatic accounts have back-end access to the customer environment and have the ability to modify the environment.  Security controls will be in place to prevent all forms of unauthorized access to the customer environment.
-
-**How?** 
-
-SREs access private clusters using hardened SRE support pod running in the cluster. Connections to the SRE support pod are permitted only from a secured Red Hat network using an IP allow-list.
-
-Programmatic access uses Kubernetes RBAC and AWS STS to achieve least privilege access.
-
-ROSA is certified for SOC 2 Type 2, requiring the regular rotation of passwords.
-
-Red Hat does not have SRE teams in Russia, North Korea, or Iran, but one is based in Beijing (no support from Beijing office)..
-
-Access to systems is disabled after a specified number of unsuccessful login attempts.
-
-Capital Group retains ownership of the AWS account and can terminate roles, policies, and the Private Link connection.  (This will affect Red Hat support and management of the cluster)
-<br><br>
-
-## Data Protection
-
-### 1. Administrative session encryption
+### 3. Administrative session encryption
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -143,7 +89,7 @@ All Red Hat administration communication will occur over PrivateLink using an en
 <br><br>
 
 
-### 2. Data encryption
+### 4. Data encryption
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -159,9 +105,7 @@ Customer data may be compromised if stored in non-secured repositories.
 Although all ROSA clusters are backed up using AWS snapshots, this does NOT include customer data stored on persistent volumes (PVs).  Additionally, ROSA uses AWS KMS to securely manage keys for encrypted data.
 <br><br>
 
-
-## Detective
-### 1. CloudTrail logging enabled for ROSA and sent to Splunk
+### 5. CloudTrail logging enabled for ROSA and sent to Splunk
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -169,7 +113,7 @@ Although all ROSA clusters are backed up using AWS snapshots, this does NOT incl
 
 `This Section will be updated soon.`
 
-### 2. Auditing enabled for ROSA and sent to Splunk
+### 6. Auditing enabled for ROSA and sent to Splunk
 
 **Capital Group Controls:** 
 |Control Statement|Description|
