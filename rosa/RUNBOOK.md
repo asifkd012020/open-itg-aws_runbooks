@@ -166,7 +166,7 @@ Although all ROSA clusters are backed up using AWS snapshots, this does NOT incl
 **Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|[]|(Statement of Direction)|
+|[](Statement of Direction)|
 
 `This Section will be updated soon.`
 
@@ -175,7 +175,7 @@ Although all ROSA clusters are backed up using AWS snapshots, this does NOT incl
 **Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|[]|(Statement of Direction)|
+|[](Statement of Direction)|
 
 `This Section will be updated soon.`
 
