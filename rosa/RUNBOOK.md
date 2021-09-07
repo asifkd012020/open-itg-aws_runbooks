@@ -179,9 +179,10 @@ Although all ROSA clusters are backed up using AWS snapshots, this does NOT incl
 
 ## Endnotes
 **Resources**<br>
-1. https://link1
-2. https://link2
-3. https://link3
+1. https://confluence.capgroup.com/display/CNTEN/SRE+Access+Control
+2. https://docs.openshift.com/rosa/rosa_policy/rosa-policy-process-security.html
+3. https://docs.openshift.com/rosa/rosa_getting_started/rosa-aws-prereqs.html#rosa-minimum-spc_prerequisites
+4. https://docs.openshift.com/rosa/rosa_policy/rosa-policy-responsibility-matrix.html
 
 ## Capital Group Glossory 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
