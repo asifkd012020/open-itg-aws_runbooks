@@ -159,56 +159,25 @@ Customer data may be compromised if stored in non-secured repositories.
 Although all ROSA clusters are backed up using AWS snapshots, this does NOT include customer data stored on persistent volumes (PVs).  Additionally, ROSA uses AWS KMS to securely manage keys for encrypted data.
 <br><br>
 
-### 1. Operational Item 1
 
-**Capital Group:** <br>
+## Detective
+### 1. CloudTrail logging enabled for ROSA and sent to Splunk
 
+**Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|Control statement not always needed|Control definition description if needed|
+|[])|(Statement of Direction)|
 
-**What, Why & How?**
+`This Section will be updated soon.`
 
-Brief overview of what the operational item is, why CG needs it and how to find further information related to service owner, internal documentation and contacts.
+### 2. Auditing enabled for ROSA and sent to Splunk
 
-[Link 1 to Internal Documentation for further reading.](https://link1)<br>
-[Link 2 to Internal Documentation for further reading.](https://link2)<br>
-[Link 3 to Internal Documentation for further reading.](https://link3)
-<br><br>
-
-### 2. Operational Item 2
-
-**Capital Group:** <br>
-
+**Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|Control statement not always needed|Control definition description if needed|
+|[])|(Statement of Direction)|
 
-**What, Why & How?**
-
-Brief overview of what the operational item is, why CG needs it and how to find further information related to service owner, internal documentation and contacts.
-
-[Link 1 to Internal Documentation for further reading.](https://link1)<br>
-[Link 2 to Internal Documentation for further reading.](https://link2)<br>
-[Link 3 to Internal Documentation for further reading.](https://link3)
-<br><br>
-
-### 3. Operational Item 3
-
-**Capital Group:** <br>
-
-|Control Statement|Description|
-|------|----------------------|
-|Control statement not always needed|Control definition description if needed|
-
-**What, Why & How?**
-
-Brief overview of what the operational item is, why CG needs it and how to find further information related to service owner, internal documentation and contacts.
-
-[Link 1 to Internal Documentation for further reading.](https://link1)<br>
-[Link 2 to Internal Documentation for further reading.](https://link2)<br>
-[Link 3 to Internal Documentation for further reading.](https://link3)
-<br><br>
+`This Section will be updated soon.`
 
 ## Endnotes
 **Resources**<br>
