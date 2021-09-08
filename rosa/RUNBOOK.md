@@ -20,6 +20,8 @@ Platform Design Services
   - [4. Data encryption](#4-Data-Encryption)
   - [5. CloudTrail Logging Enabled for ROSA and Sent to Splunk](#5-CloudTrail-Logging-Enabled-for-ROSA-and-Sent-to-Splunk)
   - [6. Auditing Enabled for ROSA and Sent to Splunk](#6-Auditing-Enabled-for-ROSA-and-Sent-to-Splunk)
+- [Operational Best Practices](#Operational-Best-Practices)
+  - [1. Resources are tagged according to CG standards](#1-Resources-are-tagged-according-to-CG-standards)]
 - [Endnotes](#endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
 <br><br>
@@ -127,6 +129,24 @@ Although all ROSA clusters are backed up using AWS snapshots, this does NOT incl
 |------|----------------------|
 
 `This Section will be updated soon.`
+
+
+## Operational Best Practices
+
+
+### 1. Resources are tagged according to CG standards
+
+**Capital Group Controls:** 
+|Control Statement|Description|
+|------|----------------------|
+|N/A|No security control currently defined.|
+
+**What, Why & How?**
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
+
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
+<br><br>
 
 
 ## Endnotes

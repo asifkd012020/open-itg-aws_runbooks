@@ -82,6 +82,18 @@
             },
             "control_mapping": [],
             "implementations": []
+        },
+        {
+            "requirement_name": "EBS Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/CNTEN-3478-ROSA/rosa/RUNBOOK.md#1-Resources-are-tagged-according-to-CG-standards",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
         }
     ]
 }
