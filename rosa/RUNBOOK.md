@@ -43,7 +43,7 @@ Red Hat OpenShift Service on AWS is a managed service that's available through t
 
 **Why?** 
 
-Preventing exposure to the internet access.
+ROSA private clusters with PrivateLink are completely private. Red Hat SRE teams will make use of private link endpoints to access the cluster for management; no public subnets, route tables, or IGW are required.  This is to ensure that the Clustr is private; This fits in line with CG's standards related to no public access by default.
 
 **How?** 
 
