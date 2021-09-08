@@ -1,0 +1,87 @@
+{
+    "serviceprovider":"aws",
+    "servicerequirement_name": [
+        "AWS::ROSA::*"
+    ],
+    "servicedisplay_name": "ROSA",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "ROSA is deployed in a private VPC with DirectLink",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/CNTEN-3478-ROSA/rosa/RUNBOOK.md#1-ROSA-is-deployed-in-a-private-VPC-with-DirectLink",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Preventative Controls for SRE Admin Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/CNTEN-3478-ROSA/rosa/RUNBOOK.md#2-Preventative-Controls-for-SRE-Admin-Access",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Administrative Session Encryption",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/CNTEN-3478-ROSA/rosa/RUNBOOK.md#3-Administrative-Session-Encryption",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data Encryption",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/CNTEN-3478-ROSA/rosa/RUNBOOK.md#4-Data-Encryption",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/CNTEN-3478-ROSA/rosa/RUNBOOK.md#5-CloudTrail-Logging-Enabled-for-ROSA-and-Sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Auditing Enabled for ROSA and Sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/CNTEN-3478-ROSA/rosa/RUNBOOK.md#6-Auditing-Enabled-for-ROSA-and-Sent-to-Splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
