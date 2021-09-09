@@ -41,7 +41,15 @@
                 "NP": "high"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "aws config",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/SecurityConformancePack/PermissionBoundaryPipeline/AirflowConfigRuleLambda"
+                    ],
+                    "type": "detect"
+                }                
+            ]
         },
         {
             "requirement_name": "MWAA Resources are tagged according to CG standards",
@@ -53,15 +61,7 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": [
-                {
-                    "provider": "aws config",
-                    "implementation": [
-                        "https://github.com/open-itg/aws-conformance-packs/tree/master/SecurityConformancePack/PermissionBoundaryPipeline/AirflowConfigRuleLambda"
-                    ],
-                    "type": "detect"
-                }                
-            ]
+            "implementations": []
         }
     ]
 }
