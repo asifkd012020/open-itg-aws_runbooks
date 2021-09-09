@@ -102,7 +102,7 @@
             },
             "control_mapping": [],
             "implementations": []
-        }
+        },
         {
             "requirement_name": "EBS Resources are tagged according to CG standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#1-EBS-Resources-are-tagged-according-to-CG-standards",
