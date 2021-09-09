@@ -53,7 +53,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "aws config",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-conformance-packs/tree/master/SecurityConformancePack/PermissionBoundaryPipeline/AirflowConfigRuleLambda"
+                    ],
+                    "type": "detect"
+                }                
+            ]
         }
     ]
 }
