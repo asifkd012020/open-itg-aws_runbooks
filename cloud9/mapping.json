@@ -33,7 +33,13 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                "provider": "AWS Service Catalog",
+                "implementation": [
+                    "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/Cloud9IAM/Create-AWSCloud9SSMAccessRole.yml#L35-L76"
+                ],
+                "type": "prevent"                 
+            ]
         },
         {
             "requirement_name": "Cloud9 utilizes IAM Roles to enforce least priviledge",
@@ -45,7 +51,13 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                "provider": "AWS Service Catalog",
+                "implementation": [
+                    "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/Cloud9IAM/Create-AWSCloud9SSMAccessRole.yml#L78-L126"
+                ],
+                "type": "prevent"                
+            ]
         },
         {
             "requirement_name": "Cloud9 connections are protected with TLS 1.2",
@@ -69,7 +81,13 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                "provider": "AWS Account Vending",
+                "implementation": [
+                    "https://github.com/open-itg/aws-account-vending/blob/master/lambdafunctions/LFNewAccountKMSKeys/LFNewAccountKMSKeys.py#L620-L652"
+                ],
+                "type": "prevent"            
+            ]
         },
         {
             "requirement_name": "Cloud9 Resources are tagged according to CG standards",
@@ -81,7 +99,17 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "AWS Service Catalog",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/LambdaFunction/SCLFCloud9Serverless.py#L568",
+                        "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/LambdaFunction/SCLFCloud9Serverless.py#L630",
+                        "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/LambdaFunction/SCLFCloud9Serverless.py#L263"
+                    ],
+                    "type": "prevent"
+                }                
+            ]
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
@@ -93,7 +121,13 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                "provider": "AWS Account Vending",
+                "implementation": [
+                    "https://entlogmgmt.capgroup.com/en-US/app/search/search?earliest=-24h%40h&latest=now&q=search%20index%3Daws%20sourcetype%3D%22aws%3Acloudtrail%22%20eventSource%3D%22cloud9.amazonaws.com%22&sid=1631307755.694323_D8638BC7-5CA8-4B80-BBAD-337E83244A0C&display.page.search.mode=verbose&dispatch.sample_ratio=1"
+                ],
+                "type": "prevent"            
+            ]
         },
         {
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
