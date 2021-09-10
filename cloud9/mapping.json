@@ -104,7 +104,7 @@
                     "provider": "AWS Service Catalog",
                     "implementation": [
                         "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/LambdaFunction/SCLFCloud9Serverless.py#L568",
-                        "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/LambdaFunction/SCLFCloud9Serverless.py#L630",
+                        "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/LambdaFunction/SCLFCloud9Serverless.py#L200-L215",
                         "https://github.com/open-itg/aws-service-catalog/blob/8298261c956e05a9da76e2d373fc8a56c8c0010f/appl-portfolio/Cloud9/LambdaFunction/SCLFCloud9Serverless.py#L263"
                     ],
                     "type": "prevent"
