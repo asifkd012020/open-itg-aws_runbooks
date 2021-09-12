@@ -246,18 +246,7 @@ This option is required if you want to use IAM task roles in an Amazon ECS servi
 In addition to the standard Amazon ECS permissions required to run tasks and services, IAM users also require `iam:PassRole` permissions to use IAM roles for tasks\.
 
 ## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
-|PR.IP-7|Protection processes are improved|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-|PR.DS-4|Adequate capacity to ensure availability is maintained|
-|PR.DS-5|Protections against data leaks are implemented|
-|PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
-|PR.PT-4|Communications and control networks are protected|
-___
+
 
 ### Using Amazon ECR Images with Amazon ECS
 
@@ -287,17 +276,6 @@ You can use your ECR images with Amazon ECS, but you need to satisfy the followi
 + In your ECS task definitions, make sure that you are using the full `registry/repository:tag` naming for your ECR images\. For example, `aws_account_id.dkr.ecr.region.amazonaws.com``/my-web-app:latest`\.
 
 ## 3. Configuring VPC Endpoints for ECR/ECS
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
-|PR.IP-7|Protection processes are improved|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-|PR.DS-4|Adequate capacity to ensure availability is maintained|
-|PR.DS-5|Protections against data leaks are implemented|
-|PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
-|PR.PT-4|Communications and control networks are protected|
 
 Capital Group:
 |Control Statement|Description|
@@ -804,18 +782,6 @@ You can modify the following attributes of an interface endpoint:
 
 ## 4. Consider using AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
 
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
-|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-|PR.DS-5|Protections against data leaks are implemented|
-|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
-|PR.IP-7|Protection processes are improved|
 ___
 
 ### Amazon EC2 Systems Manager Parameter Store
@@ -1072,18 +1038,6 @@ http://<ec2-instance-public-DNS-name>/ecs.html
 You should see the results of running different access tests from the container after a short duration.
 
 ## 5. Specifying sensitive data using AWS secrets manager
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.AC-1|Identities and credentials are issued, managed, verified, revoked, and audited for authorized devices, users and processes|
-|PR.AC-4|Access permissions and authorizations are managed, incorporating the principles of least privilege and separation of duties|
-|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
-|PR.AC-6|Identities are proofed and bound to credentials and asserted in interactions|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-|PR.DS-5|Protections against data leaks are implemented|
-|PR.IP-1|A baseline configuration of information technology/industrial control systems is created and maintained incorporating security principles (e.g. concept of least functionality)|
-|PR.IP-7|Protection processes are improved|
 
 Capital Group:
 |Control Statement|Description|
@@ -1403,14 +1357,6 @@ If the **Task execution role** field does not appear, choose **Configure via JSO
 7.  When your containers are added, choose **Create.**
 
 ## 6.  Using the awslogs Log Driver
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.AE-1|A baseline of network operations and expected data flows for users and systems is established and managed|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.AE-4|Impact of events is determined|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -1590,16 +1536,6 @@ For tasks using the EC2 launch type, after your container instance role has the 
 ![\[awslogs console metrics view\]](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/awslogs-log-stream.png) 
 
 ## 7.  Creating a Trail to log ECS API calls
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.AE-1|A baseline of network operations and expected data flows for users and systems is established and managed|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
-|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
-___
-
 Follow the procedure to create a trail that applies to all Regions\. A trail that applies to all Regions delivers log files from all Regions to an S3 bucket\. After you create the trail, CloudTrail automatically starts logging the events that you specified\. 
 
 **Note**  
@@ -1776,16 +1712,7 @@ If you create a trail with the CloudTrail API, you can specify an existing Amazo
 For more information about Amazon SNS topics and about subscribing to them, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/)\.
 
 
-## 8. Running the X\-Ray Daemon 
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.CM-4|Malicious code is detected|
-|DE.CM-5|Unauthorized mobile code is detected|
-|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
-|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
-___
-
+## 8. Running the X\-Ray Daemon
 You can run the AWS X\-Ray daemon locally on Linux, MacOS, Windows, or in a Docker container\. Run the daemon to relay trace data to X\-Ray when you are developing and testing your instrumented application\. Download and extract the daemon by using the instructions [here](xray-daemon.md#xray-daemon-downloading)\.
 
 When running locally, the daemon can read credentials from an AWS SDK credentials file \(`.aws/credentials` in your user directory\) or from environment variables\. For more information, see [Giving the Daemon Permission to Send Data to X\-Ray](xray-daemon.md#xray-daemon-permissions)\.
@@ -1922,13 +1849,6 @@ Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
 ~/xray-daemon$ nohup ./xray_mac &
 ```
 ## 9. Utilizing AWS CloudWatch Container Insights
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.CM-5|Unauthorized mobile code is detected|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.AE-4|Impact of events is determined|
-___
 
 ### Setting Up Container Insights on Amazon ECS for Cluster\- and Service\-Level Metrics
 
@@ -2016,15 +1936,6 @@ aws ecs update-cluster-settings --cluster myCICluster --settings name=containerI
 ```
 ## Respond/Recover
 ## 10. Utilize Amazon ECS Events and EventBridge
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|RS.AN-1|Notifications from detection systems are investigated |
-|RS.AN-2|The impact of the incident is understood|
-|RS.AN-4|Incidents are categorized consistent with response plans|
-|RS.AN-5|Processes are established to receive, analyze and respond to vulnerabilities disclosed to the organization from internal and external sources (e.g. internal testing, security bulletins, or security researchers)|
-|RS.CO-2|Events are reported consistent with established criteria|
-|RS.CO-3|Information is shared consistent with response plans
 
 Capital Group:
 |Control Statement|Description|
