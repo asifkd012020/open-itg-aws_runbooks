@@ -23,7 +23,7 @@ Tony DeMarco
 - [Detective](#detective)
   - [1. Utilize VPC Flow logs with Amazon CloudWatch](#1-utilize-vpc-flow-logs-with-amazon-cloudwatch)
   - [2. Monitor NAT gateway metrics using Amazon CloudWatch](#2-monitor-nat-gateway-metrics-using-amazon-cloudwatch)
-  - [3. Publish flow logs to Amazon S3](#3-publish-flow-logs-to-amazon-s3)
+  - [3. Utilize VPC Flow logs with Amazon CloudWatch](#3-Utilize-VPC-Flow-logs-with-Amazon-CloudWatch)
 - [Respond/Recover](#respondrecover)
   - [1. Create and Manage notifications for your endpoint service](#1-create-and-manage-notifications-for-your-endpoint-service)
 - [Endnotes](#endnotes)

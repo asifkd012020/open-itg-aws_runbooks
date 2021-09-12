@@ -25,7 +25,7 @@
         },
         {
             "requirement_name": "DataPipeline connections are protected with TLS 1.2",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/datapipeline/Runbook.md#2-DataPipeline-connections-are-protected-with-TLS-1-2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/datapipeline/Runbook.md#2-DataPipeline-connections-are-protected-with-TLS-1.2",
             "tags":[],
             "severity": {
                 "Prod": "high",
