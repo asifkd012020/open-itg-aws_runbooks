@@ -1,0 +1,27 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::IAM::*"
+    ],
+    "servicedisplay_name": "Identity and Access Management (Foundation)",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "General Availability (GA)",
+    "mapping": [
+        {
+            "requirement_name": "Runbook Discovery",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/IAM/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "low",
+                "SNP": "low",
+                "NP": "low"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
