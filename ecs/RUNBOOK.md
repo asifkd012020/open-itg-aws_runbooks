@@ -2763,12 +2763,12 @@ Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
 ## Endnotes
 **Resources**<br>
 1. https://docs.aws.amazon.com/ecs/index.html
-2. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
-3. https://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_on_ECS.html
-4. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/vpc-endpoints.html
-5. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html
-6. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html
-7. https://docs.aws.amazon.com/AmazonECS/latest/bestpracticesguide/security.html
+2. https://docs.aws.amazon.com/AmazonECS/latest/bestpracticesguide/security.html
+3. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+4. https://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_on_ECS.html
+5. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/vpc-endpoints.html
+6. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html
+7. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html
 8. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html#enable_awslogs
 9. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/logging-using-cloudtrail.html
 10. https://docs.aws.amazon.com/vpc/latest/userguide/working-with-flow-logs.html
