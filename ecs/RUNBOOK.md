@@ -1356,7 +1356,7 @@ If the **Task execution role** field does not appear, choose **Configure via JSO
 
 7.  When your containers are added, choose **Create.**
 
-## 6.  Using the awslogs Log Driver
+## 6. Using the awslogs Log Driver
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -1535,7 +1535,7 @@ For tasks using the EC2 launch type, after your container instance role has the 
 1. Choose a log stream to view\.  
 ![\[awslogs console metrics view\]](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/awslogs-log-stream.png) 
 
-## 7.  Creating a Trail to log ECS API calls
+## 7. Creating a Trail to log ECS API calls
 Follow the procedure to create a trail that applies to all Regions\. A trail that applies to all Regions delivers log files from all Regions to an S3 bucket\. After you create the trail, CloudTrail automatically starts logging the events that you specified\. 
 
 **Note**  
