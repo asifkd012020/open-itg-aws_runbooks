@@ -14,11 +14,11 @@ Security Engineering
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-- [Cloud Security Requirements](#Cloud-Security-Requirements)
+- [Cloud Security Requirements](#cloud-security-requirements)
   - [1. Implement least privilege IAM Roles for Tasks](#1-implement-least-privilege-iam-roles-for-tasks)
   - [2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images](#2-using-elastic-container-registry-ecr-for-storing-and-retrieving-docker-images)
-  - [3. Configuring VPC endpoint for ECS](#3-configuring-vpc-endpoint-for-ecs)
-  - [4. Configuring AWS Systems Manager Parameter Store and AWS Secrets Manager for reference of secrets into Container Definitions](#4-configuring-aws-systems-manager-parameter-store-and-aws-secrets-manager-for-reference-of-secrets-into-container-definitions)
+  - [3. Configuring VPC endpoints for ECS](#3-configuring-vpc-endpoints-for-ecs)
+  - [4. Configuring AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions](#4-configuring-aws-systems-manager-parameter-store-or-aws-secrets-manager-for-reference-of-secrets-into-container-definitions)
   - [5. Specifying sensitive data using AWS secrets manager](#5-specifying-sensitive-data-using-aws-secrets-manager)
   - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
   - [7. Creating a Trail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
@@ -40,10 +40,10 @@ These NIST Controls and Subcategories are not applicable to this service: PR.AT,
 
 These capital group control statements are not applicable to the ECS service: 5,7,8,9,10. 
 
-## Preventative Controls
+## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. Enforce least privilege IAM Roles for Tasks
+### 1. Implement least privilege IAM Roles for Tasks
 **Capital Group:** <br>
 
 |Control Statement|Description|
@@ -275,7 +275,7 @@ You can use your ECR images with Amazon ECS, but you need to satisfy the followi
   If you use the `AmazonEC2ContainerServiceforEC2Role` managed policy for your container instances, then your role has the proper permissions\. To check that your role supports Amazon ECR, see [Amazon ECS Container Instance IAM Role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html) in the *Amazon Elastic Container Service Developer Guide*\.
 + In your ECS task definitions, make sure that you are using the full `registry/repository:tag` naming for your ECR images\. For example, `aws_account_id.dkr.ecr.region.amazonaws.com``/my-web-app:latest`\.
 
-## 3. Configuring VPC Endpoints for ECR/ECS
+## 3. Configuring VPC Endpoints for ECS 
 
 Capital Group:
 |Control Statement|Description|
