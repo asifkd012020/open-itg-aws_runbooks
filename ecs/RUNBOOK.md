@@ -23,7 +23,7 @@ Security Engineering
   - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
   - [7. Creating a Trail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
   - [8. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)](#8-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only)
-- [Operational Best Practices](#Other-Operational-Expectations)  
+- [Operational Best Practices](#operational-best-practices)  
   - [1. Utilizing AWS CloudWatch Container Insights](#1-utilizing-aws-cloudwatch-container-insights)
   - [2. Utilize Amazon ECS Events and Eventbridge](#2-utilize-amazon-ecs-events-and-eventbridge)
   - [3. Running the X\-Ray Daemon](#3-running-the-x-ray-daemon)
@@ -1712,14 +1712,6 @@ If you create a trail with the CloudTrail API, you can specify an existing Amazo
 For more information about Amazon SNS topics and about subscribing to them, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/)\.
 
 ## 8. Enable VPC Flow Logs for ECS Cluster VPC EC2 Launch Types Only
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
-|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
-|DE.DP-4|Event detection information is communicated to appropriate parties|
-
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -2768,17 +2760,32 @@ Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
 ~/xray-daemon$ nohup ./xray_mac &
 ```
 
+## Endnotes
+**Resources**<br>
+1. https://docs.aws.amazon.com/ecs/index.html
+2. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html
+3. https://docs.aws.amazon.com/AmazonECR/latest/userguide/ECR_on_ECS.html
+4. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/vpc-endpoints.html
+5. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-secrets.html
+6. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data-parameters.html
+7. https://docs.aws.amazon.com/AmazonECS/latest/bestpracticesguide/security.html
+8. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html#enable_awslogs
+9. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/logging-using-cloudtrail.html
+10. https://docs.aws.amazon.com/vpc/latest/userguide/working-with-flow-logs.html
+11. https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/deploy-container-insights-ECS-cluster.html
+12. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch_event_stream.html
+13. https://docs.aws.amazon.com/xray/latest/devguide/xray-daemon-local.html
+<br><br>
 
+## Capital Group Glossory
+**Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.
 
-## Capital Group Security Controls
-1. All Data at rest must be encrypted and use a CG BYOK encryption key.
-2. All Data in transit must be encrypted using certificates using CG Certificate Authority.
-3. Keys storied in a Key Management System (KMS) should be created by Capital Groups hardware security module (HSM) and are a minimum   of AES-256.
-4. AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.
-5. Local AWS IAM accounts are restricted to services and no user accounts are to be provisioned including IaaS resources.
-6. Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.
-7. Use of AWS IAM accounts are restricted to CG networks.
-8. Local IAM secrets are rotated every 90 days, including accounts IaaS resources.
-9. Encryption keys are rotated annually.
-10. Root accounts must have 2FA/MFA enabled.
+**Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
 
+**Log** - a record of the events occurring within information systems and networks. Logs are composed of log entries; each entry contains information related to a specific event that has occurred within a system or network.
+
+**Information** - communication or representation of knowledge such as facts, data, or opinions in any medium or form, including textual, numerical, graphic, cartographic, narrative, or audiovisual.
+
+**Cloud computing** - A model for enabling ubiquitous, convenient, on-demand network access to a shared pool of configurable computing resources (e.g., networks, servers, storage, applications, and services) that can be rapidly provisioned and released with minimal management effort or service provider interaction.
+
+**Vulnerability**  - Weakness in an information system, system security procedures, internal controls, or implementation that could be exploited or triggered by a threat source. Note: The term weakness is synonymous for deficiency. Weakness may result in security and/or privacy risks.
