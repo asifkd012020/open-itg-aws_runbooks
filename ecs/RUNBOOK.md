@@ -780,7 +780,7 @@ You can modify the following attributes of an interface endpoint:
 + [untag\-resource](https://docs.aws.amazon.com/cli/latest/reference/directconnect/untag-resource.html) \(AWS CLI\) 
 + [TagResource](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_UntagResource.html) \(AWS Tools for Windows PowerShell\)
 
-## 4. Consider using AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
+## 4. Configuring AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
 
 ___
 
