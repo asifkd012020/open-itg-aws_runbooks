@@ -1711,144 +1711,217 @@ If you create a trail with the CloudTrail API, you can specify an existing Amazo
 
 For more information about Amazon SNS topics and about subscribing to them, see the [Amazon Simple Notification Service Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/)\.
 
+## 8. Enable VPC Flow Logs for ECS Cluster VPC EC2 Launch Types Only
+NIST CSF:
+|NIST Subcategory Control|Description|
+|-----------|------------------------|
+|DE.CM-1|The network is monitored to detect potential cybersecurity events|
+|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
+|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
+|DE.DP-4|Event detection information is communicated to appropriate parties|
 
-## 8. Running the X\-Ray Daemon
-You can run the AWS X\-Ray daemon locally on Linux, MacOS, Windows, or in a Docker container\. Run the daemon to relay trace data to X\-Ray when you are developing and testing your instrumented application\. Download and extract the daemon by using the instructions [here](xray-daemon.md#xray-daemon-downloading)\.
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
 
-When running locally, the daemon can read credentials from an AWS SDK credentials file \(`.aws/credentials` in your user directory\) or from environment variables\. For more information, see [Giving the Daemon Permission to Send Data to X\-Ray](xray-daemon.md#xray-daemon-permissions)\.
+### Working with flow logs
 
-The daemon listens for UDP data on port 2000\. You can change the port and other options by using a configuration file and command line options\. For more information, see [Configuring the AWS X\-Ray Daemon](xray-daemon-configuration.md)\.
+You can work with flow logs using the Amazon EC2, Amazon VPC, CloudWatch, and Amazon S3 consoles\.
 
-### Running the X\-Ray Daemon on Linux
+**Topics**
++ [Controlling the use of flow logs](#controlling-use-of-flow-logs)
++ [Creating a flow log](#create-flow-log)
++ [Viewing flow logs](#view-flow-logs)
++ [Adding or removing tags for flow logs](#modify-tags-flow-logs)
++ [Viewing flow log records](#view-flow-log-records)
++ [Deleting a flow log](#delete-flow-log)
++ [Searching flow log records](#search-flow-log-records)
++ [API and CLI overview](#flow-logs-api-cli)
 
-You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
+### Controlling the use of flow logs
 
-```
-~/xray-daemon$ ./xray -o -n us-east-2
-```
+By default, IAM users do not have permission to work with flow logs\. You can create an IAM user policy that grants users the permissions to create, describe, and delete flow logs\. For more information, see [Granting IAM Users Required Permissions for Amazon EC2 Resources](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ec2-api-permissions.html) in the *Amazon EC2 API Reference*\.
 
-To run the daemon in the background, use `&`\.
-
-```
-~/xray-daemon$ ./xray -o -n us-east-2 &
-```
-
-Terminate a daemon process running in the background with `pkill`\.
-
-```
-~$ pkill xray
-```
-
-### Running the X\-Ray Daemon in a Docker Container
-
-To run the daemon locally in a Docker container, save the following text to a file named `Dockerfile`\. Download the complete [example image](https://hub.docker.com/r/amazon/aws-xray-daemon/) on Docker Hub\.
-
-**Example Dockerfile – Amazon Linux**  
-
-```
-FROM amazonlinux
-RUN yum install -y unzip
-RUN curl -o daemon.zip https://s3.dualstack.us-east-2.amazonaws.com/aws-xray-assets.us-east-2/xray-daemon/aws-xray-daemon-linux-3.x.zip
-RUN unzip daemon.zip && cp xray /usr/bin/xray
-ENTRYPOINT ["/usr/bin/xray", "-t", "0.0.0.0:2000", "-b", "0.0.0.0:2000"]
-EXPOSE 2000/udp
-EXPOSE 2000/tcp
-```
-
-Build the container image with `docker build`\.
+The following is an example policy that grants users full permissions to create, describe, and delete flow logs\.
 
 ```
-~/xray-daemon$ docker build -t xray-daemon .
-```
-
-Run the image in a container with `docker run`\.
-
-```
-~/xray-daemon$ docker run \
-      --attach STDOUT \
-      -v ~/.aws/:/root/.aws/:ro \
-      --net=host \
-      -e AWS_REGION=us-east-2 \
-      --name xray-daemon \
-      -p 2000:2000/udp \
-      xray-daemon -o
-```
-
-This command uses the following options:
-+ `--attach STDOUT` – View output from the daemon in the terminal\.
-+ `-v ~/.aws/:/root/.aws/:ro` – Give the container read\-only access to the `.aws` directory to let it read your AWS SDK credentials\.
-+ `AWS_REGION=us-east-2` – Set the `AWS_REGION` environment variable to tell the daemon which region to use\.
-+ `--net=host` – Attach the container to the `host` network\. Containers on the host network can communicate with each other without publishing ports\.
-+ `-p 2000:2000/udp` – Map UDP port 2000 on your machine to the same port on the container\. This is not required for containers on the same network to communicate, but it does let you send segments to the daemon [from the command line](xray-api-sendingdata.md#xray-api-daemon) or from an application not running in Docker\.
-+ `--name xray-daemon` – Name the container `xray-daemon` instead of generating a random name\.
-+ `-o` \(after the image name\) – Append the `-o` option to the entry point that runs the daemon within the container\. This option tells the daemon to run in local mode to prevent it from trying to read Amazon EC2 instance metadata\.
-
-To stop the daemon, use `docker stop`\. If you make changes to the `Dockerfile` and build a new image, you need to delete the existing container before you can create another one with the same name\. Use `docker rm` to delete the container\.
-
-```
-$ docker stop xray-daemon
-$ docker rm xray-daemon
-```
-
-The Scorekeep sample application shows how to use the X\-Ray daemon in a local Docker container\. See [Instrumenting Amazon ECS Applications](scorekeep-ecs.md) for details\.
-
-### Running the X\-Ray Daemon on Windows
-
-You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
-
-```
-> .\xray_windows.exe -o -n us-east-2
-```
-
-Use a PowerShell script to create and run a service for the daemon\.
-
-**Example PowerShell Script \- Windows**  
-
-```
-if ( Get-Service "AWSXRayDaemon" -ErrorAction SilentlyContinue ){
-    sc.exe stop AWSXRayDaemon
-    sc.exe delete AWSXRayDaemon
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": [
+        "ec2:DeleteFlowLogs",
+        "ec2:CreateFlowLogs",
+        "ec2:DescribeFlowLogs"
+      ],
+      "Resource": "*"
+    }
+  ]
 }
-if ( Get-Item -path aws-xray-daemon -ErrorAction SilentlyContinue ) {
-    Remove-Item -Recurse -Force aws-xray-daemon
-}
-
-$currentLocation = Get-Location
-$zipFileName = "aws-xray-daemon-windows-service-3.x.zip"
-$zipPath = "$currentLocation\$zipFileName"
-$destPath = "$currentLocation\aws-xray-daemon"
-$daemonPath = "$destPath\xray.exe"
-$daemonLogPath = "C:\inetpub\wwwroot\xray-daemon.log"
-$url = "https://s3.dualstack.us-west-2.amazonaws.com/aws-xray-assets.us-west-2/xray-daemon/aws-xray-daemon-windows-service-3.x.zip"
-
-Invoke-WebRequest -Uri $url -OutFile $zipPath
-Add-Type -Assembly "System.IO.Compression.Filesystem"
-[io.compression.zipfile]::ExtractToDirectory($zipPath, $destPath)
-
-sc.exe create AWSXRayDaemon binPath= "$daemonPath -f $daemonLogPath"
-sc.exe start AWSXRayDaemon
 ```
 
-### Running the X\-Ray Daemon on OS X
+Some additional IAM role and permission configuration is required, depending on whether you're publishing to CloudWatch Logs or Amazon S3\.
 
-You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
+### Creating a flow log
+
+You can create flow logs for your VPCs, subnets, or network interfaces\. Flow logs can publish data to CloudWatch Logs or Amazon S3\.
+
+For more information, see [Creating a flow log that publishes to CloudWatch Logs](flow-logs-cwl.md#flow-logs-cwl-create-flow-log) and [Creating a flow log that publishes to Amazon S3](flow-logs-s3.md#flow-logs-s3-create-flow-log)\.
+
+### Viewing flow logs
+
+You can view information about your flow logs in the Amazon EC2 and Amazon VPC consoles by viewing the **Flow Logs** tab for a specific resource\. When you select the resource, all the flow logs for that resource are listed\. The information displayed includes the ID of the flow log, the flow log configuration, and information about the status of the flow log\.
+
+**To view information about flow logs for your network interfaces**
+
+1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
+
+1. In the navigation pane, choose **Network Interfaces**\.
+
+1. Select a network interface, and choose **Flow Logs**\. Information about the flow logs is displayed on the tab\. The **Destination type** column indicates the destination to which the flow logs are published\.
+
+**To view information about flow logs for your VPCs or subnets**
+
+1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
+
+1. In the navigation pane, choose **Your VPCs** or **Subnets**\.
+
+1. Select your VPC or subnet, and choose **Flow Logs**\. Information about the flow logs is displayed on the tab\. The **Destination type** column indicates the destination to which the flow logs are published\.
+
+### Adding or removing tags for flow logs
+
+You can add or remove tags for a flow log in the Amazon EC2 and Amazon VPC consoles\.
+
+**To add or remove tags for a flow log for a network interface**
+
+1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
+
+1. In the navigation pane, choose **Network Interfaces**\.
+
+1. Select a network interface, and choose **Flow Logs**\.
+
+1. Choose **Manage tags** for the required flow log\.
+
+1. To add a new tag, choose **Create Tag**\. To remove a tag, choose the delete button \(x\)\.
+
+1. Choose **Save**\.
+
+**To add or remove tags for a flow log for a VPC or subnet**
+
+1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
+
+1. In the navigation pane, choose **Your VPCs** or **Subnets**\.
+
+1. Select your VPC or subnet, and choose **Flow Logs**\.
+
+1. Select the flow log, and choose **Actions**, **Add/Edit Tags**\.
+
+1. To add a new tag, choose **Create Tag**\. To remove a tag, choose the delete button \(x\)\.
+
+1. Choose **Save**\.
+
+### Viewing flow log records
+
+You can view your flow log records using the CloudWatch Logs console or Amazon S3 console, depending on the chosen destination type\. It may take a few minutes after you've created your flow log for it to be visible in the console\.
+
+**To view flow log records published to CloudWatch Logs**
+
+1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
+
+1. In the navigation pane, choose **Logs**, and select the log group that contains your flow log\. A list of log streams for each network interface is displayed\.
+
+1.  Select the log stream that contains the ID of the network interface for which to view the flow log records\. For more information, see [Flow log records](flow-logs.md#flow-log-records)\.
+
+**To view flow log records published to Amazon S3**
+
+1. Open the Amazon S3 console at [https://console\.aws\.amazon\.com/s3/](https://console.aws.amazon.com/s3/)\.
+
+1. For **Bucket name**, select the bucket to which the flow logs are published\.
+
+1. For **Name**, select the check box next to the log file\. On the object overview panel, choose **Download**\.
+
+### Deleting a flow log
+
+You can delete a flow log using the Amazon EC2 and Amazon VPC consoles\.
+
+**Note**  
+These procedures disable the flow log service for a resource\. Deleting a flow log does not delete the existing log streams from CloudWatch Logs and log files from Amazon S3\. Existing flow log data must be deleted using the respective service's console\. In addition, deleting a flow log that publishes to Amazon S3 does not remove the bucket policies and log file access control lists \(ACLs\)\.
+
+**To delete a flow log for a network interface**
+
+1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
+
+1. In the navigation pane, choose **Network Interfaces** and select the network interface\.
+
+1. Choose **Flow Logs**, and then choose the delete button \(a cross\) for the flow log to delete\.
+
+1. In the confirmation dialog box, choose **Yes, Delete**\.
+
+**To delete a flow log for a VPC or subnet**
+
+1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
+
+1. In the navigation pane, choose **Your VPCs** or **Subnets**, and then select the resource\.
+
+1. Choose **Flow Logs**, and then choose the delete button \(a cross\) for the flow log to delete\.
+
+1. In the confirmation dialog box, choose **Yes, Delete**\.
+
+### Searching flow log records
+
+You can search your flow log records that are published to CloudWatch Logs using the CloudWatch Logs console\.
+
+**To search flow log records**
+
+1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
+
+1. In the navigation pane, choose **Log groups**, and select the log group that contains your flow log\. A list of log streams for each network interface is displayed\.
+
+1. You can select the individual log stream if you know the network interface that you are searching for, or choose **Search Log Group** to search the entire log group\. It may take a long time if there are many network interfaces in your log group, and depending on what time range you select\.
+
+1. You can use the [standard Cloudwatch Log filter](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html) to filter the flow logs. The flow logs are space delimited logs\.
+
+1. For **Filter events**, paste the following string: `[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]` (This assumes you do not have a custom flow log format)\.
+
+1. Modify the filter based on what you are searching for. The following are example filters:
 
 ```
-~/xray-daemon$ ./xray_mac -o -n us-east-2
+[version, accountid, interfaceid, srcaddr = 10.0.0.1, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]
+[version, accountid, interfaceid, srcaddr = 10.0.2.*, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]
+[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport = 80 || dstport = 8080, protocol, packets, bytes, start, end, action, logstatus]
+[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport = 80 || dstport = 8080, protocol, packets, bytes >= 400, start, end, action = REJECT, logstatus]
 ```
 
-To run the daemon in the background, use `&`\.
+### API and CLI overview
 
-```
-~/xray-daemon$ ./xray_mac -o -n us-east-2 &
-```
+You can perform the tasks described on this page using the command line or API\. For more information about the command line interfaces and a list of available API actions, see [Accessing Amazon VPC](what-is-amazon-vpc.md#VPCInterfaces)\.
 
-Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
+**Create a flow log**
++ [create\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-flow-logs.html) \(AWS CLI\)
++ [New\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
++ [CreateFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFlowLogs.html) \(Amazon EC2 Query API\)
 
-```
-~/xray-daemon$ nohup ./xray_mac &
-```
-## 9. Utilizing AWS CloudWatch Container Insights
+**Describe your flow logs**
++ [describe\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-flow-logs.html) \(AWS CLI\)
++ [Get\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Get-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
++ [DescribeFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeFlowLogs.html) \(Amazon EC2 Query API\)
+
+**View your flow log records \(log events\)**
++ [get\-log\-events](https://docs.aws.amazon.com/cli/latest/reference/logs/get-log-events.html) \(AWS CLI\)
++ [Get\-CWLLogEvent](https://docs.aws.amazon.com/powershell/latest/reference/items/Get-CWLLogEvent.html) \(AWS Tools for Windows PowerShell\)
++ [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html) \(CloudWatch API\)
+
+**Delete a flow log**
++ [delete\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-flow-logs.html) \(AWS CLI\)
++ [Remove\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
++ [DeleteFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteFlowLogs.html) \(Amazon EC2 Query API\)
+
+## Operational Best Practices
+
+
+## 1. Utilizing AWS CloudWatch Container Insights
 
 ### Setting Up Container Insights on Amazon ECS for Cluster\- and Service\-Level Metrics
 
@@ -1935,7 +2008,8 @@ To disable Container Insights on an existing Amazon ECS cluster, enter the follo
 aws ecs update-cluster-settings --cluster myCICluster --settings name=containerInsights,value=disabled
 ```
 ## Respond/Recover
-## 10. Utilize Amazon ECS Events and EventBridge
+
+## 2. Utilize Amazon ECS Events and EventBridge
 
 Capital Group:
 |Control Statement|Description|
@@ -2557,212 +2631,143 @@ When you tag EventBridge rules, you can grant an IAM policy to a user to allow a
 }
 ```
 
-## 11. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-|DE.CM-6|External service provider activity is monitored to detect potential cybersecurity events|
-|DE.CM-7|Monitoring for unauthorized personnel, connections, devices, and software is performed|
-|DE.DP-4|Event detection information is communicated to appropriate parties|
+## 3. Running the X\-Ray Daemon
+You can run the AWS X\-Ray daemon locally on Linux, MacOS, Windows, or in a Docker container\. Run the daemon to relay trace data to X\-Ray when you are developing and testing your instrumented application\. Download and extract the daemon by using the instructions [here](xray-daemon.md#xray-daemon-downloading)\.
 
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
+When running locally, the daemon can read credentials from an AWS SDK credentials file \(`.aws/credentials` in your user directory\) or from environment variables\. For more information, see [Giving the Daemon Permission to Send Data to X\-Ray](xray-daemon.md#xray-daemon-permissions)\.
 
-### Working with flow logs
+The daemon listens for UDP data on port 2000\. You can change the port and other options by using a configuration file and command line options\. For more information, see [Configuring the AWS X\-Ray Daemon](xray-daemon-configuration.md)\.
 
-You can work with flow logs using the Amazon EC2, Amazon VPC, CloudWatch, and Amazon S3 consoles\.
+### Running the X\-Ray Daemon on Linux
 
-**Topics**
-+ [Controlling the use of flow logs](#controlling-use-of-flow-logs)
-+ [Creating a flow log](#create-flow-log)
-+ [Viewing flow logs](#view-flow-logs)
-+ [Adding or removing tags for flow logs](#modify-tags-flow-logs)
-+ [Viewing flow log records](#view-flow-log-records)
-+ [Deleting a flow log](#delete-flow-log)
-+ [Searching flow log records](#search-flow-log-records)
-+ [API and CLI overview](#flow-logs-api-cli)
-
-### Controlling the use of flow logs
-
-By default, IAM users do not have permission to work with flow logs\. You can create an IAM user policy that grants users the permissions to create, describe, and delete flow logs\. For more information, see [Granting IAM Users Required Permissions for Amazon EC2 Resources](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ec2-api-permissions.html) in the *Amazon EC2 API Reference*\.
-
-The following is an example policy that grants users full permissions to create, describe, and delete flow logs\.
+You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
 
 ```
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DeleteFlowLogs",
-        "ec2:CreateFlowLogs",
-        "ec2:DescribeFlowLogs"
-      ],
-      "Resource": "*"
-    }
-  ]
+~/xray-daemon$ ./xray -o -n us-east-2
+```
+
+To run the daemon in the background, use `&`\.
+
+```
+~/xray-daemon$ ./xray -o -n us-east-2 &
+```
+
+Terminate a daemon process running in the background with `pkill`\.
+
+```
+~$ pkill xray
+```
+
+### Running the X\-Ray Daemon in a Docker Container
+
+To run the daemon locally in a Docker container, save the following text to a file named `Dockerfile`\. Download the complete [example image](https://hub.docker.com/r/amazon/aws-xray-daemon/) on Docker Hub\.
+
+**Example Dockerfile – Amazon Linux**
+
+```
+FROM amazonlinux
+RUN yum install -y unzip
+RUN curl -o daemon.zip https://s3.dualstack.us-east-2.amazonaws.com/aws-xray-assets.us-east-2/xray-daemon/aws-xray-daemon-linux-3.x.zip
+RUN unzip daemon.zip && cp xray /usr/bin/xray
+ENTRYPOINT ["/usr/bin/xray", "-t", "0.0.0.0:2000", "-b", "0.0.0.0:2000"]
+EXPOSE 2000/udp
+EXPOSE 2000/tcp
+```
+
+Build the container image with `docker build`\.
+
+```
+~/xray-daemon$ docker build -t xray-daemon .
+```
+
+Run the image in a container with `docker run`\.
+
+```
+~/xray-daemon$ docker run \
+      --attach STDOUT \
+      -v ~/.aws/:/root/.aws/:ro \
+      --net=host \
+      -e AWS_REGION=us-east-2 \
+      --name xray-daemon \
+      -p 2000:2000/udp \
+      xray-daemon -o
+```
+
+This command uses the following options:
++ `--attach STDOUT` – View output from the daemon in the terminal\.
++ `-v ~/.aws/:/root/.aws/:ro` – Give the container read\-only access to the `.aws` directory to let it read your AWS SDK credentials\.
++ `AWS_REGION=us-east-2` – Set the `AWS_REGION` environment variable to tell the daemon which region to use\.
++ `--net=host` – Attach the container to the `host` network\. Containers on the host network can communicate with each other without publishing ports\.
++ `-p 2000:2000/udp` – Map UDP port 2000 on your machine to the same port on the container\. This is not required for containers on the same network to communicate, but it does let you send segments to the daemon [from the command line](xray-api-sendingdata.md#xray-api-daemon) or from an application not running in Docker\.
++ `--name xray-daemon` – Name the container `xray-daemon` instead of generating a random name\.
++ `-o` \(after the image name\) – Append the `-o` option to the entry point that runs the daemon within the container\. This option tells the daemon to run in local mode to prevent it from trying to read Amazon EC2 instance metadata\.
+
+To stop the daemon, use `docker stop`\. If you make changes to the `Dockerfile` and build a new image, you need to delete the existing container before you can create another one with the same name\. Use `docker rm` to delete the container\.
+
+```
+$ docker stop xray-daemon
+$ docker rm xray-daemon
+```
+
+The Scorekeep sample application shows how to use the X\-Ray daemon in a local Docker container\. See [Instrumenting Amazon ECS Applications](scorekeep-ecs.md) for details\.
+
+### Running the X\-Ray Daemon on Windows
+
+You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
+
+```
+> .\xray_windows.exe -o -n us-east-2
+```
+
+Use a PowerShell script to create and run a service for the daemon\.
+
+**Example PowerShell Script \- Windows**
+
+```
+if ( Get-Service "AWSXRayDaemon" -ErrorAction SilentlyContinue ){
+    sc.exe stop AWSXRayDaemon
+    sc.exe delete AWSXRayDaemon
 }
+if ( Get-Item -path aws-xray-daemon -ErrorAction SilentlyContinue ) {
+    Remove-Item -Recurse -Force aws-xray-daemon
+}
+
+$currentLocation = Get-Location
+$zipFileName = "aws-xray-daemon-windows-service-3.x.zip"
+$zipPath = "$currentLocation\$zipFileName"
+$destPath = "$currentLocation\aws-xray-daemon"
+$daemonPath = "$destPath\xray.exe"
+$daemonLogPath = "C:\inetpub\wwwroot\xray-daemon.log"
+$url = "https://s3.dualstack.us-west-2.amazonaws.com/aws-xray-assets.us-west-2/xray-daemon/aws-xray-daemon-windows-service-3.x.zip"
+
+Invoke-WebRequest -Uri $url -OutFile $zipPath
+Add-Type -Assembly "System.IO.Compression.Filesystem"
+[io.compression.zipfile]::ExtractToDirectory($zipPath, $destPath)
+
+sc.exe create AWSXRayDaemon binPath= "$daemonPath -f $daemonLogPath"
+sc.exe start AWSXRayDaemon
 ```
 
-Some additional IAM role and permission configuration is required, depending on whether you're publishing to CloudWatch Logs or Amazon S3\. 
+### Running the X\-Ray Daemon on OS X
 
-### Creating a flow log
-
-You can create flow logs for your VPCs, subnets, or network interfaces\. Flow logs can publish data to CloudWatch Logs or Amazon S3\.
-
-For more information, see [Creating a flow log that publishes to CloudWatch Logs](flow-logs-cwl.md#flow-logs-cwl-create-flow-log) and [Creating a flow log that publishes to Amazon S3](flow-logs-s3.md#flow-logs-s3-create-flow-log)\.
-
-### Viewing flow logs
-
-You can view information about your flow logs in the Amazon EC2 and Amazon VPC consoles by viewing the **Flow Logs** tab for a specific resource\. When you select the resource, all the flow logs for that resource are listed\. The information displayed includes the ID of the flow log, the flow log configuration, and information about the status of the flow log\.
-
-**To view information about flow logs for your network interfaces**
-
-1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
-
-1. In the navigation pane, choose **Network Interfaces**\.
-
-1. Select a network interface, and choose **Flow Logs**\. Information about the flow logs is displayed on the tab\. The **Destination type** column indicates the destination to which the flow logs are published\.
-
-**To view information about flow logs for your VPCs or subnets**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-1. In the navigation pane, choose **Your VPCs** or **Subnets**\.
-
-1. Select your VPC or subnet, and choose **Flow Logs**\. Information about the flow logs is displayed on the tab\. The **Destination type** column indicates the destination to which the flow logs are published\.
-
-### Adding or removing tags for flow logs
-
-You can add or remove tags for a flow log in the Amazon EC2 and Amazon VPC consoles\.
-
-**To add or remove tags for a flow log for a network interface**
-
-1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
-
-1. In the navigation pane, choose **Network Interfaces**\.
-
-1. Select a network interface, and choose **Flow Logs**\.
-
-1. Choose **Manage tags** for the required flow log\.
-
-1. To add a new tag, choose **Create Tag**\. To remove a tag, choose the delete button \(x\)\.
-
-1. Choose **Save**\.
-
-**To add or remove tags for a flow log for a VPC or subnet**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-1. In the navigation pane, choose **Your VPCs** or **Subnets**\.
-
-1. Select your VPC or subnet, and choose **Flow Logs**\.
-
-1. Select the flow log, and choose **Actions**, **Add/Edit Tags**\.
-
-1. To add a new tag, choose **Create Tag**\. To remove a tag, choose the delete button \(x\)\.
-
-1. Choose **Save**\.
-
-### Viewing flow log records
-
-You can view your flow log records using the CloudWatch Logs console or Amazon S3 console, depending on the chosen destination type\. It may take a few minutes after you've created your flow log for it to be visible in the console\.
-
-**To view flow log records published to CloudWatch Logs**
-
-1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
-
-1. In the navigation pane, choose **Logs**, and select the log group that contains your flow log\. A list of log streams for each network interface is displayed\.
-
-1.  Select the log stream that contains the ID of the network interface for which to view the flow log records\. For more information, see [Flow log records](flow-logs.md#flow-log-records)\.
-
-**To view flow log records published to Amazon S3**
-
-1. Open the Amazon S3 console at [https://console\.aws\.amazon\.com/s3/](https://console.aws.amazon.com/s3/)\.
-
-1. For **Bucket name**, select the bucket to which the flow logs are published\.
-
-1. For **Name**, select the check box next to the log file\. On the object overview panel, choose **Download**\.
-
-### Deleting a flow log
-
-You can delete a flow log using the Amazon EC2 and Amazon VPC consoles\. 
-
-**Note**  
-These procedures disable the flow log service for a resource\. Deleting a flow log does not delete the existing log streams from CloudWatch Logs and log files from Amazon S3\. Existing flow log data must be deleted using the respective service's console\. In addition, deleting a flow log that publishes to Amazon S3 does not remove the bucket policies and log file access control lists \(ACLs\)\.
-
-**To delete a flow log for a network interface**
-
-1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
-
-1. In the navigation pane, choose **Network Interfaces** and select the network interface\.
-
-1. Choose **Flow Logs**, and then choose the delete button \(a cross\) for the flow log to delete\.
-
-1. In the confirmation dialog box, choose **Yes, Delete**\.
-
-**To delete a flow log for a VPC or subnet**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-1. In the navigation pane, choose **Your VPCs** or **Subnets**, and then select the resource\.
-
-1. Choose **Flow Logs**, and then choose the delete button \(a cross\) for the flow log to delete\.
-
-1. In the confirmation dialog box, choose **Yes, Delete**\.
-
-### Searching flow log records
-
-You can search your flow log records that are published to CloudWatch Logs using the CloudWatch Logs console\.
-
-**To search flow log records**
-
-1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
-
-1. In the navigation pane, choose **Log groups**, and select the log group that contains your flow log\. A list of log streams for each network interface is displayed\.
-
-1. You can select the individual log stream if you know the network interface that you are searching for, or choose **Search Log Group** to search the entire log group\. It may take a long time if there are many network interfaces in your log group, and depending on what time range you select\.
-
-1. You can use the [standard Cloudwatch Log filter](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html) to filter the flow logs. The flow logs are space delimited logs\.
-
-1. For **Filter events**, paste the following string: `[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]` (This assumes you do not have a custom flow log format)\.
-
-1. Modify the filter based on what you are searching for. The following are example filters:
+You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
 
 ```
-[version, accountid, interfaceid, srcaddr = 10.0.0.1, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]
-[version, accountid, interfaceid, srcaddr = 10.0.2.*, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]
-[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport = 80 || dstport = 8080, protocol, packets, bytes, start, end, action, logstatus]
-[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport = 80 || dstport = 8080, protocol, packets, bytes >= 400, start, end, action = REJECT, logstatus]
+~/xray-daemon$ ./xray_mac -o -n us-east-2
 ```
 
-### API and CLI overview
+To run the daemon in the background, use `&`\.
 
-You can perform the tasks described on this page using the command line or API\. For more information about the command line interfaces and a list of available API actions, see [Accessing Amazon VPC](what-is-amazon-vpc.md#VPCInterfaces)\.
+```
+~/xray-daemon$ ./xray_mac -o -n us-east-2 &
+```
 
-**Create a flow log**
-+ [create\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-flow-logs.html) \(AWS CLI\)
-+ [New\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
-+ [CreateFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFlowLogs.html) \(Amazon EC2 Query API\)
+Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
 
-**Describe your flow logs**
-+ [describe\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-flow-logs.html) \(AWS CLI\)
-+ [Get\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Get-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
-+ [DescribeFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeFlowLogs.html) \(Amazon EC2 Query API\)
+```
+~/xray-daemon$ nohup ./xray_mac &
+```
 
-**View your flow log records \(log events\)**
-+ [get\-log\-events](https://docs.aws.amazon.com/cli/latest/reference/logs/get-log-events.html) \(AWS CLI\)
-+ [Get\-CWLLogEvent](https://docs.aws.amazon.com/powershell/latest/reference/items/Get-CWLLogEvent.html) \(AWS Tools for Windows PowerShell\)
-+ [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html) \(CloudWatch API\)
-
-**Delete a flow log**
-+ [delete\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-flow-logs.html) \(AWS CLI\)
-+ [Remove\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
-+ [DeleteFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteFlowLogs.html) \(Amazon EC2 Query API\)
 
 
 ## Capital Group Security Controls
