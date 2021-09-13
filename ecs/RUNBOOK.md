@@ -23,15 +23,21 @@ Security Engineering
   - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
   - [7. Creating a Trail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
   - [8. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)](#8-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only)
+  - [9. Scan images for Vulnerabilities](#9-scan-images-for-vulnerabilities)
+  - [10. Remove special permissions from images](#10-remove-specal-permissions-from-images)
+  - [11. Run containers as non-root users](#11-run-containers-as-non-root-users)
+  - [12. Use a read-only root file system](#12-use-a-read-only-file-system)
 - [Operational Best Practices](#operational-best-practices)  
   - [1. Utilizing AWS CloudWatch Container Insights](#1-utilizing-aws-cloudwatch-container-insights)
   - [2. Utilize Amazon ECS Events and Eventbridge](#2-utilize-amazon-ecs-events-and-eventbridge)
   - [3. Running the X\-Ray Daemon](#3-running-the-x-ray-daemon)
+  - [4. ECS Resources are tagged according to CG Standards](#4-ecs-resources-are-tagged-according-to-cg-standards)
+  - [5. Configure tasks with CPU and Memory limits (Amazon EC2)](#5-configure-tasks-with-cpu-and-memory-limits)
 - [Endnotes](#Endnotes)
-- [Capital Group Glossory](#Capital-Group-Glossory)
+- [Capital Group Glossary](#Capital-Group-Glossary)
   <br><br>
   
-=======
+
 
 ## Overview
 AWS provides a number of security features for Amazon Elastic Container Service (ECS) which help you comply with the NIST Cybersecurity Framework. The following Runbook will Provide implementation details to deploy the Amazon Elastic Conatainer service in accordance with NIST CSF and service applicable security controls.This runbook in its continued development will provide support to the automated configuration of hardening workloads an processes. 
@@ -2759,6 +2765,21 @@ Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
 ```
 ~/xray-daemon$ nohup ./xray_mac &
 ```
+### 4. ECS Resources are tagged according to CG standards
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|N/A| No security control currently defined.|
+
+**What, Why & How?**
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
+
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
+<br><br>
+
+
 
 ## Endnotes
 **Resources**<br>
@@ -2777,7 +2798,7 @@ Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
 13. https://docs.aws.amazon.com/xray/latest/devguide/xray-daemon-local.html
 <br><br>
 
-## Capital Group Glossory
+## Capital Group Glossary
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.
 
 **Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
