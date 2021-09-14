@@ -29,6 +29,7 @@ Security Engineering
   - [12. Use a read-only root file system](#12-use-a-read-only-file-system)
   - [13. ECS data in transit must enforce TLS with version 1.2 or higher](#13-ecs-data-in-transit-must-enforce-tls-with-version-1.2-or-higher)
   - [14. Make sure ECS Task network interface does not have public IP address](#14-make-sure-ecs-task-network-interface-does-not-have-public-ip-address)
+  - [15. Use always Fargate launch type in ECS Cluster](#15-use-always-fargate-launch-type-in-ecs-cluster)
 - [Operational Best Practices](#operational-best-practices)  
   - [1. Utilizing AWS CloudWatch Container Insights](#1-utilizing-aws-cloudwatch-container-insights)
   - [2. Utilize Amazon ECS Events and Eventbridge](#2-utilize-amazon-ecs-events-and-eventbridge)
@@ -575,6 +576,8 @@ If you enable the private DNS option, you do not have to specify the endpoint UR
 
 ___
 **Why?**
+
+For non sensitive information use Parameter Store for environmental variables. The advantge of using Parameter store is decoupling the environmental variables from task definitions. Environment variables can be updated without touching the task definition. 
 
 ### Amazon EC2 Systems Manager Parameter Store
 
@@ -1310,7 +1313,7 @@ Capital Group:
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
 
 **Why?**
-You need need use VPC Flow Logs in order send all the logs from Fargae and EC2 Instance type to centralized logging location. These logs are used are used but the CG Security Engineering Teams to detect malicious activity and threat detection.
+You need need use VPC Flow Logs in order send all the logs from Fargat  e and EC2 Instance type to centralized logging location. These logs are used are used but the CG Security Engineering Teams to detect malicious activity and threat detection.
 
 ### Working with flow logs
 
@@ -1504,6 +1507,82 @@ You can perform the tasks described on this page using the command line or API\.
 + [delete\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-flow-logs.html) \(AWS CLI\)
 + [Remove\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
 + [DeleteFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteFlowLogs.html) \(Amazon EC2 Query API\)
+
+## 9. Scan images for Vulnerabilities
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
+
+**Why?**
+
+All images deployed in the ECS Cluster must be scanned for identiying vulnerabilites. 
+
+**How?**
+
+All the Teams running ECS Clusters should have a Twistlock agent running in the cluster, so that images deployed in the cluster are scanned by Twistlock Scanner ( Prisma Cloud). Please contact PDS team if you dont have twistlock agent running in the Cluster
+
+
+## 10. Remove special permissions from images
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|Need to be updated|Need to be updated|
+
+**Why?**
+
+All the images which are getting deployed in the ECS Cluster should not have elevated, privilages and special permissions
+
+**How?**
+
+
+
+
+
+
+
+## 11. Run containers as non-root users
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+||Need to be updated|Need to be updated|
+
+**Why?**
+
+## 12. Use a read-only root file system
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|Need to be updated|Need to be updated|
+
+**Why?**
+
+## 13. ECS data in transit must enforce TLS with version 1.2 or higher
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|Need to be updated|Need to be updated|
+
+**Why?**
+
+## 14. Make sure ECS Task network interface does not have public IP address
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|Need to be updated|Need to be updated|
+
+**Why?**
+
+## 15. Use always Fargate launch type in ECS Cluster
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|Need to be updated|Need to be updated|
+
+**Why?**
+
+
+
 
 ## Operational Best Practices
 
