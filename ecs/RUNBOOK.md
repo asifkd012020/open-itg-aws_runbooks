@@ -42,6 +42,9 @@ Security Engineering
 
 
 ## Overview
+Amazon Elastic Container Service (Amazon ECS) is a fully managed container orchestration service that helps you easily deploy, manage, and scale containerized applications. It deeply integrates with the rest of the AWS platform to provide a secure and easy-to-use solution for running container workloads in the cloud and now on your infrastructure with Amazon ECS Anywhere.
+
+
 AWS provides a number of security features for Amazon Elastic Container Service (ECS) which help you comply with the NIST Cybersecurity Framework. The following Runbook will Provide implementation details to deploy the Amazon Elastic Conatainer service in accordance with NIST CSF and service applicable security controls.This runbook in its continued development will provide support to the automated configuration of hardening workloads an processes. 
 
 These NIST Controls and Subcategories are not applicable to this service: PR.AT, PR.MA, PR.IP  (Unless stated), PR.AC-2, PR.AC-3, PR.DS-3, PR.DS-8, PR.PT-2, PR.PT-5, DE.DP1, DE.DP-2. DE.DP-3, DE.CM-3, DE.AE-5, RC, RS.MI.
@@ -64,13 +67,14 @@ ___
 ### IAM Roles for Tasks
 
 **Why?**
+Based on IAM least privilege access model. CG Security Team recommends each task should have its own IAM role based on the access it needs. Outside various available options of IAM Roles, CG recommends to use the following 'Task Execution Role'.The task execution role is used to grant the Amazon ECS container agent permission to call specific AWS API actions on your behalf. For example, when you use AWS Fargate, Fargate needs an IAM role that allows it to pull images from Amazon ECR and write logs to CloudWatch Logs. An IAM role is also required when a task references a secret that's stored in AWS Secrets Manager, such as an image pull secret.
+
 ### Benefits of Using IAM Roles for Tasks
 + **Credential Isolation:** A container can only retrieve credentials for the IAM role that is defined in the task definition to which it belongs; a container never has access to credentials that are intended for another container that belongs to another task\.
 + **Authorization:** Unauthorized containers cannot access IAM role credentials defined for other tasks\.
 + **Auditability:** Access and event logging is available through CloudTrail to ensure retrospective auditing\. Task credentials have a context of `taskArn` that is attached to the session, so CloudTrail logs show which task is using which role\.
 
 **How?**
-
 With IAM roles for Amazon ECS tasks, you can specify an IAM role that can be used by the containers in a task\. Applications must sign their AWS API requests with AWS credentials, and this feature provides a strategy for managing credentials for your applications to use, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances\. Instead of creating and distributing your AWS credentials to the containers or using the EC2 instance’s role, you can associate an IAM role with an ECS task definition or `RunTask` API operation\. The applications in the task’s containers can then use the AWS SDK or CLI to make API requests to authorized AWS services\.
 
 **Important**  
@@ -232,9 +236,10 @@ In addition to the standard Amazon ECS permissions required to run tasks and ser
 ## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
 
 **Why?**
-CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR provides a safe and secure location for managing the images for teams. And make sure the images are not immutable and not manipulated.
+CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR is a fully managed container registry that makes it easy to store, manage, share and deploy container images and artifacts in a secure manner.Amazon ECR hosts your images in a highly available and high-performance architecture, allowing you to deploy images for your container applications reliably. You can share container software privately within Capital Group or publicly worldwide for anyone to discover and download.
 
 **How?**
+
 ### Using Amazon ECR Images with Amazon ECS
 
 You can use your ECR images with Amazon ECS, but you need to satisfy the following prerequisites\.
@@ -270,6 +275,8 @@ Capital Group:
 |6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.| 
 
 **Why?**
+In order to use securely communicate with AWS Services like S3, ECR, without accessing public internet, AWS Privatelink provides a way to restrict the traffic from VPC to AWS Service using private IP addresses. 
+
 ### Amazon ECS Interface VPC Endpoints \(AWS PrivateLink\)
 
 You can improve the security posture of your VPC by configuring Amazon ECS to use an interface VPC endpoint\. Interface endpoints are powered by AWS PrivateLink, a technology that enables you to privately access Amazon ECS APIs by using private IP addresses\. PrivateLink restricts all network traffic between your VPC and Amazon ECS to the Amazon network\. You don't need an internet gateway, a NAT device, or a virtual private gateway\.
@@ -1144,6 +1151,10 @@ Capital Group:
 |------|----------------------|
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
 
+**Why?**
+You need need use awslogs log driver in order send all the logs from Fargae and EC2 Instance type to centralized logging location. These logs are used are used but the CG Security Engineering Teams to detect malicious activity.
+
+**How?**
 You can configure the containers in your tasks to send log information to CloudWatch Logs\. If you are using the Fargate launch type for your tasks, this allows you to view the logs from your containers\. If you are using the EC2 launch type, this enables you to view different logs from your containers in one convenient location, and it prevents your container logs from taking up disk space on your container instances\. This topic helps you get started using the `awslogs` log driver in your task definitions\.
 
 **Note**  
@@ -1498,6 +1509,9 @@ Capital Group:
 |Control Statement|Description|
 |------|----------------------|
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
+
+**Why?**
+You need need use VPC Flow Logs in order send all the logs from Fargae and EC2 Instance type to centralized logging location. These logs are used are used but the CG Security Engineering Teams to detect malicious activity and threat detection.
 
 ### Working with flow logs
 
