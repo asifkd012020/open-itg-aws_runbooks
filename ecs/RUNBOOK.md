@@ -189,6 +189,7 @@ In addition to the standard Amazon ECS permissions required to run tasks and ser
 ## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
 
 **Why?**
+
 CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR is a fully managed container registry that makes it easy to store, manage, share and deploy container images and artifacts in a secure manner.Amazon ECR hosts your images in a highly available and high-performance architecture, allowing you to deploy images for your container applications reliably. You can share container software privately within Capital Group or publicly worldwide for anyone to discover and download.
 
 **How?**
@@ -229,7 +230,7 @@ Capital Group:
 
 **Why?**
 
-In order to use securely communicate with AWS Services like S3, ECR, without accessing public internet, AWS Privatelink provides a way to restrict the traffic from VPC to AWS Service using private IP addresses. 
+In order to use securely communicate with AWS Services like S3, ECR, without accessing public internet, VPC Endpoints using AWS Privatelink provides a way to restrict the traffic from VPC to AWS Service using private IP addresses. 
 
 ### Amazon ECS Interface VPC Endpoints \(AWS PrivateLink\)
 
@@ -548,88 +549,6 @@ After you've created an interface endpoint, you can view information about it\.
 
 ------
 
-### Creating and managing a notification for an interface endpoint
-
-You can create a notification to receive alerts for specific events that occur on your interface endpoint\. For example, you can receive an email when the interface endpoint is accepted by the service provider\. To create a notification, you must associate an [Amazon SNS topic](https://docs.aws.amazon.com/sns/latest/dg/) with the notification\. You can subscribe to the SNS topic to receive an email notification when an endpoint event occurs\. 
-
-The Amazon SNS topic that you use for notifications must have a topic policy that allows Amazon's VPC endpoint service to publish notifications on your behalf\. Ensure that you include the following statement in your topic policy\. For more information, see [Identity and Access Management in Amazon SNS](https://docs.aws.amazon.com/sns/latest/dg/sns-authentication-and-access-control.html) in the *Amazon Simple Notification Service Developer Guide*\.
-
-```
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "vpce.amazonaws.com"
-      },
-      "Action": "SNS:Publish",
-      "Resource": "arn:aws:sns:region:account:topic-name"
-    }
-  ]
-}
-```
-
-------
-#### [ Console ]
-
-**To create a notification for an interface endpoint**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints** and select your interface endpoint\.
-1. Choose **Actions**, **Create notification**\.
-1. Choose the ARN for the SNS topic to associate with the notification\.
-1. For **Events**, select the endpoint events for which to receive notifications\.
-1. Choose **Create Notification**\.
-
-After you create a notification, you can change the SNS topic that's associated with the notification\. You can also specify different endpoint events for the notification\.
-**To modify a notification for an endpoint service**
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints** and select your interface endpoint\.
-1. Choose **Actions**, **Modify Notification**\.
-1. Specify the ARN for the SNS topic and change the endpoint events as required\.
-1. Choose **Modify Notification**\.
-
-If you no longer need a notification, you can delete it\. 
-
-**To delete a notification**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints** and select your interface endpoint\.
-1. Choose **Actions**, **Delete notification**\.
-1. Choose **Yes, Delete**\.
-
-------
-#### [ Command line ]
-
-**To create and manage a notification using the AWS CLI**
-
-1. To create a notification for an interface endpoint, use the [create\-vpc\-endpoint\-connection\-notification](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-vpc-endpoint-connection-notification.html) command\. Specify the ARN of the SNS topic, the events for which to be notified, and the ID of the endpoint, as shown in the following example\.
-
-   ```
-   aws ec2 create-vpc-endpoint-connection-notification --connection-notification-arn arn:aws:sns:us-east-2:123456789012:EndpointNotification --connection-events Accept Reject --vpc-endpoint-id vpce-123abc3420c1931d7
-   ```
-
-1. To view your notifications, use the [describe\-vpc\-endpoint\-connection\-notifications](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoint-connection-notifications.html) command\.
-
-   ```
-   aws ec2 describe-vpc-endpoint-connection-notifications
-   ```
-
-1. To change the SNS topic or endpoint events for the notification, use the [modify\-vpc\-endpoint\-connection\-notification](https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-vpc-endpoint-connection-notification.html) command\.
-
-   ```
-   aws ec2 modify-vpc-endpoint-connection-notification --connection-notification-id vpce-nfn-008776de7e03f5abc --connection-events Accept --connection-notification-arn arn:aws:sns:us-east-2:123456789012:mytopic
-   ```
-
-1. To delete a notification, use the [delete\-vpc\-endpoint\-connection\-notifications](https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-vpc-endpoint-connection-notifications.html) command\.
-
-   ```
-   aws ec2 delete-vpc-endpoint-connection-notifications --connection-notification-ids vpce-nfn-008776de7e03f5abc
-   ```
-
-------
-
 ### Accessing a service through an interface endpoint
 
 After you've created an interface endpoint, you can submit requests to the supported service via an endpoint URL\. You can use the following:
@@ -650,86 +569,7 @@ aws elbv2 describe-load-balancers --endpoint-url https://vpce-0f89a33420c193abc-
 
 If you enable the private DNS option, you do not have to specify the endpoint URL in the request\. The AWS CLI uses the default endpoint for the AWS service for the Region \(`elasticloadbalancing.us-east-1.amazonaws.com`\)\.
 
-### Modifying an interface endpoint
 
-You can modify the following attributes of an interface endpoint:
-+ The subnet in which the interface endpoint is located
-+ The security groups that are associated with the endpoint network interface
-+ The tags
-+ The private DNS option
-+ The endpoint policy \(if supported by the service\)
-
- If you remove a subnet for the interface endpoint, the corresponding endpoint network interface in the subnet is deleted\.
-
-------
-#### [ Console ]
-
-**To change the subnets for an interface endpoint**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints** and select the interface endpoint\.
-1. Choose **Actions**, **Manage Subnets**\.
-1. Select or deselect the subnets as required, and choose **Modify Subnets**\. 
-
-**To add or remove the security groups associated with an interface endpoint**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints** and select the interface endpoint\.
-1. Choose **Actions**, **Manage security groups**\.
-1. Select or deselect the security groups as required, and choose **Save**\.
-
-**To add or remove an interface endpoint tag**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints**\.
-1. Select the interface endpoint and choose **Actions**, **Add/Edit Tags**\.
-1. Add or remove a tag\.
-
-   \[Add a tag\] Choose **Create tag** and do the following:
-   + For **Key**, enter the key name\.
-   + For **Value**, enter the key value\.
-
-   \[Remove a tag\] Choose the delete button \(“x”\) to the right of the tag’s Key and Value\.
-
-**To modify the private DNS option**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints** and select the interface endpoint\.
-1. Choose **Actions**, **Modify Private DNS names**\.
-1. Enable or disable the option as required, and choose **Modify Private DNS names**\.
-**To update the endpoint policy**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints** and select the interface endpoint\.
-1. Choose **Actions**, **Edit policy**\.
-1. Choose **Full Access** to allow full access to the service, or choose **Custom** and specify a custom policy\. Choose **Save**\.
-
-------
-#### [ Command line ]
-
-**To modify a VPC endpoint using the AWS CLI**
-
-1. Use the [describe\-vpc\-endpoints](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html) command to get the ID of your interface endpoint\.
-
-   ```
-   aws ec2 describe-vpc-endpoints
-   ```
-
-1. The following example uses the [modify\-vpc\-endpoint](https://docs.aws.amazon.com/cli/latest/reference/ec2/modify-vpc-endpoint.html) command to add subnet `subnet-aabb1122` to the interface endpoint\.
-
-   ```
-   aws ec2 modify-vpc-endpoint --vpc-endpoint-id vpce-0fe5b17a0707d6abc --add-subnet-id subnet-aabb1122
-   ```
-
-**To modify a VPC endpoint using the AWS Tools for Windows PowerShell or an API**
-+ [Edit\-EC2VpcEndpoint](https://docs.aws.amazon.com/powershell/latest/reference/items/Edit-EC2VpcEndpoint.html) \(AWS Tools for Windows PowerShell\)
-+ [ModifyVpcEndpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-ModifyVpcEndpoint.html) \(Amazon EC2 Query API\)
-
-**To add or remove a VPC endpoint tag using the AWS Tools for Windows PowerShell or an API**
-+ [tag\-resource](https://docs.aws.amazon.com/cli/latest/reference/directconnect/tag-resource.html) \(AWS CLI\) 
-+ [TagResource](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_TagResource.html) \(AWS Tools for Windows PowerShell\)
-+ [untag\-resource](https://docs.aws.amazon.com/cli/latest/reference/directconnect/untag-resource.html) \(AWS CLI\) 
-+ [TagResource](https://docs.aws.amazon.com/directconnect/latest/APIReference/API_UntagResource.html) \(AWS Tools for Windows PowerShell\)
 
 ## 4. Configuring AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
 
