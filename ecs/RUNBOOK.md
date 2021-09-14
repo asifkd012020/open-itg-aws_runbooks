@@ -27,6 +27,8 @@ Security Engineering
   - [10. Remove special permissions from images](#10-remove-specal-permissions-from-images)
   - [11. Run containers as non-root users](#11-run-containers-as-non-root-users)
   - [12. Use a read-only root file system](#12-use-a-read-only-file-system)
+  - [13. ECS data in transit must enforce TLS with version 1.2 or higher](#13-ecs-data-in-transit-must-enforce-tls-with-version-1.2-or-higher)
+  - [14. Make sure ECS Task network interface does not have public IP address](#14-make-sure-ecs-task-network-interface-does-not-have-public-ip-address)
 - [Operational Best Practices](#operational-best-practices)  
   - [1. Utilizing AWS CloudWatch Container Insights](#1-utilizing-aws-cloudwatch-container-insights)
   - [2. Utilize Amazon ECS Events and Eventbridge](#2-utilize-amazon-ecs-events-and-eventbridge)
@@ -50,8 +52,8 @@ These capital group control statements are not applicable to the ECS service: 5,
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Implement least privilege IAM Roles for Tasks
-**Capital Group:** <br>
-
+**Capital Group Controls:** 
+<br>
 |Control Statement|Description|
 |------|----------------------|
 |Control Definition Needed|Control Definition Description Needed|
@@ -60,6 +62,14 @@ These capital group control statements are not applicable to the ECS service: 5,
 ___
 
 ### IAM Roles for Tasks
+
+**Why?**
+### Benefits of Using IAM Roles for Tasks
++ **Credential Isolation:** A container can only retrieve credentials for the IAM role that is defined in the task definition to which it belongs; a container never has access to credentials that are intended for another container that belongs to another task\.
++ **Authorization:** Unauthorized containers cannot access IAM role credentials defined for other tasks\.
++ **Auditability:** Access and event logging is available through CloudTrail to ensure retrospective auditing\. Task credentials have a context of `taskArn` that is attached to the session, so CloudTrail logs show which task is using which role\.
+
+**How?**
 
 With IAM roles for Amazon ECS tasks, you can specify an IAM role that can be used by the containers in a task\. Applications must sign their AWS API requests with AWS credentials, and this feature provides a strategy for managing credentials for your applications to use, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances\. Instead of creating and distributing your AWS credentials to the containers or using the EC2 instance’s role, you can associate an IAM role with an ECS task definition or `RunTask` API operation\. The applications in the task’s containers can then use the AWS SDK or CLI to make API requests to authorized AWS services\.
 
@@ -112,33 +122,6 @@ If your container instance is using at least version 1\.11\.0 of the container a
 Each time the credential provider is used, the request is logged locally on the host container instance at `/var/log/ecs/audit.log.YYYY-MM-DD-HH`\. 
 
 
-### Benefits of Using IAM Roles for Tasks
-+ **Credential Isolation:** A container can only retrieve credentials for the IAM role that is defined in the task definition to which it belongs; a container never has access to credentials that are intended for another container that belongs to another task\.
-+ **Authorization:** Unauthorized containers cannot access IAM role credentials defined for other tasks\.
-+ **Auditability:** Access and event logging is available through CloudTrail to ensure retrospective auditing\. Task credentials have a context of `taskArn` that is attached to the session, so CloudTrail logs show which task is using which role\.
-
-### Enabling Task IAM Roles on your Container Instances
-
-Your Amazon ECS container instances require at least version 1\.11\.0 of the container agent to enable task IAM roles; however, we recommend using the latest container agent version\. 
-If you are using the Amazon ECS\-optimized AMI, your instance needs at least 1\.11\.0\-1 of the `ecs-init` package\. If your container instances are launched from version 2016\.03\.e or later, then they contain the required versions of the container agent and `ecs-init`\. 
-
-If you are not using the Amazon ECS\-optimized AMI for your container instances, be sure to add the `--net=host` option to your docker run command that starts the agent and the appropriate agent configuration variables for your desired configuration 
-
-`ECS_ENABLE_TASK_IAM_ROLE=true`  
-Enables IAM roles for tasks for containers with the `bridge` and `default` network modes\.
-
-`ECS_ENABLE_TASK_IAM_ROLE_NETWORK_HOST=true`  
-Enables IAM roles for tasks for containers with the `host` network mode\. This variable is only supported on agent versions 1\.12\.0 and later\.
-
-For an example run command, see [Manually Updating the Amazon ECS Container Agent \(for Non\-Amazon ECS\-Optimized AMIs\)](manually_update_agent.md)\. You will also need to set the following networking commands on your container instance so that the containers in your tasks can retrieve their AWS credentials:
-
-```
-sudo sysctl -w net.ipv4.conf.all.route_localnet=1
-sudo iptables -t nat -A PREROUTING -p tcp -d 169.254.170.2 --dport 80 -j DNAT --to-destination 127.0.0.1:51679
-sudo iptables -t nat -A OUTPUT -d 169.254.170.2 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 51679
-```
-
-You must save these iptables rules on your container instance for them to survive a reboot\. You can use the iptables\-save and iptables\-restore commands to save your iptables rules and restore them at boot\. For more information, consult your specific operating system documentation\.
 
 ### Creating an IAM Role and Policy for your Tasks
 
@@ -194,7 +177,7 @@ In this example, we create a policy to allow read\-only access to an Amazon S3 b
 
 1. In the **Policy Document** field, paste the policy to apply to your tasks\. The example below allows permission to the *my\-task\-secrets\-bucket* Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
 
-   ```
+```
    {
      "Version": "2012-10-17",
      "Statement": [
@@ -209,7 +192,7 @@ In this example, we create a policy to allow read\-only access to an Amazon S3 b
        }
      ]
    }
-   ```
+```
 
 1. Choose **Create policy**\. 
 
@@ -219,25 +202,20 @@ In this example, we create a policy to allow read\-only access to an Amazon S3 b
 
 1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
 
-1. In the navigation pane, choose **Roles**, **Create role**\. 
+2. In the navigation pane, choose **Roles**, **Create role**\. 
 
-1. For **Select type of trusted entity** section, choose **AWS service**\.
+3. For **Select type of trusted entity** section, choose **AWS service**\.
 
-1. For **Choose the service that will use this role**, choose **Elastic Container Service**\.
+4. For **Choose the service that will use this role**, choose **Elastic Container Service**\.
 
-1. For **Select your use case**, choose **Elastic Container Service Task** and choose **Next: Permissions**\.
+5. For **Select your use case**, choose **Elastic Container Service Task** and choose **Next: Permissions**\.
 
-1. For **Attach permissions policy**, select the policy to use for your tasks \(in this example `AmazonECSTaskS3BucketPolicy`, and then choose **Next: Tags**\.
+6. For **Attach permissions policy**, select the policy to use for your tasks \(in this example `AmazonECSTaskS3BucketPolicy`, and then choose **Next: Tags**\.
 
-1. For **Add tags \(optional\)**, enter any metadata tags you want to associate with the IAM role, and then choose **Next: Review**\.
+7. For **Add tags \(optional\)**, enter any metadata tags you want to associate with the IAM role, and then choose **Next: Review**\.
 
-1. For **Role name**, enter a name for your role\. For this example, type `AmazonECSTaskS3BucketRole` to name the role, and then choose **Create role** to finish\.
+8. For **Role name**, enter a name for your role\. For this example, type `AmazonECSTaskS3BucketRole` to name the role, and then choose **Create role** to finish\.
 
-### Using a Supported AWS SDK
-
-Support for IAM roles for tasks was added to the AWS SDKs on July 13th, 2016\. The containers in your tasks must use an AWS SDK version that was created on or after that date\. AWS SDKs that are included in Linux distribution package managers may not be new enough to support this feature\.
-
-To ensure that you are using a supported SDK, follow the installation instructions for your preferred SDK at [Tools for Amazon Web Services](https://aws.amazon.com/tools/) when you are building your containers to get the latest version\.
 
 ### Specifying an IAM Role for your Tasks
 
@@ -253,14 +231,17 @@ In addition to the standard Amazon ECS permissions required to run tasks and ser
 
 ## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
 
+**Why?**
+CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR provides a safe and secure location for managing the images for teams. And make sure the images are not immutable and not manipulated.
 
+**How?**
 ### Using Amazon ECR Images with Amazon ECS
 
 You can use your ECR images with Amazon ECS, but you need to satisfy the following prerequisites\.
 + Your container instances must be using at least version 1\.7\.0 of the Amazon ECS container agent\. The latest version of the Amazon ECS–optimized AMI supports ECR images in task definitions\. For more information, including the latest Amazon ECS–optimized AMI IDs, see [Amazon ECS Container Agent Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-versions.html) in the *Amazon Elastic Container Service Developer Guide*\.
 + The Amazon ECS container instance role \(`ecsInstanceRole`\) that you use with your container instances must possess the following IAM policy permissions for Amazon ECR\.
 
-  ```
+```
   {
       "Version": "2012-10-17",
       "Statement": [
@@ -276,7 +257,7 @@ You can use your ECR images with Amazon ECS, but you need to satisfy the followi
           }
       ]
   }
-  ```
+```
 
   If you use the `AmazonEC2ContainerServiceforEC2Role` managed policy for your container instances, then your role has the proper permissions\. To check that your role supports Amazon ECR, see [Amazon ECS Container Instance IAM Role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html) in the *Amazon Elastic Container Service Developer Guide*\.
 + In your ECS task definitions, make sure that you are using the full `registry/repository:tag` naming for your ECR images\. For example, `aws_account_id.dkr.ecr.region.amazonaws.com``/my-web-app:latest`\.
@@ -288,6 +269,7 @@ Capital Group:
 |------|----------------------|
 |6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.| 
 
+**Why?**
 ### Amazon ECS Interface VPC Endpoints \(AWS PrivateLink\)
 
 You can improve the security posture of your VPC by configuring Amazon ECS to use an interface VPC endpoint\. Interface endpoints are powered by AWS PrivateLink, a technology that enables you to privately access Amazon ECS APIs by using private IP addresses\. PrivateLink restricts all network traffic between your VPC and Amazon ECS to the Amazon network\. You don't need an internet gateway, a NAT device, or a virtual private gateway\.
@@ -308,6 +290,7 @@ If you configure Amazon ECR to use an interface VPC endpoint, you can create a t
 + The security group attached to the VPC endpoint must allow incoming connections on port 443 from the private subnet of the VPC\.
 + Controlling access to Amazon ECS by attaching an endpoint policy to the VPC endpoint isn't currently supported\. By default, full access to the service will be allowed through the endpoint\. For more information, see [Controlling Access to Services with VPC Endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html) in the *Amazon VPC User Guide*\.
 
+**How?**
 ### Creating the VPC Endpoints for Amazon ECS
 
 To create the VPC endpoint for the Amazon ECS service, use the [Creating an Interface Endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-interface.html#create-interface-endpoint) procedure in the *Amazon VPC User Guide* to create the following endpoints\. If you have existing container instances within your VPC, you should create the endpoints in the order that they're listed\. If you plan on creating your container instances after your VPC endpoint is created, the order doesn't matter\.
@@ -326,15 +309,15 @@ If you have existing tasks that are using the EC2 launch type, after you have cr
 
 2. Stop the container agent\.
 
-   ```
+```
    sudo docker stop ecs-agent
-   ```
+```
 
 3. Start the container agent\.
 
-   ```
+```
    sudo docker start ecs-agent
-   ```
+```
 
 After you have created the VPC endpoints and restarted the Amazon ECS container agent on each container instance, all newly launched tasks pick up the new configuration\.
 ### Creating an interface endpoint
@@ -458,11 +441,11 @@ To create an interface endpoint to an endpoint service, you must have the name o
 
 1. Use the [describe\-vpc\-endpoint\-services](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoint-services.html) command to get a list of available services\. In the output that's returned, take note of the name of the service to which to connect\. The `ServiceType` field indicates whether you connect to the service via an interface or gateway endpoint\. The `ServiceName` field provides the name of the service\.
 
-   ```
+```
    aws ec2 describe-vpc-endpoint-services
-   ```
+```
 
-   ```
+```
    {
        "VpcEndpoints": [
            {
@@ -502,17 +485,17 @@ To create an interface endpoint to an endpoint service, you must have the name o
                "OwnerId": "123456789012"
            }
        ]
-   ```
+```
 
 1. To create an interface endpoint, use the [create\-vpc\-endpoint](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-vpc-endpoint.html) command and specify the VPC ID, type of VPC endpoint \(interface\), service name, subnets that will use the endpoint, and security groups to associate with the endpoint network interfaces\.
 
    The following example creates an interface endpoint to the Elastic Load Balancing service\.
 
-   ```
+```
    aws ec2 create-vpc-endpoint --vpc-id vpc-ec43eb89 --vpc-endpoint-type Interface --service-name com.amazonaws.us-east-1.elasticloadbalancing --subnet-id subnet-abababab --security-group-id sg-1a2b3c4d
-   ```
+```
 
-   ```
+```
    {
        "VpcEndpoint": {
            "PolicyDocument": "{\n  \"Statement\": [\n    {\n      \"Action\": \"*\", \n      \"Effect\": \"Allow\", \n      \"Principal\": \"*\", \n      \"Resource\": \"*\"\n    }\n  ]\n}", 
@@ -552,7 +535,7 @@ To create an interface endpoint to an endpoint service, you must have the name o
            ]
        }
    }
-   ```
+  ```
 
    Alternatively, the following example creates an interface endpoint to an endpoint service in another AWS account \(the service provider provides you with the name of the endpoint service\)\.
 
@@ -593,9 +576,9 @@ After you've created an interface endpoint, you can view information about it\.
 **To describe your interface endpoint using the AWS CLI**
 + You can describe your endpoint using the [describe\-vpc\-endpoints](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html) command\.
 
-  ```
+```
   aws ec2 describe-vpc-endpoints --vpc-endpoint-ids vpce-088d25a4bbf4a7abc
-  ```
+```
 
 **To describe your VPC endpoints using the AWS Tools for PowerShell or API**
 + [Get\-EC2VpcEndpoint](https://docs.aws.amazon.com/powershell/latest/reference/items/Get-EC2VpcEndpoint.html) \(Tools for Windows PowerShell\)
@@ -789,7 +772,7 @@ You can modify the following attributes of an interface endpoint:
 ## 4. Configuring AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
 
 ___
-
+**Why?**
 ### Amazon EC2 Systems Manager Parameter Store
 
 Parameter Store is a feature of Amazon EC2 Systems Manager. It provides a centralized, encrypted store for sensitive information and has many advantages when combined with other capabilities of Systems Manager, such as Run Command and State Manager. The service is fully managed, highly available, and highly secured.
@@ -806,6 +789,8 @@ While Amazon S3 has many of the above features and can also be used to implement
   + A service that can be controlled separately from S3, which is likely used for many other applications.
   + A configuration data store, reducing overhead from implementing multiple systems.
   + No usage costs.
+
+**How?**
 
 ### IAM roles for tasks
 
@@ -830,218 +815,7 @@ In many cases, the container image does not change when moving between environme
 One option can be to pass the environment type as an environment variable to the container. The application then concatenates the environment type (prod, test, etc.) with the relative key path and retrieves the relevant secret. In most cases, this leads to a number of separate ECS task definitions.
 
 When you describe the task definition in a CloudFormation template, you could base the entry in the IAM role that provides access to Parameter Store, KMS key, and environment property on a single CloudFormation parameter, such as “environment type.” This approach could support a single task definition type that is based on a generic CloudFormation template.
-### Walkthrough: Securely access Parameter Store resources with IAM roles for tasks
 
-This walkthrough is configured for the North Virginia region (us-east-1). we recommend using the same region.
-
-#### Step 1: Create the keys and parameters
-
-First, create the following KMS keys with the default security policy to be used to encrypt various parameters:
-
-   + prod-app1 –used to encrypt any secrets for app1.
-   + license-key –used to encrypt license-related secrets.
-
- ```
-aws kms create-key --description prod-app1 --region us-east-1
-aws kms create-key --description license-code --region us-east-1
- ```
-Note the KeyId property in the output of both commands. You use it throughout the walkthrough to identify the KMS keys.
-
-The following commands create three parameters in Parameter Store:
-
-  + prod.app1.db-pass (encrypted with the prod-app1 KMS key)
-  + general.license-code (encrypted with the license-key KMS key)
-  +  prod.app2.user-name (stored as a standard string without encryption)
-
-```
-aws ssm put-parameter --name prod.app1.db-pass --value "AAAAAAAAAAA" --type SecureString --key-id "<key-id-for-prod-app1-key>" --region us-east-1
-aws ssm put-parameter --name general.license-code --value "CCCCCCCCCCC" --type SecureString --key-id "<key-id-for-license-code-key>" --region us-east-1
-aws ssm put-parameter --name prod.app2.user-name --value "BBBBBBBBBBB" --type String --region us-east-1
-
-```
-#### Step 2: Create the IAM role and policies
-
-Now, create a role and an IAM policy to be associated later with the ECS task that you create later on.
-The trust policy for the IAM role needs to allow the ecs-tasks entity to assume the role.
-
-```
-{
-   "Version": "2012-10-17",
-   "Statement": [
-     {
-       "Sid": "",
-       "Effect": "Allow",
-       "Principal": {
-         "Service": "ecs-tasks.amazonaws.com"
-       },
-       "Action": "sts:AssumeRole"
-     }
-   ]
- }
-
-```
-Save the above policy as a file in the local directory with the name ecs-tasks-trust-policy.json.
-
-```
-aws iam create-role --role-name prod-app1 --assume-role-policy-document file://ecs-tasks-trust-policy.json
-
-```
-The following policy is attached to the role and later associated with the app1 container. Access is granted to the prod.app1.* namespace parameters, the encryption key required to decrypt the prod.app1.db-pass parameter and the license code parameter. The namespace resource permission structure is useful for building various hierarchies (based on environments, applications, etc.).
-
-Make sure to replace <key-id-for-prod-app1-key> with the key ID for the relevant KMS key and <account-id> with your account ID in the following policy.
-
-```
-{
-     "Version": "2012-10-17",
-     "Statement": [
-         {
-             "Effect": "Allow",
-             "Action": [
-                 "ssm:DescribeParameters"
-             ],
-             "Resource": "*"
-         },
-         {
-             "Sid": "Stmt1482841904000",
-             "Effect": "Allow",
-             "Action": [
-                 "ssm:GetParameters"
-             ],
-             "Resource": [
-                 "arn:aws:ssm:us-east-1:<account-id>:parameter/prod.app1.*",
-                 "arn:aws:ssm:us-east-1:<account-id>:parameter/general.license-code"
-             ]
-         },
-         {
-             "Sid": "Stmt1482841948000",
-             "Effect": "Allow",
-             "Action": [
-                 "kms:Decrypt"
-             ],
-             "Resource": [
-                 "arn:aws:kms:us-east-1:<account-id>:key/<key-id-for-prod-app1-key>"
-             ]
-         }
-     ]
- }
-
-```
-Save the above policy as a file in the local directory with the name app1-secret-access.json:
-
-```
-aws iam create-policy --policy-name prod-app1 --policy-document file://app1-secret-access.json
-
-```
-
-Replace <account-id> with your account ID in the following command:
-
-```
-aws iam attach-role-policy --role-name prod-app1 --policy-arn "arn:aws:iam::<account-id>:policy/prod-app1"
-```
-
-#### Step 3: Add the testing script to an S3 bucket
-
-Create a file with the script below, name it access-test.sh and add it to an S3 bucket in your account. Make sure the object is publicly accessible and note down the object link, for example https://s3-eu-west-1.amazonaws.com/my-new-blog-bucket/access-test.sh
-
-```
-#!/bin/bash
-#This is simple bash script that is used to test access to the EC2 Parameter store.
-# Install the AWS CLI
-apt-get -y install python2.7 curl
-curl -O https://bootstrap.pypa.io/get-pip.py
-python2.7 get-pip.py
-pip install awscli
-# Getting region
-EC2_AVAIL_ZONE=`curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone`
-EC2_REGION="`echo \"$EC2_AVAIL_ZONE\" | sed -e 's:\([0-9][0-9]*\)[a-z]*\$:\\1:'`"
-# Trying to retrieve parameters from the EC2 Parameter Store
-APP1_WITH_ENCRYPTION=`aws ssm get-parameters --names prod.app1.db-pass --with-decryption --region $EC2_REGION --output text 2>&1`
-APP1_WITHOUT_ENCRYPTION=`aws ssm get-parameters --names prod.app1.db-pass --no-with-decryption --region $EC2_REGION --output text 2>&1`
-LICENSE_WITH_ENCRYPTION=`aws ssm get-parameters --names general.license-code --with-decryption --region $EC2_REGION --output text 2>&1`
-LICENSE_WITHOUT_ENCRYPTION=`aws ssm get-parameters --names general.license-code --no-with-decryption --region $EC2_REGION --output text 2>&1`
-APP2_WITHOUT_ENCRYPTION=`aws ssm get-parameters --names prod.app2.user-name --no-with-decryption --region $EC2_REGION --output text 2>&1`
-# The nginx server is started after the script is invoked, preparing folder for HTML.
-if [ ! -d /usr/share/nginx/html/ ]; then
-mkdir -p /usr/share/nginx/html/;
-fi
-chmod 755 /usr/share/nginx/html/
-
-# Creating an HTML file to be accessed at http://<public-instance-DNS-name>/ecs.html
-cat > /usr/share/nginx/html/ecs.html <<EOF
-<!DOCTYPE html>
-<html>
-<head>
-<title>App1</title>
-<style>
-body {padding: 20px;margin: 0 auto;font-family: Tahoma, Verdana, Arial, sans-serif;}
-code {white-space: pre-wrap;}
-result {background: hsl(220, 80%, 90%);}
-</style>
-</head>
-<body>
-<h1>Hi there!</h1>
-<p style="padding-bottom: 0.8cm;">Following are the results of different access attempts as expirienced by "App1".</p>
-
-<p><b>Access to prod.app1.db-pass:</b><br/>
-<pre><code>aws ssm get-parameters --names prod.app1.db-pass --with-decryption</code><br/>
-<code><result>$APP1_WITH_ENCRYPTION</result></code><br/>
-<code>aws ssm get-parameters --names prod.app1.db-pass --no-with-decryption</code><br/>
-<code><result>$APP1_WITHOUT_ENCRYPTION</result></code></pre><br/>
-</p>
-
-<p><b>Access to general.license-code:</b><br/>
-<pre><code>aws ssm get-parameters --names general.license-code --with-decryption</code><br/>
-<code><result>$LICENSE_WITH_ENCRYPTION</result></code><br/>
-<code>aws ssm get-parameters --names general.license-code --no-with-decryption</code><br/>
-<code><result>$LICENSE_WITHOUT_ENCRYPTION</result></code></pre><br/>
-</p>
-
-<p><b>Access to prod.app2.user-name:</b><br/>
-<pre><code>aws ssm get-parameters --names prod.app2.user-name --no-with-decryption</code><br/>
-<code><result>$APP2_WITHOUT_ENCRYPTION</result></code><br/>
-</p>
-
-<p><em>Thanks for visiting</em></p>
-</body>
-</html>
-EOF
-
-```
-#### Step 4: Create a test cluster
-
-I recommend creating a new ECS test cluster with the latest ECS AMI and ECS agent on the instance. Use the following field values:
-
- +  Cluster name: access-test
- +  EC2 instance type: t2.micro
- +  Number of instances: 1
- +  Key pair: No EC2 key pair is required, unless you’d like to SSH to the instance and explore the running container.
- +  VPC: Choose the default VPC. If unsure, you can find the VPC ID with the IP range 172.31.0.0/16 in the Amazon VPC console.
-  +  Subnets: Pick a subnet in the default VPC.
-  +  Security group: Create a new security group with CIDR block 0.0.0.0/0 and port 80 for inbound access.
-
-Leave other fields with the default settings.
-
-Create a simple task definition that relies on the public NGINX container and the role that you created for app1. Specify the properties such as the available container resources and port mappings. Note the command option is used to download and invoke a test script that installs the AWS CLI on the container, runs a number of get-parameter commands, and creates an HTML file with the results.
-
-Replace <account-id> with your account ID, <your-S3-URI> with a link to the S3 object created in step 3 in the following commands:
-
-```
-aws ecs register-task-definition --family access-test --task-role-arn "arn:aws:iam::<account-id>:role/prod-app1" --container-definitions name="access-test",image="nginx",portMappings="[{containerPort=80,hostPort=80,protocol=tcp}]",readonlyRootFilesystem=false,cpu=512,memory=490,essential=true,entryPoint="sh,-c",command="\"/bin/sh -c \\\"apt-get update ; apt-get -y install curl ; curl -O <your-S3-URI> ; chmod +x access-test.sh ; ./access-test.sh ; nginx -g 'daemon off;'\\\"\"" --region us-east-1
-
-aws ecs run-task --cluster access-test --task-definition access-test --count 1 --region us-east-1
-
-```
-
-### Verifying access
-
-After the task is in a running state, check the public DNS name of the instance and navigate to the following page:
-
-```
-http://<ec2-instance-public-DNS-name>/ecs.html
-
-```
-
-You should see the results of running different access tests from the container after a short duration.
 
 ## 5. Specifying sensitive data using AWS secrets manager
 
@@ -1052,6 +826,7 @@ Capital Group:
 |2|All Data in transit must be encrypted using certificates using CG Certificate Authority.|
 |3|Keys storied in a Key Management System (KMS) should be created by Capital Groups hardware security module (HSM) and are a minimum of AES-256.|
 
+**Why?**
 Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Secrets Manager secrets and then referencing them in your container definition. Sensitive data stored in Secrets Manager secrets can be exposed to a container as environment variables or as part of the log configuration.
 
 When you inject a secret as an environment variable, you can specify a JSON key or version of a secret to inject. This process helps you control the sensitive data exposed to your container. 
@@ -1087,6 +862,7 @@ The following should be considered when using Secrets Manager to specify sensiti
     Initialize-ECSAgent -Cluster <cluster name> -EnableTaskIAMRole -LoggingDrivers '["json-file","awslogs"]'
     </powershell>
 ```
+**How?**
 
 ### Required IAM Permissions for Amazon ECS Secrets
 
