@@ -1517,6 +1517,7 @@ Capital Group:
 **Why?**
 
 All images deployed in the ECS Cluster must be scanned for identiying vulnerabilites. 
+Similar to their virtual machine counterparts, container images can contain binaries and application libraries with vulnerabilities or develop vulnerabilities over time. The best way to safeguard against exploits is by regularly scanning your images with an image scanner. Images that are stored in Amazon ECR can be scanned on push or on-demand (once every 24 hours). Amazon ECR currently uses Clair, an open-source image scanning solution. After an image is scanned, the results are logged to the Amazon ECR event stream in Amazon EventBridge. You can also see the results of a scan from within the Amazon ECR console or by calling the DescribeImageScanFindings API. Images with a HIGH or CRITICAL vulnerability should be deleted or rebuilt. If an image that has been deployed develops a vulnerability, it should be replaced as soon as possible
 
 **How?**
 
@@ -1534,6 +1535,18 @@ Capital Group:
 All the images which are getting deployed in the ECS Cluster should not have elevated, privilages and special permissions
 
 **How?**
+
+The access rights flags setuid and setgid allow running an executable with the permissions of the owner or group of the executable. Remove all binaries with these access rights from your image as these binaries can be used to escalate privileges. Consider removing all shells and utilities like nc and curl that can be used for malicious purposes. You can find the files with setuid and setgid access rights by using the following command.
+
+```
+ find / -perm /6000 -type f -exec ls -ld {} \;
+```
+To remove these special permissions from these files, add the following directive to your container image.
+
+```
+RUN find / -xdev -perm /6000 -type f -exec chmod a-s {} \; || true
+```
+
 
 
 
