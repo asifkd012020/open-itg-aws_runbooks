@@ -67,6 +67,7 @@ ___
 ### IAM Roles for Tasks
 
 **Why?**
+
 Based on IAM least privilege access model. CG Security Team recommends each task should have its own IAM role based on the access it needs. Outside various available options of IAM Roles, CG recommends to use the following 'Task Execution Role'.The task execution role is used to grant the Amazon ECS container agent permission to call specific AWS API actions on your behalf. For example, when you use AWS Fargate, Fargate needs an IAM role that allows it to pull images from Amazon ECR and write logs to CloudWatch Logs. An IAM role is also required when a task references a secret that's stored in AWS Secrets Manager, such as an image pull secret.
 
 ### Benefits of Using IAM Roles for Tasks
@@ -75,6 +76,7 @@ Based on IAM least privilege access model. CG Security Team recommends each task
 + **Auditability:** Access and event logging is available through CloudTrail to ensure retrospective auditing\. Task credentials have a context of `taskArn` that is attached to the session, so CloudTrail logs show which task is using which role\.
 
 **How?**
+
 With IAM roles for Amazon ECS tasks, you can specify an IAM role that can be used by the containers in a task\. Applications must sign their AWS API requests with AWS credentials, and this feature provides a strategy for managing credentials for your applications to use, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances\. Instead of creating and distributing your AWS credentials to the containers or using the EC2 instance’s role, you can associate an IAM role with an ECS task definition or `RunTask` API operation\. The applications in the task’s containers can then use the AWS SDK or CLI to make API requests to authorized AWS services\.
 
 **Important**  
@@ -275,6 +277,7 @@ Capital Group:
 |6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.| 
 
 **Why?**
+
 In order to use securely communicate with AWS Services like S3, ECR, without accessing public internet, AWS Privatelink provides a way to restrict the traffic from VPC to AWS Service using private IP addresses. 
 
 ### Amazon ECS Interface VPC Endpoints \(AWS PrivateLink\)
@@ -298,6 +301,7 @@ If you configure Amazon ECR to use an interface VPC endpoint, you can create a t
 + Controlling access to Amazon ECS by attaching an endpoint policy to the VPC endpoint isn't currently supported\. By default, full access to the service will be allowed through the endpoint\. For more information, see [Controlling Access to Services with VPC Endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html) in the *Amazon VPC User Guide*\.
 
 **How?**
+
 ### Creating the VPC Endpoints for Amazon ECS
 
 To create the VPC endpoint for the Amazon ECS service, use the [Creating an Interface Endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-interface.html#create-interface-endpoint) procedure in the *Amazon VPC User Guide* to create the following endpoints\. If you have existing container instances within your VPC, you should create the endpoints in the order that they're listed\. If you plan on creating your container instances after your VPC endpoint is created, the order doesn't matter\.
@@ -780,6 +784,7 @@ You can modify the following attributes of an interface endpoint:
 
 ___
 **Why?**
+
 ### Amazon EC2 Systems Manager Parameter Store
 
 Parameter Store is a feature of Amazon EC2 Systems Manager. It provides a centralized, encrypted store for sensitive information and has many advantages when combined with other capabilities of Systems Manager, such as Run Command and State Manager. The service is fully managed, highly available, and highly secured.
@@ -834,6 +839,7 @@ Capital Group:
 |3|Keys storied in a Key Management System (KMS) should be created by Capital Groups hardware security module (HSM) and are a minimum of AES-256.|
 
 **Why?**
+
 Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Secrets Manager secrets and then referencing them in your container definition. Sensitive data stored in Secrets Manager secrets can be exposed to a container as environment variables or as part of the log configuration.
 
 When you inject a secret as an environment variable, you can specify a JSON key or version of a secret to inject. This process helps you control the sensitive data exposed to your container. 
@@ -1152,9 +1158,11 @@ Capital Group:
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
 
 **Why?**
+
 You need need use awslogs log driver in order send all the logs from Fargae and EC2 Instance type to centralized logging location. These logs are used are used but the CG Security Engineering Teams to detect malicious activity.
 
 **How?**
+
 You can configure the containers in your tasks to send log information to CloudWatch Logs\. If you are using the Fargate launch type for your tasks, this allows you to view the logs from your containers\. If you are using the EC2 launch type, this enables you to view different logs from your containers in one convenient location, and it prevents your container logs from taking up disk space on your container instances\. This topic helps you get started using the `awslogs` log driver in your task definitions\.
 
 **Note**  
