@@ -79,55 +79,6 @@ Based on IAM least privilege access model. CG Security Team recommends each task
 
 With IAM roles for Amazon ECS tasks, you can specify an IAM role that can be used by the containers in a task\. Applications must sign their AWS API requests with AWS credentials, and this feature provides a strategy for managing credentials for your applications to use, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances\. Instead of creating and distributing your AWS credentials to the containers or using the EC2 instance’s role, you can associate an IAM role with an ECS task definition or `RunTask` API operation\. The applications in the task’s containers can then use the AWS SDK or CLI to make API requests to authorized AWS services\.
 
-**Important**  
-Containers that are running on your container instances are not prevented from accessing the credentials that are supplied to the container instance profile \(through the Amazon EC2 instance metadata server\)\. 
-
-To prevent containers in tasks that use the `awsvpc` network mode from accessing the credential information supplied to the container instance profile \(while still allowing the permissions that are provided by the task role\), set the `ECS_AWSVPC_BLOCK_IMDS` agent configuration variable to `true` in the agent configuration file and restart the agent\.   
-To prevent containers in tasks that use the `bridge` network mode from accessing the credential information supplied to the container instance profile \(while still allowing the permissions that are provided by the task role\) by running the following iptables command on your container instances\. Note that this command does not affect containers in tasks that use the `host` or `awsvpc` network modes\. 
-
-```
-sudo yum install -y iptables-services; sudo iptables --insert FORWARD 1 --in-interface docker+ --destination 169.254.169.254/32 --jump DROP
-```
-You must save this iptables rule on your container instance for it to survive a reboot\. For the Amazon ECS\-optimized AMI, use the following command\. For other operating systems, consult the documentation for that OS\.  
-For the Amazon ECS\-optimized Amazon Linux 2 AMI:  
-
-  ```
-  sudo iptables-save | sudo tee /etc/sysconfig/iptables && sudo systemctl enable --now iptables
-  ```
-For the Amazon ECS\-optimized Amazon Linux AMI:  
-
-  ```
-  sudo service iptables save
-  ```
-
-You define the IAM role to use in your task definitions, or you can use a `taskRoleArn` override when running a task manually with the `RunTask` API operation\. The Amazon ECS agent receives a payload message for starting the task with additional fields that contain the role credentials\. The Amazon ECS agent sets a unique task credential ID as an identification token and updates its internal credential cache so that the identification token for the task points to the role credentials that are received in the payload\. The Amazon ECS agent populates the `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` environment variable in the `Env` object \(available with the docker inspect *container\_id* command\) for all containers that belong to this task with the following relative URI: `/credential_provider_version/credentials?id=task_credential_id`\. 
-
-**Note**  
-When you specify an IAM role for a task, the AWS CLI or other SDKs in the containers for that task use the AWS credentials provided by the task role exclusively and they no longer inherit any IAM permissions from the container instance\.
-
-From inside the container, you can query the credentials with the following command:
-
-```
-curl 169.254.170.2$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
-```
-
-Output:
-
-```
-{
-    "AccessKeyId": "ACCESS_KEY_ID",
-    "Expiration": "EXPIRATION_DATE",
-    "RoleArn": "TASK_ROLE_ARN",
-    "SecretAccessKey": "SECRET_ACCESS_KEY",
-    "Token": "SECURITY_TOKEN_STRING"
-}
-```
-
-If your container instance is using at least version 1\.11\.0 of the container agent and a supported version of the AWS CLI or SDKs, then the SDK client will see that the `AWS_CONTAINER_CREDENTIALS_RELATIVE_URI` variable is available, and it will use the provided credentials to make calls to the AWS APIs\. For more information, see [Enabling Task IAM Roles on your Container Instances](#enable_task_iam_roles) and [Using a Supported AWS SDK](#task-iam-roles-minimum-sdk)\.
-
-Each time the credential provider is used, the request is logged locally on the host container instance at `/var/log/ecs/audit.log.YYYY-MM-DD-HH`\. 
-
-
 
 ### Creating an IAM Role and Policy for your Tasks
 
