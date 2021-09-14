@@ -68,7 +68,7 @@ ___
 
 **Why?**
 
-Based on IAM least privilege access model. CG Security Team recommends each task should have its own IAM role based on the access it needs. Outside various available options of IAM Roles, CG recommends to use the following 'Task Execution Role'.The task execution role is used to grant the Amazon ECS container agent permission to call specific AWS API actions on your behalf. For example, when you use AWS Fargate, Fargate needs an IAM role that allows it to pull images from Amazon ECR and write logs to CloudWatch Logs. An IAM role is also required when a task references a secret that's stored in AWS Secrets Manager, such as an image pull secret.
+Based on IAM least privilege access model, CG Security Team recommends each task should have its own IAM role based on the access it needs. Outside various available options of IAM Roles, CG recommends to use the following 'Task Execution Role'.The task execution role is used to grant the Amazon ECS container agent permission to call specific AWS API actions on your behalf. For example, when you use AWS Fargate, Fargate needs an IAM role that allows it to pull images from Amazon ECR and write logs to CloudWatch Logs. An IAM role is also required when a task references a secret that's stored in AWS Secrets Manager, such as an image pull secret.
 
 ### Benefits of Using IAM Roles for Tasks
 + **Credential Isolation:** A container can only retrieve credentials for the IAM role that is defined in the task definition to which it belongs; a container never has access to credentials that are intended for another container that belongs to another task\.
