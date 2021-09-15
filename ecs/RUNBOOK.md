@@ -256,33 +256,7 @@ If you configure Amazon ECR to use an interface VPC endpoint, you can create a t
 
 ### Creating the VPC Endpoints for Amazon ECS
 
-To create the VPC endpoint for the Amazon ECS service, use the [Creating an Interface Endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-interface.html#create-interface-endpoint) procedure in the *Amazon VPC User Guide* to create the following endpoints\. If you have existing container instances within your VPC, you should create the endpoints in the order that they're listed\. If you plan on creating your container instances after your VPC endpoint is created, the order doesn't matter\.
-+ `com.amazonaws.region.ecs-agent`
-+ `com.amazonaws.region.ecs-telemetry`
-+ `com.amazonaws.region.ecs`
-
-**Note**  
-*region* represents the Region identifier for an AWS Region supported by Amazon ECS, such as `us-east-2` for the US East \(Ohio\) Region\.
-
-If you have existing tasks that are using the EC2 launch type, after you have created the VPC endpoints, each container instance needs to pick up the new configuration\. For this to happen, you must either reboot each container instance or restart the Amazon ECS container agent on each container instance\. To restart the container agent, do the following\.<a name="procedure_restart_ecs_agent"></a>
-
-**To restart the Amazon ECS container agent**
-
-1. Log in to your container instance via SSH\. 
-
-2. Stop the container agent\.
-
-```
-   sudo docker stop ecs-agent
-```
-
-3. Start the container agent\.
-
-```
-   sudo docker start ecs-agent
-```
-
-After you have created the VPC endpoints and restarted the Amazon ECS container agent on each container instance, all newly launched tasks pick up the new configuration\.
+To create the VPC endpoint for the Amazon ECS service, use the [Creating an Interface Endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-interface.html#create-interface-endpoint) procedure in the *Amazon VPC User Guide* to create the following endpoints\. 
 ### Creating an interface endpoint
 #### Interface VPC endpoints \(AWS PrivateLink\)
 
@@ -515,61 +489,6 @@ To create an interface endpoint to an endpoint service, you must have the name o
 **To describe available services and create a VPC endpoint using the API**
 + [DescribeVpcEndpointServices](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVpcEndpointServices.html)
 + [CreateVpcEndpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVpcEndpoint.html)
-
-------
-
-### Viewing your interface endpoint
-
-After you've created an interface endpoint, you can view information about it\.
-
-------
-#### [ Console ]
-
-**To view information about an interface endpoint using the console**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-1. In the navigation pane, choose **Endpoints** and select your interface endpoint\.
-1. To view information about the interface endpoint, choose **Details**\. The **DNS Names** field displays the DNS names to use to access the service\. 
-1. To view the subnets in which the interface endpoint has been created, and the ID of the endpoint network interface in each subnet, choose **Subnets**\. 
-1. To view the security groups that are associated with the endpoint network interface, choose **Security Groups**\.
-
-------
-#### [ Command line ]
-
-**To describe your interface endpoint using the AWS CLI**
-+ You can describe your endpoint using the [describe\-vpc\-endpoints](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-vpc-endpoints.html) command\.
-
-```
-  aws ec2 describe-vpc-endpoints --vpc-endpoint-ids vpce-088d25a4bbf4a7abc
-```
-
-**To describe your VPC endpoints using the AWS Tools for PowerShell or API**
-+ [Get\-EC2VpcEndpoint](https://docs.aws.amazon.com/powershell/latest/reference/items/Get-EC2VpcEndpoint.html) \(Tools for Windows PowerShell\)
-+ [DescribeVpcEndpoints](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeVpcEndpoints.html) \(Amazon EC2 Query API\)
-
-------
-
-### Accessing a service through an interface endpoint
-
-After you've created an interface endpoint, you can submit requests to the supported service via an endpoint URL\. You can use the following:
-+ If you have enabled private DNS for the endpoint \(a private hosted zone; applicable to AWS services and AWS Marketplace Partner services only\), the default DNS hostname for the AWS service for the Region\. For example, `ec2.us-east-1.amazonaws.com`\.
-+ The endpoint\-specific Regional DNS hostname that we generate for the interface endpoint\. The hostname includes a unique endpoint identifier, service identifier, the Region, and `vpce.amazonaws.com` in its name\. For example, `vpce-0fe5b17a0707d6abc-29p5708s.ec2.us-east-1.vpce.amazonaws.com`\.
-+ The endpoint\-specific zonal DNS hostname that we generate for each Availability Zone in which the endpoint is available\. The hostname includes the Availability Zone in its name\. For example, `vpce-0fe5b17a0707d6abc-29p5708s-us-east-1a.ec2.us-east-1.vpce.amazonaws.com`\. You might use this option if your architecture isolates Availability Zones \(for example, for fault containment or to reduce Regional data transfer costs\)\.
-
-  A request to the zonal DNS hostname is destined to the corresponding Availability Zone location in the service provider's account, which might not have the same Availability Zone name as your account\. For more information, see [Region and Availability Zone Concepts](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-regions-availability-zones)\.
-+ The private IP address of the endpoint network interface in the VPC\.
-
-To get the Regional and zonal DNS names, see [Viewing your interface endpoint](#describe-interface-endpoint)\.
-
-For example, in a subnet in which you have an interface endpoint to Elastic Load Balancing and for which you have not enabled the private DNS option, use the following AWS CLI command from an instance to describe your load balancers\. The command uses the endpoint\-specific Regional DNS hostname to make the request using the interface endpoint\.
-
-```
-aws elbv2 describe-load-balancers --endpoint-url https://vpce-0f89a33420c193abc-bluzidnv.elasticloadbalancing.us-east-1.vpce.amazonaws.com/
-```
-
-If you enable the private DNS option, you do not have to specify the endpoint URL in the request\. The AWS CLI uses the default endpoint for the AWS service for the Region \(`elasticloadbalancing.us-east-1.amazonaws.com`\)\.
-
-
 
 ## 4. Configuring AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
 
