@@ -1516,12 +1516,11 @@ Capital Group:
 
 **Why?**
 
-All images deployed in the ECS Cluster must be scanned for identiying vulnerabilites. 
-Similar to their virtual machine counterparts, container images can contain binaries and application libraries with vulnerabilities or develop vulnerabilities over time. The best way to safeguard against exploits is by regularly scanning your images with an image scanner. Images that are stored in Amazon ECR can be scanned on push or on-demand (once every 24 hours). Amazon ECR currently uses Clair, an open-source image scanning solution. After an image is scanned, the results are logged to the Amazon ECR event stream in Amazon EventBridge. You can also see the results of a scan from within the Amazon ECR console or by calling the DescribeImageScanFindings API. Images with a HIGH or CRITICAL vulnerability should be deleted or rebuilt. If an image that has been deployed develops a vulnerability, it should be replaced as soon as possible
+All images deployed in the ECS Cluster must be scanned for identiying vulnerabilites. Similar to their virtual machine counterparts, container images can contain binaries and application libraries with vulnerabilities or develop vulnerabilities over time. The best way to safeguard against exploits is by regularly scanning your images with an image scanner. 
 
 **How?**
 
-All the Teams running ECS Clusters should have a Twistlock agent running in the cluster, so that images deployed in the cluster are scanned by Twistlock Scanner ( Prisma Cloud). Please contact PDS team if you dont have twistlock agent running in the Cluster
+All the Teams running ECS Clusters should have a Twistlock agent running in the cluster, so that images deployed in the cluster are scanned by Twistlock Scanner (Prisma Cloud). Please contact PDS team if you dont have twistlock agent running in the Cluster.
 
 
 ## 10. Remove special permissions from images
@@ -1548,12 +1547,6 @@ RUN find / -xdev -perm /6000 -type f -exec chmod a-s {} \; || true
 ```
 
 
-
-
-
-
-
-
 ## 11. Run containers as non-root users
 Capital Group:
 |Control Statement|Description|
@@ -1561,6 +1554,15 @@ Capital Group:
 ||Need to be updated|Need to be updated|
 
 **Why?**
+
+You should run containers as a non-root user. By default, containers run as the root user unless the USER directive is included in your Dockerfile. The default Linux capabilities that are assigned by Docker restrict the actions that can be run as root, but only marginally. For example, a container running as root is still not allowed to access devices.
+
+As part of your CI/CD pipeline you should lint Dockerfiles to look for the USER directive and fail the build if it's missing. For more information, see the following topics:
+
++ [Dockerfile-lint](https://github.com/projectatomic/dockerfile_lint) is an open-source tool from RedHat that can be used to check if the file conforms to best practices.
+
++ [Hadolint](https://github.com/hadolint/hadolint) is another tool for building Docker images that conform to best practices.
+
 
 ## 12. Use a read-only root file system
 Capital Group:
@@ -1570,6 +1572,9 @@ Capital Group:
 
 **Why?**
 
+You should use a read-only root file system. A container's root file system is writable by default. When you configure a container with a RO (read-only) root file system it forces you to explicitly define where data can be persisted. This reduces your attack surface because the container's file system can't be written to unless permissions are specifically granted.
+
+
 ## 13. ECS data in transit must enforce TLS with version 1.2 or higher
 Capital Group:
 |Control Statement|Description|
@@ -1577,6 +1582,13 @@ Capital Group:
 |Need to be updated|Need to be updated|
 
 **Why?**
+
+Encrypting network traffic prevents unauthorized users from intercepting and reading data when that data is transmitted across a network. All the data in trasit must be encrypted and enforce a TLS version of 1.2 or more.
+
+**How?**
+
+With Amazon ECS, network encryption can be implemented in any of the following ways.
+
 
 ## 14. Make sure ECS Task network interface does not have public IP address
 Capital Group:
