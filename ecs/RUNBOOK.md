@@ -202,36 +202,7 @@ If you configure Amazon ECR to use an interface VPC endpoint, you can create a t
 
 To create the VPC endpoint for the Amazon ECS service, use the [Creating an Interface Endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-interface.html#create-interface-endpoint) procedure in the *Amazon VPC User Guide* to create the following endpoints\. 
 ### Creating an interface endpoint
-#### Interface VPC endpoints \(AWS PrivateLink\)
-
-An interface VPC endpoint \(interface endpoint\) enables you to connect to services powered by AWS PrivateLink\. These services include some AWS services, services hosted by other AWS customers and Partners in their own VPCs \(referred to as *endpoint services*\), and supported AWS Marketplace Partner services\. The owner of the service is the *service provider*, and you, as the principal creating the interface endpoint, are the *service consumer*\.
-The following are the general steps for setting up an interface endpoint:
-
-1. Choose the VPC in which to create the interface endpoint, and provide the name of the AWS service, endpoint service, or AWS Marketplace service to which you're connecting\.
-
-1. Choose a subnet in your VPC to use the interface endpoint\. We create an *endpoint network interface* in the subnet\. You can specify more than one subnet in different Availability Zones \(as supported by the service\) to help ensure that your interface endpoint is resilient to Availability Zone failures\. In that case, we create an endpoint network interface in each subnet that you specify\. 
-**Note**  
-An endpoint network interface is a requester\-managed network interface\. You can view it in your account, but you cannot manage it yourself\. For more information, see [Elastic Network Interfaces](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html)\.
-
-1. Specify the security groups to associate with the endpoint network interface\. The security group rules control the traffic to the endpoint network interface from resources in your VPC\. If you do not specify a security group, we associate the default security group for the VPC\.
-
-1. \(Optional, AWS services and AWS Marketplace Partner services only\) Enable [private DNS](#vpce-private-dns) for the endpoint to enable you to make requests to the service using its default DNS hostname\.
-**Important**  
-Private DNS is enabled by default for endpoints created for AWS services and AWS Marketplace Partner services\.   
-Private DNS is enabled in the other subnets which are in the same VPC and Availability Zone or Local Zone\.
-
-1. When the service provider and the consumer are in different accounts, see [Interface endpoint Availability Zone considerations](#vpce-interface-availability-zones) for information about how to use Availability Zone IDs to identify the interface endpoint Availability Zone\.
-
-1. After you create the interface endpoint, it's available to use when it's accepted by the service provider\. The service provider must configure the service to accept requests automatically or manually\. AWS services and AWS Marketplace services generally accept all endpoint requests automatically\. For more information about the lifecycle of an endpoint, see [Interface endpoint lifecycle](#vpce-interface-lifecycle)\.
-
-Services cannot initiate requests to resources in your VPC through the endpoint\. An endpoint only returns responses to traffic that is initiated from resources in your VPC\. Before you integrate a service and an endpoint, review the service\-specific VPC endpoint documentation for any service\-specific configuration and limitations\. 
-
 To create an interface endpoint, you must specify the VPC in which to create the interface endpoint, and the service to which to establish the connection\. 
-
-For AWS services, or AWS Marketplace Partner services, you can optionally enable [private DNS](#vpce-private-dns) for the endpoint to enable you to make requests to the service using its default DNS hostname\.
-
-**Important**  
-Private DNS is enabled by default for endpoints created for AWS services and AWS Marketplace Partner services\. 
 
 ------
 #### [ Console ]
@@ -254,58 +225,6 @@ Private DNS is enabled by default for endpoints created for AWS services and AWS
    + To enable private DNS for the interface endpoint, for **Enable Private DNS Name**, select the check box\.
 
      This option is enabled by default\. To use the private DNS option, the following attributes of your VPC must be set to `true`: `enableDnsHostnames` and `enableDnsSupport`\. 
-   + For **Security group**, select the security groups to associate with the endpoint network interfaces\.
-   + \(Optional\) Add or remove a tag\.
-
-     \[Add a tag\] Choose **Add tag** and do the following:
-     + For **Key**, enter the key name\.
-     + For **Value**, enter the key value\.
-
-     \[Remove a tag\] Choose the delete button \(“x”\) to the right of the tag’s Key and Value\.
-
-To create an interface endpoint to an endpoint service, you must have the name of the service to which to connect\. The service provider can provide you with the name\. 
-
-**To create an interface endpoint to an endpoint service**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-1. In the navigation pane, choose **Endpoints**, **Create Endpoint**\.
-
-1. For **Service category**, choose **Find service by name**\.
-
-1. For **Service Name**, enter the name of the service \(for example, `com.amazonaws.vpce.us-east-1.vpce-svc-0e123abc123198abc`\) and choose **Verify**\.
-
-1. Complete the following information and then choose **Create endpoint**\.
-   + For **VPC**, select a VPC in which to create the endpoint\.
-   + For **Subnets**, select the subnets \(Availability Zones\) in which to create the endpoint network interfaces\.
-
-     Not all Availability Zones may be supported for the service\.
-   + For **Security group**, select the security groups to associate with the endpoint network interfaces\.
-   + \(Optional\) Add or remove a tag\.
-
-     \[Add a tag\] Choose **Add tag** and do the following:
-     + For **Key**, enter the key name\.
-     + For **Value**, enter the key value\.
-
-     \[Remove a tag\] Choose the delete button \(“x”\) to the right of the tag’s Key and Value\.
-
-**To create an interface endpoint to an AWS Marketplace Partner service**
-
-1. Go to the [PrivateLink](https://aws.amazon.com/marketplace/saas/privatelink) page in AWS Marketplace and subscribe to a service from a software as a service \(SaaS\) provider\. Services that support interface endpoints include an option to connect via an endpoint\.
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-1. In the navigation pane, choose **Endpoints**, **Create Endpoint**\.
-
-1. For **Service category**, choose **Your AWS Marketplace services**\.
-
-1. Choose the AWS Marketplace service to which you've subscribed\.
-
-1. Complete the following information and then choose **Create endpoint**\.
-   + For **VPC**, select a VPC in which to create the endpoint\.
-   + For **Subnets**, select the subnets \(Availability Zones\) in which to create the endpoint network interfaces\.
-
-     Not all Availability Zones may be supported for the service\.
    + For **Security group**, select the security groups to associate with the endpoint network interfaces\.
    + \(Optional\) Add or remove a tag\.
 
