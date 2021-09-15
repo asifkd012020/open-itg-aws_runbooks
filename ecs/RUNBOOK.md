@@ -282,37 +282,23 @@ When you describe the task definition in a CloudFormation template, you could ba
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|1|All Data at rest must be encrypted and use a CG BYOK encryption key.| 
-|2|All Data in transit must be encrypted using certificates using CG Certificate Authority.|
-|3|Keys storied in a Key Management System (KMS) should be created by Capital Groups hardware security module (HSM) and are a minimum of AES-256.|
+|1|| 
+|2||
+|3||
 
 **Why?**
 
-Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Secrets Manager secrets and then referencing them in your container definition. Sensitive data stored in Secrets Manager secrets can be exposed to a container as environment variables or as part of the log configuration.
+Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Secrets Manager secrets and then referencing them in your container definition. Sensitive data stored in Secrets Manager secrets can be exposed to a container as environment variables or as part of the log configuration.When you inject a secret as an environment variable, you can specify a JSON key or version of a secret to inject. This process helps you control the sensitive data exposed to your container. 
 
-When you inject a secret as an environment variable, you can specify a JSON key or version of a secret to inject. This process helps you control the sensitive data exposed to your container. 
+**How?**
 
-Topics
-  -  Considerations for Specifying Sensitive Data Using Secrets Manager
-  -  Required IAM Permissions for Amazon ECS Secrets
-  -  Injecting Sensitive Data as an Environment Variable
-  -  Injecting Sensitive Data in a Log Configuration
-  -  Creating an AWS Secrets Manager Secret
-  -  Creating a Task Definition that References Sensitive Data
-
-### Considerations for Specifying Sensitive Data Using Secrets Manager
+### Prerequisites for Specifying Sensitive Data Using Secrets Manager
 
 The following should be considered when using Secrets Manager to specify sensitive data for containers.
 
   + For tasks that use the Fargate launch type, the following should be considered:
     + It is only supported to inject the full contents of a secret as an environment variable. Specifying a specific JSON key or version is not supported at this time.
      + To inject the full content of a secret as an environment variable or in a log configuration, you must use platform version 1.3.0 or later. For information, see AWS Fargate Platform Versions.
-
-   + For tasks that use the EC2 launch type, the following should be considered:
-
-       + To inject a secret using a specific JSON key or version of a secret, your container instance must have version 1.37.0 or later of the container agent. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see Updating the Amazon ECS Container Agent.
-
-        To inject the full contents of a secret as an environment variable or to inject a secret in a log configuration, your container instance must have version 1.22.0 or later of the container agent.
 
   +  Sensitive data is injected into your container when the container is initially started. If the secret is subsequently updated or rotated, the container will not receive the updated value automatically. You must either launch a new task or if your task is part of a service you can update the service and use the Force new deployment option to force the service to launch a fresh task.
 
@@ -323,14 +309,12 @@ The following should be considered when using Secrets Manager to specify sensiti
     Initialize-ECSAgent -Cluster <cluster name> -EnableTaskIAMRole -LoggingDrivers '["json-file","awslogs"]'
     </powershell>
 ```
-**How?**
+
 
 ### Required IAM Permissions for Amazon ECS Secrets
 
 To use this feature, you must have the Amazon ECS task execution role and reference it in your task definition. This allows the container agent to pull the necessary Secrets Manager resources. For more information, see Amazon ECS Task Execution IAM Role.
 Important
-
-For tasks that use the EC2 launch type, you must use the ECS agent configuration variable ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE=true to use this feature. You can add it to the ./etc/ecs/ecs.config file during container instance creation or you can add it to an existing instance and then restart the ECS agent. 
 
 To provide access to the Secrets Manager secrets that you create, manually add the following permissions as an inline policy to the task execution role. For more information, see Adding and Removing IAM Policies.
 
@@ -372,26 +356,6 @@ The following example shows the full syntax that must be specified for the Secre
 ```
 arn:aws:secretsmanager:region:aws_account_id:secret:secret-name:json-key:version-stage:version-id
 ```
-### Important
-
-If you are using AWS Fargate, it is only supported to specify the full ARN of the secret in your task definition. Specifying a specific JSON key or version is not supported at this time.
-
-The following section describes the additional parameters. These parameters are optional, but if you do not use them, you must include the colons : to use the default values. Examples are provided below for more context.
-
-*json-key*
-Specifies the name of the key in a key-value pair with the value that you want to set as the environment variable value. Only values in JSON format are supported. If you do not specify a JSON key, then the full contents of the secret is used.
-
-*version-stage*
-Specifies the staging label of the version of a secret that you want to use. If a version staging label is specified, you cannot specify a version ID. If no version stage is specified, the default behavior is to retrieve the secret with the AWSCURRENT staging label.
-
-Staging labels are used to keep track of different versions of a secret when they are either updated or rotated. Each version of a secret has one or more staging labels and an ID. 
-
-*version-id*
-Specifies the unique identifier of the version of a secret that you want to use. If a version ID is specified, you cannot specify a version staging label. If no version ID is specified, the default behavior is to retrieve the secret with the AWSCURRENT staging label.
-
-Version IDs are used to keep track of different versions of a secret when they are either updated or rotated. Each version of a secret has an ID. 
-
-For a full tutorial on creating a Secrets Manager secret and injecting it into a container as an environment variable, see Tutorial: Specifying Sensitive Data Using Secrets Manager Secrets.
 
 ### Example Container Definitions
 
@@ -439,165 +403,7 @@ Reference a specific key from the previous output in a container definition by s
   }]
 }
 ```
- **Example referencing a specific secret version**
 
-The following shows an example output from a *describe-secret* command that displays the unencrypted contents of a secret along with the metadata for all versions of the secret.
-```
-{
-    "ARN": "arn:aws:secretsmanager:region:aws_account_id:secret:appauthexample-AbCdEf",
-    "Name": "appauthexample",
-    "Description": "Example of a secret containing application authorization data.",
-    "RotationEnabled": false,
-    "LastChangedDate": 1581968848.926,
-    "LastAccessedDate": 1581897600.0,
-    "Tags": [],
-    "VersionIdsToStages": {
-        "871d9eca-18aa-46a9-8785-981dd39ab30c": [
-            "AWSCURRENT"
-        ],
-        "9d4cb84b-ad69-40c0-a0ab-cead36b967e8": [
-            "AWSPREVIOUS"
-        ]
-    }
-}
-```
-Reference a specific version staging label from the previous output in a container definition by specifying the key name at the end of the ARN.
-
-```
-{
-  "containerDefinitions": [{
-    "secrets": [{
-      "name": "environment_variable_name",
-      "valueFrom": "arn:aws:secretsmanager:region:aws_account_id:secret:appauthexample-AbCdEf::AWSPREVIOUS:"
-    }]
-  }]
-}
-```
-Reference a specific version ID from the previous output in a container definition by specifying the key name at the end of the ARN.
-
-```
-{
-  "containerDefinitions": [{
-    "secrets": [{
-      "name": "environment_variable_name",
-      "valueFrom": "arn:aws:secretsmanager:region:aws_account_id:secret:appauthexample-AbCdEf::9d4cb84b-ad69-40c0-a0ab-cead36b967e8"
-    }]
-  }]
-}
-```
-**Example referencing a specific key and version staging label of a secret**
-
-The following shows how to reference both a specific key within a secret and a specific version staging label.
-
-```
-{
-  "containerDefinitions": [{
-    "secrets": [{
-      "name": "environment_variable_name",
-      "valueFrom": "arn:aws:secretsmanager:region:aws_account_id:secret:appauthexample-AbCdEf:username1:AWSPREVIOUS:"
-    }]
-  }]
-}
-```
-To specify a specific key and version ID, use the following syntax.
-```
-{
-  "containerDefinitions": [{
-    "secrets": [{
-      "name": "environment_variable_name",
-      "valueFrom": "arn:aws:secretsmanager:region:aws_account_id:secret:appauthexample-AbCdEf:username1::9d4cb84b-ad69-40c0-a0ab-cead36b967e8"
-    }]
-  }]
-}
-```
-### Injecting Sensitive Data in a Log Configuration
-
-Within your container definition, when specifying a logConfiguration you can specify secretOptions with the name of the log driver option to set in the container and the full ARN of the Secrets Manager secret containing the sensitive data to present to the container.
-
-The following is a snippet of a task definition showing the format when referencing an Secrets Manager secret.
-
-```
-{
-  "containerDefinitions": [{
-    "logConfiguration": [{
-      "logDriver": "splunk",
-      "options": {
-        "splunk-url": "https://cloud.splunk.com:8080"
-      },
-      "secretOptions": [{
-        "name": "splunk-token",
-        "valueFrom": "arn:aws:secretsmanager:region:aws_account_id:secret:secret_name-AbCdEf"
-      }]
-    }]
-  }]
-}
-```
-### Creating an AWS Secrets Manager Secret
-
-You can use the Secrets Manager console to create a secret for your sensitive data. For more information, see Creating a Basic Secret in the AWS Secrets Manager User Guide.
-
-**To create a basic secret**
-
-Use Secrets Manager to create a secret for your sensitive data.
-
- 1.  Open the Secrets Manager console at https://console.aws.amazon.com/secretsmanager/
-
-      1.  Choose **Store a new secret.**
-
-   1.   For **Select secret type,** choose **Other type of secrets.**
-
-   2.  Specify the details of your custom secret as **Key** and **Value** pairs. For example, you can specify a key of UserName, and then supply the appropriate user name as its value. Add a second key with the name of Password and the password text as its value. You could also add entries for Database name, Server address, TCP port, and so on. You can add as many pairs as you need to store the information you require.
-  
-Alternatively, you can choose the **Plaintext** tab and enter the secret value in any way you like.
-       4.  Choose the AWS KMS encryption key that you want to use to encrypt the protected text in the secret. If you don't choose one, Secrets Manager checks to see if there's a default key for the account, and uses it if it exists. If a default key doesn't exist, Secrets Manager creates one for you automatically. You can also choose **Add new key** to create a custom CMK specifically for this secret. To create your own AWS KMS CMK, you must have permissions to create CMKs in your account.
-       5.  Choose **Next.** 
-       6.  For **Secret name,** type an optional path and name, such as production/MyAwesomeAppSecret or development/TestSecret, and choose **Next.** You can optionally add a description to help you remember the purpose of this secret later.
-    The secret name must be ASCII letters, digits, or any of the following characters: /_+=.@-
-       7.  (Optional) At this point, you can configure rotation for your secret. For this procedure, leave it at **Disable automatic rotation** and choose **Next.**
-       8.  Review your settings, and then choose **Store secret** to save everything you entered as a new secret in Secrets Manager.
-
-### Creating a Task Definition that References Sensitive Data
-
-You can use the Amazon ECS console to create a task definition that references an Secrets Manager secret.
-
-**To create a task definition that specifies a secret**
-
-1.   Open the Amazon ECS console at https://console.aws.amazon.com/ecs/
-1.  In the navigation pane, choose **Task Definitions,** **Create new Task Definition.**
-1.  On the **Select launch type compatibility page,** choose the launch type for your tasks and choose **Next step.**
-Note
-
-This step only applies to Regions that currently support Amazon ECS using AWS Fargate. 
-
-1.  For **Task Definition Name,** type a name for your task definition. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
-
-1.  For **Task execution role,** either select your existing task execution role or choose **Create new role** to have one created for you. This role authorizes Amazon ECS to pull private images for your task. 
-
-**Important**
-
-If the **Task execution role** field does not appear, choose **Configure via JSON** and manually add the executionRoleArn field to specify your task execution role. The following code shows the syntax:
-
-```
-"executionRoleArn": "arn:aws:iam::aws_account_id:role/ecsTaskExecutionRole"
-```
-
-6.  For each container to create in your task definition, complete the following steps:
-  a.  Under **Container Definitions,** choose **Add container**.
-  b.  For **Container name,** type a name for your container. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
-  c.  For **Image,** type the image name or path to your private image. Up to 255 letters (uppercase and lowercase), numbers, hyphens, and underscores are allowed.
-  d.  Expand **Advanced container configuration.**
-  e. For sensitive data to inject as environment variables, under **Environment,** for      **Environment variables,** complete the following fields:
-    1.  For **Key,** enter the name of the environment variable to set in the container. This corresponds to the name field in the **secrets** section of a container definition.
-    1.   For **Value,** choose **ValueFrom.** For **Add value,** enter the ARN of the Secrets Manager secret that contains the data to present to your container as an environment variable.
-
-   f.  For sensitive data referenced in the log configuration for a container, under **Storage and Logging,** for **Log configuration,** complete the following fields:
-      i.  Clear the **Auto-configure CloudWatch Logs** option.
-      ii.  Under **Log options,** for **Key,** enter the name of the log configuration option to set.
-      iii.  For **Value,** choose **ValueFrom.** For **Add value,** enter the full ARN of the Secrets Manager secret that contains the data to present to your log configuration as a log option.
-  g.  Fill out the remaining required fields and any optional fields to use in your container definitions. More container definition parameters are available in the **Advanced container configuration** menu. 
-  h. Choose **Add.**
-
-7.  When your containers are added, choose **Create.**
 
 ## 6. Using the awslogs Log Driver
 Capital Group:
