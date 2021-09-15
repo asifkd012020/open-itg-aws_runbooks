@@ -18,10 +18,10 @@ Security Engineering
   - [1. Implement least privilege IAM Roles for Tasks](#1-implement-least-privilege-iam-roles-for-tasks)
   - [2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images](#2-using-elastic-container-registry-ecr-for-storing-and-retrieving-docker-images)
   - [3. Configuring VPC endpoints for ECS](#3-configuring-vpc-endpoints-for-ecs)
-  - [4. Configuring AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions](#4-configuring-aws-systems-manager-parameter-store-or-aws-secrets-manager-for-reference-of-secrets-into-container-definitions)
-  - [5. Specifying sensitive data using AWS secrets manager](#5-specifying-sensitive-data-using-aws-secrets-manager)
+  - [4. Using AWS Systems Manager Parameter Store for referencing non sensitive data](#4-using-aws-systems-manager-parameter-store-for-referencing-non-sensitive-data)
+  - [5. Using AWS Secrets Manager for referencing sensitive data](#5-using-aws-secrets-manager-for-referencing-sensitive-data)
   - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
-  - [7. Creating a Trail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
+  - [7. Creating a CloudTrail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
   - [8. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)](#8-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only)
   - [9. Scan images for Vulnerabilities](#9-scan-images-for-vulnerabilities)
   - [10. Remove special permissions from images](#10-remove-specal-permissions-from-images)
@@ -237,7 +237,7 @@ To create an interface endpoint, you must specify the VPC in which to create the
 ------
 
 
-## 4. Configuring AWS Systems Manager Parameter Store or AWS Secrets Manager for reference of secrets into Container Definitions
+## 4. Using AWS Systems Manager Parameter Store for referencing non sensitive data
 
 ___
 **Why?**
@@ -288,7 +288,7 @@ One option can be to pass the environment type as an environment variable to the
 When you describe the task definition in a CloudFormation template, you could base the entry in the IAM role that provides access to Parameter Store, KMS key, and environment property on a single CloudFormation parameter, such as “environment type.” This approach could support a single task definition type that is based on a generic CloudFormation template.
 
 
-## 5. Specifying sensitive data using AWS secrets manager
+## 5. Using AWS Secrets Manager for referencing sensitive data
 
 Capital Group:
 |Control Statement|Description|
