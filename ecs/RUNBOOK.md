@@ -1056,8 +1056,7 @@ After you create a trail, you can configure other AWS services to further analyz
 
 **Contents**
 + [Creating a Trail in the Console](#creating-a-trail-in-the-console)
-+ [Configuring Advanced Settings for Your Trail](#advanced-settings-for-your-trail)
-+ [Next Steps](#cloudtrail-create-a-trail-using-the-console-first-time-next-steps)
+
 
 ### Creating a Trail in the Console
 
@@ -1128,51 +1127,6 @@ If you chose **No**, choose an existing S3 bucket\. The bucket policy must grant
 **Note**  
 You can't rename a trail after it has been created\. Instead, you can delete the trail and create a new one\.
 
-### Configuring Advanced Settings for Your Trail
-
-You can configure the following settings for your trail:
-+ Specify a log file prefix for the S3 bucket receiving log files\.
-+ Encrypt log files with AWS Key Management Service \(SSE\-KMS\) instead of the default encryption \([Amazon S3\-managed encryption keys \(SSE\-S3\)\)](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html)\.
-+ Enable log file validation for logs\.
-+ Configure Amazon SNS to notify you when log files are delivered\.
-
-**To configure advanced settings for your trail**
-
-1. For **Storage location**, choose **Advanced**\.
-
-1. In the **Log file prefix** field, type a prefix for your Amazon S3 bucket\. The prefix is an addition to the URL for an Amazon S3 object that creates a folder\-like organization in your bucket\. The location where your log files will be stored appears under the text field\.
-
-1. For **Encrypt log files with SSE\-KMS**, choose **Yes** if you want to encrypt your log files with SSE\-KMS instead of SSE\-S3\.
-
-1. For **Create a new KMS key**, choose **Yes** to create an AWS KMS customer master key or **No** to use an existing one\.
-
-1. If you chose **Yes**, in the **KMS key** field, type an alias\. CloudTrail encrypts your log files with the field, type an alias\. CloudTrail encrypts your log files with the customer master key and adds the policy for you\.
-**Note**  
-If you chose **No**, choose an existing AWS KMS customer master key\. You can also type the ARN of a key from another account\.  The key policy must allow CloudTrail to use the key to encrypt your log files, and allow the users you specify to read log files in unencrypted form\.
-
-1. For **Enable log file validation**, choose **Yes** to have log digests delivered to your S3 bucket\. You can use the digest files to verify that your log files did not change after CloudTrail delivered them\. 
-
-1. For **Send SNS notification for every log file delivery**, choose **Yes** if you want to be notified each time a log is delivered to your bucket\. CloudTrail stores multiple events in a log file\. SNS notifications are sent for every log file, not for every event\. 
-
-1. For **Create a new SNS topic**, choose **Yes** to create a topic, or choose **No** to use an existing topic\. If you are creating a trail that applies to all Regions, SNS notifications for log file deliveries from all Regions are sent to the single SNS topic that you create\.
-**Note**  
-If you chose **No**, choose an existing topic\. You can also enter the ARN of a topic from another Region or from an account with appropriate permissions\. 
-
-1. If you chose **Yes**, in the **SNS topic** field, type a name\.
-
-   If you create a topic, you must subscribe to the topic to be notified of log file delivery\. You can subscribe from the Amazon SNS console\. Due to the frequency of notifications, we recommend that you configure the subscription to use an Amazon SQS queue to handle notifications programmatically\. For more information, see the [Amazon Simple Notification Service Getting Started Guide](https://docs.aws.amazon.com/sns/latest/gsg/)\.
-
-1. Choose **Create**\.
-
-
-After you create your trail, you can return to the trail to make changes:
-+ Configure CloudTrail to send log files to CloudWatch Logs\. For more information, see [Sending Events to CloudWatch Logs](send-cloudtrail-events-to-cloudwatch-logs.md)\.
-+ Create a table and use it to run a query in Amazon Athena to analyze your AWS service activity\. For more information, see [Creating a Table for CloudTrail Logs in the CloudTrail Console](https://docs.aws.amazon.com/athena/latest/ug/cloudtrail-logs.html#create-cloudtrail-table-ct) in the [Amazon Athena User Guide](https://docs.aws.amazon.com/athena/latest/ug/)\.
-+ Add custom tags \(key\-value pairs\) to the trail\.
-+ To create another trail, return to the **Trails** page and choose **Add new trail**\.
-
-**Note**  
-When configuring a trail, you can choose an S3 bucket and SNS topic that belong to another account\. However, if you want CloudTrail to deliver events to a CloudWatch Logs log group, you must choose a log group that exists in your current account\.
 
 
 ## 8. Enable VPC Flow Logs for ECS Cluster VPC EC2 Launch Types Only
@@ -1191,12 +1145,7 @@ You can work with flow logs using the Amazon EC2, Amazon VPC, CloudWatch, and Am
 **Topics**
 + [Controlling the use of flow logs](#controlling-use-of-flow-logs)
 + [Creating a flow log](#create-flow-log)
-+ [Viewing flow logs](#view-flow-logs)
-+ [Adding or removing tags for flow logs](#modify-tags-flow-logs)
-+ [Viewing flow log records](#view-flow-log-records)
-+ [Deleting a flow log](#delete-flow-log)
-+ [Searching flow log records](#search-flow-log-records)
-+ [API and CLI overview](#flow-logs-api-cli)
+
 
 ### Controlling the use of flow logs
 
@@ -1229,153 +1178,6 @@ You can create flow logs for your VPCs, subnets, or network interfaces\. Flow lo
 
 For more information, see [Creating a flow log that publishes to CloudWatch Logs](flow-logs-cwl.md#flow-logs-cwl-create-flow-log) and [Creating a flow log that publishes to Amazon S3](flow-logs-s3.md#flow-logs-s3-create-flow-log)\.
 
-### Viewing flow logs
-
-You can view information about your flow logs in the Amazon EC2 and Amazon VPC consoles by viewing the **Flow Logs** tab for a specific resource\. When you select the resource, all the flow logs for that resource are listed\. The information displayed includes the ID of the flow log, the flow log configuration, and information about the status of the flow log\.
-
-**To view information about flow logs for your network interfaces**
-
-1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
-
-1. In the navigation pane, choose **Network Interfaces**\.
-
-1. Select a network interface, and choose **Flow Logs**\. Information about the flow logs is displayed on the tab\. The **Destination type** column indicates the destination to which the flow logs are published\.
-
-**To view information about flow logs for your VPCs or subnets**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-1. In the navigation pane, choose **Your VPCs** or **Subnets**\.
-
-1. Select your VPC or subnet, and choose **Flow Logs**\. Information about the flow logs is displayed on the tab\. The **Destination type** column indicates the destination to which the flow logs are published\.
-
-### Adding or removing tags for flow logs
-
-You can add or remove tags for a flow log in the Amazon EC2 and Amazon VPC consoles\.
-
-**To add or remove tags for a flow log for a network interface**
-
-1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
-
-1. In the navigation pane, choose **Network Interfaces**\.
-
-1. Select a network interface, and choose **Flow Logs**\.
-
-1. Choose **Manage tags** for the required flow log\.
-
-1. To add a new tag, choose **Create Tag**\. To remove a tag, choose the delete button \(x\)\.
-
-1. Choose **Save**\.
-
-**To add or remove tags for a flow log for a VPC or subnet**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-1. In the navigation pane, choose **Your VPCs** or **Subnets**\.
-
-1. Select your VPC or subnet, and choose **Flow Logs**\.
-
-1. Select the flow log, and choose **Actions**, **Add/Edit Tags**\.
-
-1. To add a new tag, choose **Create Tag**\. To remove a tag, choose the delete button \(x\)\.
-
-1. Choose **Save**\.
-
-### Viewing flow log records
-
-You can view your flow log records using the CloudWatch Logs console or Amazon S3 console, depending on the chosen destination type\. It may take a few minutes after you've created your flow log for it to be visible in the console\.
-
-**To view flow log records published to CloudWatch Logs**
-
-1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
-
-1. In the navigation pane, choose **Logs**, and select the log group that contains your flow log\. A list of log streams for each network interface is displayed\.
-
-1.  Select the log stream that contains the ID of the network interface for which to view the flow log records\. For more information, see [Flow log records](flow-logs.md#flow-log-records)\.
-
-**To view flow log records published to Amazon S3**
-
-1. Open the Amazon S3 console at [https://console\.aws\.amazon\.com/s3/](https://console.aws.amazon.com/s3/)\.
-
-1. For **Bucket name**, select the bucket to which the flow logs are published\.
-
-1. For **Name**, select the check box next to the log file\. On the object overview panel, choose **Download**\.
-
-### Deleting a flow log
-
-You can delete a flow log using the Amazon EC2 and Amazon VPC consoles\.
-
-**Note**  
-These procedures disable the flow log service for a resource\. Deleting a flow log does not delete the existing log streams from CloudWatch Logs and log files from Amazon S3\. Existing flow log data must be deleted using the respective service's console\. In addition, deleting a flow log that publishes to Amazon S3 does not remove the bucket policies and log file access control lists \(ACLs\)\.
-
-**To delete a flow log for a network interface**
-
-1. Open the Amazon EC2 console at [https://console\.aws\.amazon\.com/ec2/](https://console.aws.amazon.com/ec2/)\.
-
-1. In the navigation pane, choose **Network Interfaces** and select the network interface\.
-
-1. Choose **Flow Logs**, and then choose the delete button \(a cross\) for the flow log to delete\.
-
-1. In the confirmation dialog box, choose **Yes, Delete**\.
-
-**To delete a flow log for a VPC or subnet**
-
-1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
-
-1. In the navigation pane, choose **Your VPCs** or **Subnets**, and then select the resource\.
-
-1. Choose **Flow Logs**, and then choose the delete button \(a cross\) for the flow log to delete\.
-
-1. In the confirmation dialog box, choose **Yes, Delete**\.
-
-### Searching flow log records
-
-You can search your flow log records that are published to CloudWatch Logs using the CloudWatch Logs console\.
-
-**To search flow log records**
-
-1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
-
-1. In the navigation pane, choose **Log groups**, and select the log group that contains your flow log\. A list of log streams for each network interface is displayed\.
-
-1. You can select the individual log stream if you know the network interface that you are searching for, or choose **Search Log Group** to search the entire log group\. It may take a long time if there are many network interfaces in your log group, and depending on what time range you select\.
-
-1. You can use the [standard Cloudwatch Log filter](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/FilterAndPatternSyntax.html) to filter the flow logs. The flow logs are space delimited logs\.
-
-1. For **Filter events**, paste the following string: `[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]` (This assumes you do not have a custom flow log format)\.
-
-1. Modify the filter based on what you are searching for. The following are example filters:
-
-```
-[version, accountid, interfaceid, srcaddr = 10.0.0.1, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]
-[version, accountid, interfaceid, srcaddr = 10.0.2.*, dstaddr, srcport, dstport, protocol, packets, bytes, start, end, action, logstatus]
-[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport = 80 || dstport = 8080, protocol, packets, bytes, start, end, action, logstatus]
-[version, accountid, interfaceid, srcaddr, dstaddr, srcport, dstport = 80 || dstport = 8080, protocol, packets, bytes >= 400, start, end, action = REJECT, logstatus]
-```
-
-### API and CLI overview
-
-You can perform the tasks described on this page using the command line or API\. For more information about the command line interfaces and a list of available API actions, see [Accessing Amazon VPC](what-is-amazon-vpc.md#VPCInterfaces)\.
-
-**Create a flow log**
-+ [create\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/create-flow-logs.html) \(AWS CLI\)
-+ [New\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/New-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
-+ [CreateFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateFlowLogs.html) \(Amazon EC2 Query API\)
-
-**Describe your flow logs**
-+ [describe\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-flow-logs.html) \(AWS CLI\)
-+ [Get\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Get-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
-+ [DescribeFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeFlowLogs.html) \(Amazon EC2 Query API\)
-
-**View your flow log records \(log events\)**
-+ [get\-log\-events](https://docs.aws.amazon.com/cli/latest/reference/logs/get-log-events.html) \(AWS CLI\)
-+ [Get\-CWLLogEvent](https://docs.aws.amazon.com/powershell/latest/reference/items/Get-CWLLogEvent.html) \(AWS Tools for Windows PowerShell\)
-+ [GetLogEvents](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_GetLogEvents.html) \(CloudWatch API\)
-
-**Delete a flow log**
-+ [delete\-flow\-logs](https://docs.aws.amazon.com/cli/latest/reference/ec2/delete-flow-logs.html) \(AWS CLI\)
-+ [Remove\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
-+ [DeleteFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteFlowLogs.html) \(Amazon EC2 Query API\)
 
 ## 9. Scan images for Vulnerabilities
 Capital Group:
