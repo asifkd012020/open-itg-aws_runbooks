@@ -8,7 +8,7 @@
 <br>
 Platform Design Services
 
-**Last Update:** *09/07/2022*
+**Last Update:** *09/15/2022*
 
 
 ## Table of Contents <!-- omit in toc -->
@@ -17,13 +17,13 @@ Platform Design Services
   - [1. ROSA is deployed in a private VPC with DirectLink](#1-ROSA-is-deployed-in-a-private-VPC-with-DirectLink)
   - [2. Preventative Controls for SRE Admin Access](#2-Preventative-Controls-for-SRE-Admin-Access)
   - [3. Administrative Session Encryption](#3-Administrative-Session-Encryption)
-  - [4. Data encryption](#4-Data-Encryption)
+  - [4. Data Encryption](#4-Data-Encryption)
   - [5. CloudTrail Logging Enabled for ROSA and Sent to Splunk](#5-CloudTrail-Logging-Enabled-for-ROSA-and-Sent-to-Splunk)
   - [6. Auditing Enabled for ROSA and Sent to Splunk](#6-Auditing-Enabled-for-ROSA-and-Sent-to-Splunk)
 - [Operational Best Practices](#Operational-Best-Practices)
-  - [1. Resources are tagged according to CG standards](#1-Resources-are-tagged-according-to-CG-standards)]
+  - [1. Resources are Tagged According to CG Standards](#1-Resources-are-tagged-according-to-CG-standards)]
 - [Endnotes](#endnotes)
-- [Capital Group Glossory](#Capital-Group-Glossory) 
+- [Capital Group Glossary](#Capital-Group-Glossory) 
 <br><br>
 
 ## Overview
@@ -36,7 +36,7 @@ Red Hat OpenShift Service on AWS is a managed service that's available through t
 ## Cloud Security Requirements
 
 
-### 1. ROSA is deployed in a private VPC with DirectLink
+### 1. ROSA is Deployed in a Private VPC with DirectLink
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -75,7 +75,7 @@ running in the cluster. Connections to the SRE support pod are permitted only fr
 Hat network using an IP allow-list
 
 Capital Group retains ownership of the AWS account and can terminate roles, policies, and 
-the Private Link connection.  (This will affect Red Hat support and management of the cluster)
+the PrivateLink connection.  (This will affect Red Hat support and management of the cluster)
 <br><br>
 
 
@@ -156,7 +156,7 @@ Tagging resources in the cloud is an easy way for teams to provide information r
 3. https://docs.openshift.com/rosa/rosa_getting_started/rosa-aws-prereqs.html#rosa-minimum-spc_prerequisites
 4. https://docs.openshift.com/rosa/rosa_policy/rosa-policy-responsibility-matrix.html
 
-## Capital Group Glossory 
+## Capital Group Glossary 
 **Data** - Digital pieces of information stored or transmitted for use with an information system from which understandable information is derived. Items that could be considered to be data are: Source code, meta-data, build artifacts, information input and output.  
  
 **Information System** - An organized assembly of resources and procedures for the collection, processing, maintenance, use, sharing, dissemination, or disposition of information. All systems, platforms, compute instances including and not limited to physical and virtual client endpoints, physical and virtual servers, software containers, databases, Internet of Things (IoT) devices, network devices, applications (internal and external), Serverless computing instances (i.e. AWS Lambda), vendor provided appliances, and third-party platforms, connected to the Capital Group network or used by Capital Group users or customers.
