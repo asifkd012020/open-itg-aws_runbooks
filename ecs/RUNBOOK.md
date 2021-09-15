@@ -1071,7 +1071,7 @@ Capital Group:
 
 **Why?**
 
-All images deployed in the ECS Cluster must be scanned for identiying vulnerabilites. Similar to their virtual machine counterparts, container images can contain binaries and application libraries with vulnerabilities or develop vulnerabilities over time. The best way to safeguard against exploits is by regularly scanning your images with an image scanner. 
+All images deployed in the ECS Cluster must be scanned for identifying vulnerabilities. Similar to their virtual machine counterparts, container images can contain binaries and application libraries with vulnerabilities or develop vulnerabilities over time. The best way to safeguard against exploits is by regularly scanning your images with an image scanner. 
 
 **How?**
 
@@ -1138,7 +1138,7 @@ Capital Group:
 
 **Why?**
 
-Encrypting network traffic prevents unauthorized users from intercepting and reading data when that data is transmitted across a network. All the data in trasit must be encrypted and enforce a TLS version of 1.2 or more.
+Encrypting network traffic prevents unauthorized users from intercepting and reading data when that data is transmitted across a network. All the data in transit must be encrypted and enforce a TLS version of 1.2 or more.
 
 **How?**
 
