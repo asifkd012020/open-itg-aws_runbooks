@@ -77,114 +77,58 @@ Based on IAM least privilege access model, CG Security Team recommends each task
 
 **How?**
 
-With IAM roles for Amazon ECS tasks, you can specify an IAM role that can be used by the containers in a task\. Applications must sign their AWS API requests with AWS credentials, and this feature provides a strategy for managing credentials for your applications to use, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances\. Instead of creating and distributing your AWS credentials to the containers or using the EC2 instance’s role, you can associate an IAM role with an ECS task definition or `RunTask` API operation\. The applications in the task’s containers can then use the AWS SDK or CLI to make API requests to authorized AWS services\.
+### Creating the task execution IAM role
+If your account does not already have a task execution role, use the following steps to create the role.
 
+To create a task execution IAM role (AWS Management Console)
 
-### Creating an IAM Role and Policy for your Tasks
+1. Open the IAM console at https://console.aws.amazon.com/iam/.
 
-You must create an IAM policy for your tasks to use that specifies the permissions that you would like the containers in your tasks to have\. You have several ways to create a new IAM permission policy\. You can copy a complete AWS managed policy that already does some of what you're looking for and then customize it to your specific requirements\. For more information, see [Creating a New Policy](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_create.html) in the *IAM User Guide*\.
+2. In the navigation pane, choose Roles, Create role.
 
-You must also create a role for your tasks to use before you can specify it in your task definitions\. You can create the role using the **Amazon Elastic Container Service Task Role** service role in the IAM console\. Then you can attach your specific IAM policy to the role that gives the containers in your task the permissions you desire\. The procedures below describe how to do this\.
+3. In the Select type of trusted entity section, choose AWS service, Elastic Container Service.
 
-If you have multiple task definitions or services that require IAM permissions, you should consider creating a role for each specific task definition or service with the minimum required permissions for the tasks to operate so that you can minimize the access that you provide for each task\. 
+4. For Select your use case, choose Elastic Container Service Task, then choose Next: Permissions.
 
-The Amazon ECS Task Role trust relationship is shown below\.
+5. In the Attach permissions policy section, search for AmazonECSTaskExecutionRolePolicy, select the policy, and then choose Next: Tags.
 
-```
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "",
-      "Effect": "Allow",
-      "Principal": {
-        "Service": "ecs-tasks.amazonaws.com"
-      },
-      "Action": "sts:AssumeRole"
-    }
-  ]
-}
-```
+6. For Add tags (optional), specify any custom tags to associate with the policy and then choose Next: Review.
 
-**To create an IAM policy for your tasks**
+7. For Role name, type ecsTaskExecutionRole and choose Create role.
 
-In this example, we create a policy to allow read\-only access to an Amazon S3 bucket\. You could store database credentials or other secrets in this bucket, and the containers in your task can read the credentials from the bucket and load them into your application\.
+### To create a task execution IAM role (AWS CLI)
 
-1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
-
-1. In the navigation pane, choose **Policies** and then choose **Create policy**\. 
-
-1. Follow the steps under one of the following tabs, which shows you how to use the visual or JSON editors\.
-
-------
-### [ Using the visual editor ]
-
-1. For **Service**, choose **S3**\.
-
-1. For **Actions**, expand the **Read** option and select **GetObject**\.
-
-1. For **Resources**, select **Add ARN** and enter the full Amazon Resource Name \(ARN\) of your Amazon S3 bucket, and then choose **Review policy**\.
-
-1. On the **Review policy** page, for **Name** type your own unique name, such as `AmazonECSTaskS3BucketPolicy`\.
-
-1. Choose **Create policy** to finish\.
-
-------
-### [ Using the JSON editor ]
-
-1. In the **Policy Document** field, paste the policy to apply to your tasks\. The example below allows permission to the *my\-task\-secrets\-bucket* Amazon S3 bucket\. You can modify the policy document to suit your specific needs\.
+1. Create a file named ecs-tasks-trust-policy.json that contains the trust policy to use for the IAM role. The file should contain the following:
 
 ```
-   {
-     "Version": "2012-10-17",
-     "Statement": [
-       {
-         "Effect": "Allow",
-         "Action": [
-           "s3:GetObject"
-         ],
-         "Resource": [
-           "arn:aws:s3:::my-task-secrets-bucket/*"
-         ]
-       }
-     ]
-   }
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "",
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "ecs-tasks.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+      }
+    ]
+  }
+```  
+2. Create an IAM role named ecsTaskExecutionRole using the trust policy created in the previous step.
+
 ```
+  aws iam create-role \
+        --role-name ecsTaskExecutionRole \
+        --assume-role-policy-document file://ecs-tasks-trust-policy.json
+```        
+3. Attach the AWS managed AmazonECSTaskExecutionRolePolicy policy to the ecsTaskExecutionRole role. This policy provides
 
-1. Choose **Create policy**\. 
-
-------
-
-**To create an IAM role for your tasks**
-
-1. Open the IAM console at [https://console\.aws\.amazon\.com/iam/](https://console.aws.amazon.com/iam/)\.
-
-2. In the navigation pane, choose **Roles**, **Create role**\. 
-
-3. For **Select type of trusted entity** section, choose **AWS service**\.
-
-4. For **Choose the service that will use this role**, choose **Elastic Container Service**\.
-
-5. For **Select your use case**, choose **Elastic Container Service Task** and choose **Next: Permissions**\.
-
-6. For **Attach permissions policy**, select the policy to use for your tasks \(in this example `AmazonECSTaskS3BucketPolicy`, and then choose **Next: Tags**\.
-
-7. For **Add tags \(optional\)**, enter any metadata tags you want to associate with the IAM role, and then choose **Next: Review**\.
-
-8. For **Role name**, enter a name for your role\. For this example, type `AmazonECSTaskS3BucketRole` to name the role, and then choose **Create role** to finish\.
-
-
-### Specifying an IAM Role for your Tasks
-
-After you have created a role and attached a policy to that role, you can run tasks that assume the role\. You have several options to do this:
-+ Specify an IAM role for your tasks in the task definition\. You can create a new task definition or a new revision of an existing task definition and specify the role you created previously\. If you use the console to create your task definition, choose your IAM role in the **Task Role** field\. If you use the AWS CLI or SDKs, specify your task role ARN using the `taskRoleArn` parameter\. 
-
-**Note**  
-This option is required if you want to use IAM task roles in an Amazon ECS service\.
-+ Specify an IAM task role override when running a task\. You can specify an IAM task role override when running a task\. If you use the console to run your task, choose **Advanced Options** and then choose your IAM role in the **Task Role** field\. If you use the AWS CLI or SDKs, specify your task role ARN using the `taskRoleArn` parameter in the `overrides` JSON object\. 
-
-**Note**  
-In addition to the standard Amazon ECS permissions required to run tasks and services, IAM users also require `iam:PassRole` permissions to use IAM roles for tasks\.
+```
+aws iam attach-role-policy \
+      --role-name ecsTaskExecutionRole \
+      --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+```
 
 ## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
 
