@@ -1246,14 +1246,6 @@ If you didn't use the preceding command to enable Container Insights on all new 
 aws ecs create-cluster --cluster-name myCICluster --settings "name=containerInsights,value=enabled"
 ```
 
-### Disabling Container Insights on Amazon ECS Clusters
-
-To disable Container Insights on an existing Amazon ECS cluster, enter the following command\.
-
-```
-aws ecs update-cluster-settings --cluster myCICluster --settings name=containerInsights,value=disabled
-```
-## Respond/Recover
 
 
 ## 2. Running the X\-Ray Daemon
