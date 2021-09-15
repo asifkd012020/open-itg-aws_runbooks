@@ -18,7 +18,7 @@ Security Engineering
   - [1. Implement least privilege IAM Roles for Tasks](#1-implement-least-privilege-iam-roles-for-tasks)
   - [2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images](#2-using-elastic-container-registry-ecr-for-storing-and-retrieving-docker-images)
   - [3. Configuring VPC endpoints for ECS](#3-configuring-vpc-endpoints-for-ecs)
-  - [4. Using AWS Systems Manager Parameter Store for referencing non sensitive data](#4-using-aws-systems-manager-parameter-store-for-referencing-non-sensitive-data)
+  - [4. Using AWS Systems Manager Parameter Store for referencing both sensitive and non sensitive data](#4-using-aws-systems-manager-parameter-store-for-referencing-both-sensitive-and-non-sensitive-data)
   - [5. Using AWS Secrets Manager for referencing sensitive data](#5-using-aws-secrets-manager-for-referencing-sensitive-data)
   - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
   - [7. Creating a CloudTrail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
@@ -55,6 +55,7 @@ These capital group control statements are not applicable to the ECS service: 5,
 <img src="/docs/img/Prevent.png" width="50">
 
 ### 1. Implement least privilege IAM Roles for Tasks
+
 **Capital Group Controls:** 
 <br>
 |Control Statement|Description|
@@ -62,9 +63,6 @@ These capital group control statements are not applicable to the ECS service: 5,
 |Control Definition Needed|Control Definition Description Needed|
 
 <br>
-___
-
-### IAM Roles for Tasks
 
 **Why?**
 
@@ -134,7 +132,7 @@ aws iam attach-role-policy \
 
 **Why?**
 
-CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR is a fully managed container registry that makes it easy to store, manage, share and deploy container images and artifacts in a secure manner.Amazon ECR hosts your images in a highly available and high-performance architecture, allowing you to deploy images for your container applications reliably. You can share container software privately within Capital Group or publicly worldwide for anyone to discover and download.
+CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR is a fully managed container registry that makes it easy to store, manage, share and deploy container images and artifacts in a secure manner. Amazon ECR hosts your images in a highly available and high-performance architecture, allowing you to deploy images for your container applications reliably. You can share container software privately within Capital Group or publicly worldwide for anyone to discover and download.
 
 **How?**
 
@@ -164,6 +162,7 @@ You can use your ECR images with Amazon ECS, but you need to satisfy the followi
 
   If you use the `AmazonEC2ContainerServiceforEC2Role` managed policy for your container instances, then your role has the proper permissions\. To check that your role supports Amazon ECR, see [Amazon ECS Container Instance IAM Role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html) in the *Amazon Elastic Container Service Developer Guide*\.
 + In your ECS task definitions, make sure that you are using the full `registry/repository:tag` naming for your ECR images\. For example, `aws_account_id.dkr.ecr.region.amazonaws.com``/my-web-app:latest`\.
+
 
 ## 3. Configuring VPC Endpoints for ECS 
 
@@ -204,7 +203,7 @@ To create the VPC endpoint for the Amazon ECS service, use the [Creating an Inte
 ### Creating an interface endpoint
 To create an interface endpoint, you must specify the VPC in which to create the interface endpoint, and the service to which to establish the connection\. 
 
-------
+
 #### [ Console ]
 
 **To create an interface endpoint to an AWS service using the console**
@@ -234,34 +233,24 @@ To create an interface endpoint, you must specify the VPC in which to create the
 
      \[Remove a tag\] Choose the delete button \(“x”\) to the right of the tag’s Key and Value\.
 
-------
 
 
-## 4. Using AWS Systems Manager Parameter Store for referencing non sensitive data
 
-___
+## 4. Using AWS Systems Manager Parameter Store for referencing both sensitive and non sensitive data
+
 **Why?**
 
-For non sensitive information use Parameter Store for environmental variables. The advantge of using Parameter store is decoupling the environmental variables from task definitions. Environment variables can be updated without touching the task definition. 
+For non sensitive information use Parameter Store for environmental variables. The advantge of using Parameter store is decoupling the environmental variables from task definitions. Environment variables can be updated without touching the task definition. When specifying sensitive information make sure to encrypt the key and value pair. 
 
 ### Amazon EC2 Systems Manager Parameter Store
 
 Parameter Store is a feature of Amazon EC2 Systems Manager. It provides a centralized, encrypted store for sensitive information and has many advantages when combined with other capabilities of Systems Manager, such as Run Command and State Manager. The service is fully managed, highly available, and highly secured.
-
 Because Parameter Store is accessible using the Systems Manager API, AWS CLI, and AWS SDKs, you can also use it as a generic secret management store. Secrets can be easily rotated and revoked. Parameter Store is integrated with AWS KMS so that specific parameters can be encrypted at rest with the default or custom KMS key. Importing KMS keys enables you to use your own keys to encrypt sensitive data.
 
-Access to Parameter Store is enabled by IAM policies and supports resource level permissions for access. An IAM policy that grants permissions to specific parameters or a namespace can be used to limit access to these parameters. CloudTrail logs, if enabled for the service, record any attempt to access a parameter.
-
-While Amazon S3 has many of the above features and can also be used to implement a central secret store, Parameter Store has the following added advantages:
-
-  + Easy creation of namespaces to support different stages of the application lifecycle.
-  + KMS integration that abstracts parameter encryption from the application while requiring the instance or container to have access to the KMS key and for the decryption to take place locally in memory.
-  + Stored history about parameter changes.
-  + A service that can be controlled separately from S3, which is likely used for many other applications.
-  + A configuration data store, reducing overhead from implementing multiple systems.
-  + No usage costs.
 
 **How?**
+
+Access to Parameter Store is enabled by IAM policies and supports resource level permissions for access. An IAM policy that grants permissions to specific parameters or a namespace can be used to limit access to these parameters. CloudTrail logs, if enabled for the service, record any attempt to access a parameter.
 
 ### IAM roles for tasks
 
