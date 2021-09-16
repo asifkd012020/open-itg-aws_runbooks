@@ -60,7 +60,8 @@ These capital group control statements are not applicable to the ECS service: 5,
 <br>
 |Control Statement|Description|
 |------|----------------------|
-|Control Definition Needed|Control Definition Description Needed|
+| CS0012298 | Access to change cloud identity access and service control policies is restricted to authorized cloud administrative personnel. |
+| CS0012299 | Access to change cloud resource-based access policies is restricted to authorized personnel. |
 
 <br>
 
