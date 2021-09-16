@@ -13,18 +13,21 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
-  - [1. Implement access controls to enforce least privilege](#1-implement-access-controls-to-enforce-least-privilege)
-  - [2. Data is protected at-rest and in-transit](#2-data-is-protected-at-rest-and-in-transit)
-  - [3. Database instances are configured for high-availability](#3-database-instances-are-configured-for-high-availability)
-  - [4. Network controls are restrictive](#4-network-controls-are-restrictive)
-  - [5. Store database secrets in a vault for automatic rotation](#5-store-database-secrets-in-a-vault-for-automatic-rotation)
+  - [1. RDS Utilizes VPC Endpoints to Prevent Public Access](#1-rds-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
+  - [2. RDS has Instance Public Accessibility turned off](#2-rds-has-nstance-public-accessibility-turned-off)
+  - [2. RDS data are Encrypted at rest using CG CMK](#2-rds-data-are-encrypted-at-rest-using-cg-cmk)
+  - [3. RDS snapshots are Encrypted at rest using CG CMK](#3-rds-snapshots-are-encrypted-at-rest-using-cg-cmk)
+  - [4. RDS connections are Encrypted in transit using TLS 1.2](#4-rds-connections-are-encrypted-in-transit-using-tls-1-2)
+  - [5. RDS has appropriate access controls to enforce least privilege](#5-RDS-has-appropriate-access-controls-to-enforce-least-privilege)
+  - [6. RDS instances are configured for high-availability](#6-rds-instances-are-configured-for-high-availability)
+  - [7. RDS database secrets are vaulted for automatic rotation](#7-rds-database-secrets-are-vaulted-for-automatic-rotation)
+  - [8. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS](#8-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds)
 - [Operational Best Practices](#operational-best-practices)
   - [1. Monitor RDS DB instances status](#1-monitor-rds-db-instances-status)
   - [2. Log Amazon RDS API calls](#2-log-amazon-rds-api-calls)
   - [3. Utilize Amazon RDS Event Notifications utilizing Amazon SNS](#3-utilize-amazon-rds-event-notifications-utilizing-amazon-sns)
   - [4. Utilize AWS Config rules to monitor RDS for control compliance](#4-utilize-aws-config-rules-to-monitor-rds-for-control-compliance)
   - [5. AWS RDS auto minor version upgrade is enabled](#5-aws-rds-auto-minor-version-upgrade-is-enabled)
-  - [1. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS](#1-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds)
 - [Endnotes](#endnotes)
 - [Capital Group Glossory](#capital-group-glossory) 
 <br><br>
@@ -34,7 +37,8 @@ Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate
 
 Amazon RDS is available on several database instance types - optimized for memory, performance or I/O - and provides you with six familiar database engines to choose from, including Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle Database, and SQL Server. You can use the AWS Database Migration Service to easily migrate or replicate your existing databases to Amazon RDS.
 
-<img src="/docs/img/rds/example.png" width="600">
+
+<img src="/docs/img/rds/example.png" width="800">
 
 ### Features & Benefits
  - Easy to administer
@@ -46,19 +50,76 @@ Amazon RDS is available on several database instance types - optimized for memor
 ## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
 
-### 1. Implement access controls to enforce least privilege
+### 1. RDS Utilizes VPC Endpoints to Prevent Public Access
+RDS as a service currently supports VPC Interface Endpoints in AWS, and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
 
-Capital Group:
+**Capital Group Controls:** 
+<br>
 |Control Statement|Description|
 |------|----------------------|
-|5|AWS IAM User accounts are only to be created for use by services or products that do not support IAM Roles. Services are not allowed to create local accounts for human use within the service. All human user authentication will take place within CG’s Identity Provider.|
-|8|AWS IAM User secrets, including passwords and secret access keys, are to be rotated every 90 days. Accounts created locally within any service must also have their secrets rotated every 90 days.|
-|10|Administrative access to AWS resources will have MFA enabled|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
 
-**Why?** When you create custom policies, grant only the permissions required to perform a task. Start with a minimum set of permissions and grant additional permissions as necessary. Doing so is more secure than starting with permissions that are too lenient and then trying to tighten them later.  
+**Why?**<br>
+Multiple layers of security are needed to help ensure that resources are safe from unwanted access. In addition to IAM policies, having strong network controls in place isolates your instances from outside threats. If traffic is not able to reach an instance, then remote threats can be mitigated.
+
+**How?** <br>
+You should establish a private connection between your VPC and Amazon RDS API endpoints by creating an interface VPC endpoint. Interface endpoints are powered by AWS PrivateLink.
+
+AWS PrivateLink enables you to privately access Amazon RDS API operations without an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection. Instances in your VPC don't need public IP addresses to communicate with Amazon RDS API endpoints to launch, modify, or terminate DB instances. Your instances also don't need public IP addresses to use any of the available RDS API operations. Traffic between your VPC and Amazon RDS doesn't leave the Amazon network. Each interface endpoint is represented by one or more elastic network interfaces in your subnets.
+
+
+**Creation of Interface VPC Endpoint for RDS:**
+  1. Open the Amazon VPC console at https://console.aws.amazon.com/vpc/, and choose Endpoints from the navigation pane at left.
+  2. Choose Create Endpoint.
+     - For Service category, choose AWS service. 
+     - For Service Name, choose Config in your AWS Region (for example, `com.amazonaws.region.rds`).
+     - Then choose the VPC, if it does not already exist follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new VPC. 
+     - Select a security group for AWS Config, if the default security group will not suffice then follow this [link](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md) for instructions on how to create a new Security Group. 
+     - Make sure that you `Enable` the Enable Private DNS Name check box.
+     - Now add the appropriate `CG standard tags`.
+  4. Click `Create Endpoint` to complete the process.
+  5. The RDS service will now be accessible via the private endpoint for all requests within the VPC.
+<br><br>
+
+### 2. RDS has Instance Public Accessibility turned off
+RDS as a service currently supports publically accessible databases, this option can be turned off and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
+
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+**Why?**<br>
+As mentioned previously, CG has stringent public accessibility standards when it comes to deploying services in the cloud and RDS is no different. When you launch a DB instance, you can turn on or off public accessibility for that instance, and turning off public accessibility allows the RDS service to meet the CG public access controls.
+
+**How?**<br>
+To designate whether the DB instance that you create has a DNS name that resolves to a public IP address, you use the `Public accessibility` parameter. By using this parameter, you can designate whether there is public access to the DB instance. You can modify a DB instance to turn on or off public accessibility by modifying the `Public accessibility` parameter within the `Network & Security` section of the configuration.
+
+Security groups should be utilized to control which IP addresses or Amazon EC2 instances can connect to the databases on an RDS DB instance. When you first create a DB instance, its firewall prevents any database access except through rules specified by an associated security group. For further information on how to correctly deploy security groups, please read the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md).
+
+
+
+
+
+
+
+### 5. Implement access controls to enforce least privilege
+
+**Capital Group Controls:**<br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control ID |Control Description|
+
+**Why?**<br>
+When you create custom policies, grant only the permissions required to perform a task. Start with a minimum set of permissions and grant additional permissions as necessary. Doing so is more secure than starting with permissions that are too lenient and then trying to tighten them later.  
 To the extent that it's practical, define the conditions under which your identity-based policies allow access to a resource. For example, you can write conditions to specify a range of allowable IP addresses that a request must come from. You can also write conditions to allow requests only within a specified date or time range, or to require the use of SSL or MFA.
 
-**How?** RDS is fully integrated with AWS IAM for authentication and access control. Use IAM to create IAM users, groups and roles with appropriate permissions, and then add users to appropriate groups and roles. Use Multifactor Authentication for extra security (especially for users with administrative privileges).  
+**How?**<br>
+RDS is fully integrated with AWS IAM for authentication and access control. Use IAM to create IAM users, groups and roles with appropriate permissions, and then add users to appropriate groups and roles. Use Multifactor Authentication for extra security (especially for users with administrative privileges).  
 Use AWS Identity and Access Management (IAM) policies to assign permissions that determine who is allowed to manage Amazon RDS resources. For example, you can use IAM to determine who is allowed to create, describe, modify, and delete DB instances, tag resources, or modify security groups.
 
 The following example policy allows a principal to perform specific actions in RDS, but only on resources tagged as "development" or "test":
@@ -99,18 +160,12 @@ aws rds modify-db-instance \
 For information on setting up IAM permissions with MySQL and PostgreSQL databases, see [Endnote 1](#endnote-1).
 
 ### 2. Data is protected at-rest and in-transit
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
 
-Capital Group:
+**Capital Group Controls:**<br>
+
 |Control Statement|Description|
 |------|----------------------|
-|1|All Data-at-rest must be encrypted and use a CG BYOK encryption key.|
-|2|All Data-in-transit must be encrypted using certificates using CG Certificate Authority.|
-|3|Keys storied in a Key Management System (KMS) should be created by Capital Group's hardware security module (HSM) and are a minimum of AES-256.|
+|Control ID |Control Description|
 
 **Why?** Amazon RDS encrypted DB instances provide an additional layer of data protection by securing your data from unauthorized access to the underlying storage. You can use Amazon RDS encryption to increase data protection of your applications deployed in the cloud, and to fulfill compliance requirements for data-at-rest encryption.  
 For an Amazon RDS encrypted DB instance, all logs, backups, and snapshots are encrypted. A read replica of an Amazon RDS encrypted instance is also encrypted using the same key as the master instance when both are in the same AWS Region. If the master and read replica are in different AWS Regions, you encrypt using the encryption key for that AWS Region. 
@@ -256,46 +311,17 @@ Set the `rds.force_ssl` parameter to 1 (on) to require SSL for connections to yo
 You can set the `rds.force_ssl` parameter value by updating the parameter group for your DB instance. If the parameter group for your DB instance isn't the default one, and the `ssl` parameter is already set to 1 when you set `rds.force_ssl` to 1, you don't need to reboot your DB instance. Otherwise, *you must reboot your DB instance for the change to take effect*.
 
 ### 3. Database instances are configured for high-availability
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.PT-5|Mechanisms (e.g., failsafe, load balancing, hot swap) are implemented to achieve resilience requirements in normal and adverse situations|
+
+**Capital Group Controls:**<br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control ID |Control Description|
 
 **Why?** Amazon RDS provides high availability and failover support for DB instances using Multi-AZ deployments. In a Multi-AZ deployment, Amazon RDS automatically provisions and maintains a synchronous standby replica in a different Availability Zone. The primary DB instance is synchronously replicated across Availability Zones to a standby replica to provide data redundancy, eliminate I/O freezes, and minimize latency spikes during system backups. Running a DB instance with high availability can enhance availability during planned system maintenance, and help protect your databases against DB instance failure and Availability Zone disruption.
 
 **How?** Using the RDS console, you can create a Multi-AZ deployment by simply specifying Multi-AZ when creating a DB instance. You can use the console to convert existing DB instances to Multi-AZ deployments by modifying the DB instance and specifying the Multi-AZ option. You can also specify a Multi-AZ deployment with the AWS CLI by specifying the `--multi-az` option as `true` in either the `create-db-instance` or `modify-db-instance` commands.
 
-### 4. Network controls are restrictive
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.PT-4|Communications and control networks are protected|
-|PR.AC-3|Remote access is managed|
-|PR.AC-5|Network integrity is protected (e.g., network segregation, network segmentation)|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.|
-|7|Use of AWS IAM accounts are restricted to CG networks.|
-
-**Why?** Multiple layers of security are needed to help ensure that resources are safe from unwanted access. In addition to IAM policies, having strong network controls in place isolates your instances from outside threats. If traffic is not able to reach an instance, then remote threats can be mitigated.
-
-**How?** When you launch a DB instance, you can turn on or off public accessibility for that instance. To designate whether the DB instance that you create has a DNS name that resolves to a public IP address, you use the **Public accessibility** parameter. By using this parameter, you can designate whether there is public access to the DB instance. You can modify a DB instance to turn on or off public accessibility by modifying the **Public accessibility** parameter within the **Network & Security** section of the configuration.
-
-Use security groups to control what IP addresses or Amazon EC2 instances can connect to your databases on a DB instance. When you first create a DB instance, its firewall prevents any database access except through rules specified by an associated security group.
-
-**VPC Interface Endpoints**  
-You can establish a private connection between your VPC and Amazon RDS API endpoints by creating an interface VPC endpoint. Interface endpoints are powered by AWS PrivateLink.
-
-AWS PrivateLink enables you to privately access Amazon RDS API operations without an internet gateway, NAT device, VPN connection, or AWS Direct Connect connection. Instances in your VPC don't need public IP addresses to communicate with Amazon RDS API endpoints to launch, modify, or terminate DB instances. Your instances also don't need public IP addresses to use any of the available RDS API operations. Traffic between your VPC and Amazon RDS doesn't leave the Amazon network.  
-Each interface endpoint is represented by one or more elastic network interfaces in your subnets.
-
-Create a VPC endpoint for Amazon RDS using the service name `com.amazonaws.region.rds`.
-
-If you enable private DNS for the endpoint, you can make API requests to Amazon RDS using its default DNS name for the Region, for example `rds.us-east-1.amazonaws.com`.
-
-See [Endnote 2](#endnote-2) for more information on setting up VPC Endpoints.
 
 ### 5. Store database secrets in a vault for automatic rotation
 NIST CSF:
@@ -1934,8 +1960,8 @@ The following is an example of a DB snapshot event\.
 
 ## Endnotes
 **Resources**<br>
-1. https://aws.amazon.com/ebs/features/
-
+1. [Encryption of RDS Snapshots](https://aws.amazon.com/premiumsupport/knowledge-center/encrypt-rds-snapshots/)
+2. 
 <br><br>
 
 ## Capital Group Glossory 
