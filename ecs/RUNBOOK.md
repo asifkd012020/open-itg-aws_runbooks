@@ -21,7 +21,7 @@ Security Engineering
   - [4. Using AWS Systems Manager Parameter Store for referencing both sensitive and non sensitive data](#4-using-aws-systems-manager-parameter-store-for-referencing-both-sensitive-and-non-sensitive-data)
   - [5. Using AWS Secrets Manager for referencing sensitive data](#5-using-aws-secrets-manager-for-referencing-sensitive-data)
   - [6. Using the awslogs Log Driver](#6-using-the-awslogs-log-driver)
-  - [7. Creating a CloudTrail to log ECS API calls](#7-creating-a-trail-to-log-ecs-api-calls)
+  - [7. Creating a CloudTrail to log ECS API calls](#7-creating-a-cloudtrail-to-log-ecs-api-calls)
   - [8. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)](#8-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only)
   - [9. Scan images for Vulnerabilities](#9-scan-images-for-vulnerabilities)
   - [10. Remove special permissions from images](#10-remove-specal-permissions-from-images)
@@ -530,29 +530,14 @@ In the Amazon ECS console, the log configuration for the `wordpress` container i
 
 After you have registered a task definition with the `awslogs` log driver in a container definition log configuration, you can run a task or create a service with that task definition to start sending logs to CloudWatch Logs\. For more information, see [Running Tasks](ecs_run_task.md) and [Creating a service](create-service.md)\.
 
-### Viewing awslogs Container Logs in CloudWatch Logs
 
-For tasks using the EC2 launch type, after your container instance role has the proper permissions to send logs to CloudWatch Logs, your container agents are updated to at least version 1\.9\.0, and you have configured and started a task with containers that use the `awslogs` log driver, your configured containers should be sending their log data to CloudWatch Logs\. You can view and search these logs in the console\.
+## 7. Creating a CloudTrail to log ECS API calls
 
-**To view your CloudWatch Logs data for a container from the Amazon ECS console**
+**Why?**
+Amazon ECS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon ECS. CloudTrail captures all API calls for Amazon ECS as events, including calls from the Amazon ECS console and from code calls to the Amazon ECS API operations.
+CloudTrail is enabled on your AWS account when you create the account. When activity occurs in Amazon ECS, that activity is recorded in a CloudTrail event along with other AWS service events in Event history. You can view, search, and download recent events in your AWS account. For more information, see Viewing Events with CloudTrail Event History.
 
-1. Open the Amazon ECS console at [https://console\.aws\.amazon\.com/ecs/](https://console.aws.amazon.com/ecs/)\.
-1. On the **Clusters** page, select the cluster that contains the task to view\.
-1. On the **Cluster: *cluster\_name*** page, choose **Tasks** and select the task to view\.
-1. On the **Task: *task\_id*** page, expand the container view by choosing the arrow to the left of the container name\.
-1. In the **Log Configuration** section, choose **View logs in CloudWatch**, which opens the associated log stream in the CloudWatch console\.  
-![\[Task definition view of log configuration\]](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/view_logs_in_cw.png)
-
-**To view your CloudWatch Logs data in the CloudWatch console**
-
-1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
-1. In the left navigation pane, choose **Logs**\.
-1. Select a log group to view\. You should see the log groups that you created in [Creating a Log Group](#create_awslogs_loggroups)\.  
-![\[awslogs console metrics view\]](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/awslogs-log-groups.png)
-1. Choose a log stream to view\.  
-![\[awslogs console metrics view\]](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/awslogs-log-stream.png) 
-
-## 7. Creating a Trail to log ECS API calls
+**How?**
 Follow the procedure to create a trail that applies to all Regions\. A trail that applies to all Regions delivers log files from all Regions to an S3 bucket\. After you create the trail, CloudTrail automatically starts logging the events that you specified\. 
 
 **Note**  
