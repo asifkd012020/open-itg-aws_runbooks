@@ -10,7 +10,7 @@
 <br>
 Security Engineering
 
-**Last Update:** *08/21/2021*
+**Last Update:** *09/24/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -32,9 +32,8 @@ Security Engineering
   - [15. Use always Fargate launch type in ECS Cluster with version 1.4 and above](#15-use-always-fargate-launch-type-in-ecs-cluster-with-version-1.4-and-above)
 - [Operational Best Practices](#operational-best-practices)  
   - [1. Utilizing AWS CloudWatch Container Insights](#1-utilizing-aws-cloudwatch-container-insights)
-  - [2. Utilize Amazon ECS Events and Eventbridge](#2-utilize-amazon-ecs-events-and-eventbridge)
-  - [3. ECS Resources are tagged according to CG Standards](#4-ecs-resources-are-tagged-according-to-cg-standards)
-  - [4. Configure tasks with CPU and Memory limits (Amazon EC2)](#5-configure-tasks-with-cpu-and-memory-limits)
+  - [2. ECS Resources are tagged according to CG Standards](#4-ecs-resources-are-tagged-according-to-cg-standards)
+  - [3. Configure tasks with CPU and Memory limits (Amazon EC2)](#5-configure-tasks-with-cpu-and-memory-limits)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossary](#Capital-Group-Glossary)
   <br><br>
@@ -767,157 +766,32 @@ If you didn't use the preceding command to enable Container Insights on all new 
 aws ecs create-cluster --cluster-name myCICluster --settings "name=containerInsights,value=enabled"
 ```
 
-
-
-## 2. Running the X\-Ray Daemon
-You can run the AWS X\-Ray daemon locally on Linux, MacOS, Windows, or in a Docker container\. Run the daemon to relay trace data to X\-Ray when you are developing and testing your instrumented application\. Download and extract the daemon by using the instructions [here](xray-daemon.md#xray-daemon-downloading)\.
-
-When running locally, the daemon can read credentials from an AWS SDK credentials file \(`.aws/credentials` in your user directory\) or from environment variables\. For more information, see [Giving the Daemon Permission to Send Data to X\-Ray](xray-daemon.md#xray-daemon-permissions)\.
-
-The daemon listens for UDP data on port 2000\. You can change the port and other options by using a configuration file and command line options\. For more information, see [Configuring the AWS X\-Ray Daemon](xray-daemon-configuration.md)\.
-
-### Running the X\-Ray Daemon on Linux
-
-You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
-
-```
-~/xray-daemon$ ./xray -o -n us-east-2
-```
-
-To run the daemon in the background, use `&`\.
-
-```
-~/xray-daemon$ ./xray -o -n us-east-2 &
-```
-
-Terminate a daemon process running in the background with `pkill`\.
-
-```
-~$ pkill xray
-```
-
-### Running the X\-Ray Daemon in a Docker Container
-
-To run the daemon locally in a Docker container, save the following text to a file named `Dockerfile`\. Download the complete [example image](https://hub.docker.com/r/amazon/aws-xray-daemon/) on Docker Hub\.
-
-**Example Dockerfile – Amazon Linux**
-
-```
-FROM amazonlinux
-RUN yum install -y unzip
-RUN curl -o daemon.zip https://s3.dualstack.us-east-2.amazonaws.com/aws-xray-assets.us-east-2/xray-daemon/aws-xray-daemon-linux-3.x.zip
-RUN unzip daemon.zip && cp xray /usr/bin/xray
-ENTRYPOINT ["/usr/bin/xray", "-t", "0.0.0.0:2000", "-b", "0.0.0.0:2000"]
-EXPOSE 2000/udp
-EXPOSE 2000/tcp
-```
-
-Build the container image with `docker build`\.
-
-```
-~/xray-daemon$ docker build -t xray-daemon .
-```
-
-Run the image in a container with `docker run`\.
-
-```
-~/xray-daemon$ docker run \
-      --attach STDOUT \
-      -v ~/.aws/:/root/.aws/:ro \
-      --net=host \
-      -e AWS_REGION=us-east-2 \
-      --name xray-daemon \
-      -p 2000:2000/udp \
-      xray-daemon -o
-```
-
-This command uses the following options:
-+ `--attach STDOUT` – View output from the daemon in the terminal\.
-+ `-v ~/.aws/:/root/.aws/:ro` – Give the container read\-only access to the `.aws` directory to let it read your AWS SDK credentials\.
-+ `AWS_REGION=us-east-2` – Set the `AWS_REGION` environment variable to tell the daemon which region to use\.
-+ `--net=host` – Attach the container to the `host` network\. Containers on the host network can communicate with each other without publishing ports\.
-+ `-p 2000:2000/udp` – Map UDP port 2000 on your machine to the same port on the container\. This is not required for containers on the same network to communicate, but it does let you send segments to the daemon [from the command line](xray-api-sendingdata.md#xray-api-daemon) or from an application not running in Docker\.
-+ `--name xray-daemon` – Name the container `xray-daemon` instead of generating a random name\.
-+ `-o` \(after the image name\) – Append the `-o` option to the entry point that runs the daemon within the container\. This option tells the daemon to run in local mode to prevent it from trying to read Amazon EC2 instance metadata\.
-
-To stop the daemon, use `docker stop`\. If you make changes to the `Dockerfile` and build a new image, you need to delete the existing container before you can create another one with the same name\. Use `docker rm` to delete the container\.
-
-```
-$ docker stop xray-daemon
-$ docker rm xray-daemon
-```
-
-The Scorekeep sample application shows how to use the X\-Ray daemon in a local Docker container\. See [Instrumenting Amazon ECS Applications](scorekeep-ecs.md) for details\.
-
-### Running the X\-Ray Daemon on Windows
-
-You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
-
-```
-> .\xray_windows.exe -o -n us-east-2
-```
-
-Use a PowerShell script to create and run a service for the daemon\.
-
-**Example PowerShell Script \- Windows**
-
-```
-if ( Get-Service "AWSXRayDaemon" -ErrorAction SilentlyContinue ){
-    sc.exe stop AWSXRayDaemon
-    sc.exe delete AWSXRayDaemon
-}
-if ( Get-Item -path aws-xray-daemon -ErrorAction SilentlyContinue ) {
-    Remove-Item -Recurse -Force aws-xray-daemon
-}
-
-$currentLocation = Get-Location
-$zipFileName = "aws-xray-daemon-windows-service-3.x.zip"
-$zipPath = "$currentLocation\$zipFileName"
-$destPath = "$currentLocation\aws-xray-daemon"
-$daemonPath = "$destPath\xray.exe"
-$daemonLogPath = "C:\inetpub\wwwroot\xray-daemon.log"
-$url = "https://s3.dualstack.us-west-2.amazonaws.com/aws-xray-assets.us-west-2/xray-daemon/aws-xray-daemon-windows-service-3.x.zip"
-
-Invoke-WebRequest -Uri $url -OutFile $zipPath
-Add-Type -Assembly "System.IO.Compression.Filesystem"
-[io.compression.zipfile]::ExtractToDirectory($zipPath, $destPath)
-
-sc.exe create AWSXRayDaemon binPath= "$daemonPath -f $daemonLogPath"
-sc.exe start AWSXRayDaemon
-```
-
-### Running the X\-Ray Daemon on OS X
-
-You can run the daemon executable from the command line\. Use the `-o` option to run in local mode, and `-n` to set the region\.
-
-```
-~/xray-daemon$ ./xray_mac -o -n us-east-2
-```
-
-To run the daemon in the background, use `&`\.
-
-```
-~/xray-daemon$ ./xray_mac -o -n us-east-2 &
-```
-
-Use `nohup` to prevent the daemon from terminating when the terminal is closed\.
-
-```
-~/xray-daemon$ nohup ./xray_mac &
-```
-### 3. ECS Resources are tagged according to CG standards
+## 2. ECS Resources are tagged according to CG standards
 **Capital Group:** <br>
 
 |Control Statement|Description|
 |------|----------------------|
 |N/A| No security control currently defined.|
 
-**What, Why & How?**
+**Why?**
+
+**How?**
 
 Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
 
 [CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
 <br><br>
+
+## 3. Configure tasks with CPU and Memory limits
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|N/A| No security control currently defined.|
+
+**Why?**
+
+**How?**
 
 
 
