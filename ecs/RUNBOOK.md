@@ -29,7 +29,7 @@ Security Engineering
   - [12. Use a read-only root file system](#12-use-a-read-only-file-system)
   - [13. ECS data in transit must enforce TLS with version 1.2 or higher](#13-ecs-data-in-transit-must-enforce-tls-with-version-1.2-or-higher)
   - [14. Make sure ECS Task network interface does not have public IP address](#14-make-sure-ecs-task-network-interface-does-not-have-public-ip-address)
-  - [15. Use always Fargate launch type in ECS Cluster](#15-use-always-fargate-launch-type-in-ecs-cluster)
+  - [15. Use always Fargate launch type in ECS Cluster with version 1.4 and above](#15-use-always-fargate-launch-type-in-ecs-cluster-with-version-1.4-and-above)
 - [Operational Best Practices](#operational-best-practices)  
   - [1. Utilizing AWS CloudWatch Container Insights](#1-utilizing-aws-cloudwatch-container-insights)
   - [2. Utilize Amazon ECS Events and Eventbridge](#2-utilize-amazon-ecs-events-and-eventbridge)
@@ -534,91 +534,32 @@ After you have registered a task definition with the `awslogs` log driver in a c
 ## 7. Creating a CloudTrail to log ECS API calls
 
 **Why?**
+
 Amazon ECS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon ECS. CloudTrail captures all API calls for Amazon ECS as events, including calls from the Amazon ECS console and from code calls to the Amazon ECS API operations.
 CloudTrail is enabled on your AWS account when you create the account. When activity occurs in Amazon ECS, that activity is recorded in a CloudTrail event along with other AWS service events in Event history. You can view, search, and download recent events in your AWS account. For more information, see Viewing Events with CloudTrail Event History.
 
 **How?**
-Follow the procedure to create a trail that applies to all Regions\. A trail that applies to all Regions delivers log files from all Regions to an S3 bucket\. After you create the trail, CloudTrail automatically starts logging the events that you specified\. 
-
-**Note**  
-After you create a trail, you can configure other AWS services to further analyze and act upon the event data collected in CloudTrail logs\. 
-
-**Contents**
-+ [Creating a Trail in the Console](#creating-a-trail-in-the-console)
-
-
-### Creating a Trail in the Console
-
- You can configure your trail for the following: 
-+ Specify if you want the trail to apply to all Regions or a single Region\.
-+ Specify an Amazon S3 bucket to receive log files\.
-+ For management and data events, specify if you want to log read\-only, write\-only, or all events\.
 
 **To create a CloudTrail trail with the AWS Management Console**
 
 1. Sign in to the AWS Management Console and open the CloudTrail console at [https://console\.aws\.amazon\.com/cloudtrail/](https://console.aws.amazon.com/cloudtrail/)\.
 
-1. Choose the AWS Region where you want the trail to be created\.
+2. On the CloudTrail service home page, the Trails page, or the Trails section of the Dashboard page, choose Create trail.
 
-1. Choose **Get Started Now**\.
-**Tip**  
-If you do not see **Get Started Now**, choose **Trails**, and then choose **Create trail**\.
+3. On the Create Trail page, for Trail name, type a name for your trail. For more information, see CloudTrail trail naming requirements.
 
-1. On the **Create Trail** page, for **Trail name**, type a name for your trail\. 
+4. If this is an AWS Organizations organization trail, you can choose to enable the trail for all accounts in your organization. You only see this option if you are signed in to the console with an IAM user or role in the management account. To successfully create an organization trail, be sure that the user or role has sufficient permissions. For more   information, see Creating a trail for an organization.
 
-1. For **Apply trail to all regions**, choose **Yes** to receive log files from all Regions\. This is the default and recommended setting\. If you choose **No**, the trail logs files only from the Region in which you create the trail\.
+5. For Storage location, choose Create new S3 bucket to create a bucket. When you create a bucket, CloudTrail creates and applies the required bucket policies.
 
-1. For **Management events**, do the following\.
+6. For Log file SSE-KMS encryption, choose Enabled if you want to encrypt your log files with SSE-KMS instead of SSE-S3. The default is Enabled. For more information about this encryption type, see Protecting Data Using Server-Side Encryption with Amazon S3-Managed Encryption Keys (SSE-S3).
 
-   1. For **Read/Write events**, choose if you want your trail to log **All**, **Read\-only**, **Write\-only**, or **None**, and then choose **Save**\. By default, trails log all management events\. 
-
-   1. For **Log AWS KMS events**, choose **Yes** to log AWS Key Management Service \(AWS KMS\) events in your trail\. Choose **No** to filter AWS KMS events out of your trail\. The default setting is **Yes**\.
-
-1. In **Insights events**, for **Log Insights events**, choose **Yes** if you want your trail to log Insights events\. By default, trails don't log Insights events\.  Additional charges apply for logging Insights events\. For CloudTrail pricing, see [AWS CloudTrail Pricing](https://aws.amazon.com/cloudtrail/pricing/)\.
-
-   Insights events are delivered to a different folder named `/CloudTrail-Insight`of the same S3 bucket that is specified in the **Storage location** area of the trail details page\. CloudTrail creates the new prefix for you\. For example, if your current destination S3 bucket is named `S3bucketName/AWSLogs/CloudTrail/`, the S3 bucket name with a new prefix is named `S3bucketName/AWSLogs/CloudTrail-Insight/`\.
-
-1. For **Data events**, you can specify logging data events for Amazon S3 buckets, for AWS Lambda functions, or both\. By default, trails don't log data events\. Additional charges apply for logging data events\. For CloudTrail pricing, see [AWS CloudTrail Pricing](https://aws.amazon.com/cloudtrail/pricing/)\.
-
-   You can select the option to log all S3 buckets and Lambda functions, or you can specify individual buckets or functions\. 
-
-   For Amazon S3 buckets:
-   + Choose the **S3** tab\.
-   + To specify a bucket, choose **Add S3 bucket**\. Type the S3 bucket name and prefix \(optional\) for which you want to log data events\. For each bucket, specify whether you want to log **Read** events, such as `GetObject`, **Write** events, such as `PutObject`, or both\. 
-   + To log data events for all S3 buckets in your AWS account, select **Select all S3 buckets in your account**\. Then choose whether you want to log **Read** events, such as `GetObject`, **Write** events, such as `PutObject`, or both\. This setting takes precedence over individual settings you configure for individual buckets\. For example, if you specify logging **Read** events for all S3 buckets, and then choose to add a specific bucket for data event logging, **Read** is already selected for the bucket you added\. You cannot clear the selection\. You can only configure the option for **Write**\. 
-**Note**  
-Selecting the **Select all S3 buckets in your account** option enables data event logging for all buckets currently in your AWS account and any buckets you create after you finish creating the trail\. It also enables logging of data event activity performed by any user or role in your AWS account, even if that activity is performed on a bucket that belongs to another AWS account\.  
-If the trail applies only to one Region, selecting the **Select all S3 buckets in your account** option enables data event logging for all buckets in the same Region as your trail and any buckets you create later in that Region\. It will not log data events for Amazon S3 buckets in other Regions in your AWS account\.
-
-   For Lambda functions:
-   + Choose the **Lambda** tab\.
-   + To specify logging individual functions, select them from the list\. 
-**Note**  
-If you have more than 15,000 Lambda functions in your account, you cannot view or select all functions in the CloudTrail console when creating a trail\. You can still select the option to log all functions, even if they are not displayed\. If you want to log data events for specific functions, you can manually add a function if you know its ARN\. You can also finish creating the trail in the console, and then use the AWS CLI and the put\-event\-selectors command to configure data event logging for specific Lambda functions\. 
-
-   + To log data events for all Lambda functions in your AWS account, select **Log all current and future functions**\. This setting takes precedence over individual settings you configure for individual functions\. All functions are logged, even if all functions are not displayed\.
-**Note**  
-If you are creating a trail for all Regions, this selection enables data event logging for all functions currently in your AWS account, and any Lambda functions you might create in any Region after you finish creating the trail\. If you are creating a trail for a single Region, this selection enables data event logging for all functions currently in that Region in your AWS account, and any Lambda functions you might create in that Region after you finish creating the trail\. It does not enable data event logging for Lambda functions created in other Regions\.  
-Logging data events for all functions also enables logging of data event activity performed by any user or role in your AWS account, even if that activity is performed on a function that belongs to another AWS account\.
-
-1. For **Storage location**, for **Create a new S3 bucket**, choose **Yes** to create a bucket\. When you create a bucket, CloudTrail creates and applies the required bucket policies\.
-**Note**  
-If you chose **No**, choose an existing S3 bucket\. The bucket policy must grant CloudTrail permission to write to it\. 
-
-1. For **S3 bucket**, type a name for the bucket you want to designate for log file storage\. The name must be globally unique\. 
-
-1. For **Tags**, add one or more custom tags \(key\-value pairs\) to your trail\. Tags can help you identify both your CloudTrail trails and the Amazon S3 buckets that contain CloudTrail log files\. You can then use resource groups for your CloudTrail resources\. For more information, see [AWS Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/welcome.html) 
-
-1. To configure advanced settings, see [Configuring Advanced Settings for Your Trail](#advanced-settings-for-your-trail)\. Otherwise, choose **Create**\.
-
-1. The new trail appears on the **Trails** page\. The **Trails** page shows the trails in your account from all Regions\. In about 15 minutes, CloudTrail publishes log files that show the AWS API calls made in your account\. You can see the log files in the S3 bucket that you specified\. It can take up to 36 hours for CloudTrail to deliver the first Insights event, if you have enabled Insights event logging, and unusual activity is detected\.
-
-**Note**  
-You can't rename a trail after it has been created\. Instead, you can delete the trail and create a new one\.
+   If you enable SSE-KMS encryption, choose a New or Existing AWS KMS key. In AWS KMS Alias, specify an alias, in the format alias/MyAliasName. For more information, see Updating a trail to use your KMS key. CloudTrail also supports AWS KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the AWS Key Management Service Developer Guide.
 
 
 
 ## 8. Enable VPC Flow Logs for ECS Cluster VPC EC2 Launch Types Only
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -627,39 +568,7 @@ Capital Group:
 **Why?**
 You need to use VPC Flow Logs in order send all the logs from Fargate and EC2 Instance type to centralized logging location. These logs are used but the CG Security Engineering Teams to detect malicious activity and threat detection.
 
-### Working with flow logs
-
-You can work with flow logs using the Amazon EC2, Amazon VPC, CloudWatch, and Amazon S3 consoles\.
-
-**Topics**
-+ [Controlling the use of flow logs](#controlling-use-of-flow-logs)
-+ [Creating a flow log](#create-flow-log)
-
-
-### Controlling the use of flow logs
-
-By default, IAM users do not have permission to work with flow logs\. You can create an IAM user policy that grants users the permissions to create, describe, and delete flow logs\. For more information, see [Granting IAM Users Required Permissions for Amazon EC2 Resources](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ec2-api-permissions.html) in the *Amazon EC2 API Reference*\.
-
-The following is an example policy that grants users full permissions to create, describe, and delete flow logs\.
-
-```
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "ec2:DeleteFlowLogs",
-        "ec2:CreateFlowLogs",
-        "ec2:DescribeFlowLogs"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-```
-
-Some additional IAM role and permission configuration is required, depending on whether you're publishing to CloudWatch Logs or Amazon S3\.
+**How?**
 
 ### Creating a flow log
 
@@ -669,6 +578,7 @@ For more information, see [Creating a flow log that publishes to CloudWatch Logs
 
 
 ## 9. Scan images for Vulnerabilities
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -684,6 +594,7 @@ All the Teams running ECS Clusters should have a Twistlock agent running in the 
 
 
 ## 10. Remove special permissions from images
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -708,6 +619,7 @@ RUN find / -xdev -perm /6000 -type f -exec chmod a-s {} \; || true
 
 
 ## 11. Run containers as non-root users
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -725,6 +637,7 @@ As part of your CI/CD pipeline you should lint Dockerfiles to look for the USER 
 
 
 ## 12. Use a read-only root file system
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -736,6 +649,7 @@ You should use a read-only root file system. A container's root file system is w
 
 
 ## 13. ECS data in transit must enforce TLS with version 1.2 or higher
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -751,6 +665,7 @@ With Amazon ECS, network encryption can be implemented in any of the following w
 
 
 ## 14. Make sure ECS Task network interface does not have public IP address
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
@@ -758,7 +673,8 @@ Capital Group:
 
 **Why?**
 
-## 15. Use always Fargate launch type in ECS Cluster
+## 15. Use always Fargate launch type in ECS Cluster with version 1.4 and above
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
