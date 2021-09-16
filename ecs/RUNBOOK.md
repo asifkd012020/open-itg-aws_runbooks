@@ -242,40 +242,75 @@ To create an interface endpoint, you must specify the VPC in which to create the
 
 For non sensitive information use Parameter Store for environmental variables. The advantge of using Parameter store is decoupling the environmental variables from task definitions. Environment variables can be updated without touching the task definition. When specifying sensitive information make sure to encrypt the key and value pair. 
 
-### Amazon EC2 Systems Manager Parameter Store
-
 Parameter Store is a feature of Amazon EC2 Systems Manager. It provides a centralized, encrypted store for sensitive information and has many advantages when combined with other capabilities of Systems Manager, such as Run Command and State Manager. The service is fully managed, highly available, and highly secured.
 Because Parameter Store is accessible using the Systems Manager API, AWS CLI, and AWS SDKs, you can also use it as a generic secret management store. Secrets can be easily rotated and revoked. Parameter Store is integrated with AWS KMS so that specific parameters can be encrypted at rest with the default or custom KMS key. Importing KMS keys enables you to use your own keys to encrypt sensitive data.
 
 
 **How?**
 
-Access to Parameter Store is enabled by IAM policies and supports resource level permissions for access. An IAM policy that grants permissions to specific parameters or a namespace can be used to limit access to these parameters. CloudTrail logs, if enabled for the service, record any attempt to access a parameter.
+Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Systems Manager Parameter Store parameters and then referencing them in your container definition.
 
-### IAM roles for tasks
+### Pre requisites for specifying sensitive data Using Systems Manager Parameter Store
 
-With IAM roles for Amazon ECS tasks, you can specify an IAM role to be used by the containers in a task. Applications interacting with AWS services must sign their API requests with AWS credentials. This feature provides a strategy for managing credentials for your applications to use, similar to the way that Amazon EC2 instance profiles provide credentials to EC2 instances.
+The following should be considered when specifying sensitive data for containers using Systems Manager Parameter Store parameters.
 
-Instead of creating and distributing your AWS credentials to the containers or using the EC2 instance role, you can associate an IAM role with an ECS task definition or the RunTask API operation. 
-You can use IAM roles for tasks to securely introduce and authenticate the application or container with the centralized Parameter Store. Access to the secret manager should include features such as:
+  + For tasks that use the Fargate launch type, this feature requires that your task use platform version 1.3.0 or later.
 
-   + Limited TTL for credentials used
-   + Granular authorization policies
-   + An ID to track the requests in the logs of the central secret manager
-   + Integration support with the scheduler that could map between the container or task deployed and the relevant access privileges
+  + Sensitive data is injected into your container when the container is initially started. If the secret or Parameter Store parameter is subsequently updated or rotated, the container will not receive the updated value automatically. You must either launch a new task or if your task is part of a service you can update the service and use the Force new deployment option to force the service to launch a fresh task.
 
-IAM roles for tasks support this use case well, as the role credentials can be accessed only from within the container for which the role is defined. The role exposes temporary credentials and these are rotated automatically. Granular IAM policies are supported with optional conditions about source instances, source IP addresses, time of day, and other options.
+### Required IAM Permissions for Amazon ECS Secrets
 
-The source IAM role can be identified in the CloudTrail logs based on a unique Amazon Resource Name and the access permissions can be revoked immediately at any time with the IAM API or console. As Parameter Store supports resource level permissions, a policy can be created to restrict access to specific keys and namespaces.
+To provide access to the AWS Systems Manager Parameter Store parameters that you create, manually add the following permissions as an inline policy to the task execution role. For more information, see Adding and Removing IAM Policies.
 
-### Dynamic environment association
++ ssm:GetParameters—Required if you are referencing a Systems Manager Parameter Store parameter in a task definition.
 
-In many cases, the container image does not change when moving between environments, which supports immutable deployments and ensures that the results are reproducible. What does change is the configuration: in this context, specifically the secrets. For example, a database and its password might be different in the staging and production environments. There’s still the question of how do you point the application to retrieve the correct secret? Should it retrieve prod.app1.secret, test.app1.secret or something else?
++ secretsmanager:GetSecretValue—Required if you are referencing a Secrets Manager secret either directly or if your Systems Manager Parameter Store parameter is referencing a Secrets Manager secret in a task definition.
 
-One option can be to pass the environment type as an environment variable to the container. The application then concatenates the environment type (prod, test, etc.) with the relative key path and retrieves the relevant secret. In most cases, this leads to a number of separate ECS task definitions.
++ kms:Decrypt—Required only if your secret uses a custom KMS key and not the default key. The ARN for your custom key should be added as a resource.
 
-When you describe the task definition in a CloudFormation template, you could base the entry in the IAM role that provides access to Parameter Store, KMS key, and environment property on a single CloudFormation parameter, such as “environment type.” This approach could support a single task definition type that is based on a generic CloudFormation template.
+The following example inline policy adds the required permissions:
 
+```
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "ssm:GetParameters",
+          "secretsmanager:GetSecretValue",
+          "kms:Decrypt"
+        ],
+        "Resource": [
+          "arn:aws:ssm:<region>:<aws_account_id>:parameter/<parameter_name>",
+          "arn:aws:secretsmanager:<region>:<aws_account_id>:secret:<secret_name>",
+          "arn:aws:kms:<region>:<aws_account_id>:key/<key_id>"
+        ]
+      }
+    ]
+  }
+```  
+
+### Injecting sensitive data as an environment variable
+
+Within your container definition, specify secrets with the name of the environment variable to set in the container and the full ARN of the Systems Manager Parameter Store parameter containing the sensitive data to present to the container.
+
+The following is a snippet of a task definition showing the format when referencing a Systems Manager Parameter Store parameter. If the Systems Manager Parameter Store parameter exists in the same Region as the task you are launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified.
+
+```
+  {
+    "containerDefinitions": [{
+      "secrets": [{
+        "name": "environment_variable_name",
+        "valueFrom": "arn:aws:ssm:region:aws_account_id:parameter/parameter_name"
+      }]
+    }]
+  }
+```  
+
+
+
+To use this feature, you must have the Amazon ECS task execution role and reference it in your task definition. This allows the container agent to pull the necessary AWS Systems Manager resources
 
 ## 5. Using AWS Secrets Manager for referencing sensitive data
 
@@ -292,7 +327,7 @@ Amazon ECS enables you to inject sensitive data into your containers by storing 
 
 **How?**
 
-### Prerequisites for Specifying Sensitive Data Using Secrets Manager
+### Pre requisites for specifying sensitive data using Secrets Manager
 
 The following should be considered when using Secrets Manager to specify sensitive data for containers.
 
@@ -301,15 +336,6 @@ The following should be considered when using Secrets Manager to specify sensiti
      + To inject the full content of a secret as an environment variable or in a log configuration, you must use platform version 1.3.0 or later. For information, see AWS Fargate Platform Versions.
 
   +  Sensitive data is injected into your container when the container is initially started. If the secret is subsequently updated or rotated, the container will not receive the updated value automatically. You must either launch a new task or if your task is part of a service you can update the service and use the Force new deployment option to force the service to launch a fresh task.
-
-  + For Windows tasks that are configured to use the awslogs logging driver, you must also set the ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE environment variable on your container instance. This can be done with User Data using the following syntax:
-```
-    <powershell>
-    [Environment]::SetEnvironmentVariable("ECS_ENABLE_AWSLOGS_EXECUTIONROLE_OVERRIDE", $TRUE, "Machine")
-    Initialize-ECSAgent -Cluster <cluster name> -EnableTaskIAMRole -LoggingDrivers '["json-file","awslogs"]'
-    </powershell>
-```
-
 
 ### Required IAM Permissions for Amazon ECS Secrets
 
