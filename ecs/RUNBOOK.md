@@ -162,7 +162,22 @@ You can use your ECR images with Amazon ECS, but you need to satisfy the followi
 
   If you use the `AmazonEC2ContainerServiceforEC2Role` managed policy for your container instances, then your role has the proper permissions\. To check that your role supports Amazon ECR, see [Amazon ECS Container Instance IAM Role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html) in the *Amazon Elastic Container Service Developer Guide*\.
 + In your ECS task definitions, make sure that you are using the full `registry/repository:tag` naming for your ECR images\. For example, `aws_account_id.dkr.ecr.region.amazonaws.com``/my-web-app:latest`\.
+  The following task definition snippet shows the syntax you would use to specify a container image hosted in Amazon ECR in your Amazon ECS task definition.
 
+```
+  {
+      "family": "task-definition-name",
+      ...
+      "containerDefinitions": [
+          {
+              "name": "container-name",
+              "image": "aws_account_id.dkr.ecr.region.amazonaws.com/my-repository:latest",
+              ...
+          }
+      ],
+      ...
+  }
+```
 
 ## 3. Configuring VPC Endpoints for ECS 
 
@@ -181,7 +196,9 @@ You can improve the security posture of your VPC by configuring Amazon ECS to us
 
 You're not required to configure PrivateLink, but we recommend it\. For more information about PrivateLink and VPC endpoints, see [Accessing Services Through AWS PrivateLink](https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html#what-is-privatelink)\.
 
-### Considerations for Amazon ECS VPC Endpoints
+**How?**
+
+### Pre requisites for Amazon ECS VPC Endpoints
 
 Before you set up interface VPC endpoints for Amazon ECS, be aware of the following considerations:
 + Tasks using the Fargate launch type don't require the interface VPC endpoints for Amazon ECS, but you might need interface VPC endpoints for Amazon ECR or Amazon CloudWatch Logs described in the following points\.
@@ -194,8 +211,6 @@ If you configure Amazon ECR to use an interface VPC endpoint, you can create a t
 + VPC endpoints only support Amazon\-provided DNS through Amazon Route 53\. If you want to use your own DNS, you can use conditional DNS forwarding\. For more information, see [DHCP Options Sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the *Amazon VPC User Guide*\.
 + The security group attached to the VPC endpoint must allow incoming connections on port 443 from the private subnet of the VPC\.
 + Controlling access to Amazon ECS by attaching an endpoint policy to the VPC endpoint isn't currently supported\. By default, full access to the service will be allowed through the endpoint\. For more information, see [Controlling Access to Services with VPC Endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html) in the *Amazon VPC User Guide*\.
-
-**How?**
 
 ### Creating the VPC Endpoints for Amazon ECS
 
@@ -210,13 +225,13 @@ To create an interface endpoint, you must specify the VPC in which to create the
 
 1. Open the Amazon VPC console at [https://console\.aws\.amazon\.com/vpc/](https://console.aws.amazon.com/vpc/)\.
 
-1. In the navigation pane, choose **Endpoints**, **Create Endpoint**\.
+2. In the navigation pane, choose **Endpoints**, **Create Endpoint**\.
 
-1. For **Service category**, ensure that **AWS services** is selected\.
+3. For **Service category**, ensure that **AWS services** is selected\.
 
-1. For **Service Name**, choose the service to which to connect\. For **Type**, ensure that it indicates **Interface**\.
+4. For **Service Name**, choose the service to which to connect\. For **Type**, ensure that it indicates **Interface**\.
 
-1. Complete the following information and then choose **Create endpoint**\.
+5. Complete the following information and then choose **Create endpoint**\.
    + For **VPC**, select a VPC in which to create the endpoint\.
    + For **Subnets**, select the subnets \(Availability Zones\) in which to create the endpoint network interfaces\.
 
@@ -422,7 +437,6 @@ Reference a specific key from the previous output in a container definition by s
   }]
 }
 ```
-
 
 ## 6. Using the awslogs Log Driver
 
