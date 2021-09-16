@@ -443,27 +443,11 @@ You need need use awslogs log driver in order send all the logs from Fargae and 
 
 **How?**
 
-You can configure the containers in your tasks to send log information to CloudWatch Logs\. If you are using the Fargate launch type for your tasks, this allows you to view the logs from your containers\. If you are using the EC2 launch type, this enables you to view different logs from your containers in one convenient location, and it prevents your container logs from taking up disk space on your container instances\. This topic helps you get started using the `awslogs` log driver in your task definitions\.
-
-**Note**  
-The type of information that is logged by the containers in your task depends mostly on their `ENTRYPOINT` command\. By default, the logs that are captured show the command output that you would normally see in an interactive terminal if you ran the container locally, which are the `STDOUT` and `STDERR` I/O streams\. The `awslogs` log driver simply passes these logs from Docker to CloudWatch Logs\. For more information on how Docker logs are processed, including alternative ways to capture different file data or streams, see [View logs for a container or service](https://docs.docker.com/config/containers/logging/) in the Docker documentation\.
-
-For more information about CloudWatch Logs, see [Monitoring Log Files](https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatchLogs.html) in the *Amazon CloudWatch User Guide*\.
+You can configure the containers in your tasks to send log information to CloudWatch Logs\. If you are using the Fargate launch type for your tasks, this allows you to view the logs from your containers\. 
 
 ### Enabling the awslogs Log Driver for Your Containers
 
 If you are using the Fargate launch type for your tasks, all you need to do to enable the `awslogs` log driver is add the required `logConfiguration` parameters to your task definition\.
-
-If you are using the EC2 launch type for your tasks and want to enable the `awslogs` log driver, your Amazon ECS container instances require at least version 1\.9\.0 of the container agent\. 
-
-**Note**  
-If you are not using the Amazon ECS\-optimized AMI \(with at least version 1\.9\.0\-1 of the `ecs-init` package\) for your container instances, you also need to specify that the `awslogs` logging driver is available on the container instance when you start the agent by using the following environment variable in your docker run statement or environment variable file\.  
-
-```
-ECS_AVAILABLE_LOGGING_DRIVERS='["json-file","awslogs"]'
-```
-
-Your Amazon ECS container instances also require `logs:CreateLogStream` and `logs:PutLogEvents` permission on the IAM role with which you launch your container instances\. If you created your Amazon ECS container instance role before `awslogs` log driver support was enabled in Amazon ECS, then you might need to add this permission\. If your container instances use the managed IAM policy for container instances, then your container instances should have the correct permissions\. 
 
 ### Creating a Log Group
 
@@ -485,49 +469,6 @@ When registering a task definition in the Amazon ECS console, you have the optio
 5. In the **Storage and Logging** section, for **Log configuration**, choose **Auto\-configure CloudWatch Logs**\.
 6. Enter your awslogs log driver options\. For more information, see [Specifying a Log Configuration in your Task Definition](#specify-log-config)\.
 7. Complete the rest of the task definition wizard\.
-
-### Available awslogs Log Driver Options
-
-The `awslogs` log driver supports the following options in Amazon ECS task definitions\. For more information, see [CloudWatch Logs logging driver](https://docs.docker.com/config/containers/logging/awslogs/)\.
-
-`awslogs-create-group`  
-Required: No  
-Specify whether you want the log group automatically created\. If this option is not specified, it defaults to `false`\.  
-Your IAM policy must include the `logs:CreateLogGroup` permission before you attempt to use `awslogs-create-group`\.
-
-`awslogs-region`  
-Required: Yes  
-Specify the region to which the `awslogs` log driver should send your Docker logs\. You can choose to send all of your logs from clusters in different regions to a single region in CloudWatch Logs so that they are all visible in one location, or you can separate them by region for more granularity\. Be sure that the specified log group exists in the region that you specify with this option\.
-
-`awslogs-group`  
-Required: Yes  
-You must specify a log group to which the `awslogs` log driver sends its log streams\. For more information, see [Creating a Log Group](#create_awslogs_loggroups)\.
-
-`awslogs-stream-prefix`  
-Required: Optional for the EC2 launch type, required for the Fargate launch type\.  
-The `awslogs-stream-prefix` option allows you to associate a log stream with the specified prefix, the container name, and the ID of the Amazon ECS task to which the container belongs\. If you specify a prefix with this option, then the log stream takes the following format:  
-
-```
-prefix-name/container-name/ecs-task-id
-```
-If you do not specify a prefix with this option, then the log stream is named after the container ID that is assigned by the Docker daemon on the container instance\. Because it is difficult to trace logs back to the container that sent them with just the Docker container ID \(which is only available on the container instance\), we recommend that you specify a prefix with this option\.  
-For Amazon ECS services, you could use the service name as the prefix, which would allow you to trace log streams to the service that the container belongs to, the name of the container that sent them, and the ID of the task to which the container belongs\.  
-You must specify a stream\-prefix for your logs in order to have your logs appear in the Log pane when using the Amazon ECS console\.
-
-`awslogs-datetime-format`  
-Required: No  
-This option defines a multiline start pattern in Python `strftime` format\. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern\. Thus the matched line is the delimiter between log messages\.  
-One example of a use case for using this format is for parsing output such as a stack dump, which might otherwise be logged in multiple entries\. The correct pattern allows it to be captured in a single entry\.  
-For more information, see [awslogs\-datetime\-format](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-datetime-format)\.  
-This option always takes precedence if both `awslogs-datetime-format` and `awslogs-multiline-pattern` are configured\.  
-Multiline logging performs regular expression parsing and matching of all log messages, which may have a negative impact on logging performance\.
-
-`awslogs-multiline-pattern`  
-Required: No  
-This option defines a multiline start pattern using a regular expression\. A log message consists of a line that matches the pattern and any following lines that don’t match the pattern\. Thus the matched line is the delimiter between log messages\.  
-For more information, see [awslogs\-multiline\-pattern](https://docs.docker.com/config/containers/logging/awslogs/#awslogs-multiline-pattern)\.  
-This option is ignored if `awslogs-datetime-format` is also configured\.  
-Multiline logging performs regular expression parsing and matching of all log messages\. This may have a negative impact on logging performance\.
 
 ### Specifying a Log Configuration in your Task Definition
 
