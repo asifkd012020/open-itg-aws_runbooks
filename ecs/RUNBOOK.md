@@ -242,10 +242,6 @@ To create an interface endpoint, you must specify the VPC in which to create the
 
 For non sensitive information use Parameter Store for environmental variables. The advantge of using Parameter store is decoupling the environmental variables from task definitions. Environment variables can be updated without touching the task definition. When specifying sensitive information make sure to encrypt the key and value pair. 
 
-Parameter Store is a feature of Amazon EC2 Systems Manager. It provides a centralized, encrypted store for sensitive information and has many advantages when combined with other capabilities of Systems Manager, such as Run Command and State Manager. The service is fully managed, highly available, and highly secured.
-Because Parameter Store is accessible using the Systems Manager API, AWS CLI, and AWS SDKs, you can also use it as a generic secret management store. Secrets can be easily rotated and revoked. Parameter Store is integrated with AWS KMS so that specific parameters can be encrypted at rest with the default or custom KMS key. Importing KMS keys enables you to use your own keys to encrypt sensitive data.
-
-
 **How?**
 
 Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Systems Manager Parameter Store parameters and then referencing them in your container definition.
@@ -289,7 +285,8 @@ The following example inline policy adds the required permissions:
       }
     ]
   }
-```  
+```
+To use this feature, you must have the Amazon ECS task execution role and reference it in your task definition. This allows the container agent to pull the necessary AWS Systems Manager resources  
 
 ### Injecting sensitive data as an environment variable
 
@@ -307,10 +304,6 @@ The following is a snippet of a task definition showing the format when referenc
     }]
   }
 ```  
-
-
-
-To use this feature, you must have the Amazon ECS task execution role and reference it in your task definition. This allows the container agent to pull the necessary AWS Systems Manager resources
 
 ## 5. Using AWS Secrets Manager for referencing sensitive data
 
@@ -432,6 +425,7 @@ Reference a specific key from the previous output in a container definition by s
 
 
 ## 6. Using the awslogs Log Driver
+
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
