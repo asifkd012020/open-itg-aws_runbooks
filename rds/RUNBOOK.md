@@ -15,13 +15,14 @@ Security Engineering
 - [Cloud Security Requirements](#cloud-security-requirements)
   - [1. RDS Utilizes VPC Endpoints to Prevent Public Access](#1-rds-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [2. RDS has Instance Public Accessibility turned off](#2-rds-has-nstance-public-accessibility-turned-off)
-  - [2. RDS data are Encrypted at rest using CG CMK](#2-rds-data-are-encrypted-at-rest-using-cg-cmk)
-  - [3. RDS snapshots are Encrypted at rest using CG CMK](#3-rds-snapshots-are-encrypted-at-rest-using-cg-cmk)
-  - [4. RDS connections are Encrypted in transit using TLS 1.2](#4-rds-connections-are-encrypted-in-transit-using-tls-1-2)
-  - [5. RDS has appropriate access controls to enforce least privilege](#5-RDS-has-appropriate-access-controls-to-enforce-least-privilege)
-  - [6. RDS instances are configured for high-availability](#6-rds-instances-are-configured-for-high-availability)
-  - [7. RDS database secrets are vaulted for automatic rotation](#7-rds-database-secrets-are-vaulted-for-automatic-rotation)
-  - [8. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS](#8-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds)
+  - [3. RDS snapshots are never shared Publicly](#3-rds-snapshots-are-never-shared-publicly)
+  - [4. RDS data are Encrypted at rest using CG CMK](#4-rds-data-are-encrypted-at-rest-using-cg-cmk)
+  - [5. RDS snapshots are Encrypted at rest using CG CMK](#5-rds-snapshots-are-encrypted-at-rest-using-cg-cmk)
+  - [6. RDS connections are Encrypted in transit using TLS 1.2](#6-rds-connections-are-encrypted-in-transit-using-tls-1-2)
+  - [7. RDS has appropriate access controls to enforce least privilege](#7-RDS-has-appropriate-access-controls-to-enforce-least-privilege)
+  - [8. RDS instances are configured for high-availability](#8-rds-instances-are-configured-for-high-availability)
+  - [9. RDS database secrets are vaulted for automatic rotation](#9-rds-database-secrets-are-vaulted-for-automatic-rotation)
+  - [10. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS](#10-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds)
 - [Operational Best Practices](#operational-best-practices)
   - [1. Monitor RDS DB instances status](#1-monitor-rds-db-instances-status)
   - [2. Log Amazon RDS API calls](#2-log-amazon-rds-api-calls)
@@ -101,10 +102,33 @@ To designate whether the DB instance that you create has a DNS name that resolve
 Security groups should be utilized to control which IP addresses or Amazon EC2 instances can connect to the databases on an RDS DB instance. When you first create a DB instance, its firewall prevents any database access except through rules specified by an associated security group. For further information on how to correctly deploy security groups, please read the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md).
 
 
+### 3. RDS snapshots are never shared Publicly
+RDS as a service currently supports publically sharing database snapshots, this option can be turned off and as such allows the service to meet CG's stringent Public Access control requirements.
+<br>
 
+**Capital Group Controls:** 
+<br>
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
 
+**What, Why & How?**<br>
+As mentioned previously, CG has stringent public accessibility standards when it comes to deploying services in the cloud and as such database snapshots should never be made publicaly accessible or shared outside of CG. If a malicious actor was to have access to a snapshot, they would be able to restore a database from this snapshot and see all the data contained within. Athough this could be mitigated with the encryption of the snapshot, at CG we layer our controls and public access is our first mitigating control in all cases.
 
+To determine if a database snapshot was been publically, and subsequently remove the public access the steps below should be followed.
 
+**Viewing Public Snapshots**<br>
+You can use the following AWS CLI command (Unix only) to view the public snapshots owned by your AWS account in a particular AWS Region.
+
+```
+aws rds describe-db-snapshots --snapshot-type public --include-public | grep account_number
+```
+The output returned is similar to the following example if you have public snapshots.
+```
+"DBSnapshotArn": "arn:aws:rds:us-east-1:123456789012:snapshot:MySharedSnapshot1",
+"DBSnapshotArn": "arn:aws:rds:us-east-1:123456789012:snapshot:MySharedSnapshot2",
+```
+<br>
 
 ### 5. Implement access controls to enforce least privilege
 
@@ -1961,7 +1985,7 @@ The following is an example of a DB snapshot event\.
 ## Endnotes
 **Resources**<br>
 1. [Encryption of RDS Snapshots](https://aws.amazon.com/premiumsupport/knowledge-center/encrypt-rds-snapshots/)
-2. 
+2. [Sharing of RDS Snapshots](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_ShareSnapshot.html)
 <br><br>
 
 ## Capital Group Glossory 
