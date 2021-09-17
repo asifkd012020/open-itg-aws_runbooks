@@ -118,7 +118,7 @@ As mentioned previously, CG has stringent public accessibility standards when it
 To determine if a database snapshot was been publically, and subsequently remove the public access the steps below should be followed.
 
 **Making Snapshot Private**<br>
-When creating a snapshot, one should always choose the `Private` option under the Snapshot Permissions tab.
+When creating a snapshot, one should always choose the `Private` option under the Snapshot Permissions tab. This can be seen in the screenshot below:
 <img src="/docs/img/rds/snap_perms.png" width="600">
 <br>
 
