@@ -100,7 +100,7 @@ As mentioned previously, CG has stringent public accessibility standards when it
 To designate whether the DB instance that you create has a DNS name that resolves to a public IP address, you use the `Public accessibility` parameter. By using this parameter, you can designate whether there is public access to the DB instance. You can modify a DB instance to turn on or off public accessibility by modifying the `Public accessibility` parameter within the `Network & Security` section of the configuration.
 
 Security groups should be utilized to control which IP addresses or Amazon EC2 instances can connect to the databases on an RDS DB instance. When you first create a DB instance, its firewall prevents any database access except through rules specified by an associated security group. For further information on how to correctly deploy security groups, please read the [VPC Runbook](https://github.com/open-itg/aws_runbooks/blob/master/vpc/RUNBOOK.md).
-
+<br><br>
 
 ### 3. RDS snapshots are never shared Publicly
 RDS as a service currently supports publically sharing database snapshots, this option can be turned off and as such allows the service to meet CG's stringent Public Access control requirements.
@@ -117,13 +117,13 @@ As mentioned previously, CG has stringent public accessibility standards when it
 
 To determine if a database snapshot was been publically, and subsequently remove the public access the steps below should be followed.
 
-**Making Snapshot Private**<br>
+**Making a Snapshot Private**<br>
 When creating a snapshot, one should always choose the `Private` option under the Snapshot Permissions tab. This can be seen in the screenshot below:<br>
 
 <img src="/docs/img/rds/snap_perms.png" width="500">
 <br>
 
-**Viewing Public Snapshots**<br>
+**Checking for Public Snapshots**<br>
 You can use the following AWS CLI command (Unix only) to view the public snapshots owned by your AWS account in a particular AWS Region. Any snapshots seen in the output should be either made private or deleted as soon as possible.
 
 ```
