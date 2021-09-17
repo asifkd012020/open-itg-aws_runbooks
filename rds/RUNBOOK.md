@@ -119,11 +119,12 @@ To determine if a database snapshot was been publically, and subsequently remove
 
 **Making Snapshot Private**<br>
 When creating a snapshot, one should always choose the `Private` option under the Snapshot Permissions tab. This can be seen in the screenshot below:<br>
+
 <img src="/docs/img/rds/snap_perms.png" width="500">
 <br>
 
 **Viewing Public Snapshots**<br>
-You can use the following AWS CLI command (Unix only) to view the public snapshots owned by your AWS account in a particular AWS Region.
+You can use the following AWS CLI command (Unix only) to view the public snapshots owned by your AWS account in a particular AWS Region. Any snapshots seen in the output should be either made private or deleted as soon as possible.
 
 ```
 aws rds describe-db-snapshots --snapshot-type public --include-public | grep account_number
@@ -135,7 +136,7 @@ The output returned is similar to the following example if you have public snaps
 ```
 <br>
 
-### 5. Implement access controls to enforce least privilege
+### 4. RDS data are Encrypted at rest using CG CMK
 
 **Capital Group Controls:**<br>
 
@@ -144,51 +145,22 @@ The output returned is similar to the following example if you have public snaps
 |Control ID |Control Description|
 
 **Why?**<br>
-When you create custom policies, grant only the permissions required to perform a task. Start with a minimum set of permissions and grant additional permissions as necessary. Doing so is more secure than starting with permissions that are too lenient and then trying to tighten them later.  
-To the extent that it's practical, define the conditions under which your identity-based policies allow access to a resource. For example, you can write conditions to specify a range of allowable IP addresses that a request must come from. You can also write conditions to allow requests only within a specified date or time range, or to require the use of SSL or MFA.
+Amazon RDS encrypted DB instances provide an additional layer of data protection by securing your data from unauthorized access to the underlying storage. You can use Amazon RDS encryption to increase data protection of your applications deployed in the cloud, and to fulfill compliance requirements for data-at-rest encryption.  
+For an Amazon RDS encrypted DB instance, all logs, backups, and snapshots are encrypted. A read replica of an Amazon RDS encrypted instance is also encrypted using the same key as the master instance when both are in the same AWS Region. If the master and read replica are in different AWS Regions, you encrypt using the encryption key for that AWS Region. 
 
 **How?**<br>
-RDS is fully integrated with AWS IAM for authentication and access control. Use IAM to create IAM users, groups and roles with appropriate permissions, and then add users to appropriate groups and roles. Use Multifactor Authentication for extra security (especially for users with administrative privileges).  
-Use AWS Identity and Access Management (IAM) policies to assign permissions that determine who is allowed to manage Amazon RDS resources. For example, you can use IAM to determine who is allowed to create, describe, modify, and delete DB instances, tag resources, or modify security groups.
+For all CG RDS encrypted DB instances are to be encrypted with a CG managed KMS key. A read replica of a CG RDS encrypted instance is also encrypted using the same key as the master instance when both are in the same AWS Region. If the master and read replica are in different AWS Regions, you will encrypt using the encryption key for that AWS Region.
 
-The following example policy allows a principal to perform specific actions in RDS, but only on resources tagged as "development" or "test":
-```json
-{
-   "Version":"2012-10-17",
-   "Statement":[
-      {
-         "Sid":"AllowDevTestCreate",
-         "Effect":"Allow",
-         "Action":[
-            "rds:ModifyDBInstance",
-            "rds:CreateDBSnapshot"
-         ],
-         "Resource":"*",
-         "Condition":{
-            "StringEquals":{
-               "rds:db-tag/stage":[
-                  "development",
-                  "test"
-               ]
-            }
-         }
-      }
-   ]
-}
-```
-#### IAM Database Authentication <!-- omit in toc -->
-You can authenticate to your DB instance using AWS IAM database authentication. IAM database authentication works with MySQL and PostgreSQL. With this authentication method, you don't need to use a password when you connect to a DB instance. Instead, you use an authentication token.  
-The following AWS CLI command can be used to enable IAM authentication on an existing RDS database:
-```
-aws rds modify-db-instance \
-    --db-instance-identifier mydbinstance \
-    --apply-immediately \
-    --enable-iam-database-authentication
-```
+**In the Console:**  
+To enable encryption for a new DB instance:
+- Choose `Enable encryption` on the Amazon RDS console while creating the instance. 
+- Make sure to select an appropriate `CG KMS Key` to use for encryption of the instance. By default all CG accounts will have a dedicated KMS key provisioned for use with RDS.
 
-For information on setting up IAM permissions with MySQL and PostgreSQL databases, see [Endnote 1](#endnote-1).
+**In the AWS CLI:**  
+ - If you use the `create-db-instance` AWS CLI command to create an encrypted DB instance, set the `--storage-encrypted` parameter to `true`. Set the `--kms-key-id` parameter to the Amazon Resource Name (ARN) for the CG AWS KMS encryption key for the DB instance, by default all CG accounts will have a dedicated KMS key provisioned for use with RDS. 
+<br><br>
 
-### 2. Data is protected at-rest and in-transit
+### 5. RDS snapshots are Encrypted at rest using CG CMK
 
 **Capital Group Controls:**<br>
 
@@ -196,18 +168,30 @@ For information on setting up IAM permissions with MySQL and PostgreSQL database
 |------|----------------------|
 |Control ID |Control Description|
 
-**Why?** Amazon RDS encrypted DB instances provide an additional layer of data protection by securing your data from unauthorized access to the underlying storage. You can use Amazon RDS encryption to increase data protection of your applications deployed in the cloud, and to fulfill compliance requirements for data-at-rest encryption.  
-For an Amazon RDS encrypted DB instance, all logs, backups, and snapshots are encrypted. A read replica of an Amazon RDS encrypted instance is also encrypted using the same key as the master instance when both are in the same AWS Region. If the master and read replica are in different AWS Regions, you encrypt using the encryption key for that AWS Region. 
+**What, Why & How?**<br>
+Ensure that your RDS snapshots are encrypted in order to achieve compliance for data-at-rest encryption within CG. The RDS snapshot encryption and decryption process is handled transparently and does not require any additional action from you or your application. The keys used for RDS database snapshot encryption should be entirely managed and protected through the use of CG KMS Customer Master Keys (CMKs).
 
-**How?** 
-#### Enable encryption of data-at-rest <!-- omit in toc -->
-For an Amazon RDS encrypted DB instance, all logs, backups, and snapshots are encrypted. A read replica of an Amazon RDS encrypted instance is also encrypted using the same key as the master instance when both are in the same AWS Region. If the master and read replica are in different AWS Regions, you encrypt using the encryption key for that AWS Region.
+If you have encrypted your RDS database instance as outlined above in [Section 4.](#4-rds-data-are-encrypted-at-rest-using-cg-cmk) all logs, snapshots and backups are automatically encrypted with the same CG Key.
 
-**In the Console:**  
-To enable encryption for a new DB instance, choose **Enable encryption** on the Amazon RDS console while creating the instance.
+If you have found an unencrypted snapshot and need to encrypt the snapshot to bring it into compliance, you should follow the steps below:
 
-**In the AWS CLI:**  
-If you use the `create-db-instance` AWS CLI command to create an encrypted DB instance, set the `--storage-encrypted` parameter to `true`. Set the `--kms-key-id` parameter to the Amazon Resource Name (ARN) for the AWS KMS encryption key for the DB instance. 
+**Encrypting an Unencrypted Snapshot:**
+1. Open the Amazon RDS console, and then choose `Snapshots` from the navigation pane.
+2. Select the snapshot that you want to encrypt.
+3. Under Snapshot Actions, choose `Copy Snapshot`.
+4. Choose your Destination Region, and then enter your New DB Snapshot Identifier.
+5. Change `Enable Encryption` to `Yes`.
+<br><br>
+
+### 6. RDS connections are Encrypted in transit using TLS 1.2
+
+**Capital Group Controls:**<br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control ID |Control Description|
+
+
 
 #### Enable encryption of data-in-transit <!-- omit in toc -->
 Communications with the RDS API are all encrypted with TLS. In order to encrypt communications with the databases in RDS, this needs to be enabled, and each engine requires a slightly different process to enable.  
@@ -338,6 +322,62 @@ $ psql -h testpg.123abc456def.us-east-1.rds.amazonaws.com -p 5432 \
 Set the `rds.force_ssl` parameter to 1 (on) to require SSL for connections to your DB instance. Updating the `rds.force_ssl` parameter also sets the PostgreSQL `ssl` parameter to 1 (on) and modifies your DB instance’s `pg_hba.conf` file to support the new SSL configuration.
 
 You can set the `rds.force_ssl` parameter value by updating the parameter group for your DB instance. If the parameter group for your DB instance isn't the default one, and the `ssl` parameter is already set to 1 when you set `rds.force_ssl` to 1, you don't need to reboot your DB instance. Otherwise, *you must reboot your DB instance for the change to take effect*.
+
+
+
+### 5. Implement access controls to enforce least privilege
+
+**Capital Group Controls:**<br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control ID |Control Description|
+
+**Why?**<br>
+When you create custom policies, grant only the permissions required to perform a task. Start with a minimum set of permissions and grant additional permissions as necessary. Doing so is more secure than starting with permissions that are too lenient and then trying to tighten them later.  
+To the extent that it's practical, define the conditions under which your identity-based policies allow access to a resource. For example, you can write conditions to specify a range of allowable IP addresses that a request must come from. You can also write conditions to allow requests only within a specified date or time range, or to require the use of SSL or MFA.
+
+**How?**<br>
+RDS is fully integrated with AWS IAM for authentication and access control. Use IAM to create IAM users, groups and roles with appropriate permissions, and then add users to appropriate groups and roles. Use Multifactor Authentication for extra security (especially for users with administrative privileges).  
+Use AWS Identity and Access Management (IAM) policies to assign permissions that determine who is allowed to manage Amazon RDS resources. For example, you can use IAM to determine who is allowed to create, describe, modify, and delete DB instances, tag resources, or modify security groups.
+
+The following example policy allows a principal to perform specific actions in RDS, but only on resources tagged as "development" or "test":
+```json
+{
+   "Version":"2012-10-17",
+   "Statement":[
+      {
+         "Sid":"AllowDevTestCreate",
+         "Effect":"Allow",
+         "Action":[
+            "rds:ModifyDBInstance",
+            "rds:CreateDBSnapshot"
+         ],
+         "Resource":"*",
+         "Condition":{
+            "StringEquals":{
+               "rds:db-tag/stage":[
+                  "development",
+                  "test"
+               ]
+            }
+         }
+      }
+   ]
+}
+```
+#### IAM Database Authentication <!-- omit in toc -->
+You can authenticate to your DB instance using AWS IAM database authentication. IAM database authentication works with MySQL and PostgreSQL. With this authentication method, you don't need to use a password when you connect to a DB instance. Instead, you use an authentication token.  
+The following AWS CLI command can be used to enable IAM authentication on an existing RDS database:
+```
+aws rds modify-db-instance \
+    --db-instance-identifier mydbinstance \
+    --apply-immediately \
+    --enable-iam-database-authentication
+```
+
+For information on setting up IAM permissions with MySQL and PostgreSQL databases, see [Endnote 1](#endnote-1).
+
 
 ### 3. Database instances are configured for high-availability
 
