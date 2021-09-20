@@ -130,6 +130,12 @@ aws iam attach-role-policy \
 
 ## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
 
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.| 
+
+
 **Why?**
 
 CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR is a fully managed container registry that makes it easy to store, manage, share and deploy container images and artifacts in a secure manner. Amazon ECR hosts your images in a highly available and high-performance architecture, allowing you to deploy images for your container applications reliably. You can share container software privately within Capital Group or publicly worldwide for anyone to discover and download.
@@ -184,7 +190,7 @@ You can use your ECR images with Amazon ECS, but you need to satisfy the followi
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|6|Any AWS service used by CG should not be directly available to the Internet and the default route is always the CG gateway.| 
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.| 
 
 **Why?**
 
@@ -249,9 +255,12 @@ To create an interface endpoint, you must specify the VPC in which to create the
      \[Remove a tag\] Choose the delete button \(“x”\) to the right of the tag’s Key and Value\.
 
 
-
-
 ## 4. Using AWS Systems Manager Parameter Store for referencing both sensitive and non sensitive data
+
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|Control Definition Needed|Control Definition Description Needed|
 
 **Why?**
 
@@ -320,14 +329,13 @@ The following is a snippet of a task definition showing the format when referenc
   }
 ```  
 
+
 ## 5. Using AWS Secrets Manager for referencing sensitive data
 
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|1|| 
-|2||
-|3||
+|Control Definition Needed|Control Definition Description Needed|
 
 **Why?**
 
@@ -438,6 +446,7 @@ Reference a specific key from the previous output in a container definition by s
 }
 ```
 
+
 ## 6. Using the awslogs Log Driver
 
 Capital Group:
@@ -546,10 +555,16 @@ After you have registered a task definition with the `awslogs` log driver in a c
 
 ## 7. Creating a CloudTrail to log ECS API calls
 
+Capital Group:
+|Control Statement|Description|
+|------|----------------------|
+|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
+
 **Why?**
 
+You need to use AWS CloudTrail service in order to capture all the activity done on ECS servers and send all the logs from Fargate and EC2 Instance type to centralized logging location. These logs are used but the CG Security Engineering Teams to detect malicious activity and threat detection.
 Amazon ECS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon ECS. CloudTrail captures all API calls for Amazon ECS as events, including calls from the Amazon ECS console and from code calls to the Amazon ECS API operations.
-CloudTrail is enabled on your AWS account when you create the account. When activity occurs in Amazon ECS, that activity is recorded in a CloudTrail event along with other AWS service events in Event history. You can view, search, and download recent events in your AWS account. For more information, see Viewing Events with CloudTrail Event History.
+CloudTrail is enabled on your AWS account when you create the account. When activity occurs in Amazon ECS, that activity is recorded in a CloudTrail event along with other AWS service events in Event history. 
 
 **How?**
 
@@ -570,7 +585,6 @@ CloudTrail is enabled on your AWS account when you create the account. When acti
    If you enable SSE-KMS encryption, choose a New or Existing AWS KMS key. In AWS KMS Alias, specify an alias, in the format alias/MyAliasName. For more information, see Updating a trail to use your KMS key. CloudTrail also supports AWS KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the AWS Key Management Service Developer Guide.
 
 
-
 ## 8. Enable VPC Flow Logs for ECS Cluster VPC EC2 Launch Types Only
 
 Capital Group:
@@ -579,7 +593,18 @@ Capital Group:
 |4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch.|
 
 **Why?**
-You need to use VPC Flow Logs in order send all the logs from Fargate and EC2 Instance type to centralized logging location. These logs are used but the CG Security Engineering Teams to detect malicious activity and threat detection.
+
+You need to use VPC Flow Logs in order send all the logs from Fargate and EC2 Instance type to centralized logging location. These logs are used but the CG Security Engineering Teams to detect malicious activity and threat detection.VPC Flow Logs is a feature that enables you to capture information about the IP traffic going to and from network interfaces in your VPC. Flow log data can be published to Amazon CloudWatch Logs or Amazon S3.
+
+Flow logs can help you with a number of tasks, such as:
+
+ + Diagnosing overly restrictive security group rules
+
+ + Monitoring the traffic that is reaching your instance
+
+ + Determining the direction of the traffic to and from the network interfaces
+
+ Flow log data is collected outside of the path of your network traffic, and therefore does not affect network throughput or latency. You can create or delete flow logs without any risk of impact to network performance.
 
 **How?**
 
@@ -611,7 +636,7 @@ All the Teams running ECS Clusters should have a Twistlock agent running in the 
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|Need to be updated|Need to be updated|
+|Control Definition Needed|Control Definition Description Needed|
 
 **Why?**
 
@@ -636,7 +661,7 @@ RUN find / -xdev -perm /6000 -type f -exec chmod a-s {} \; || true
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-||Need to be updated|Need to be updated|
+|Control Definition Needed|Control Definition Description Needed|
 
 **Why?**
 
@@ -654,7 +679,7 @@ As part of your CI/CD pipeline you should lint Dockerfiles to look for the USER 
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|Need to be updated|Need to be updated|
+|Control Definition Needed|Control Definition Description Needed|
 
 **Why?**
 
@@ -666,7 +691,7 @@ You should use a read-only root file system. A container's root file system is w
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|Need to be updated|Need to be updated|
+|Control Definition Needed|Control Definition Description Needed|
 
 **Why?**
 
@@ -682,7 +707,7 @@ With Amazon ECS, network encryption can be implemented in any of the following w
 Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|Need to be updated|Need to be updated|
+|Control Definition Needed|Control Definition Description Needed|
 
 **Why?**
 
