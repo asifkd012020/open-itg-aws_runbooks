@@ -667,11 +667,38 @@ Capital Group:
 
 You should run containers as a non-root user. By default, containers run as the root user unless the USER directive is included in your Dockerfile. The default Linux capabilities that are assigned by Docker restrict the actions that can be run as root, but only marginally. For example, a container running as root is still not allowed to access devices.
 
-As part of your CI/CD pipeline you should lint Dockerfiles to look for the USER directive and fail the build if it's missing. For more information, see the following topics:
+**How?**
 
-+ [Dockerfile-lint](https://github.com/projectatomic/dockerfile_lint) is an open-source tool from RedHat that can be used to check if the file conforms to best practices.
+The user name to use inside the container should not be root. Please make sure that none of the user under container definition is root user.
 
-+ [Hadolint](https://github.com/hadolint/hadolint) is another tool for building Docker images that conform to best practices.
+For example
+
+```
+  "container_definitions": [
+                {"name": "test-task", "user": "random"}
+              ],
+```
+How to fix the Task Defintion in case of root user found.
+
+Create a task definition revision.
+
+1.  Open the Amazon ECS console.
+
+2.  From the navigation bar, choose the region that contains your task definition.
+
+3.  In the navigation pane, choose Task Definitions.
+
+4.  On the Task Definitions page, select the box to the left of the task definition to revise and choose Create new revision.
+
+5.  On the Create new revision of Task Definition page, change the existing Container Definitions.
+
+6.  Under Security, remove root from the User field.
+
+7.  Verify the information and choose Update, then Create.
+
+8.  If your task definition is used in a service, update your service with the updated task definition.
+
+9.  Deactivate previous task definition.
 
 
 ## 12. Use a read-only root file system
@@ -684,6 +711,25 @@ Capital Group:
 **Why?**
 
 You should use a read-only root file system. A container's root file system is writable by default. When you configure a container with a RO (read-only) root file system it forces you to explicitly define where data can be persisted. This reduces your attack surface because the container's file system can't be written to unless permissions are specifically granted.
+
+Enabling this option forces containers at runtime to explicitly define their data writing strategy to persist or not persist their data. This also reduces security attack vectors since the container instance’s filesystem cannot be tampered with or written to unless it has explicit read-write permissions on its filesystem folder and directories.
+
+**How?**
+
+The following is parameter in the TaskDefintion that can be configured
+
+readonlyRootFilesystem
+  + Type: Boolean
+  + Required: no
+
+When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the Create a container section of the Docker Remote API and the --read-only option to docker run.
+
+Note
+This parameter is not supported for Windows containers.
+
+```
+  "readonlyRootFilesystem": true|false
+```
 
 
 ## 13. ECS data in transit must enforce TLS with version 1.2 or higher
