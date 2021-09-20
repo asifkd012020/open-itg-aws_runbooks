@@ -751,6 +751,16 @@ With Amazon ECS, network encryption can be implemented in any of the following w
 
    With AWS App Mesh, you can configure TLS connections between the Envoy proxies that are deployed with mesh endpoints. Two examples are virtual nodes and virtual gateways. The TLS certificates can come from AWS Certificate Manager (ACM).
 
+    + Enabling Transport Layer Security (TLS)
+
+    + Enable traffic encryption between services in AWS App Mesh using ACM certificates or customer provided certs
+
+    + TLS ACM walkthrough
+
+    + TLS file walkthrough
+
+    + Envoy
+
 2. End-to-end encryption with TLS certificates:
 
    This involves deploying a TLS certificate with the task. This can either be a self-signed certificate or a certificate from a trusted certificate authority. You can obtain the certificate by referencing a secret for the certificate. Otherwise, you can choose to run an container that issues a Certificate Signing Request (CSR) to ACM and then mounts the resulting secret to a shared volume.
@@ -760,7 +770,6 @@ With Amazon ECS, network encryption can be implemented in any of the following w
     + [Maintaining Transport Layer Security (TLS) all the way to your container part 2: Using AWS Certificate Manager Private Certificate Authority] (https://aws.amazon.com/blogs/compute/maintaining-transport-layer-security-all-the-way-to-your-container-part-2-using-aws-certificate-manager-private-certificate-authority/)
 
 
-   
 
 ## 14. Make sure ECS Task network interface does not have public IP address
 
@@ -771,6 +780,50 @@ Capital Group:
 
 **Why?**
 
+Avoid using a public subnet or public IP addresses for private, internal tasks. According CG Security Standards we are not allowed to have any public IP address from ECS Services. It allows malicious actors to get into the network. When creating a Amazon ECS Service, you have a option to enable to "Assign public IP address". We should not allow any ECS Cluster have a public IP address. 
+
+If you are running a service that handles private, internal information, you should not put it into a public subnet or use a public IP address. For example, imagine that you have one task, which is an API gateway for authentication and access control. You have another background worker task that handles sensitive information.
+
+**How?**
+
+In the example below we are going to show where to check if the resource is enabling public IP address. If the resource is deployed using cloud formation template, the following property " NetworkConfiguration.AwsvpcConfiguration.AssignPublicIp" needs to "DISABLED" and re deployed.
+
+```
+  # The service. The service is a resource which allows you to run multiple
+  # copies of a type of task, and gather up their logs and metrics, as well
+  # as monitor the number of running tasks and replace any that have crashed
+  Service:
+    Type: AWS::ECS::Service
+    DependsOn: LoadBalancerRule
+    Properties:
+      ServiceName: !Ref 'ServiceName'
+      Cluster:
+        Fn::ImportValue:
+          !Join [':', [!Ref 'StackName', 'ClusterName']]
+      LaunchType: FARGATE
+      DeploymentConfiguration:
+        MaximumPercent: 200
+        MinimumHealthyPercent: 75
+      DesiredCount: !Ref 'DesiredCount'
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: DISABLED
+          SecurityGroups:
+            - Fn::ImportValue:
+                !Join [':', [!Ref 'StackName', 'FargateContainerSecurityGroup']]
+          Subnets:
+            - Fn::ImportValue:
+                !Join [':', [!Ref 'StackName', 'PublicSubnetOne']]
+            - Fn::ImportValue:
+                !Join [':', [!Ref 'StackName', 'PublicSubnetTwo']]
+      TaskDefinition: !Ref 'TaskDefinition'
+      LoadBalancers:
+        - ContainerName: !Ref 'ServiceName'
+          ContainerPort: !Ref 'ContainerPort'
+          TargetGroupArn: !Ref 'TargetGroup'
+```
+
+
 ## 15. Use always Fargate launch type in ECS Cluster with version 1.4 and above
 
 Capital Group:
@@ -780,6 +833,7 @@ Capital Group:
 
 **Why?**
 
+Avoid using EC2 Launch Type as it as inheritent security risks if deployed without any customization. The security risk, the role when assumed with EC2 Launch type will have access to the roles of Ec2 Instance.
 
 
 
