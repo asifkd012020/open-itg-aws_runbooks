@@ -747,6 +747,20 @@ Encrypting network traffic prevents unauthorized users from intercepting and rea
 
 With Amazon ECS, network encryption can be implemented in any of the following ways.
 
+1. With a service mesh (TLS):
+
+   With AWS App Mesh, you can configure TLS connections between the Envoy proxies that are deployed with mesh endpoints. Two examples are virtual nodes and virtual gateways. The TLS certificates can come from AWS Certificate Manager (ACM).
+
+2. End-to-end encryption with TLS certificates:
+
+   This involves deploying a TLS certificate with the task. This can either be a self-signed certificate or a certificate from a trusted certificate authority. You can obtain the certificate by referencing a secret for the certificate. Otherwise, you can choose to run an container that issues a Certificate Signing Request (CSR) to ACM and then mounts the resulting secret to a shared volume.
+   
+    + [Maintaining transport layer security all the way to your containers using the Network Load Balancer with Amazon ECS part 1] (https://aws.amazon.com/blogs/compute/maintaining-transport-layer-security-all-the-way-to-your-container-using-the-network-load-balancer-with-amazon-ecs/)
+
+    + [Maintaining Transport Layer Security (TLS) all the way to your container part 2: Using AWS Certificate Manager Private Certificate Authority] (https://aws.amazon.com/blogs/compute/maintaining-transport-layer-security-all-the-way-to-your-container-part-2-using-aws-certificate-manager-private-certificate-authority/)
+
+
+   
 
 ## 14. Make sure ECS Task network interface does not have public IP address
 
