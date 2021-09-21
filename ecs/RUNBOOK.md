@@ -47,7 +47,6 @@ Amazon ECS is a regional service that simplifies running containers in a highly 
 
 The following diagram shows the architecture of an Amazon ECS environment run on AWS Fargate.
 
-### ECS Overview:
 <img src="/docs/img/ecs/overview-fargate.png" width="800"><br>
 <br>
 
@@ -146,7 +145,7 @@ CG's public access requirements for cloud state that resources should be secured
 
 **How?**
 
-### Using Amazon ECR Images with Amazon ECS
+Using Amazon ECR Images with Amazon ECS
 
 You can use your ECR images with Amazon ECS, but you need to satisfy the following prerequisites\.
 + Your container instances must be using at least version 1\.7\.0 of the Amazon ECS container agent\. The latest version of the Amazon ECS–optimized AMI supports ECR images in task definitions\. For more information, including the latest Amazon ECS–optimized AMI IDs, see [Amazon ECS Container Agent Versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-versions.html) in the *Amazon Elastic Container Service Developer Guide*\.
@@ -200,7 +199,7 @@ Capital Group:
 
 In order to use securely communicate with AWS Services like S3, ECR, without accessing public internet, VPC Endpoints using AWS Privatelink provides a way to restrict the traffic from VPC to AWS Service using private IP addresses. 
 
-### Amazon ECS Interface VPC Endpoints \(AWS PrivateLink\)
+Amazon ECS Interface VPC Endpoints \(AWS PrivateLink\)
 
 You can improve the security posture of your VPC by configuring Amazon ECS to use an interface VPC endpoint\. Interface endpoints are powered by AWS PrivateLink, a technology that enables you to privately access Amazon ECS APIs by using private IP addresses\. PrivateLink restricts all network traffic between your VPC and Amazon ECS to the Amazon network\. You don't need an internet gateway, a NAT device, or a virtual private gateway\.
 
