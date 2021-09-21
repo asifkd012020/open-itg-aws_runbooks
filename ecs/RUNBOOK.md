@@ -33,7 +33,7 @@ Security Engineering
 - [Operational Best Practices](#operational-best-practices)  
   - [1. Utilizing AWS CloudWatch Container Insights](#1-utilizing-aws-cloudwatch-container-insights)
   - [2. ECS Resources are tagged according to CG Standards](#4-ecs-resources-are-tagged-according-to-cg-standards)
-  - [3. Configure tasks with CPU and Memory limits (Amazon EC2)](#5-configure-tasks-with-cpu-and-memory-limits)
+  - [3. Configure tasks with CPU and Memory limits (Amazon EC2)](#5-configure-tasks-with-cpu-and-memory-limits) 
 - [Endnotes](#Endnotes)
 - [Capital Group Glossary](#Capital-Group-Glossary)
   <br><br>
@@ -921,6 +921,7 @@ aws ecs create-cluster --cluster-name myCICluster --settings "name=containerInsi
 ```
 
 ## 2. ECS Resources are tagged according to CG standards
+
 **Capital Group:** <br>
 
 |Control Statement|Description|
@@ -937,6 +938,7 @@ Tagging resources in the cloud is an easy way for teams to provide information r
 <br><br>
 
 ## 3. Configure tasks with CPU and Memory limits
+
 **Capital Group:** <br>
 
 |Control Statement|Description|
@@ -979,6 +981,7 @@ For tasks hosted on Fargate, this field is required and you must use one of the 
 |1024 (1 vCPU)| 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)|
 |2048 (2 vCPU)| Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)|
 |4096 (4 vCPU)| Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)|
+
 
 ```
 memory
