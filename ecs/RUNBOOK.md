@@ -796,31 +796,14 @@ In the example below we are going to show where to check if the resource is enab
     Type: AWS::ECS::Service
     DependsOn: LoadBalancerRule
     Properties:
-      ServiceName: !Ref 'ServiceName'
-      Cluster:
-        Fn::ImportValue:
-          !Join [':', [!Ref 'StackName', 'ClusterName']]
-      LaunchType: FARGATE
-      DeploymentConfiguration:
-        MaximumPercent: 200
-        MinimumHealthyPercent: 75
-      DesiredCount: !Ref 'DesiredCount'
       NetworkConfiguration:
         AwsvpcConfiguration:
           AssignPublicIp: DISABLED
           SecurityGroups:
             - Fn::ImportValue:
-                !Join [':', [!Ref 'StackName', 'FargateContainerSecurityGroup']]
-          Subnets:
-            - Fn::ImportValue:
-                !Join [':', [!Ref 'StackName', 'PublicSubnetOne']]
-            - Fn::ImportValue:
-                !Join [':', [!Ref 'StackName', 'PublicSubnetTwo']]
+                !Join [':', [!Ref 'StackName', 'FargateContainerSecurityGroup']]       
       TaskDefinition: !Ref 'TaskDefinition'
-      LoadBalancers:
-        - ContainerName: !Ref 'ServiceName'
-          ContainerPort: !Ref 'ContainerPort'
-          TargetGroupArn: !Ref 'TargetGroup'
+     
 ```
 
 
@@ -833,7 +816,25 @@ Capital Group:
 
 **Why?**
 
-Avoid using EC2 Launch Type as it as inheritent security risks if deployed without any customization. The security risk, the role when assumed with EC2 Launch type will have access to the roles of Ec2 Instance.
+Avoid using EC2 Launch Type as it as inheritent security risks if deployed without any customization. The security risk, the role when assumed with EC2 Launch type will have access to the roles of Ec2 Instance. There CG Security team recommends to always run workloads for ECS Cluster in Fargate. We also seen lot of ehanced security feature in version 1.4, there it is recommended to have a minimum version of 1.4 for Fargate for tasks running on ECS.
+
+**How?**
+
+Containers that are running on your container instances are not prevented from accessing the credentials that are supplied to the container instance profile (through the Amazon EC2 instance metadata server). Based on security and best practices unless there is an explicit need for choosing EC2 Instance Type workloads teams needs to adapt Fargate type for launching ECS Cluster.
+
+Currently we have seen lot of security features enabled in Fargate 1.4, Specifically the following
+  
+  + Beginning on May 28, 2020, any new Amazon ECS task launched on Fargate using platform version 1.4.0 will have its ephemeral storage encrypted with an AES-256 encryption algorithm using an AWS owned encryption key
+
+  + When using Secrets Manager to store sensitive data, you can inject a specific JSON key or a specific version of a secret as an environment variable or in a log configuration. 
+
+  + The network traffic behavior to and from tasks has been updated. Starting with platform version 1.4.0, all Fargate tasks receive a single elastic network interface (referred to as the task ENI) and all network traffic flows through that ENI within your VPC and will be visible to you through your VPC flow logs.
+
+  + CloudWatch Container Insights will include network performance metrics for Fargate tasks
+
+  + Added support for the SYS_PTRACE Linux parameter in container definitions. For more information, see Linux Parameters.
+
+The above are the few of the features from the over list. The following link contains detailed feature list https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html
 
 
 
@@ -944,9 +945,65 @@ Tagging resources in the cloud is an easy way for teams to provide information r
 
 **Why?**
 
+It is not best practice if you dont set the limits on CPU and Memory consumption for Task Definition. These not only help containers scale get better performance, but also allows to choose what kind of confgiuration you are providing based on the workload you are running.
+
 **How?**
 
+Please follow the configuration details that are avialble for limiting CPU and Memory usuage. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
 
+Task size
+When you register a task definition, you can specify the total cpu and memory used for the task. This is separate from the cpu and memory values at the container definition level. For tasks hosted on Amazon EC2 instances, these fields are optional. For tasks hosted on Fargate, these fields are required and there are specific values for both cpu and memory that are supported.
+
+The following parameter is allowed in a task definition:
+
+```
+cpu
+    Type: string
+
+    Required: conditional
+```
+
+Note
+This parameter is not supported for Windows containers.
+
+The hard limit of CPU units to present for the task. It can be expressed as an integer using CPU units, for example 1024, or as a string using vCPUs, for example 1 vCPU or 1 vcpu, in a task definition. When the task definition is registered, a vCPU value is converted to an integer indicating the CPU units.
+
+For tasks hosted on Amazon EC2 instances, this field is optional. If your cluster does not have any registered container instances with the requested CPU units available, the task will fail. Supported values are between 128 CPU units (0.125 vCPUs) and 10240 CPU units (10 vCPUs).
+
+For tasks hosted on Fargate, this field is required and you must use one of the following values, which determines your range of supported values for the memory parameter:
+
+|CPU value|Memory value (MiB)|
+|------|----------------------|
+|256 (.25 vCPU)| 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)|
+|512 (.5 vCPU)| 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)|
+|1024 (1 vCPU)| 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)|
+|2048 (2 vCPU)| Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)|
+|4096 (4 vCPU)| Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)|
+
+```
+memory
+    Type: string
+
+    Required: conditional
+
+```
+
+Note
+This parameter is not supported for Windows containers.
+
+The hard limit of memory (in MiB) to present to the task. It can be expressed as an integer using MiB, for example 1024, or as a string using GB, for example 1GB or 1 GB, in a task definition. When the task definition is registered, a GB value is converted to an integer indicating the MiB.
+
+For tasks hosted on Amazon EC2 instances, this field is optional and any value can be used. If a task-level memory value is specified then the container-level memory value is optional. If your cluster does not have any registered container instances with the requested memory available, the task will fail. If you are trying to maximize your resource utilization by providing your tasks as much memory as possible for a particular instance type, see Container Instance Memory Management.
+
+For tasks hosted on Fargate, this field is required and you must use one of the following values, which determines your range of supported values for the cpu parameter:
+
+|Memory value (MiB)| CPU Value |
+|------|----------------------|
+| 512 (0.5 GB), 1024 (1 GB), 2048 (2 GB)| 256 (.25 vCPU)|
+| 1024 (1 GB), 2048 (2 GB), 3072 (3 GB), 4096 (4 GB)|512 (.5 vCPU)|
+| 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)|1024 (1 vCPU)|
+| Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)|2048 (2 vCPU)
+| Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)|4096 (4 vCPU)| 
 
 ## Endnotes
 **Resources**<br>
