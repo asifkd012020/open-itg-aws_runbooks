@@ -68,14 +68,15 @@ These capital group control statements are not applicable to the ECS service: 5,
 
 Based on IAM least privilege access model, CG Security Team recommends each task should have its own IAM role based on the access it needs. Outside various available options of IAM Roles, CG recommends to use the following 'Task Execution Role'.The task execution role is used to grant the Amazon ECS container agent permission to call specific AWS API actions on your behalf. For example, when you use AWS Fargate, Fargate needs an IAM role that allows it to pull images from Amazon ECR and write logs to CloudWatch Logs. An IAM role is also required when a task references a secret that's stored in AWS Secrets Manager, such as an image pull secret.
 
-### Benefits of Using IAM Roles for Tasks
+Benefits of Using IAM Roles for Tasks
 + **Credential Isolation:** A container can only retrieve credentials for the IAM role that is defined in the task definition to which it belongs; a container never has access to credentials that are intended for another container that belongs to another task\.
 + **Authorization:** Unauthorized containers cannot access IAM role credentials defined for other tasks\.
 + **Auditability:** Access and event logging is available through CloudTrail to ensure retrospective auditing\. Task credentials have a context of `taskArn` that is attached to the session, so CloudTrail logs show which task is using which role\.
 
 **How?**
 
-### Creating the task execution IAM role
+Creating the task execution IAM role
+
 If your account does not already have a task execution role, use the following steps to create the role.
 
 To create a task execution IAM role (AWS Management Console)
@@ -94,7 +95,7 @@ To create a task execution IAM role (AWS Management Console)
 
 7. For Role name, type ecsTaskExecutionRole and choose Create role.
 
-### To create a task execution IAM role (AWS CLI)
+To create a task execution IAM role (AWS CLI)
 
 1. Create a file named ecs-tasks-trust-policy.json that contains the trust policy to use for the IAM role. The file should contain the following:
 
