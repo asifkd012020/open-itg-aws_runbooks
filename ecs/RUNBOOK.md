@@ -41,14 +41,17 @@ Security Engineering
 
 
 ## Overview
-Amazon Elastic Container Service (Amazon ECS) is a fully managed container orchestration service that helps you easily deploy, manage, and scale containerized applications. It deeply integrates with the rest of the AWS platform to provide a secure and easy-to-use solution for running container workloads in the cloud and now on your infrastructure with Amazon ECS Anywhere.
+Amazon Elastic Container Service (Amazon ECS) is a fully managed container orchestration service that helps you easily deploy, manage, and scale containerized applications. It deeply integrates with the rest of the AWS platform to provide a secure and easy-to-use solution for running container workloads in the cloud and also on prem infrastructure with Amazon ECS Anywhere. Amazon Elastic Container Service (Amazon ECS) is a highly scalable, fast container management service that makes it easy to run, stop, and manage containers on a cluster. Your containers are defined in a task definition that you use to run individual tasks or tasks within a service. In this context, a service is a configuration that enables you to run and maintain a specified number of tasks simultaneously in a cluster. You can run your tasks and services on a serverless infrastructure that is managed by AWS Fargate
+
+Amazon ECS is a regional service that simplifies running containers in a highly available manner across multiple Availability Zones within a Region. You can create Amazon ECS clusters within a new or existing VPC. After a cluster is up and running, you can create task definitions that define which container images run across your clusters. Your task definitions are used to run tasks or create services. Container images are stored in and pulled from container registries, for example, the Amazon Elastic Container Registry.
+
+The following diagram shows the architecture of an Amazon ECS environment run on AWS Fargate.
+
+### ECS Overview:
+<img src="/docs/img/ecs/overview-fargate.png" width="800"><br>
+<br>
 
 
-AWS provides a number of security features for Amazon Elastic Container Service (ECS) which help you comply with the NIST Cybersecurity Framework. The following Runbook will Provide implementation details to deploy the Amazon Elastic Conatainer service in accordance with NIST CSF and service applicable security controls.This runbook in its continued development will provide support to the automated configuration of hardening workloads an processes. 
-
-These NIST Controls and Subcategories are not applicable to this service: PR.AT, PR.MA, PR.IP  (Unless stated), PR.AC-2, PR.AC-3, PR.DS-3, PR.DS-8, PR.PT-2, PR.PT-5, DE.DP1, DE.DP-2. DE.DP-3, DE.CM-3, DE.AE-5, RC, RS.MI.
-
-These capital group control statements are not applicable to the ECS service: 5,7,8,9,10. 
 
 ## Cloud Security Requirements
 <img src="/docs/img/Prevent.png" width="50">
