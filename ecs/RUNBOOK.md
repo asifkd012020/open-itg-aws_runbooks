@@ -48,7 +48,7 @@ The following diagram shows the architecture of an Amazon ECS environment run on
 <img src="/docs/img/ecs/overview-fargate.png" width="800"><br>
 <br>
 
-Containers and Images
+### Containers and Images
 
 To deploy applications on Amazon ECS, your application components must be architected to run in containers. A container is a standardized unit of software development that contains everything that your software application needs to run, including relevant code, runtime, system tools, and system libraries. Containers are created from a read-only template called an image.Images are typically built from a Dockerfile, which is a plaintext file that specifies all of the components that are included in the container. After being built, these images are stored in a registry where they then can be downloaded and run on your cluster.
 
@@ -56,23 +56,23 @@ To deploy applications on Amazon ECS, your application components must be archit
 <br>
 
 
-Tasks and Scheduling
+### Tasks and Scheduling
  
  A task is the instantiation of a task definition within a cluster. After you have created a task definition for your application within Amazon ECS, you can specify the number of tasks to run on your cluster.The Amazon ECS task scheduler is responsible for placing tasks within your cluster. There are several different scheduling options available. For example, you can define a service that runs and maintains a specified number of tasks simultaneously.
 
 <img src="/docs/img/ecs/tasks-scheduling.png" width="800"><br>
 <br>
 
-Clusters
+### Clusters
 
 An Amazon ECS cluster is a logical grouping of tasks or services. You can register one or more Amazon EC2 instances (also referred to as container instances) with your cluster to run tasks on them. Or, you can use the serverless infrastructure that Fargate provides to run tasks. When your tasks are run on Fargate, your cluster resources are also managed by Fargate.
 
-Container Agent
+### Container Agent
 
 The container agent runs on each container instance within an Amazon ECS cluster. The agent sends information about the resource's current running tasks and resource utilization to Amazon ECS. It starts and stops tasks whenever it receives a request from Amazon ECS.
 
-<img src="/docs/img/ecs/container-agent.png" width="800"><br>
-<br>
+<img src="/docs/img/ecs/container-agent.png" width="800">
+<br><br>
 
 
 ## Cloud Security Requirements
@@ -103,25 +103,25 @@ Creating the task execution IAM role
 
 If your account does not already have a task execution role, use the following steps to create the role.
 
-To create a task execution IAM role (AWS Management Console)
+To create a task execution IAM role (*AWS Management Console*):
 
 1. Open the IAM console at https://console.aws.amazon.com/iam/.
 
-2. In the navigation pane, choose Roles, Create role.
+2. In the navigation pane, choose Roles, `Create role`.
 
-3. In the Select type of trusted entity section, choose AWS service, Elastic Container Service.
+3. In the Select type of trusted entity section, choose `AWS service`, `Elastic Container Service`.
 
-4. For Select your use case, choose Elastic Container Service Task, then choose Next: Permissions.
+4. For Select your use case, choose `Elastic Container Service Task`, then choose Next: Permissions.
 
-5. In the Attach permissions policy section, search for AmazonECSTaskExecutionRolePolicy, select the policy, and then choose Next: Tags.
+5. In the Attach permissions policy section, search for `AmazonECSTaskExecutionRolePolicy`, select the policy, and then choose Next: Tags.
 
-6. For Add tags (optional), specify any custom tags to associate with the policy and then choose Next: Review.
+6. For Add tags (optional), specify the `CG Standard tags` to associate with the policy and then choose Next: Review.
 
-7. For Role name, type ecsTaskExecutionRole and choose Create role.
+7. For Role name, type `ecsTaskExecutionRole` and choose `Create role`.<br>
 
-To create a task execution IAM role (AWS CLI)
+To create a task execution IAM role (*AWS CLI*):
 
-1. Create a file named ecs-tasks-trust-policy.json that contains the trust policy to use for the IAM role. The file should contain the following:
+1. Create a file named `ecs-tasks-trust-policy.json` that contains the trust policy to use for the IAM role. The file should contain the following:
 
 ```
   {
@@ -138,7 +138,7 @@ To create a task execution IAM role (AWS CLI)
     ]
   }
 ```  
-2. Create an IAM role named ecsTaskExecutionRole using the trust policy created in the previous step.
+2. Create an IAM role named `ecsTaskExecutionRole` using the trust policy created in the previous step.
 
 ```
   aws iam create-role \
@@ -152,6 +152,7 @@ aws iam attach-role-policy \
       --role-name ecsTaskExecutionRole \
       --policy-arn arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
 ```
+<br><br>
 
 ## 2. Using Elastic Container Registry (ECR) for storing and retrieving Docker images
 
@@ -160,10 +161,9 @@ Capital Group:
 |------|----------------------|
 |[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.| 
 
-
 **Why?**
 
-CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR is a fully managed container registry that makes it easy to store, manage, share and deploy container images and artifacts in a secure manner. Amazon ECR hosts your images in a highly available and high-performance architecture, allowing you to deploy images for your container applications reliably. You can share container software privately within Capital Group or publicly worldwide for anyone to discover and download.
+CG's public access requirements for cloud state that resources should be secured in environments and not be publicly accessible. ECR is a fully managed container registry that makes it easy to store, manage, share and deploy container images and artifacts in a secure manner. Amazon ECR hosts your images in a highly available and high-performance architecture, allowing you to deploy images for your container applications reliably. You can share container software privately within Capital Group, but should never share any container images and configurations publicaly.
 
 **How?**
 
@@ -193,6 +193,7 @@ You can use your ECR images with Amazon ECS, but you need to satisfy the followi
 
   If you use the `AmazonEC2ContainerServiceforEC2Role` managed policy for your container instances, then your role has the proper permissions\. To check that your role supports Amazon ECR, see [Amazon ECS Container Instance IAM Role](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/instance_IAM_role.html) in the *Amazon Elastic Container Service Developer Guide*\.
 + In your ECS task definitions, make sure that you are using the full `registry/repository:tag` naming for your ECR images\. For example, `aws_account_id.dkr.ecr.region.amazonaws.com``/my-web-app:latest`\.
+
   The following task definition snippet shows the syntax you would use to specify a container image hosted in Amazon ECR in your Amazon ECS task definition.
 
 ```
@@ -229,7 +230,7 @@ You're not required to configure PrivateLink, but we recommend it\. For more inf
 
 **How?**
 
-### Pre requisites for Amazon ECS VPC Endpoints
+### Pre-requisites for Amazon ECS VPC Endpoints:
 
 Before you set up interface VPC endpoints for Amazon ECS, be aware of the following considerations:
 + Tasks using the Fargate launch type don't require the interface VPC endpoints for Amazon ECS, but you might need interface VPC endpoints for Amazon ECR or Amazon CloudWatch Logs described in the following points\.
@@ -241,16 +242,15 @@ If you configure Amazon ECR to use an interface VPC endpoint, you can create a t
 + VPC endpoints currently don't support cross\-Region requests\. Ensure that you create your endpoint in the same Region where you plan to issue your API calls to Amazon ECS\.
 + VPC endpoints only support Amazon\-provided DNS through Amazon Route 53\. If you want to use your own DNS, you can use conditional DNS forwarding\. For more information, see [DHCP Options Sets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_DHCP_Options.html) in the *Amazon VPC User Guide*\.
 + The security group attached to the VPC endpoint must allow incoming connections on port 443 from the private subnet of the VPC\.
-+ Controlling access to Amazon ECS by attaching an endpoint policy to the VPC endpoint isn't currently supported\. By default, full access to the service will be allowed through the endpoint\. For more information, see [Controlling Access to Services with VPC Endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html) in the *Amazon VPC User Guide*\.
++ Controlling access to Amazon ECS by attaching an endpoint policy to the VPC endpoint isn't currently supported\. By default, full access to the service will be allowed through the endpoint\. For more information, see [Controlling Access to Services with VPC Endpoints](https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints-access.html) in the *Amazon VPC User Guide*\.<br>
+
 
 ### Creating the VPC Endpoints for Amazon ECS
 
-To create the VPC endpoint for the Amazon ECS service, use the [Creating an Interface Endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-interface.html#create-interface-endpoint) procedure in the *Amazon VPC User Guide* to create the following endpoints\. 
+To create the VPC endpoint for the Amazon ECS service, use the [Creating an Interface Endpoint](https://docs.aws.amazon.com/vpc/latest/userguide/vpce-interface.html#create-interface-endpoint) procedure in the *Amazon VPC User Guide* to create the following endpoints\. <br>
+
 ### Creating an interface endpoint
 To create an interface endpoint, you must specify the VPC in which to create the interface endpoint, and the service to which to establish the connection\. 
-
-
-#### [ Console ]
 
 **To create an interface endpoint to an AWS service using the console**
 
@@ -271,14 +271,11 @@ To create an interface endpoint, you must specify the VPC in which to create the
 
      This option is enabled by default\. To use the private DNS option, the following attributes of your VPC must be set to `true`: `enableDnsHostnames` and `enableDnsSupport`\. 
    + For **Security group**, select the security groups to associate with the endpoint network interfaces\.
-   + \(Optional\) Add or remove a tag\.
-
-     \[Add a tag\] Choose **Add tag** and do the following:
+   + To Add the `CG Standard Tags`:
+     + Choose **Add tag** and do the following:
      + For **Key**, enter the key name\.
      + For **Value**, enter the key value\.
-
-     \[Remove a tag\] Choose the delete button \(“x”\) to the right of the tag’s Key and Value\.
-
+     <br><br>
 
 ## 4. Using AWS Systems Manager Parameter Store for referencing both sensitive and non sensitive data
 
@@ -295,23 +292,24 @@ For non sensitive information use Parameter Store for environmental variables. T
 
 Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Systems Manager Parameter Store parameters and then referencing them in your container definition.
 
-### Pre requisites for specifying sensitive data Using Systems Manager Parameter Store
+### Pre-requisites for specifying sensitive data Using Systems Manager Parameter Store
 
 The following should be considered when specifying sensitive data for containers using Systems Manager Parameter Store parameters.
 
   + For tasks that use the Fargate launch type, this feature requires that your task use platform version 1.3.0 or later.
 
   + Sensitive data is injected into your container when the container is initially started. If the secret or Parameter Store parameter is subsequently updated or rotated, the container will not receive the updated value automatically. You must either launch a new task or if your task is part of a service you can update the service and use the Force new deployment option to force the service to launch a fresh task.
+  <br>
 
 ### Required IAM Permissions for Amazon ECS Secrets
 
 To provide access to the AWS Systems Manager Parameter Store parameters that you create, manually add the following permissions as an inline policy to the task execution role. For more information, see Adding and Removing IAM Policies.
 
-+ ssm:GetParameters—Required if you are referencing a Systems Manager Parameter Store parameter in a task definition.
++ `ssm:GetParameters` — Required if you are referencing a Systems Manager Parameter Store parameter in a task definition.
 
-+ secretsmanager:GetSecretValue—Required if you are referencing a Secrets Manager secret either directly or if your Systems Manager Parameter Store parameter is referencing a Secrets Manager secret in a task definition.
++ `secretsmanager:GetSecretValue` — Required if you are referencing a Secrets Manager secret either directly or if your Systems Manager Parameter Store parameter is referencing a Secrets Manager secret in a task definition.
 
-+ kms:Decrypt—Required only if your secret uses a custom KMS key and not the default key. The ARN for your custom key should be added as a resource.
++ `kms:Decrypt` — Required only if your secret uses a custom KMS key and not the default key. The ARN for your custom key should be added as a resource.
 
 The following example inline policy adds the required permissions:
 
@@ -335,7 +333,7 @@ The following example inline policy adds the required permissions:
     ]
   }
 ```
-To use this feature, you must have the Amazon ECS task execution role and reference it in your task definition. This allows the container agent to pull the necessary AWS Systems Manager resources  
+To use this feature, you must have the Amazon ECS task execution role and reference it in your task definition. This allows the container agent to pull the necessary AWS Systems Manager resources.<br>
 
 ### Injecting sensitive data as an environment variable
 
@@ -364,7 +362,7 @@ Capital Group:
 
 **Why?**
 
-Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in AWS Secrets Manager secrets and then referencing them in your container definition. Sensitive data stored in Secrets Manager secrets can be exposed to a container as environment variables or as part of the log configuration.When you inject a secret as an environment variable, you can specify a JSON key or version of a secret to inject. This process helps you control the sensitive data exposed to your container. 
+Amazon ECS enables you to inject sensitive data into your containers by storing your sensitive data in `AWS Secrets Manager` secrets and then referencing them in your container definition. Sensitive data stored in Secrets Manager secrets can be exposed to a container as environment variables or as part of the log configuration.When you inject a secret as an environment variable, you can specify a JSON key or version of a secret to inject. This process helps you control the sensitive data exposed to your container. 
 
 **How?**
 
@@ -385,9 +383,9 @@ Important
 
 To provide access to the Secrets Manager secrets that you create, manually add the following permissions as an inline policy to the task execution role. For more information, see Adding and Removing IAM Policies.
 
-  +  secretsmanager:GetSecretValue–Required if you are referencing a Secrets Manager secret.
+  +  `secretsmanager:GetSecretValue` – Required if you are referencing a Secrets Manager secret.
 
-  +  kms:Decrypt–Required only if your secret uses a custom KMS key and not the default key. The ARN for your custom key should be added as a resource.
+  +  `kms:Decrypt` – Required only if your secret uses a custom KMS key and not the default key. The ARN for your custom key should be added as a resource.
 
 The following example inline policy adds the required permissions.
 ```
@@ -408,6 +406,8 @@ The following example inline policy adds the required permissions.
   ]
 }
 ```
+<br>
+
 ### Injecting Sensitive Data as an Environment Variable
 
 Within your container definition, you can specify the following:
@@ -423,6 +423,7 @@ The following example shows the full syntax that must be specified for the Secre
 ```
 arn:aws:secretsmanager:region:aws_account_id:secret:secret-name:json-key:version-stage:version-id
 ```
+<br>
 
 ### Example Container Definitions
 
@@ -443,6 +444,8 @@ The following is a snippet of a task definition showing the format when referenc
 }
 
 ```
+<br>
+
 **Example referencing a specific key within a secret**
 
 The following shows an example output from a get-secret-value command that displays the contents of a secret along with the version staging label and version ID associated with it.
@@ -459,6 +462,8 @@ The following shows an example output from a get-secret-value command that displ
     "CreatedDate": 1581968848.921
 }
 ```
+<br>
+
 Reference a specific key from the previous output in a container definition by specifying the key name at the end of the ARN.
 ```
 {
@@ -470,7 +475,7 @@ Reference a specific key from the previous output in a container definition by s
   }]
 }
 ```
-
+<br><br>
 
 ## 6. Using the awslogs Log Driver
 
@@ -486,17 +491,19 @@ You need need use awslogs log driver in order send all the logs from Fargae and 
 **How?**
 
 You can configure the containers in your tasks to send log information to CloudWatch Logs\. If you are using the Fargate launch type for your tasks, this allows you to view the logs from your containers\. 
+<br>
 
 ### Enabling the awslogs Log Driver for Your Containers
 
 If you are using the Fargate launch type for your tasks, all you need to do to enable the `awslogs` log driver is add the required `logConfiguration` parameters to your task definition\.
+<br>
 
 ### Creating a Log Group
 
 The `awslogs` log driver can send log streams to an existing log group in CloudWatch Logs or it can create a new log group on your behalf\. The AWS Management Console provides an auto\-configure option which creates a log group on your behalf using the task definition family name with `ecs` as the prefix\. Alternatively, you can manually specify your log configuration options and specify the `awslogs-create-group` option with a value of `true` which will create the log groups on your behalf\.
 
 **Note**  
-To use the `awslogs-create-group` option to have your log group created, your IAM policy must include the `logs:CreateLogGroup` permission\.
+>To use the `awslogs-create-group` option to have your log group created, your IAM policy must include the `logs:CreateLogGroup` permission\.
 
 ### Using the Auto\-configuration Feature to Create a Log Group
 
@@ -511,6 +518,7 @@ When registering a task definition in the Amazon ECS console, you have the optio
 5. In the **Storage and Logging** section, for **Log configuration**, choose **Auto\-configure CloudWatch Logs**\.
 6. Enter your awslogs log driver options\. For more information, see [Specifying a Log Configuration in your Task Definition](#specify-log-config)\.
 7. Complete the rest of the task definition wizard\.
+<br>
 
 ### Specifying a Log Configuration in your Task Definition
 
@@ -576,7 +584,7 @@ In the Amazon ECS console, the log configuration for the `wordpress` container i
 ![\[Console log configuration\]](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/images/awslogs-console-config.png)
 
 After you have registered a task definition with the `awslogs` log driver in a container definition log configuration, you can run a task or create a service with that task definition to start sending logs to CloudWatch Logs\. For more information, see [Running Tasks](ecs_run_task.md) and [Creating a service](create-service.md)\.
-
+<br><br>
 
 ## 7. Creating a CloudTrail to log ECS API calls
 
@@ -589,7 +597,7 @@ Capital Group:
 
 You need to use AWS CloudTrail service in order to capture all the activity done on ECS servers and send all the logs from Fargate and EC2 Instance type to centralized logging location. These logs are used but the CG Security Engineering Teams to detect malicious activity and threat detection.
 Amazon ECS is integrated with AWS CloudTrail, a service that provides a record of actions taken by a user, role, or an AWS service in Amazon ECS. CloudTrail captures all API calls for Amazon ECS as events, including calls from the Amazon ECS console and from code calls to the Amazon ECS API operations.
-CloudTrail is enabled on your AWS account when you create the account. When activity occurs in Amazon ECS, that activity is recorded in a CloudTrail event along with other AWS service events in Event history. 
+CloudTrail is enabled on your AWS account when you create the account. When activity occurs in Amazon ECS, that activity is recorded in a CloudTrail event along with other AWS service events in Event history. <br>
 
 **How?**
 
@@ -608,7 +616,7 @@ CloudTrail is enabled on your AWS account when you create the account. When acti
 6. For Log file SSE-KMS encryption, choose Enabled if you want to encrypt your log files with SSE-KMS instead of SSE-S3. The default is Enabled. For more information about this encryption type, see Protecting Data Using Server-Side Encryption with Amazon S3-Managed Encryption Keys (SSE-S3).
 
    If you enable SSE-KMS encryption, choose a New or Existing AWS KMS key. In AWS KMS Alias, specify an alias, in the format alias/MyAliasName. For more information, see Updating a trail to use your KMS key. CloudTrail also supports AWS KMS multi-Region keys. For more information about multi-Region keys, see Using multi-Region keys in the AWS Key Management Service Developer Guide.
-
+<br><br>
 
 ## 8. Enable VPC Flow Logs for ECS Cluster VPC EC2 Launch Types Only
 
@@ -630,6 +638,7 @@ Flow logs can help you with a number of tasks, such as:
  + Determining the direction of the traffic to and from the network interfaces
 
  Flow log data is collected outside of the path of your network traffic, and therefore does not affect network throughput or latency. You can create or delete flow logs without any risk of impact to network performance.
+ <br>
 
 **How?**
 
@@ -638,7 +647,7 @@ Flow logs can help you with a number of tasks, such as:
 You can create flow logs for your VPCs, subnets, or network interfaces\. Flow logs can publish data to CloudWatch Logs or Amazon S3\.
 
 For more information, see [Creating a flow log that publishes to CloudWatch Logs](flow-logs-cwl.md#flow-logs-cwl-create-flow-log) and [Creating a flow log that publishes to Amazon S3](flow-logs-s3.md#flow-logs-s3-create-flow-log)\.
-
+<br><br>
 
 ## 9. Scan images for Vulnerabilities
 
@@ -654,7 +663,7 @@ All images deployed in the ECS Cluster must be scanned for identifying vulnerabi
 **How?**
 
 All the Teams running ECS Clusters should have a Twistlock agent running in the cluster, so that images deployed in the cluster are scanned by Twistlock Scanner (Prisma Cloud). Please contact PDS team if you dont have twistlock agent running in the Cluster.
-
+<br><br>
 
 ## 10. Remove special permissions from images
 
@@ -679,7 +688,7 @@ To remove these special permissions from these files, add the following directiv
 ```
 RUN find / -xdev -perm /6000 -type f -exec chmod a-s {} \; || true
 ```
-
+<br><br>
 
 ## 11. Run containers as non-root users
 
@@ -724,7 +733,7 @@ Create a task definition revision.
 8.  If your task definition is used in a service, update your service with the updated task definition.
 
 9.  Deactivate previous task definition.
-
+<br><br>
 
 ## 12. Use a read-only root file system
 
@@ -755,7 +764,7 @@ This parameter is not supported for Windows containers.
 ```
   "readonlyRootFilesystem": true|false
 ```
-
+<br><br>
 
 ## 13. ECS data in transit must enforce TLS with version 1.2 or higher
 
@@ -793,8 +802,7 @@ With Amazon ECS, network encryption can be implemented in any of the following w
     + [Maintaining transport layer security all the way to your containers using the Network Load Balancer with Amazon ECS part 1] (https://aws.amazon.com/blogs/compute/maintaining-transport-layer-security-all-the-way-to-your-container-using-the-network-load-balancer-with-amazon-ecs/)
 
     + [Maintaining Transport Layer Security (TLS) all the way to your container part 2: Using AWS Certificate Manager Private Certificate Authority] (https://aws.amazon.com/blogs/compute/maintaining-transport-layer-security-all-the-way-to-your-container-part-2-using-aws-certificate-manager-private-certificate-authority/)
-
-
+<br><br>
 
 ## 14. Make sure ECS Task network interface does not have public IP address
 
@@ -807,7 +815,7 @@ Capital Group:
 
 Avoid using a public subnet or public IP addresses for private, internal tasks. According CG Security Standards we are not allowed to have any public IP address from ECS Services. It allows malicious actors to get into the network. When creating a Amazon ECS Service, you have a option to enable to "Assign public IP address". We should not allow any ECS Cluster have a public IP address. 
 
-If you are running a service that handles private, internal information, you should not put it into a public subnet or use a public IP address. For example, imagine that you have one task, which is an API gateway for authentication and access control. You have another background worker task that handles sensitive information.
+If you are running a service that handles private, internal information, you should not put it into a public subnet or use a public IP address. For example, imagine that you have one task, which is an API gateway for authentication and access control. You have another background worker task that handles sensitive information.<br>
 
 **How?**
 
@@ -830,7 +838,7 @@ In the example below we are going to show where to check if the resource is enab
       TaskDefinition: !Ref 'TaskDefinition'
      
 ```
-
+<br><br>
 
 ## 15. Use always Fargate launch type in ECS Cluster with version 1.4 and above
 
@@ -841,7 +849,7 @@ Capital Group:
 
 **Why?**
 
-Avoid using EC2 Launch Type as it as inheritent security risks if deployed without any customization. The security risk, the role when assumed with EC2 Launch type will have access to the roles of Ec2 Instance. There CG Security team recommends to always run workloads for ECS Cluster in Fargate. We also seen lot of ehanced security feature in version 1.4, there it is recommended to have a minimum version of 1.4 for Fargate for tasks running on ECS.
+Avoid using EC2 Launch Type as it as inheritent security risks if deployed without any customization. The security risk, the role when assumed with EC2 Launch type will have access to the roles of Ec2 Instance. There CG Security team recommends to always run workloads for ECS Cluster in Fargate. We also seen lot of ehanced security feature in version 1.4, there it is recommended to have a minimum version of 1.4 for Fargate for tasks running on ECS.<br>
 
 **How?**
 
@@ -860,11 +868,9 @@ Currently we have seen lot of security features enabled in Fargate 1.4, Specific
   + Added support for the SYS_PTRACE Linux parameter in container definitions. For more information, see Linux Parameters.
 
 The above are the few of the features from the over list. The following link contains detailed feature list https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html
-
-
+<br><br>
 
 ## Operational Best Practices
-
 
 ## 1. Utilizing AWS CloudWatch Container Insights
 
@@ -900,9 +906,9 @@ You can enable Container Insights on all new clusters by default, or on an indiv
 
 1. Open the Amazon ECS console at [https://console\.aws\.amazon\.com/ecs/](https://console.aws.amazon.com/ecs/)\.
 
-1. In the navigation pane, choose **Account Settings**\.
+2. In the navigation pane, choose `Account Settings`.
 
-1. Select the check box at the bottom of the page to enable the Container Insights default\.
+3. Select the check box at the bottom of the page to enable the Container Insights default\.
 
 If you haven't used the preceding procedure to enable Container Insights on all new clusters by default, use the following steps to create a cluster with Container Insights enabled\.
 
@@ -910,21 +916,19 @@ If you haven't used the preceding procedure to enable Container Insights on all 
 
 1. Open the Amazon ECS console at [https://console\.aws\.amazon\.com/ecs/](https://console.aws.amazon.com/ecs/)\.
 
-1. In the navigation pane, choose **Clusters**\.
+2. In the navigation pane, choose `Clusters`.
 
-1. Choose **Create cluster**\.
+3. On the next page, do the following:
 
-1. On the next page, do the following:
+   a. Name your cluster\.
 
-   1. Name your cluster\.
+   b. If you don’t have a VPC already, select the check box to create one\. You can use the default values for the VPC\.
 
-   1. If you don’t have a VPC already, select the check box to create one\. You can use the default values for the VPC\.
+   c. Fill out all other needed information, including instance type\.
 
-   1. Fill out all other needed information, including instance type\.
+   d. Select **Enabled Container Insights**\.
 
-   1. Select **Enabled Container Insights**\.
-
-   1. Choose **Create**\.
+   e. Choose **Create**\.
 
 You can now create task definitions, run tasks, and launch services in the cluster\. For more information, see the following:
 + [Creating a Task Definition](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-task-definition.html)
@@ -944,6 +948,7 @@ If you didn't use the preceding command to enable Container Insights on all new 
 ```
 aws ecs create-cluster --cluster-name myCICluster --settings "name=containerInsights,value=enabled"
 ```
+<br><br>
 
 ## 2. ECS Resources are tagged according to CG standards
 
@@ -980,7 +985,7 @@ It is not best practice if you dont set the limits on CPU and Memory consumption
 
 Please follow the configuration details that are available for limiting CPU and Memory usuage. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
 
-Task size
+### Task size<br>
 When you register a task definition, you can specify the total cpu and memory used for the task. This is separate from the cpu and memory values at the container definition level. For tasks hosted on Amazon EC2 instances, these fields are optional. For tasks hosted on Fargate, these fields are required and there are specific values for both cpu and memory that are supported.
 
 The following parameter is allowed in a task definition:
@@ -992,8 +997,8 @@ cpu
     Required: conditional
 ```
 
-Note
-This parameter is not supported for Windows containers.
+**Note**
+>This parameter is not supported for Windows containers.
 
 The hard limit of CPU units to present for the task. It can be expressed as an integer using CPU units, for example 1024, or as a string using vCPUs, for example 1 vCPU or 1 vcpu, in a task definition. When the task definition is registered, a vCPU value is converted to an integer indicating the CPU units.
 
@@ -1018,8 +1023,8 @@ memory
 
 ```
 
-Note
-This parameter is not supported for Windows containers.
+**Note**
+>This parameter is not supported for Windows containers.
 
 The hard limit of memory (in MiB) to present to the task. It can be expressed as an integer using MiB, for example 1024, or as a string using GB, for example 1GB or 1 GB, in a task definition. When the task definition is registered, a GB value is converted to an integer indicating the MiB.
 
@@ -1034,6 +1039,7 @@ For tasks hosted on Fargate, this field is required and you must use one of the 
 | 2048 (2 GB), 3072 (3 GB), 4096 (4 GB), 5120 (5 GB), 6144 (6 GB), 7168 (7 GB), 8192 (8 GB)|1024 (1 vCPU)|
 | Between 4096 (4 GB) and 16384 (16 GB) in increments of 1024 (1 GB)|2048 (2 vCPU)
 | Between 8192 (8 GB) and 30720 (30 GB) in increments of 1024 (1 GB)|4096 (4 vCPU)| 
+<br><br>
 
 ## Endnotes
 **Resources**<br>
