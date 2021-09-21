@@ -955,6 +955,8 @@ aws ecs create-cluster --cluster-name myCICluster --settings "name=containerInsi
 
 **Why?**
 
+Tagging helps CG manage resources very well, It is used specially for managing enhanced billing and identify which resources belongs to which team. As a best practice CG recommends always to tag the resource.
+
 **How?**
 
 Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
@@ -976,7 +978,7 @@ It is not best practice if you dont set the limits on CPU and Memory consumption
 
 **How?**
 
-Please follow the configuration details that are avialble for limiting CPU and Memory usuage. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
+Please follow the configuration details that are available for limiting CPU and Memory usuage. https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html
 
 Task size
 When you register a task definition, you can specify the total cpu and memory used for the task. This is separate from the cpu and memory values at the container definition level. For tasks hosted on Amazon EC2 instances, these fields are optional. For tasks hosted on Fargate, these fields are required and there are specific values for both cpu and memory that are supported.
