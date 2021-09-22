@@ -25,7 +25,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/broad_policies/privacy_standards/api_gateway_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/broad_policies/privacy_standards_policies/api_gateway_standards.sentinel"
                     ],
                     "type": "prevent"
                 }

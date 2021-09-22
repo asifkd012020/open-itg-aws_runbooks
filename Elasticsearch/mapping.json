@@ -25,7 +25,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/elasticsearch_policies/elasticsearch_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/elasticsearch_policies/elasticsearch_standards.sentinel"
                     ],
                     "type": "prevent"
                 }
