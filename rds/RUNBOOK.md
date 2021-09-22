@@ -38,6 +38,8 @@ Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate
 
 Amazon RDS is available on several database instance types - optimized for memory, performance or I/O - and provides you with six familiar database engines to choose from, including Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle Database, and SQL Server. You can use the AWS Database Migration Service to easily migrate or replicate your existing databases to Amazon RDS.
 
+**NOTE**
+>The only two RDS instance types supported at CG are Oracle and Postgress, all other instance types are not currently supported and should not be deployed.<br>
 
 <img src="/docs/img/rds/example.png" width="800">
 
@@ -347,6 +349,7 @@ You can set the `rds.force_ssl` parameter value by updating the parameter group 
 
 **Why?**<br>
 When you create custom policies, grant only the permissions required to perform a task. Start with a minimum set of permissions and grant additional permissions as necessary. Doing so is more secure than starting with permissions that are too lenient and then trying to tighten them later.  
+
 To the extent that it's practical, define the conditions under which your identity-based policies allow access to a resource. For example, you can write conditions to specify a range of allowable IP addresses that a request must come from. You can also write conditions to allow requests only within a specified date or time range, or to require the use of SSL or MFA.
 
 **How?**<br>
@@ -378,6 +381,7 @@ The following example policy allows a principal to perform specific actions in R
    ]
 }
 ```
+
 #### **IAM Database Authentication**
 You can authenticate to your DB instance using AWS IAM database authentication. IAM database authentication works with MySQL and PostgreSQL. With this authentication method, you don't need to use a password when you connect to a DB instance. Instead, you use an authentication token.  
 The following AWS CLI command can be used to enable IAM authentication on an existing RDS database:
@@ -387,7 +391,7 @@ aws rds modify-db-instance \
     --apply-immediately \
     --enable-iam-database-authentication
 ```
-<br><br>
+<br>
 
 ### 8. RDS instances are configured for high-availability
 
@@ -407,22 +411,24 @@ Using the RDS console, you can create a Multi-AZ deployment by simply specifying
 
 #### Example Deployment
 <img src="/docs/img/rds/failover.png" width="500">
-<br><br>
+<br>
 
 
-### 5. Store database secrets in a vault for automatic rotation
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|PR.DS-1|Data-at-rest is protected|
-|PR.DS-2|Data-in-transit is protected|
-|PR.DS-5|Protections against data leaks are implemented|
-|PR.DS-6|Integrity checking mechanisms are used to verify software, firmware, and information integrity|
+### 9. RDS database secrets are vaulted for automatic rotation
 
-**Why?** In the past, when you created a custom application to retrieve information from a database, you typically embedded the credentials, the secret, for accessing the database directly in the application. When the time came to rotate the credentials, you had to do more than just create new credentials. You had to invest time to update the application to use the new credentials. Then you distributed the updated application. If you had multiple applications with shared credentials and you missed updating one of them, the application failed. Because of this risk, many customers choose not to regularly rotate credentials, which effectively substitutes one risk for another.  
+**Capital Group Controls:**<br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control ID |Control Description|
+
+**Why?**<br>
+In the past, when you created a custom application to retrieve information from a database, you typically embedded the credentials, the secret, for accessing the database directly in the application. When the time came to rotate the credentials, you had to do more than just create new credentials. You had to invest time to update the application to use the new credentials. Then you distributed the updated application. If you had multiple applications with shared credentials and you missed updating one of them, the application failed. Because of this risk, many customers choose not to regularly rotate credentials, which effectively substitutes one risk for another.  
+
 A vaulting solution enables you to replace hardcoded credentials in your code, including passwords, with an API call to retrieve the secret programmatically. This helps ensure the secret can't be compromised by someone examining your code, because the secret no longer exists in the code.
 
-**How?** You can configure AWS Secrets Manager to automatically rotate the secret for a secured database. Secrets Manager natively knows how to rotate secrets for supported Amazon RDS databases. Because each database can have a unique way of configuring secrets, Secrets Manager uses a Lambda function you can customize to work with a selected database.
+**How?**<br>
+You can configure AWS Secrets Manager to automatically rotate the secret for a secured database. Secrets Manager natively knows how to rotate secrets for supported Amazon RDS databases. Because each database can have a unique way of configuring secrets, Secrets Manager uses a Lambda function you can customize to work with a selected database.
 
 When you enable rotation for a secret by using the **Credentials for RDS database** secret type, Secrets Manager provides a Lambda rotation function for you and populates the function automatically with the Amazon Resource Name (ARN) in the secret. You provide a few details for this to work. For example, you specify the secret with permissions to rotate the credentials, and how often you want to rotate the secret.
 
@@ -434,40 +440,36 @@ aws ec2 create-vpc-endpoint  --vpc-id <vpc id> \
                              --subnet-ids <subnet id> \
                              --security-group-id <security group id>
 ```
+<br>
 
 ## Operational Best Practices
 
 ### 1. Monitor RDS DB instances status
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.AE-5|Incident alert thresholds are established|
-|DE.CM-1|The Network is monitored to detect potential cybersecurity events|
 
+**Capital Group Controls:**<br>
 
-Capital Group:
 |Control Statement|Description|
 |------|----------------------|
-|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
+|Control ID |Control Description|
 
 
-**Why?** 
+**Why?**<br>
 Performance Insights expands on existing Amazon RDS monitoring features to illustrate your database's performance and help you analyze any issues that affect it\. With the Performance Insights dashboard, you can visualize the database load and filter the load by waits, SQL statements, hosts, or users\.
-**How?** 
+
+**How?**<br>
 Enable performance insights monitoring for RDS 
 
-#### Enabling Performance Insights <!-- omit in toc -->
+#### **Enabling Performance Insights**
 
 To use Performance Insights, you must enable it on your DB instance\.
 
 The Performance Insights agent consumes limited CPU and memory on the DB host\. When the DB load is high, the agent limits the performance impact by collecting data less frequently\.
 
-##### Console <!-- omit in toc -->
+#### **1. Console**
 
 You can use the console to enable Performance Insights when you create a new DB instance\. You can also modify a DB instance to enable Performance Insights\.
 
-###### Enabling Performance Insights with the Console When Creating a DB Instance <!-- omit in toc -->
+### Enabling Performance Insights with the Console When Creating a DB Instance
 
 When you create a new DB instance, Performance Insights is enabled when you choose **Enable Performance Insights** in the **Performance Insights** section\.
 
@@ -475,11 +477,11 @@ You have the following options when you choose **Enable Performance Insights**:
 + **Retention** – The amount of time to retain Performance Insights data\. Choose either 7 days \(the default\) or 2 years\.
 + **Master key** – Specify your AWS Key Management Service \(AWS KMS\) key\. Performance Insights encrypts all potentially sensitive data using your AWS KMS key\. Data is encrypted in flight and at rest\. For more information, see [Encrypting Amazon RDS Resources](Overview.Encryption.md)\.
 
-###### Enabling Performance Insights with the Console When Modifying a DB Instance <!-- omit in toc -->
+#### Enabling Performance Insights with the Console When Modifying a DB Instance <!-- omit in toc -->
 
-You can modify a DB instance to enable Performance Insights using the console\.
+You can modify a DB instance to enable Performance Insights using the console\.<br>
 
-**To enable Performance Insights for a DB instance using the console**
+#### To enable Performance Insights for a DB instance using the console
 
 1. Sign in to the AWS Management Console and open the Amazon RDS console at [https://console\.aws\.amazon\.com/rds/](https://console.aws.amazon.com/rds/)\.
 
@@ -499,9 +501,9 @@ You can modify a DB instance to enable Performance Insights using the console\.
    + **Apply during the next scheduled maintenance window** – Wait to apply the **Performance Insights** modification until the next maintenance window\.
    + **Apply immediately** – Apply the **Performance Insights** modification as soon as possible\.
 
-1. Choose **Modify instance**\.
+1. Choose **Modify instance**\.<br>
 
-##### AWS CLI <!-- omit in toc -->
+#### **2. AWS CLI**
 
 When you create a new DB instance using the [create\-db\-instance](https://docs.aws.amazon.com/cli/latest/reference/rds/create-db-instance.html) AWS CLI command, Performance Insights is enabled when you specify `--enable-performance-insights`\. 
 
@@ -512,7 +514,7 @@ You can also specify the `--enable-performance-insights` value using the followi
 
 The following procedure describes how to enable Performance Insights for a DB instance using the AWS CLI\.
 
-**To enable Performance Insights for a DB instance using the AWS CLI**
+### To enable Performance Insights for a DB instance using the AWS CLI
 + Call the [modify\-db\-instance](https://docs.aws.amazon.com/cli/latest/reference/rds/modify-db-instance.html) AWS CLI command and supply the following values:
   + `--db-instance-identifier` – The name of the DB instance\.
   + `--enable-performance-insights`
@@ -557,7 +559,7 @@ aws rds modify-db-instance ^
     --performance-insights-retention-period 731
 ```
 
-##### RDS API <!-- omit in toc -->
+### RDS API
 
 When you create a new DB instance using the [CreateDBInstance](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_CreateDBInstance.html) operation Amazon RDS API operation, Performance Insights is enabled when you set `EnablePerformanceInsights` to `True`\. 
 
@@ -568,7 +570,7 @@ You can also specify the `EnablePerformanceInsights` value using the following A
 
 When you enable Performance Insights, you can optionally specify the amount of time, in days, to retain Performance Insights data with the `PerformanceInsightsRetentionPeriod` parameter\. Valid values are 7 \(the default\) or 731 \(2 years\)\.
 
-##### Enabling the Performance Schema for Performance Insights on Amazon RDS for MariaDB or MySQL <!-- omit in toc -->
+### Enabling the Performance Schema for Performance Insights on Amazon RDS for MariaDB or MySQL
 
 When the Performance Schema feature is enabled for Amazon RDS for MariaDB or MySQL, Performance Insights provides more detailed information\. For example, Performance Insights displays DB load categorized by detailed wait events\. Without the Performance Schema enabled, Performance Insights displays DB load categorized by the list state of the MySQL process\.
 
@@ -576,16 +578,16 @@ The Performance Schema is enabled automatically when you create an Amazon RDS fo
 
 [\[See the AWS documentation website for more details\]](http://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.Enabling.html)
 
-**Important**  
-When Performance Schema is enabled automatically, Performance Insights changes schema\-related parameters on the DB instance\. These changes aren't visible in the parameter group associated with the DB instance\.
+**NOTE**  
+>When Performance Schema is enabled automatically, Performance Insights changes schema\-related parameters on the DB instance\. These changes aren't visible in the parameter group associated with the DB instance\.
 
-###### Enabling the Performance Schema Manually <!-- omit in toc -->
+### Enabling the Performance Schema Manually <!-- omit in toc -->
 
 Performance Schema is *not* enabled when both the following conditions are true:
 + The `performance_schema` parameter is set to `0` or `1`\.
 + The `performance_schema` parameter `source` is set to `user`\.
 
-**To enable the Performance Schema manually**
+### To enable the Performance Schema manually
 
 1. Sign in to the AWS Management Console and open the Amazon RDS console at [https://console\.aws\.amazon\.com/rds/](https://console.aws.amazon.com/rds/)\.
 
@@ -604,9 +606,9 @@ Performance Schema is *not* enabled when both the following conditions are true:
 1. Restart the DB instance\.
 
 For more information about modifying instance parameters, see [Modifying Parameters in a DB Parameter Group](USER_WorkingWithParamGroups.md#USER_WorkingWithParamGroups.Modifying)\. For more information about the dashboard, see [Monitoring with the Performance Insights Dashboard](USER_PerfInsights.UsingDashboard.md)\. For more information about the MySQL performance schema, see [MySQL 8\.0 Reference Manual](https://dev.mysql.com/doc/refman/8.0/en/performance-schema.html)\.
+<br>
 
-
-#### Accessing Performance Insights <!-- omit in toc -->
+### Accessing Performance Insights
 
 To access Performance Insights, you must have the appropriate permissions from AWS Identity and Access Management \(IAM\)\. There are two options available for granting access:
 
@@ -614,13 +616,13 @@ To access Performance Insights, you must have the appropriate permissions from A
 
 1. Create a custom IAM policy and attach it to an IAM user or role\.
 
-##### AmazonRDSFullAccess Managed Policy <!-- omit in toc -->
+### AmazonRDSFullAccess Managed Policy
 
 `AmazonRDSFullAccess` is an AWS\-managed policy that grants access to all of the Amazon RDS API operations\. The policy also grants access to related services that are used by the Amazon RDS console—for example, event notifications using Amazon SNS\.
 
 In addition, `AmazonRDSFullAccess` contains all the permissions needed for using Performance Insights\. If you attach this policy to an IAM user or role, the recipient can use Performance Insights\. along with other console features\.
 
-##### Using a Custom IAM Policy< <!-- omit in toc -->
+### Using a Custom IAM Policy
 
 For users who don’t have full access with the `AmazonRDSFullAccess` policy, you can grant access to Performance Insights by creating or modifying a user\-managed IAM policy\. When you attach the policy to an IAM user or role, the recipient can use Performance Insights\.
 
@@ -674,11 +676,11 @@ To use Performance Insights, make sure that you have access to Amazon RDS in add
 
 1. Choose **Add permissions**\.
 
-#### Monitoring with the Performance Insights Dashboard <!-- omit in toc -->
+### Monitoring with the Performance Insights Dashboard <!-- omit in toc -->
 
 The Performance Insights dashboard contains database performance information to help you analyze and troubleshoot performance issues\. On the main dashboard page, you can view information about the database load\. You can also drill into details for a particular wait state, SQL query, host, or user\.
 
-##### Opening the Performance Insights Dashboard <!-- omit in toc -->
+### Opening the Performance Insights Dashboard <!-- omit in toc -->
 
 To see the Performance Insights dashboard, use the following procedure\.
 
@@ -705,7 +707,7 @@ To see the Performance Insights dashboard, use the following procedure\.
    + 24 hours refreshes every 5 minutes\.
    + 1 week refreshes every hour\.
 
-##### Performance Insights Dashboard Components <!-- omit in toc -->
+### Performance Insights Dashboard Components
 
 The dashboard is divided into three parts:
 
@@ -715,7 +717,7 @@ The dashboard is divided into three parts:
 
 1.  **Top *items*** – Shows the top waits, SQL, hosts, and users contributing to DB load\.
 
-###### Counter Metrics Chart <!-- omit in toc -->
+### Counter Metrics Chart
 
  The **Counter Metrics** chart displays data for performance counters\. The default metrics depend on the DB engine\.
 + MySQL and MariaDB – `db.SQL.Innodb_rows_read.avg`
@@ -724,7 +726,7 @@ The dashboard is divided into three parts:
 + PostgreSQL – `db.Transactions.xact_commit.avg`
 
 
-###### Average Active Sessions Chart <!-- omit in toc -->
+### Average Active Sessions Chart
 
 The **DB Load Chart** shows how the database load compares to DB instance capacity as represented by the **Max vCPU** line\. By default, load is shown as active sessions grouped by wait states in a bar graph\. 
 
@@ -738,7 +740,7 @@ To see details about a DB load item such as a SQL statement, hover over the item
 To see details for any item for the selected time period in the legend, hover over that item\.
 
 
-###### Top Load Items Table <!-- omit in toc -->
+### Top Load Items Table
 
 The **Top Load Items** table shows the top items contributing to database load\. By default, the console displays top SQL queries that are contributing to the database load, along with relevant statistics for each statement\. You can choose to display top waits, hosts, or users instead\.
 
@@ -758,7 +760,7 @@ When you choose the **Preferences** icon, the **Preferences** window opens\.
 
 Enable the statistics that you want to have visible in the **Top sql** tab, use your mouse to scroll to the bottom of the window, and then choose **Continue**\.
 
-##### Analyzing Database Load Using the Performance Insights Dashboard <!-- omit in toc -->
+### Analyzing Database Load Using the Performance Insights Dashboard
 
 If the **Average Active Sessions** chart shows a bottleneck, you can find out where the load is coming from\. To do so, look at the top load items table below the **Average Active Sessions** chart\. Choose a particular item, like a SQL query or a user, to drill down into that item and see details about it\.
 
@@ -777,11 +779,11 @@ Your typical workflow for diagnosing performance issues is as follows:
 For example, in the dashboard following, **log file sync** waits account for most of the DB load\. The **LGWR all worker groups** wait is also high\. The **Top sql** chart shows what is causing the **log file sync** waits: frequent `COMMIT` statements\. In this case, committing less frequently will reduce DB load\.
 
 
-##### Analyzing Statistics for Running Queries <!-- omit in toc -->
+### Analyzing Statistics for Running Queries
 
 In Amazon RDS Performance Insights, you can find statistics on running queries in the **Top *load\_items*** section\. To view these statistics, view top SQL\. Performance Insights collects statistics only for the most common queries\. Typically, these match the top queries by load shown in the Performance Insights dashboard\.
 
-###### Statistics for MariaDB and MySQL <!-- omit in toc -->
+### Statistics for MariaDB and MySQL
 
 Performance Insights collects SQL digest statistics from the `events_statements_summary_by_digest` table\. This table is managed by the database and doesn't have an eviction policy\. If the table becomes full, new SQL queries aren't tracked\. To address this issue, Performance Insights automatically truncates the table when it's nearly full\.
 
@@ -841,7 +843,7 @@ Using the AWS Management Console, you can view the metrics for a running SQL que
 Choose which statistics to display by choosing the gear icon in the upper\-right corner of the chart\.
 
 
-###### Statistics for Amazon RDS for Oracle <!-- omit in toc -->
+### Statistics for Amazon RDS for Oracle <!-- omit in toc -->
 
 The following SQL statistics are available for Oracle DB instances\.
 
