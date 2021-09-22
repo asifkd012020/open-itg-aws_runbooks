@@ -14,7 +14,7 @@ Security Engineering
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
   - [1. RDS Utilizes VPC Endpoints to Prevent Public Access](#1-rds-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
-  - [2. RDS has Instance Public Accessibility turned off](#2-rds-has-nstance-public-accessibility-turned-off)
+  - [2. RDS has Instance Public Accessibility turned off](#2-rds-has-instance-public-accessibility-turned-off)
   - [3. RDS snapshots are never shared Publicly](#3-rds-snapshots-are-never-shared-publicly)
   - [4. RDS data are Encrypted at rest using CG CMK](#4-rds-data-are-encrypted-at-rest-using-cg-cmk)
   - [5. RDS snapshots are Encrypted at rest using CG CMK](#5-rds-snapshots-are-encrypted-at-rest-using-cg-cmk)
