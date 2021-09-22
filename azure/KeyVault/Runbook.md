@@ -118,7 +118,7 @@ Use Azure role-based access control (Azure RBAC) to isolate access to business-c
 **How?**  
 Key Vault is integrated with Azure role-based access control (Azure RBAC) to manage its resources. Azure RBAC allows you to manage Azure resource access through role assignments. You can assign these roles to users, groups service principals, and managed identities. There are pre-defined built-in roles for certain resources, and these roles can be inventoried or queried through tools such as Azure CLI, Azure PowerShell, or the Azure portal. The privileges you assign to resources through the Azure RBAC should be always limited to what is required by the roles.
 
-
+<br>
 
 ### 4. Managed identities
 <br>
@@ -146,6 +146,7 @@ Managed identities for Azure resources is a feature of Azure Active Directory. E
    Refer to [azure doc](https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/tutorial-windows-vm-access-nonaad#access-data) for details
 
 
+<br><br>
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
