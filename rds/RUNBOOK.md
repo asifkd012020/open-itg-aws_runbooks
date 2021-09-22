@@ -8,7 +8,7 @@
 <br>
 Security Engineering
 
-**Last Update:** *09/13/2021*
+**Last Update:** *09/22/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
@@ -22,13 +22,13 @@ Security Engineering
   - [7. RDS has appropriate access controls to enforce least privilege](#7-RDS-has-appropriate-access-controls-to-enforce-least-privilege)
   - [8. RDS instances are configured for high-availability](#8-rds-instances-are-configured-for-high-availability)
   - [9. RDS database secrets are vaulted for automatic rotation](#9-rds-database-secrets-are-vaulted-for-automatic-rotation)
-  - [10. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS](#10-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds)
+  - [10. RDS uses CloudWatch and EventBridge events for anomaly detection](#10-rds-uses-cloudwatch-and-eventbridge-events-for-anomaly-detection)
 - [Operational Best Practices](#operational-best-practices)
-  - [1. Monitor RDS DB instances status](#1-monitor-rds-db-instances-status)
-  - [2. Log Amazon RDS API calls](#2-log-amazon-rds-api-calls)
-  - [3. Utilize Amazon RDS Event Notifications utilizing Amazon SNS](#3-utilize-amazon-rds-event-notifications-utilizing-amazon-sns)
-  - [4. Utilize AWS Config rules to monitor RDS for control compliance](#4-utilize-aws-config-rules-to-monitor-rds-for-control-compliance)
-  - [5. AWS RDS auto minor version upgrade is enabled](#5-aws-rds-auto-minor-version-upgrade-is-enabled)
+  - [1. RDS Resources are tagged according to CG standards](#1-rds-resources-are-tagged-according-to-cg-standards)
+  - [2. RDS auto minor version upgrade is enabled](#2-rds-auto-minor-version-upgrade-is-enabled)
+  - [3. Monitor RDS DB instances status](#3-monitor-rds-db-instances-status)
+  - [4. Log Amazon RDS API calls](#4-log-amazon-rds-api-calls)
+  - [5. Utilize Amazon RDS Event Notifications utilizing Amazon SNS](#5-utilize-amazon-rds-event-notifications-utilizing-amazon-sns)
 - [Endnotes](#endnotes)
 - [Capital Group Glossory](#capital-group-glossory) 
 <br><br>
@@ -442,9 +442,220 @@ aws ec2 create-vpc-endpoint  --vpc-id <vpc id> \
 ```
 <br>
 
+### 10. RDS uses CloudWatch and EventBridge events for anomaly detection
+
+**Capital Group Controls:**<br>
+
+|Control Statement|Description|
+|------|----------------------|
+|Control ID |Control Description|
+
+**Why?**<br>
+Understanding instance behavior and having the ability to be notified of anomalies to that behavior is key to securing your RDS deployments.
+
+**How?**<br>
+Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS
+
+### Getting CloudWatch Events and Amazon EventBridge Events for Amazon RDS
+
+Amazon CloudWatch Events and Amazon EventBridge both enable you to automate AWS services and respond to system events such as application availability issues or resource changes\. Events from AWS services are delivered to CloudWatch Events and EventBridge nearly in real time\. You can write simple rules to indicate which events interest you and what automated actions to take when an event matches a rule\.
+
+You can set a variety of targets—such as an AWS Lambda function or an Amazon SNS topic—which receive events in JSON format\. For more information, see the [Amazon CloudWatch Events User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/) and the [Amazon EventBridge User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/)\.
+
+For example, you can configure Amazon RDS to send events to CloudWatch Events or Amazon EventBridge whenever a DB instance is created or deleted\.
+
+### Sending Amazon RDS Events to CloudWatch Events
+You can create CloudWatch Events rules to send Amazon RDS events to CloudWatch Events\.
+
+Use the following steps to create a CloudWatch Events rule that triggers on an event emitted by an AWS service\.
+
+**To create a rule that triggers on an event:**
+
+1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
+
+1. Under **Events** in the navigation pane, choose **Rules**\.
+
+1. Choose **Create rule**\.
+
+1. For **Event Source**, do the following:
+
+   1. Choose **Event Pattern**\.
+
+   1. For **Service Name**, choose **Relational Database Service \(RDS\)**\.
+
+   1. For **Event Type**, choose the type of Amazon RDS resource that triggers the event\. For example, if a DB instance triggers the event, choose **RDS DB Instance Event**\.
+
+1. For **Targets**, choose **Add Target**, then choose the **CloudWatch log group**\. 
+
+1. For **Log Group**, enter a name for the log group to store the events\. 
+
+1. Choose **Configure details**\. For **Rule definition**, type a name and description for the rule\. 
+
+1. Choose **Create rule**\.
+
+### DB Instance Events
+
+The following is an example of a DB instance event\.
+
+```
+{
+  "version": "0",
+  "id": "68f6e973-1a0c-d37b-f2f2-94a7f62ffd4e",
+  "detail-type": "RDS DB Instance Event",
+  "source": "aws.rds",
+  "account": "123456789012",
+  "time": "2018-09-27T22:36:43Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:rds:us-east-1:123456789012:db:my-db-instance"
+  ],
+  "detail": {
+    "EventCategories": [
+      "failover"
+    ],
+    "SourceType": "DB_INSTANCE",
+    "SourceArn": "arn:aws:rds:us-east-1:123456789012:db:my-db-instance",
+    "Date": "2018-09-27T22:36:43.292Z",
+    "SourceIdentifier": "rds:my-db-instance",
+    "Message": "A Multi-AZ failover has completed."
+  }
+}
+```
+
+### DB Parameter Group Events
+
+The following is an example of a DB parameter group event\.
+
+```
+{
+  "version": "0",
+  "id": "844e2571-85d4-695f-b930-0153b71dcb42",
+  "detail-type": "RDS DB Parameter Group Event",
+  "source": "aws.rds",
+  "account": "123456789012",
+  "time": "2018-10-06T12:26:13Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:rds:us-east-1:123456789012:pg:my-db-param-group"
+  ],
+  "detail": {
+    "EventCategories": [
+      "configuration change"
+    ],
+    "SourceType": "DB_PARAM",
+    "SourceArn": "arn:aws:rds:us-east-1:123456789012:pg:my-db-param-group",
+    "Date": "2018-10-06T12:26:13.882Z",
+    "SourceIdentifier": "rds:my-db-param-group",
+    "Message": "Updated parameter time_zone to UTC with apply method immediate"
+  }
+}
+```
+
+### DB Security Group Events
+
+The following is an example of a DB security group event\.
+
+```
+{
+  "version": "0",
+  "id": "844e2571-85d4-695f-b930-0153b71dcb42",
+  "detail-type": "RDS DB Security Group Event",
+  "source": "aws.rds",
+  "account": "123456789012",
+  "time": "2018-10-06T12:26:13Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:rds:us-east-1:123456789012:secgrp:my-security-group"
+  ],
+  "detail": {
+    "EventCategories": [
+      "configuration change"
+    ],
+    "SourceType": "SECURITY_GROUP",
+    "SourceArn": "arn:aws:rds:us-east-1:123456789012:secgrp:my-security-group",
+    "Date": "2018-10-06T12:26:13.882Z",
+    "SourceIdentifier": "rds:my-security-group",
+    "Message": "Applied change to security group"
+  }
+}
+```
+
+### DB Snapshot Events 
+
+The following is an example of a DB snapshot event\.
+
+```
+{
+  "version": "0",
+  "id": "844e2571-85d4-695f-b930-0153b71dcb42",
+  "detail-type": "RDS DB Snapshot Event",
+  "source": "aws.rds",
+  "account": "123456789012",
+  "time": "2018-10-06T12:26:13Z",
+  "region": "us-east-1",
+  "resources": [
+    "arn:aws:rds:us-east-1:123456789012:snapshot:rds:my-db-snapshot"
+  ],
+  "detail": {
+    "EventCategories": [
+      "deletion"
+    ],
+    "SourceType": "SNAPSHOT",
+    "SourceArn": "arn:aws:rds:us-east-1:123456789012:snapshot:rds:my-db-snapshot",
+    "Date": "2018-10-06T12:26:13.882Z",
+    "SourceIdentifier": "rds:my-db-snapshot",
+    "Message": "Deleted manual snapshot"
+  }
+}
+```
+<br><br>
+
 ## Operational Best Practices
 
-### 1. Monitor RDS DB instances status
+### 1. RDS Resources are tagged according to CG standards
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|N/A| No security control currently defined.|
+
+**What, Why & How?**
+
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
+
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
+<br><br>
+
+### 2. RDS auto minor version upgrade is enabled
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|N/A| No security control currently defined.|
+
+**Why?**<br>
+
+RDS can be upgraded with major and minor upgrades\. Minor upgrades helps maintain a secure and stable RDS with minimal impact on the application\. Auto Minor Version Upgrade is a feature that you can enable to have your database automatically upgraded when a new minor database engine version is available\. It is recommended to have RDS auto minor version upgrade enabled\.
+
+After a minor version has been tested and approved by Amazon RDS, the minor version upgrade occurs automatically during your maintenance window\. RDS doesn't automatically set newer released minor versions as the automatic upgrade version\. Before RDS designates a newer automatic upgrade version, several criteria are considered, such as the following:
+1. Known security issues\.
+2. Bugs in the PostgreSQL community version\.
+3. Overall fleet stability since the minor version was released\.
+
+**How?**<br>
+
+#### Enable RDS auto minor version upgrades\.
+1. Navigate to the AWS console RDS dashboard\.
+2. In the navigation pane, select Databases\.
+3. Select the database instance you wish to configure and select Modify\.
+4. Under the Maintenance section, select Yes for `"Enable Auto minor version upgrade"`\.
+5. Select Continue and then Modify DB Instance\.
+You can also use the AWS CLI, and set the `--auto-minor-version-upgrade|--no-auto-minor-version-upgrade` option using modify-db-instance api\.
+<br><br>
+
+### 2. Monitor RDS DB instances status
 
 **Capital Group Controls:**<br>
 
@@ -1775,277 +1986,6 @@ aws rds delete-event-subscription --subscription-name myrdssubscription
 To delete an Amazon RDS event notification subscription, use the RDS API [https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DeleteEventSubscription.html](https://docs.aws.amazon.com/AmazonRDS/latest/APIReference/API_DeleteEventSubscription.html) command\. Include the following required parameter:
 + `SubscriptionName`
 
-
-### 4. Utilize AWS Config rules to monitor RDS for control compliance
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.AE-2|Detected events are analyzed to understand attack targets and methods|
-|DE.AE-1|A baseline of network operations and expected data flows for users and systems is established and managed|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-|||
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|2|All Data-in-transit must be encrypted using certificates using CG Certificate Authority|
-|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
-
-**Why?** 
-AWS Config continuously detects when any resource of a supported type is created, changed, or deleted\. AWS Config records these events as configuration items\. You can customize AWS Config to record changes for all supported types of resources including RDS or for only those types that are relevant to you at Capital Group\.
-
-**How?** 
-Ensure RDS is a selected resource that is recorded in AWS Config records. Specifically, ensure you are monitoring the following AWS Config rules (1) rds-snapshots-public-prohibited to ensure the RDS instance is not enabled public, and (2) rds-instance-public-access-check, which verifies that the publiclyAccessible field is true in the instance configuration item. 
-
-#### rds\-enhanced\-monitoring\-enabled <!-- omit in toc -->
-
-Checks whether enhanced monitoring is enabled for Amazon Relational Database Service \(Amazon RDS\) instances\.
-
-**Identifier:** RDS\_ENHANCED\_MONITORING\_ENABLED
-
-**Trigger type:** Configuration changes
-
-**AWS Region:** All supported AWS regions 
-
-**Parameters:**
-
-monitoringInterval  
-\(Optional\) An integer value in seconds between points when enhanced monitoring metrics are collected for the database instance\. The valid values are 1, 5, 10, 15, 30, and 60\.
-
-
-#### rds\-snapshots\-public\-prohibited <!-- omit in toc -->
-
-Checks if Amazon Relational Database Service \(Amazon RDS\) snapshots are public\. The rule is NON\_COMPLIANT if any existing and new Amazon RDS snapshots are public\. 
-
-**Identifier:** RDS\_SNAPSHOTS\_PUBLIC\_PROHIBITED
-
-**Trigger type:** Configuration changes
-
-**Parameters:**
-
-None  
-
-#### rds\-instance\-public\-access\-check <!-- omit in toc -->
-
-Check whether the Amazon Relational Database Service instances are not publicly accessible\. The rule is NON\_COMPLIANT if the `publiclyAccessible` field is true in the instance configuration item\.
-
-**Identifier:** RDS\_INSTANCE\_PUBLIC\_ACCESS\_CHECK
-
-**Trigger type:** Configuration changes
-
-**Parameters:**
-
- None  
-
-#### rds\-storage\-encrypted <!-- omit in toc -->
-
-Checks whether storage encryption is enabled for your RDS DB instances\.
-
-**Identifier:** RDS\_STORAGE\_ENCRYPTED
-
-**Trigger type:** Configuration changes
-
-**Parameters:**
-
- kmsKeyId   
- KMS key ID or ARN used to encrypt the storage\.
-
-### 5. AWS RDS auto minor version upgrade is enabled
-
-**Why?** 
-RDS can be upgraded with major and minor upgrades\. Minor upgrades helps maintain a secure and stable RDS with minimal impact on the application\. Auto Minor Version Upgrade is a feature that you can enable to have your database automatically upgraded when a new minor database engine version is available\. It is recommended to have RDS auto minor version upgrade enabled\.
-
-After a minor version has been tested and approved by Amazon RDS, the minor version upgrade occurs automatically during your maintenance window\. RDS doesn't automatically set newer released minor versions as the automatic upgrade version\. Before RDS designates a newer automatic upgrade version, several criteria are considered, such as the following:
-1. Known security issues\.
-2. Bugs in the PostgreSQL community version\.
-3. Overall fleet stability since the minor version was released\.
-
-**How?** 
-Enable RDS auto minor version upgrades\.
-1. Navigate to the AWS console RDS dashboard\.
-2. In the navigation pane, select Databases\.
-3. Select the database instance you wish to configure and select Modify\.
-4. Under the Maintenance section, select Yes for "Enable Auto minor version upgrade"\.
-5. Select Continue and then Modify DB Instance\.
-You can also use the AWS CLI, and set the --auto-minor-version-upgrade|--no-auto-minor-version-upgrade option using modify-db-instance api\.
-
-
-## Responsive
-### 1. Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS
-NIST CSF:
-|NIST Subcategory Control|Description|
-|-----------|------------------------|
-|DE.AE-2|Detected events are analyzed to understand attack targets and methods|
-|DE.AE-3|Event data are aggregated and correlated from multiple sources and sensors|
-|DE.AE-4|Impact of events is determined|
-|DE.AE-5|Incident alert thresholds are established|
-|DE.CM-1|The network is monitored to detect potential cybersecurity events|
-
-Capital Group:
-|Control Statement|Description|
-|------|----------------------|
-|4|AWS services should have logging enabled and those logs delivered to CloudTrail or Cloud Watch|
-
-**Why?** 
-Understanding instance behavior and having the ability to be notified of anomalies to that behavior is key to securing your RDS deployments
-
-**How?** 
-Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS
-
-#### Getting CloudWatch Events and Amazon EventBridge Events for Amazon RDS <!-- omit in toc -->
-
-Amazon CloudWatch Events and Amazon EventBridge both enable you to automate AWS services and respond to system events such as application availability issues or resource changes\. Events from AWS services are delivered to CloudWatch Events and EventBridge nearly in real time\. You can write simple rules to indicate which events interest you and what automated actions to take when an event matches a rule\.
-
-You can set a variety of targets—such as an AWS Lambda function or an Amazon SNS topic—which receive events in JSON format\. For more information, see the [Amazon CloudWatch Events User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/) and the [Amazon EventBridge User Guide](https://docs.aws.amazon.com/eventbridge/latest/userguide/)\.
-
-For example, you can configure Amazon RDS to send events to CloudWatch Events or Amazon EventBridge whenever a DB instance is created or deleted\.
-
-##### Sending Amazon RDS Events to CloudWatch Events <!-- omit in toc -->
-
-You can create CloudWatch Events rules to send Amazon RDS events to CloudWatch Events\.
-
-Use the following steps to create a CloudWatch Events rule that triggers on an event emitted by an AWS service\.
-
-**To create a rule that triggers on an event:**
-
-1. Open the CloudWatch console at [https://console\.aws\.amazon\.com/cloudwatch/](https://console.aws.amazon.com/cloudwatch/)\.
-
-1. Under **Events** in the navigation pane, choose **Rules**\.
-
-1. Choose **Create rule**\.
-
-1. For **Event Source**, do the following:
-
-   1. Choose **Event Pattern**\.
-
-   1. For **Service Name**, choose **Relational Database Service \(RDS\)**\.
-
-   1. For **Event Type**, choose the type of Amazon RDS resource that triggers the event\. For example, if a DB instance triggers the event, choose **RDS DB Instance Event**\.
-
-1. For **Targets**, choose **Add Target**, then choose the **CloudWatch log group**\. 
-
-1. For **Log Group**, enter a name for the log group to store the events\. 
-
-1. Choose **Configure details**\. For **Rule definition**, type a name and description for the rule\. 
-
-1. Choose **Create rule**\.
-
-##### DB Instance Events <!-- omit in toc -->
-
-The following is an example of a DB instance event\.
-
-```
-{
-  "version": "0",
-  "id": "68f6e973-1a0c-d37b-f2f2-94a7f62ffd4e",
-  "detail-type": "RDS DB Instance Event",
-  "source": "aws.rds",
-  "account": "123456789012",
-  "time": "2018-09-27T22:36:43Z",
-  "region": "us-east-1",
-  "resources": [
-    "arn:aws:rds:us-east-1:123456789012:db:my-db-instance"
-  ],
-  "detail": {
-    "EventCategories": [
-      "failover"
-    ],
-    "SourceType": "DB_INSTANCE",
-    "SourceArn": "arn:aws:rds:us-east-1:123456789012:db:my-db-instance",
-    "Date": "2018-09-27T22:36:43.292Z",
-    "SourceIdentifier": "rds:my-db-instance",
-    "Message": "A Multi-AZ failover has completed."
-  }
-}
-```
-
-##### DB Parameter Group Events <!-- omit in toc -->
-
-The following is an example of a DB parameter group event\.
-
-```
-{
-  "version": "0",
-  "id": "844e2571-85d4-695f-b930-0153b71dcb42",
-  "detail-type": "RDS DB Parameter Group Event",
-  "source": "aws.rds",
-  "account": "123456789012",
-  "time": "2018-10-06T12:26:13Z",
-  "region": "us-east-1",
-  "resources": [
-    "arn:aws:rds:us-east-1:123456789012:pg:my-db-param-group"
-  ],
-  "detail": {
-    "EventCategories": [
-      "configuration change"
-    ],
-    "SourceType": "DB_PARAM",
-    "SourceArn": "arn:aws:rds:us-east-1:123456789012:pg:my-db-param-group",
-    "Date": "2018-10-06T12:26:13.882Z",
-    "SourceIdentifier": "rds:my-db-param-group",
-    "Message": "Updated parameter time_zone to UTC with apply method immediate"
-  }
-}
-```
-
-##### DB Security Group Events <!-- omit in toc -->
-
-The following is an example of a DB security group event\.
-
-```
-{
-  "version": "0",
-  "id": "844e2571-85d4-695f-b930-0153b71dcb42",
-  "detail-type": "RDS DB Security Group Event",
-  "source": "aws.rds",
-  "account": "123456789012",
-  "time": "2018-10-06T12:26:13Z",
-  "region": "us-east-1",
-  "resources": [
-    "arn:aws:rds:us-east-1:123456789012:secgrp:my-security-group"
-  ],
-  "detail": {
-    "EventCategories": [
-      "configuration change"
-    ],
-    "SourceType": "SECURITY_GROUP",
-    "SourceArn": "arn:aws:rds:us-east-1:123456789012:secgrp:my-security-group",
-    "Date": "2018-10-06T12:26:13.882Z",
-    "SourceIdentifier": "rds:my-security-group",
-    "Message": "Applied change to security group"
-  }
-}
-```
-
-##### DB Snapshot Events <!-- omit in toc -->
-
-The following is an example of a DB snapshot event\.
-
-```
-{
-  "version": "0",
-  "id": "844e2571-85d4-695f-b930-0153b71dcb42",
-  "detail-type": "RDS DB Snapshot Event",
-  "source": "aws.rds",
-  "account": "123456789012",
-  "time": "2018-10-06T12:26:13Z",
-  "region": "us-east-1",
-  "resources": [
-    "arn:aws:rds:us-east-1:123456789012:snapshot:rds:my-db-snapshot"
-  ],
-  "detail": {
-    "EventCategories": [
-      "deletion"
-    ],
-    "SourceType": "SNAPSHOT",
-    "SourceArn": "arn:aws:rds:us-east-1:123456789012:snapshot:rds:my-db-snapshot",
-    "Date": "2018-10-06T12:26:13.882Z",
-    "SourceIdentifier": "rds:my-db-snapshot",
-    "Message": "Deleted manual snapshot"
-  }
-}
-```
 
 ## Endnotes
 **Resources**<br>
