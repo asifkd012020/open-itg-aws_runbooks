@@ -12,7 +12,7 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
+            "requirement_name": "Virtual network service endpoints",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md",
             "tags":[],
             "severity": {
