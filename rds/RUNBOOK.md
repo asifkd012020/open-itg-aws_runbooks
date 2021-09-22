@@ -192,6 +192,7 @@ If you have found an unencrypted snapshot and need to encrypt the snapshot to br
 |Control ID |Control Description|
 
 **Why?**<br>
+At CG we require that all data and services in the cloud are encrypted both at rest and in-transit and as such, the best mechanism to securly provide in-transit encryption is TLS 1.2.
 
 **How?**<br>
 
@@ -205,7 +206,6 @@ If your application cannot accept certificate chains, download the certificate b
 - [MySQL](#using-tls-with-mysql)  
 - [Oracle](#using-tls-with-oracle)  
 - [PostgreSQL](#using-tls-with-postgresql)
-<br>
 
 #### **Using TLS with MariaDB**<br>
 
@@ -234,7 +234,6 @@ For MariaDB 10.1 and earlier, use the following statement:
 ```
 GRANT USAGE ON *.* TO 'encrypted_user'@'%' REQUIRE SSL;
 ```
-<br>
 
 #### **Using TLS with MySQL**<br>
 
@@ -263,7 +262,6 @@ For MySQL 5.6 and earlier, use the following statement:
 ```
 GRANT USAGE ON *.* TO 'encrypted_user'@'%' REQUIRE SSL;
 ```
-<br>
 
 #### **Using TLS with Oracle**
 You must configure SQL*Plus before connecting to an Oracle DB instance that uses the Oracle SSL option.
@@ -324,7 +322,6 @@ Connect to the DB instance. For example, you can connect using SQL*Plus and a `<
 ```
 sqlplus <mydbuser>@<net_service_name>
 ```
-<br>
 
 #### **Using TLS with PostgreSQL**
 The following is an example of using `psql` to connect to a PostgreSQL DB instance:
