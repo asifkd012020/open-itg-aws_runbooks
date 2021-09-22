@@ -13,10 +13,94 @@
     "mapping": [
         {
             "requirement_name": "Virtual network service endpoints",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md#1-Virtual-network-service-endpoints",
             "tags":[],
             "severity": {
-                "Prod": "medium",
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "high"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data protection using a CG Managed Key",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md#2-Data-protection-using-a-CG-Managed-Key",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Least privilege for access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md#3-Least-privilege-for-access",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Managed identities",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md#4-Managed-identities",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md#1-Resources-are-tagged-according-to-cg-standards",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md#2-Logging-enabled-and-sent-to-splunk",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Azure Defender for Key Vault",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md#2-Azure-Defender-for-Key-Vault",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Respond/Recover",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/azure/KeyVault/Runbook.md#respondrecover",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
                 "SNP": "medium",
                 "NP": "medium"
             },
