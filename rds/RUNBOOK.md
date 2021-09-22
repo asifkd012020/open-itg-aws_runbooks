@@ -18,7 +18,7 @@ Security Engineering
   - [3. RDS snapshots are never shared Publicly](#3-rds-snapshots-are-never-shared-publicly)
   - [4. RDS data are Encrypted at rest using CG CMK](#4-rds-data-are-encrypted-at-rest-using-cg-cmk)
   - [5. RDS snapshots are Encrypted at rest using CG CMK](#5-rds-snapshots-are-encrypted-at-rest-using-cg-cmk)
-  - [6. RDS connections are Encrypted in transit using TLS 1.2](#6-rds-connections-are-encrypted-in-transit-using-tls-1-2)
+  - [6. RDS connections are Encrypted in transit using TLS 1.2](#6-rds-connections-are-encrypted-in-transit-using-tls-12)
   - [7. RDS has appropriate access controls to enforce least privilege](#7-RDS-has-appropriate-access-controls-to-enforce-least-privilege)
   - [8. RDS instances are configured for high-availability](#8-rds-instances-are-configured-for-high-availability)
   - [9. RDS database secrets are vaulted for automatic rotation](#9-rds-database-secrets-are-vaulted-for-automatic-rotation)
@@ -191,19 +191,27 @@ If you have found an unencrypted snapshot and need to encrypt the snapshot to br
 |------|----------------------|
 |Control ID |Control Description|
 
+**Why?**<br>
 
+**How?**<br>
 
-#### Enable encryption of data-in-transit <!-- omit in toc -->
-Communications with the RDS API are all encrypted with TLS. In order to encrypt communications with the databases in RDS, this needs to be enabled, and each engine requires a slightly different process to enable.  
-First of all, the root certificate needs to be downloaded so that it can be fed into the application or client connecting to the database. To get a root certificate that works for all AWS Regions, excluding opt-in AWS Regions, download it from <https://s3.amazonaws.com/rds-downloads/rds-ca-2019-root.pem>.  
-If your application doesn't accept certificate chains, download the certificate bundle that contains both the intermediate and root certificates, download from <https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem>.
+Communications with the RDS API are all encrypted with TLS. In order to encrypt communications with the databases in RDS, this needs to be enabled, and each engine requires a slightly different process to enable TLS.
 
-[MariaDB](#using-tls-with-mariadb)  
-[MySQL](#using-tls-with-mysql)  
-[Oracle](#using-tls-with-oracle)  
-[PostgreSQL](#using-tls-with-postgresql)
+First of all, the root certificate needs to be downloaded so that it can be fed into the application or client connecting to the database. To retrieve a root certificate that works for all AWS Regions, excluding opt-in AWS Regions, download it from <https://s3.amazonaws.com/rds-downloads/rds-ca-2019-root.pem>.
 
-##### Using TLS with MariaDB <!-- omit in toc -->
+If your application cannot accept certificate chains, download the certificate bundle that contains both the `intermediate` and `root certificates`, download from <https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem>.
+
+- [MariaDB](#using-tls-with-mariadb)  
+- [MySQL](#using-tls-with-mysql)  
+- [Oracle](#using-tls-with-oracle)  
+- [PostgreSQL](#using-tls-with-postgresql)
+<br>
+
+#### **Using TLS with MariaDB**<br>
+
+NOTE:
+>CG does not currently support MariaDB, but the information pertaining to TLS enablement for MariaDB is listed below in the event the service is later permitted.
+
 The following example shows how to launch the client using the `--ssl-ca` parameter for MariaDB 10.2 and later:
 ```
 mysql -h myinstance.a1bcdef23.rds-us-east-1.amazonaws.com
@@ -226,8 +234,13 @@ For MariaDB 10.1 and earlier, use the following statement:
 ```
 GRANT USAGE ON *.* TO 'encrypted_user'@'%' REQUIRE SSL;
 ```
+<br>
 
-##### Using TLS with MySQL <!-- omit in toc -->
+#### **Using TLS with MySQL**<br>
+
+NOTE:
+>CG does not currently support MySQL, but the information pertaining to TLS enablement for MySQL is listed below in the event the service is later permitted.
+
 The following example shows how to launch the client using the --ssl-ca parameter for MySQL 5.7 and later:
 ```
 mysql -h myinstance.c9akciq32.rds-us-east-1.amazonaws.com
@@ -250,8 +263,9 @@ For MySQL 5.6 and earlier, use the following statement:
 ```
 GRANT USAGE ON *.* TO 'encrypted_user'@'%' REQUIRE SSL;
 ```
+<br>
 
-##### Using TLS with Oracle <!-- omit in toc -->
+#### **Using TLS with Oracle**
 You must configure SQL*Plus before connecting to an Oracle DB instance that uses the Oracle SSL option.
 
 **To configure SQL*Plus to use SSL to connect to an Oracle DB instance**  
@@ -310,8 +324,9 @@ Connect to the DB instance. For example, you can connect using SQL*Plus and a `<
 ```
 sqlplus <mydbuser>@<net_service_name>
 ```
+<br>
 
-##### Using TLS with PostgreSQL <!-- omit in toc -->
+#### **Using TLS with PostgreSQL**
 The following is an example of using `psql` to connect to a PostgreSQL DB instance:
 ```
 $ psql -h testpg.123abc456def.us-east-1.rds.amazonaws.com -p 5432 \
@@ -322,10 +337,10 @@ $ psql -h testpg.123abc456def.us-east-1.rds.amazonaws.com -p 5432 \
 Set the `rds.force_ssl` parameter to 1 (on) to require SSL for connections to your DB instance. Updating the `rds.force_ssl` parameter also sets the PostgreSQL `ssl` parameter to 1 (on) and modifies your DB instance’s `pg_hba.conf` file to support the new SSL configuration.
 
 You can set the `rds.force_ssl` parameter value by updating the parameter group for your DB instance. If the parameter group for your DB instance isn't the default one, and the `ssl` parameter is already set to 1 when you set `rds.force_ssl` to 1, you don't need to reboot your DB instance. Otherwise, *you must reboot your DB instance for the change to take effect*.
+<br><br>
 
 
-
-### 5. Implement access controls to enforce least privilege
+### 7. RDS has appropriate access controls to enforce least privilege
 
 **Capital Group Controls:**<br>
 
@@ -366,7 +381,7 @@ The following example policy allows a principal to perform specific actions in R
    ]
 }
 ```
-#### IAM Database Authentication <!-- omit in toc -->
+#### **IAM Database Authentication**
 You can authenticate to your DB instance using AWS IAM database authentication. IAM database authentication works with MySQL and PostgreSQL. With this authentication method, you don't need to use a password when you connect to a DB instance. Instead, you use an authentication token.  
 The following AWS CLI command can be used to enable IAM authentication on an existing RDS database:
 ```
@@ -375,11 +390,9 @@ aws rds modify-db-instance \
     --apply-immediately \
     --enable-iam-database-authentication
 ```
+<br><br>
 
-For information on setting up IAM permissions with MySQL and PostgreSQL databases, see [Endnote 1](#endnote-1).
-
-
-### 3. Database instances are configured for high-availability
+### 8. RDS instances are configured for high-availability
 
 **Capital Group Controls:**<br>
 
@@ -387,9 +400,17 @@ For information on setting up IAM permissions with MySQL and PostgreSQL database
 |------|----------------------|
 |Control ID |Control Description|
 
-**Why?** Amazon RDS provides high availability and failover support for DB instances using Multi-AZ deployments. In a Multi-AZ deployment, Amazon RDS automatically provisions and maintains a synchronous standby replica in a different Availability Zone. The primary DB instance is synchronously replicated across Availability Zones to a standby replica to provide data redundancy, eliminate I/O freezes, and minimize latency spikes during system backups. Running a DB instance with high availability can enhance availability during planned system maintenance, and help protect your databases against DB instance failure and Availability Zone disruption.
+**Why?**<br> 
 
-**How?** Using the RDS console, you can create a Multi-AZ deployment by simply specifying Multi-AZ when creating a DB instance. You can use the console to convert existing DB instances to Multi-AZ deployments by modifying the DB instance and specifying the Multi-AZ option. You can also specify a Multi-AZ deployment with the AWS CLI by specifying the `--multi-az` option as `true` in either the `create-db-instance` or `modify-db-instance` commands.
+Amazon RDS provides high availability and failover support for DB instances using Multi-AZ deployments. In a Multi-AZ deployment, Amazon RDS automatically provisions and maintains a synchronous standby replica in a different Availability Zone. The primary DB instance is synchronously replicated across Availability Zones to a standby replica to provide data redundancy, eliminate I/O freezes, and minimize latency spikes during system backups. Running a DB instance with high availability can enhance availability during planned system maintenance, and help protect your databases against DB instance failure and Availability Zone disruption.
+
+**How?**<br> 
+
+Using the RDS console, you can create a Multi-AZ deployment by simply specifying Multi-AZ when creating a DB instance. You can use the console to convert existing DB instances to Multi-AZ deployments by modifying the DB instance and specifying the Multi-AZ option. You can also specify a Multi-AZ deployment with the AWS CLI by specifying the `--multi-az` option as `true` in either the `create-db-instance` or `modify-db-instance` commands.
+
+#### Example Deployment
+<img src="/docs/img/rds/failover.png" width="500">
+<br><br>
 
 
 ### 5. Store database secrets in a vault for automatic rotation
