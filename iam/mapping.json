@@ -1,0 +1,87 @@
+{
+    "serviceprovider": "aws",
+    "servicerequirement_name": [
+        "AWS::IAM::*"
+    ],
+    "servicedisplay_name": "IAM",
+    "serviceapproval_status": {
+        "Prod": "approved",
+        "SNP": "approved",
+        "NP": "approved"
+    },
+    "phase": "discovery",
+    "mapping": [
+        {
+            "requirement_name": "Cloudtrail IAM Roles Enforce Least Priviledge for Cloudtrail Logs",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/iam/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Cloudtrail Logs are Centrally Managed",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/iam/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Cloudtrail S3 Central Bucket Policy ensures Least Priviledge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/iam/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Cloudtrail Logs encrypted using CG KMS",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/iam/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Cloudtrail Logs enabled for all AWS Services",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/iam/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Cloudtrail Logs forwarded to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/iam/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        }
+    ]
+}
