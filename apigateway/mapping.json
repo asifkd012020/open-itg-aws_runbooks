@@ -12,8 +12,10 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Must use a private regional gateway",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/apigateway/Runbook.md",
+            "requirement_name": "API Gateway Deployed with Private Endpoints",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/apigateway/Runbook.md#1-API-Gateway-Deployed-with-Private-Endpoints",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -30,6 +32,48 @@
                     "type": "prevent"
                 }
             ]
+        },
+        {
+            "requirement_name": "API Gateway Deployed with IAM Access Policies",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/apigateway/Runbook.md#2-API-Gateway-Deployed-with-IAM-Access-Policies",
+            "category": "IAM",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Encrypt all data in the Cloud",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/apigateway/Runbook.md#3-Encrypt-all-data-in-the-Cloud",
+            "category": "Encryption",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Deploy NLB with PrivateLink for Access to Internal Resources",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/apigateway/Runbook.md#4-Deploy-NLB-with-PrivateLink-for-Access-to-Internal-Resources",
+            "category": "Public Access",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
         }
     ]
 }

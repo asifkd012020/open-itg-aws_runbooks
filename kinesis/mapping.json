@@ -12,8 +12,52 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Logs encrypted using CG KMS",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md",
+            "requirement_name": "Kinesis utilizes Interface VPC Endpoints",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md#1-Kinesis-utilizes-Interface-VPC-Endpoints",
+            "category": "Public Access",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Kinesis utilizes IAM Roles to enforce least priviledge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md#2-Kinesis-utilizes-IAM-Roles-to-enforce-least-priviledged",
+            "category": "IAM",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Kinesis connections are protected with TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md#3-Kinesis-connections-are-protected-with-TLS-1-2",
+            "category": "Encryption",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Kinesis data is encrypted using CG managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md#4-Kinesis-data-is-encrypted-using-CG-managed-KMS-Keys",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -23,6 +67,13 @@
             "control_mapping": [],
             "implementations": [
                 {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#43"
+                    ],
+                    "type": "detect"
+                },
+                {
                     "provider": "sentinel",
                     "implementation": [
                         "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/encryption_policies/encryption_standards.sentinel"
@@ -30,18 +81,6 @@
                     "type": "prevent"
                 }
             ]
-        },
-        {
-            "requirement_name": "Enable TLS1.2 or higher for communication sessions",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md",
-            "tags": [],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
         }
     ]
 }

@@ -13,7 +13,65 @@
     "mapping": [
         {
             "requirement_name": "IAM Policies for Billing and Cost Management",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md#1-IAM-policies-for-Billing-and-Cost-Management",
+            "category": "IAM",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data Protection of Billing and Cost Management",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md#2-Data-Protection-of-Billing-and-Cost-Management",
+            "category": "Encryption",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md#1-Resources-are-tagged-according-to-CG-standards",
+            "category": "Logging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/billingandcost/Runbook.md#2-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "high",

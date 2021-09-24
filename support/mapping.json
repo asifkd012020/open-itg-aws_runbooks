@@ -13,7 +13,9 @@
     "mapping": [
         {
             "requirement_name": "Support Users and Roles defined following least privilege model",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#1-Support-Users-and-Roles-defined-following-least-privilege-model",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#1-support-users-and-roles-defined-following-least-privilege-model",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -25,7 +27,9 @@
         },
         {
             "requirement_name": "Support resources are Encrypted",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#2-Support-reources-are-Encrypted)",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#2-support-reources-are-encrypted)",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -37,7 +41,9 @@
         },
         {
             "requirement_name": "Support connections are Encrypted in transit using TLS 1.2",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#3-Support-connections-are-Encrypted-in-transit-using-TLS-1-2)",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#3-support-connections-are-encrypted-in-transit-using-tls-1-2)",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -49,7 +55,9 @@
         },
         {
             "requirement_name": "Support Resources are tagged according to CG standards",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#1-Support-Resources-are-tagged-according-to-CG-standards)",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#1-support-resources-are-tagged-according-to-cg-standards)",
+            "category": "Tagging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -61,7 +69,9 @@
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk)",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#2-cloudtrail-logging-enabled-and-sent-to-splunk)",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -73,7 +83,9 @@
         },
         {
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk)",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/support/Runbook.md#3-cloudwatch-logging-enabled-and-sent-to-splunk)",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",

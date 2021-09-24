@@ -12,8 +12,10 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Configure with dedicated AWS IP address groups, provide to TSO Messaging team",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "requirement_name": "Deployed with appropriate IAM permissions to enforce least priviledge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md#1-deployed-with-appropriate-iam-permissions-to-enforce-least-priviledge",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -24,8 +26,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Configure with 'cgaws.capgroup.com' email sub-domain",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "requirement_name": "Deployed for Cross-Account enforcing least priviledge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md#2-deployed-for-cross-account-enforcing-least-priviledge",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -36,8 +40,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Only allow messages to be sent to CG Exchange platform",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "requirement_name": "Deployed using the appropriate email sub-domain only",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md#3-deployed-using-the-appropriate-email-sub-domain-only",
+            "category": "Best Practice",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -48,8 +54,24 @@
             "implementations": []
         },
         {
-            "requirement_name": "Enable TLS 1.2 or higher for communication sessions",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "requirement_name": "Deployed using a Dedicated AWS Sender Source Address",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md#4-deployed-using-a-dedicated-aws-sender-source-address",
+            "category": "Best Practice",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Enable TLS 1.2 or higher for communication",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md#5-enable-tls-1-2-or-higher-for-communication",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -61,7 +83,9 @@
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md#2-cloudtrail-logging-enabled-and-sent-to-splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -72,8 +96,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md",
+            "requirement_name": "CloudWatch logging enabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ses/Runbook.md#3-CloudWatch-logging-enabled",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",

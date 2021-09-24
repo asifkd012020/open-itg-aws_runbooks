@@ -14,7 +14,9 @@
     "mapping": [
         {
             "requirement_name": "Enforce TLS 1.2 using cert signed by CG CA",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md#4-HTTP-requests-will-be-redirected-to-HTTP/S",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -22,11 +24,21 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-Apis.json#3"
+                    ],
+                    "type": "detect"
+                }
+            ]
         },
         {
             "requirement_name": "HTTP requests will be redirected to HTTP/S",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -37,13 +49,29 @@
             "implementations": []
         },
         {
-            "requirement_name": "Resource tagged",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "requirement_name": "ALB Deployed in Private VPC and set to Internal",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md#1-ALB-Deployment-in-Private-VPC-and-set-to-Internal",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "critical"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "ALB Deployed with appropriate Security Groups",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md#2-ALB-Deployed-with-appropriate-Security-Groups",
+            "category": "Public Access",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "critical"
             },
             "control_mapping": [],
             "implementations": []
@@ -51,6 +79,8 @@
         {
             "requirement_name": "CloudTrail logging enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -63,23 +93,13 @@
         {
             "requirement_name": "CloudWatch logging enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
                 "SNP": "medium",
                 "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "ALB scheme will bet set to 'internal'",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/alb/Runbook.md",
-            "tags":[],
-            "severity": {
-                "Prod": "critical",
-                "SNP": "critical",
-                "NP": "critical"
             },
             "control_mapping": [],
             "implementations": []

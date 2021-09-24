@@ -14,6 +14,8 @@
         {
             "requirement_name": "EBS is Encrypted using CG Managed KMS Keys",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#1-EBS-is-Encrypted-using-CG-Managed-KMS-Keys",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -22,6 +24,13 @@
             },
             "control_mapping": [],
             "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#23"
+                    ],
+                    "type": "detect"
+                },
                 {
                     "provider": "sentinel",
                     "implementation": [
@@ -34,6 +43,8 @@
         {
             "requirement_name": "EBS Snapshots are Encrypted using CG Managed KMS Keys",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#2-EBS-Snapshots-are-Encrypted-using-CG-Managed-KMS-Keys",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -46,6 +57,8 @@
         {
             "requirement_name": "EBS Snapshot permissions are set to Private",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#3-EBS-Snapshot-permissions-are-set-to-Private",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -58,6 +71,8 @@
         {
             "requirement_name": "EBS Snapshots will only be shared between CG accounts",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#4-EBS-Snapshots-will-only-be-shared-between-CG-accounts",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -70,6 +85,8 @@
         {
             "requirement_name": "EBS Utilizes VPC Endpoints to Prevent Public Access",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "high",
@@ -82,6 +99,8 @@
         {
             "requirement_name": "CloudTrail logging enabled for EBS",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#6-CloudTrail-logging-enabled-for-EBS",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -94,6 +113,8 @@
         {
             "requirement_name": "CloudWatch logging enabled for EBS",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#7-CloudWatch-logging-enabled-for-EBS",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -106,6 +127,8 @@
         {
             "requirement_name": "EBS Resources are tagged according to CG standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#1-EBS-Resources-are-tagged-according-to-CG-standards",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -118,6 +141,8 @@
         {
             "requirement_name": "EBS Volumes should be removed if unattached or no longer required",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#2-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required",
+            "category": "Best Practice",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -130,6 +155,8 @@
         {
             "requirement_name": "EBS Snapshot age should not exceed retention period",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#3-EBS-Snapshot-age-should-not-exceed-retention-period",
+            "category": "Best Practice",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",

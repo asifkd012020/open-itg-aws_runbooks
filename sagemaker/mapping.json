@@ -14,6 +14,8 @@
         {
             "requirement_name": "SageMaker Utilizes VPC Endpoints to Prevent Public Access",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#1-SageMaker-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "critical",
@@ -22,6 +24,13 @@
             },
             "control_mapping": [],
             "implementations": [
+                {
+                    "provider": "dome9",
+                        "implementation": [
+                            "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-NetworkControl.json#73"
+                        ],
+                        "type": "detect"
+                },
                 {
                 "provider": "sentinel",
                     "implementation": [
@@ -34,6 +43,8 @@
         {
             "requirement_name": "SageMaker notebook instances have Public Internet access disabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#2-SageMaker-notebook-instances-have-Public-Internet-access-disabled",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "critical",
@@ -54,6 +65,8 @@
         {
             "requirement_name": "SageMaker Studio IDE deployed in a Private VPC to prevent Public Access",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md##3-SageMaker-Studio-IDE-deployed-in-a-Private-VPC-to-prevent-Public-Access",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -66,6 +79,8 @@
         {
             "requirement_name": "SageMaker Users and Roles defined following least privilege model",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#4-SageMaker-Users-and-Roles-defined-following-least-privilege-model",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -78,6 +93,8 @@
         {
             "requirement_name": "SageMaker resources are Encrypted using CG Managed KMS Keys",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#5-SageMaker-reources-are-Encrypted-using-CG-Managed-KMS-Keys",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -86,6 +103,13 @@
             },
             "control_mapping": [],
             "implementations": [
+                {
+                    "provider": "dome9",
+                    "implementation": [
+                        "https://bitbucket.capgroup.com/projects/CLSEC/repos/dome9/browse/AWS_Rulesets/CG-AWS-SO-EncryptionAndKeyManagement.json#93"
+                    ],
+                    "type": "detect"
+                },
                 {
                     "provider": "sentinel",
                     "implementation": [
@@ -98,6 +122,8 @@
         {
             "requirement_name": "SageMaker connections are Encrypted in transitusing TLS 1.2",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#6-SageMaker-connections-are-Encrypted-in-transitusing-TLS-1-2",
+            "category": "Encryp[tion",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -110,6 +136,8 @@
         {
             "requirement_name": "SageMaker uses the CG instance of GitHub Enterprise as source code repository",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#7-SageMaker-uses-the-CG-instance-of-GitHub-Enterprise-as-source-code-repository",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -122,6 +150,8 @@
         {
             "requirement_name": "SageMaker workloads execute within CG private network",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#8-SageMaker-workloads-execute-within-CG-private-network",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -134,6 +164,8 @@
         {
             "requirement_name": "SageMaker Resources are tagged according to CG standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#1-SageMaker-Resources-are-tagged-according-to-CG-standards",
+            "category": "Tagging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -146,6 +178,8 @@
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#9-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -158,6 +192,8 @@
         {
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sagemaker/Runbook.md#10-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",

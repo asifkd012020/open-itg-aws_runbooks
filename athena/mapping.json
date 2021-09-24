@@ -13,7 +13,9 @@
     "mapping": [
         {
             "requirement_name": "IAM roles for access to Athena defined following least privilege model",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md#2-IAM-roles-for-access-to-Athena-defined-following-least-privilege-model",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -24,20 +26,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Athena assumes the application user role",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md",
-            "tags":[],
-            "severity": {
-                "Prod": "high",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "Create an Athena VPC Endpoint; do not allow Internet access",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md",
+            "requirement_name": "Athena Deployed using VPC Endpoints",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md#1-Athena-Deployed-using-VPC-Endpoints",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -48,8 +40,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Encrypt data in transit using TLS 1.2",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md",
+            "requirement_name": "Enforce Enryption at Rest for Athena",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md#3-Enforce-Encryption-at-Rest-for-Athena",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -60,20 +54,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Enable encryption for query results",
+            "requirement_name": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md#4-Enforce-Encryption-in-Transit-for-Athena",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md",
-            "tags":[],
-            "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "Query results will be stored to restrict unauthorized access",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -85,7 +69,23 @@
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md#3-CloudWatch-logging-enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/athena/Runbook.md",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",

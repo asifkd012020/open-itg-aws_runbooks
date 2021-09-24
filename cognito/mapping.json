@@ -13,7 +13,51 @@
     "mapping": [
         {
             "requirement_name": "Cognito User Pools utilize OKTA as Identity Provider",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cognito/Runbook.md",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cognito/Runbook.md#1-Cognito-User-Pools-utilize-OKTA-as-Identity-Provider",
+            "category": "IAM",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Cognito resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cognito/Runbook.md#1-Cognito-resources-are-tagged-according-to-CG-standards",
+            "category": "Tagging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cognito/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cognito/Runbook.md#3-CloudWatch-logging-enabled",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "high",
