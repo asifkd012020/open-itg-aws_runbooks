@@ -13,15 +13,15 @@ Security Engineering
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
-  - [1. Local IAM Users may only be operated via the CG network](#1-local-iam-users-may-only-be-operated-via-the-cg-network)
+  - [1. **To Discuss:** Local IAM Users may only be operated via the CG network](#1-to-discuss-local-iam-users-may-only-be-operated-via-the-cg-network)
   - [2. Local IAM User provision requests are made through Access Central](#2-local-iam-user-provision-requests-are-made-through-access-central)
-  - [3. Local IAM Users are reviewed semi-annually and removed when there is no longer a business need](#3-local-iam-users-are-reviewed-semi-annually-and-removed-when-there-is-no-longer-a-business-need)
+  - [3. **To Discuss:** Local IAM Users are reviewed semi-annually and removed when there is no longer a business need](#3-to-discuss-local-iam-users-are-reviewed-semi-annually-and-removed-when-there-is-no-longer-a-business-need)
   - [4. Local IAM Users are not provisioned AWS Management Console access](#4-local-iam-users-are-not-provisioned-aws-management-console-access)
   - [5. Credentials are stored within an enterprise approved password vaulting tool](#5-credentials-are-stored-within-an-enterprise-approved-password-vaulting-tool)
   - [6. Programmatic access keys are handed off according to CG enterprise requirements](#6-programmatic-access-keys-are-handed-off-according-to-cg-enterprise-requirements)
   - [7. Programmatic access keys are rotated every 90 days](#7-programmatic-access-keys-are-rotated-every-90-days)
   - [8. **LAB Accounts Only:** Console passwords must align to CG Enterprise Password Management standards](#8-lab-accounts-only-console-passwords-must-align-to-cg-enterprise-password-management-standards)
-  - [9. **LAB Accounts Only:** User accounts must be secured with Multi-Factor Authentication](#9-lab-accounts-only-user-accounts-must-be-secured-with-multi-factor-authentication)
+  - [9. **To Discuss:** **LAB Accounts Only:** User accounts must be secured with Multi-Factor Authentication](#9-to-discuss-lab-accounts-only-user-accounts-must-be-secured-with-multi-factor-authentication)
 - [Other Operational Expectations](#other-operational-expectations)
   - [1. Operational Item 1](#1-operational-item-1)
   - [2. Operational Item 2](#2-operational-item-2)
@@ -36,20 +36,22 @@ A brief overview of the AWS service being reviewed, including a deployment examp
 
 ## Cloud Security Requirements
 
-### 1. Local IAM Users may only be operated via the CG network
+### 1. **To Discuss:** Local IAM Users may only be operated via the CG network 
 
 **Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|[CS0012318](https://capitalgroup.service-now.com/cg_grc?sys_id=d8ef55521b5a8050da4bdca4bd4bcb04&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones.|
+|[CS0012318 No longer valid](https://capitalgroup.service-now.com/cg_grc?sys_id=d8ef55521b5a8050da4bdca4bd4bcb04&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones.|
 
 **Why?** 
 
-Why is this requirement needed at CG?
+Local IAM users are non-federated users, meaning they are not managed by CG's enterprise user system.
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+An IAM user group allows you to specify permissions for a collection of users. A user group can contain many users and a user can belong to multiple user groups.
+
+During the provisioning process, local IAM users are added to the IAM user group **CGIPRestricted**, which permits access only to source IP's on the CG network.
 <br><br>
 
 ### 2. Local IAM User provision requests are made through Access Central
@@ -61,14 +63,26 @@ How this requirement should be met, and how an engineer build to adhere to the r
 
 **Why?** 
 
-Why is this requirement needed at CG?
+All local user provision requests are made through Access Central to ensure all required information is recorded and necessary approval is given for each local user. This also ensures ownership can be traced to the appropriate team.
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+Every provision request requires the following information:
+- Name of user (following [Cloud Naming Standards](https://confluence.capgroup.com/display/SAA/Cloud+naming+standards))
+- Permissions/policy to attach to user
+- General level of acces: Admin/Edit/Read
+- AWS Account ID
+- ATM ID to associate with user
+- Justification (why you need a local IAM user instead of leveraging an IAM role)
+
+To make the provision request, complete the following steps:
+
+1. Step 1
+2. Step 2
+3. Step 3
 <br><br>
 
-### 3. Local IAM Users are reviewed semi-annually and removed when there is no longer a business need
+### 3. **To Discuss:** Local IAM Users are reviewed semi-annually and removed when there is no longer a business need
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -77,11 +91,11 @@ How this requirement should be met, and how an engineer build to adhere to the r
 
 **Why?** 
 
-Why is this requirement needed at CG?
+CG's Cloud Security standards require unnecessary access and accounts be disabled or removed in a timely manner. Unused accounts become a burden to maintain and may accrue unexpected costs. Deleting a local user that is no longer needed prevents misuse of an unused, unmonitored user account.
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+It is the responsibility of the application or product's team which owns the local IAM user to identify when such user is no longer needed. A request for deletion can be made via ServiceNow.
 <br><br>
 
 ### 4. Local IAM Users are not provisioned AWS Management Console access
@@ -93,11 +107,13 @@ How this requirement should be met, and how an engineer build to adhere to the r
 
 **Why?** 
 
-Why is this requirement needed at CG?
+As generic/service accounts, local IAM users should never need console access. It is both CG and AWS IAM best practice to disable unnecessary access credentials to prevent unintentional or malicious misuse.
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+Upon provisioning, local IAM users are only setup with programmatic access keys. A console password is never created. Individuals should not attempt to enable console access for these accounts. No further steps are required to enforce this standard.
+
+
 <br><br>
 
 ### 5. Credentials are stored within an enterprise approved password vaulting tool
@@ -109,11 +125,13 @@ How this requirement should be met, and how an engineer build to adhere to the r
 
 **Why?** 
 
-Why is this requirement needed at CG?
+According to current regulatory requirements, all generic/non-identity accounts are required to have their credentials vaulted in CyberArk to protect these accounts from compromise and misuse. Vaulting also allows for API calls to retrieve user credentials, avoiding the need to hardcode access keys into files.
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+If your team does not already have a CyberArk safe, follow [this guide](https://confluence.capgroup.com/pages/viewpage.action?pageId=90346293) to request one be provisioned.
+
+Steps to set up the vault.
 <br><br>
 
 ### 6. Programmatic access keys are handed off according to CG enterprise requirements
@@ -125,11 +143,18 @@ How this requirement should be met, and how an engineer build to adhere to the r
 
 **Why?** 
 
-Why is this requirement needed at CG?
+Every time a secret is communicated, there is an opportunity for interception. To reduce the risk of an unintended party obtaining your credentials, access keys are handed off during provisioning using the [SecEng Secrets Management Portal](https://seceng.capgroup.com/app/secrets).
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+In order to access Secrets Management, you need to have MFA set up through OKTA for your user account. Navigate to http://cgoktaportal.capgroup.com/ to set up your MFA if you haven't done so yet.
+
+**Retrieving the Access Key:**
+
+As the user who made the local IAM user provision request:
+1. Navigate to https://seceng.capgroup.com/app/secrets.
+2. Click on 'SECRETS RETRIEVAL' on the Secrets Management menu bar.
+3. Once in the 'SECRETS RETRIEVAL' section, you will see any secrets shared with you. Click on the secret containing the desired access key to retrieve it.
 <br><br>
 
 ### 7. Programmatic access keys are rotated every 90 days
@@ -141,11 +166,24 @@ How this requirement should be met, and how an engineer build to adhere to the r
 
 **Why?** 
 
-Why is this requirement needed at CG?
+Rotating access keys regularly is a safeguard against unknowingly compromised access keys. This practice limits how long a compromised key could be used to access your resources. CG follows the recommendation of AWS by requiring IAM user access keys be rotated every 90 days.
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+AWS allows an IAM user to have 2 access keys at any given time. This is so a new key can be generated and the old key can then be disabled, then deleted. If the old deactivated key is not deleted, no new keys can be generated thus preventing future rotation. 
+
+As local IAM users do not have console access, there are two methods available to rotate AWS programmatic access keys:
+
+- Automatic rotation through CyberArk
+
+  1. Step 1
+  2. Step 2
+   
+- Manual rotation via scripts
+
+  1. Step 1
+  2. Step 2
+
 <br><br>
 
 ### 8. **LAB Accounts Only:** Console passwords must align to CG Enterprise Password Management standards
@@ -155,16 +193,32 @@ How this requirement should be met, and how an engineer build to adhere to the r
 |------|----------------------|
 |[CS0012184](https://capitalgroup.service-now.com/cg_grc?sys_id=97df91521b5a8050da4bdca4bd4bcbcb&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Passwords must meet additional enterprise requirements. (Statement of Direction)|
 
+>**NOTE:**  
+>This standard applies only to LAB Accounts. If you do not have a LAB Account, console access will be disabled by default and no such password will exist. 
+
 **Why?** 
 
-Why is this requirement needed at CG?
+Unlike other local IAM users, LAB Accounts are provisioned console access. Passwords for these accounts must conform to CG's additional password standards for generic accounts to adequately protect the additional mode of access.
 
 **How?** 
 
-How this requirement should be met, and how an engineer build to adhere to the requirement.
+Console passwords must meet all of the following requirements:
+
+1. Passwords are at least 15 characters in length.
+2. Passwords are sufficiently complex.
+   -  Must contain all of the following:
+      -  At least 1 uppercase letter A-Z
+      -  At least 1 lowercase letter a-z
+      -  At least 1 number 0-9
+      -  At least 1 special character 
+                  
+              ! @ # $ % ^ & * ( ) _ + - = [ ] { } | '
+3. Passwords are not composed of easily guessed words or phrases.
+4. Passwords do not match any of the 24 previous passwords.
+5. Passwords are rotated every 90 days.
 <br><br>
 
-### 9. **LAB Accounts Only:** User accounts must be secured with Multi-Factor Authentication
+### 9. **To Discuss:** **LAB Accounts Only:** User accounts must be secured with Multi-Factor Authentication
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -172,9 +226,12 @@ How this requirement should be met, and how an engineer build to adhere to the r
 |[CS0012180]((https://capitalgroup.service-now.com/cg_grc?sys_id=4fdf91521b5a8050da4bdca4bd4bcb44&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp))|All cloud-based user accounts are secured with authentication mechanisms that are commensurate to the risk(s) identified.
 |
 
+>**NOTE:**  
+>This standard applies only to LAB Accounts. If you do not have a LAB Account, console access will be disabled by default and standard MFA methods will not be applicable.
+
 **Why?** 
 
-Why is this requirement needed at CG?
+Multi-Factor Authentication (MFA) provides an additional layer of security against unauthorized access to your account, services, and resources. Because AWS does not have a lockout function for repeated login attempts, AWS recommends requiring MFA to bridge the gap in security. MFA typically requires a user to login with their usual credentials then provide a code sent to or generated by a trusted mobile device.
 
 **How?** 
 
