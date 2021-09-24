@@ -71,7 +71,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/ec2_policies/data_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/ec2_policies/data_standards.sentinel"
                     ],
                     "type": "prevent"
                 }
@@ -113,7 +113,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/broad_policies/privacy_standards/ec2_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/broad_policies/privacy_standards_policies/ec2_standards.sentinel"
                     ],
                     "type": "prevent"
                 }

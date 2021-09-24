@@ -27,7 +27,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/s3_policies/access_logging_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/s3_policies/access_logging_standards.sentinel"
                     ],
                     "type": "prevent"
                 }
@@ -57,7 +57,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/encryption_policies/encryption_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/encryption_policies/encryption_standards.sentinel"
                     ],
                     "type": "prevent"
                 }
@@ -136,7 +136,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/s3_policies/access_logging_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/s3_policies/access_logging_standards.sentinel"
                     ],
                     "type": "prevent"
                 }

@@ -51,7 +51,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        "https://github.com/open-itg/sentinel_policies/blob/master/encryption_policies/encryption_standards.sentinel"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         },
         {
             "requirement_name": "Kinesis data is encrypted using CG managed KMS Keys",
