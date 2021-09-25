@@ -67,19 +67,23 @@ All local user provision requests are made through Access Central to ensure all 
 
 **How?** 
 
-Every provision request requires the following information:
-- Name of user (following [Cloud Naming Standards](https://confluence.capgroup.com/display/SAA/Cloud+naming+standards))
-- Permissions/policy to attach to user
-- General level of acces: Admin/Edit/Read
-- AWS Account ID
-- ATM ID to associate with user
-- Justification (why you need a local IAM user instead of leveraging an IAM role)
-
 To make the provision request, complete the following steps:
 
-1. Step 1
-2. Step 2
-3. Step 3
+1. Navigate to [Access Central](https://accesscentral.capgroup.com/identityiq/home.jsf).
+2. Open the hamburger menu in the top left corner, then click the 'Manage Access' dropdown.
+3. Select 'Custom Access Request'.
+4. Into 'Requestee(s)', enter the ATM ID associated with the AWS account and select the applicable 'Generic Identity for *Application* for *AWS Account Environment*'. 
+   - For a list of mappings from AWS Account Environment to AD Group Environment, [click here](https://confluence.capgroup.com/pages/viewpage.action?spaceKey=IAM&title=IAM+End-User+Guide#IAMEndUserGuide-accountmapping).
+5. 'Access Requested' must include the following information:
+   - Desired name of user (refer to [Cloud Naming Standards](https://confluence.capgroup.com/display/SAA/Cloud+naming+standards))
+   - Permissions/policies to attach to user
+   - General level of access (Admin/Edit/Read)
+6. 'Access Item Description' must include the following information:
+   - AWS Account ID
+   - ATM ID to associate with user
+   - Justification (why you need a local IAM user instead of leveraging an IAM role)
+7. For the 'Assignment Group' enter "Sec Eng - Cloud IAM Services".
+8. Once submitted, the request will be appropriately reviewed and, once approved, will then be provisioned by the Cloud IAM Services team.
 <br><br>
 
 ### 3. **To Discuss:** Local IAM Users are reviewed semi-annually and removed when there is no longer a business need
@@ -129,9 +133,18 @@ According to current regulatory requirements, all generic/non-identity accounts 
 
 **How?** 
 
-If your team does not already have a CyberArk safe, follow [this guide](https://confluence.capgroup.com/pages/viewpage.action?pageId=90346293) to request one be provisioned.
+To vault local IAM user access key(s) in CyberArk, complete the following steps:
 
-Steps to set up the vault.
+1. If your team does not already have a CyberArk safe, follow [this guide](https://confluence.capgroup.com/pages/viewpage.action?pageId=90346293) to request one be provisioned.
+2. Fill out the details requested in the [CyberArk account onboarding wrapper form](https://confluence.capgroup.com/download/attachments/241115789/CyberArk_AWS_API_End_User_Questionnaire_V2.0.xlsx?version=1&modificationDate=1608672201513&api=v2).
+3. Submit an IT Request in ServiceNow:
+   1. Navigate to the [Service Request for ITG Use](https://capitalgroup.service-now.com/nav_to.do?uri=%2Fcom.glideapp.servicecatalog_cat_item_view.do%3Fv%3D1%26sysparm_id%3D1162700edbb813408ef07c1ebf9619af%26sysparm_link_parent%3D453087b4db123b008ef07c1ebf9619eb%26sysparm_catalog%3De0d08b13c3330100c8b837659bba8fb4%26sysparm_catalog_view%3Dcatalog_default) form.
+   2. Assign this to "Sec Eng - CyberArk Services".
+   3. In order for Sec Eng L2 to create the account, the current access key will need to be securely handed off via the [SecEng Secrets Management Portal](https://seceng.capgroup.com/app/secrets).
+4. CyberArk L2 Team will validate the request and if everything is provided correctly, send it to Directory Services for policy enablement. In case of missing or incorrect values, team will revert on the same request. 
+5. Directory Services team to Enable Policy Settings for AWS IAM Users and confirm to CyberArk L2 team.
+6. CyberArk L2 team will proceed with the account onboarding into new safe.
+7. Confirm the ServiceNow Ticket and close it.
 <br><br>
 
 ### 6. Programmatic access keys are handed off according to CG enterprise requirements
@@ -174,9 +187,9 @@ AWS allows an IAM user to have 2 access keys at any given time. This is so a new
 
 As local IAM users do not have console access, there are two methods available to rotate AWS programmatic access keys:
 
-- Automatic rotation through CyberArk
+- Automatic rotation through CyberArk 
 
-  1. Step 1
+  1. Step 1 https://confluence.capgroup.com/pages/viewpage.action?pageId=241115789
   2. Step 2
    
 - Manual rotation via scripts
