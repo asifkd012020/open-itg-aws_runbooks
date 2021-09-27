@@ -49,58 +49,69 @@ AWS Lambda is a serverless compute service that lets you run code without provis
 
 ### 1. Enforce Strict Access Policies for Lambda Users and Roles
 
-**Why?** By default, IAM users and roles don't have permission to create or modify Lambda resources. They also can't perform tasks using the AWS Management Console, AWS CLI, or AWS API. An IAM administrator must create IAM policies that grant users and roles permission to perform specific API operations on the specified resources they need. The administrator must then attach those policies to the IAM users or groups that require those permissions.
+**Capital Group:** <br>
 
-**How?** Identity-based policies are very powerful. They determine whether someone can create, access, or delete Lambda resources in your account. When you create or edit identity-based policies, follow these guidelines and recommendations:
+|Control Statement|Description|
+|------|----------------------|
+|CS0012298 |Access to change cloud identity access and service control policies is restricted to authorized cloud administrative personnel.|
 
-- **Start Out Using AWS Managed Policies**: To start using Lambda quickly, use AWS managed policies to give your users the permissions they need. These policies are already available in your account and are maintained and updated by AWS. For more information, see [Endnote 1](#endnote-1).
-- **Grant Least Privilege**: When you create custom policies, grant only the permissions required to perform a task. Start with a minimum set of permissions and grant additional permissions as necessary. Doing so is more secure than starting with permissions that are too lenient and then trying to tighten them later. For more information, see [Endnote 2](#endnote-2).
-- **Enable MFA for Sensitive Operations**: For extra security, require IAM users to use multi-factor authentication (MFA) to access sensitive resources or API operations. For more information, see [Endnote 3](#endnote-3).
-- **Use Policy Conditions for Extra Security**: To the extent that it's practical, define the conditions under which your identity-based policies allow access to a resource. For example, you can write conditions to specify a range of allowable IP addresses that a request must come from. You can also write conditions to allow requests only within a specified date or time range, or to require the use of SSL or MFA. For more information, see [Endnote 4](#endnote-4).
+<br>
 
-**Conditions** are an optional policy element that applies additional logic to determine if an action is allowed. In addition to common conditions supported by all actions, Lambda defines condition types that you can use to restrict the values of additional parameters on some actions.
+**Why?** 
 
-For example, the `lambda:Principal` condition lets you restrict the service or account that a user can grant invocation access to on a function's resource-based policy. The following policy lets a user grant permission to SNS topics to invoke a function named `test`.
+By default, IAM users and roles don't have permission to create or modify Lambda resources. They also can't perform tasks using the AWS Management Console, AWS CLI, or AWS API. An IAM administrator must create IAM policies that grant users and roles permission to perform specific API operations on the specified resources they need. The administrator must then attach those policies to the IAM users or groups that require those permissions.
 
-Example manage function policy permissions:
-```json
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "ManageFunctionPolicy",
-            "Effect": "Allow",
-            "Action": [
-                "lambda:AddPermission",
-                "lambda:RemovePermission"
-            ],
-            "Resource": "arn:aws:lambda:us-west-2:123456789012:function:test:*",
-            "Condition": {
-                "StringEquals": {
-                    "lambda:Principal": "sns.amazonaws.com"
-                },
-                "StringEquals": {
-                    "AWS:SourceAccount": "123456789012"
-                }
-            }
-        }
-    ]
-}
-```
+**How?** 
 
-The condition requires that the principal is Amazon SNS and not another service or account. The resource pattern requires that the function name is `test` and includes a version number or alias. For example, `test:v1`.
+Identity-based policies are very powerful. They determine whether someone can create, access, or delete Lambda resources in your account. When you create or edit identity-based policies, follow these guidelines and recommendations:
+
+- **Start Out Using AWS Managed Policies**: To start using Lambda quickly, use AWS managed policies to give your users the permissions they need. These policies are already available in your account and are maintained and updated by AWS.
+- **Grant Least Privilege**: When you create custom policies, grant only the permissions required to perform a task. Start with a minimum set of permissions and grant additional permissions as necessary. Doing so is more secure than starting with permissions that are too lenient and then trying to tighten them later.
 
 **MFA**
 
+CG require IAM users to use multi-factor authentication (MFA) to access sensitive resources or API operations. For more information, see [MFA](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_mfa.html).
+
 **Execution Policies**
+
+A Lambda function's execution role is an AWS Identity and Access Management (IAM) role that grants the function permission to access AWS services and resources. You provide this role when you create a function, and Lambda assumes the role when your function is invoked.
+
+Create Execution Role:
+1. Open the Roles page in the IAM console.
+2. Choose Create role.
+3. Under Common use cases, choose Lambda.
+4. Choose Next: Permissions.
+5. Under Attach permissions policies, choose the AWS managed policies AWSLambdaBasicExecutionRole and AWSXRayDaemonWriteAccess.
+6. Choose Next: Tags.
+7. Choose Next: Review.
+8. For Role name, enter `lambda-role`.
+9. Choose Create role.
 
 **Resource Policies**
 
+AWS Lambda supports resource-based permissions policies for Lambda functions and layers. Resource-based policies let you grant usage permission to other AWS accounts on a per-resource basis. You also use a resource-based policy to allow an AWS service to invoke your function on your behalf.
+
+More info on resource policies: https://docs.aws.amazon.com/lambda/latest/dg/access-control-resource-based.html 
+
 **Lambda Policies**
 
+You can use identity-based policies in AWS Identity and Access Management (IAM) to grant users in your account access to Lambda. Identity-based policies can apply to users directly, or to groups and roles that are associated with a user.
+
+More info on user policies: https://docs.aws.amazon.com/lambda/latest/dg/access-control-identity-based.html
+
+> **NOTE:**  
+> **Use Policy Conditions for Extra Security**: To the extent that it's practical, define the conditions under which your identity-based policies allow access to a resource. For example, you can write conditions to specify a range of allowable IP addresses that a request must come from. You can also write conditions to allow requests only within a specified date or time range, or to require the use of SSL or MFA.
 <br><br>
 
 ### 2. Environment variables are encrypted using CG CMK
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|CS0012168|Strong encryption key management controls are in place for cloud provider services to protect data at rest.|
+
+<br>
 
 **Why?** 
 
@@ -124,6 +135,15 @@ Amazon CloudWatch Logs and AWS X-Ray also encrypt data by default, and should be
 <br><br>
 
 ## 3. Data in Transit is encrypted using TLS 1.2
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|CS0012261|Cloud based data in transit must be encrypted with enterprise approved algorithms.|
+
+<br>
+
 **Why?**
 TLS 1.2 and above is the standard when it comes to network security. CG requirements also need a service to support at least TLS1.2. 
 
@@ -142,6 +162,14 @@ More info on enforcing TLS: https://docs.aws.amazon.com/cli/latest/userguide/cli
 <br><br>
 
 ### 4. Lambda Utilizes VPC Endpoints to Prevent Public Access
+
+**Capital Group:** <br>
+
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012300](https://capitalgroup.service-now.com/cg_grc?sys_id=80df48c01bac20506a50beef034bcb47&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Cloud products and services must be deployed on private subnets and public access must be disabled for these services.|
+
+<br>
 
 **Why?** 
 When Lambdas are not attached to CG VPC's, it reduces traffic traversal of CG managed data through the public internet to reach CG assets. 
@@ -171,7 +199,7 @@ aws lambda update-function-configuration --function-name my-function \
 
 |Control Statement|Description|
 |------|----------------------|
-|Control|Control Definition|
+|CS0012301|Encryption key lifecycle activities must be managed through an enterprise approved key management platform. (Statement of Direction)|
 
 <br>
 
