@@ -12,7 +12,7 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Service Denial Explanation",
+            "requirement_name": "Service Denied",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/appsync/Runbook.md#Service-Denial-Explanation",
             "tags":[],
             "severity": {

@@ -12,7 +12,7 @@
     "phase": "Discovery",
     "mapping": [
         {
-            "requirement_name": "Currently Not Approved for Use!",
+            "requirement_name": "Service Denied",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/QuickSight/Runbook.md",
             "tags":[],
             "severity": {
