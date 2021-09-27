@@ -144,6 +144,20 @@ If a role within an account is not supposed to have any access to a trail except
   ]
 }
 ```
+
+5. **Deny StopLogging action**
+   Users are denied to call StopLogging action, this will not allow users to disable the cloudtrail logs.The following policy can be used to deny the stop logging action:
+```
+{
+      "Effect": "Deny",
+      "Action": [
+        "cloudtrail:StopLogging"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+```    
 <br>
 
 

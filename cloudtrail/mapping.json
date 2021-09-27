@@ -21,7 +21,15 @@
                 "NP": "medium"
             },
             "control_mapping": [],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "scp",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/CGBaseSecControl/CGBaseSecControlPolicy.json"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         },
         {
             "requirement_name": "Cloudtrail Logs are Centrally Managed",

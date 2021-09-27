@@ -61,7 +61,15 @@
                 "NP": "medium"
             },
             "control_mapping": ["CS0012261"],
-            "implementations": []
+            "implementations": [
+                {
+                    "provider": "scp",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/CGBaseSecControl/CGBaseSecControlPolicy.json"
+                    ],
+                    "type":"prevent"
+                }
+            ]
         },
         {
             "requirement_name": "Deny public access by default utilizing bucket policy",

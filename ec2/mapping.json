@@ -223,6 +223,26 @@
                     "type": "detect"
                 }
             ]
+        },
+        {
+            "requirement_name": "Denying EC2 from public network access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#5-denying-ec2-from-public-network-access",
+            "tags":[],
+            "severity": {
+                "Prod": "high",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "scp",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/CGBaseSecControl/CGBaseSecControlPolicy.json"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         }
     ]
 }

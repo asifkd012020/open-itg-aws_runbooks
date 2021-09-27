@@ -17,6 +17,7 @@ Security Engineering
   - [2. KMS Traffic encrypted with TLS 1.2 or Later following CG Standards](#2-KMS-Traffic-encrypted-with-TLS-1-2-or-Later-following-CG-Standards)
   - [3. KMS is Encrypted at rest following CG Standards](#3-KMS-is-Encrypted-at-rest-following-CG-Standards)
   - [4. Key Management Best-Practices are Adhered to](#4-Key-Management-Best-Practices-are-Adhered-to)
+  - [5. Restricting the scheduling of KMS key deletion]
 - [Detective Controls](#Detective-Controls)
   - [1. KMS resources are tagged according to CG standards](#1-KMS-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -137,6 +138,30 @@ Below are a few items that need to be taken into account when setting up KMS in 
   `This Section will be updated soon.`
   - Expired Keys are Purged in a timely manner<br>
   `This Section will be updated soon.`
+
+### 5. Restricting the scheduling of KMS key deletion
+This policy will restrict the users not to change the schedule of kms key deletion except these users "SysAdmin","OrganizationAccountAccessRole","EncryptionKeyMgmtAdmin", "KeyMgmt_01":
+```
+{
+      "Effect": "Deny",
+      "Action": [
+        "kms:ScheduleKeyDeletion"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "ForAnyValue:StringNotLike": {
+          "aws:PrincipalArn": [
+            "arn:aws:iam::*:role/SysAdmin",
+            "arn:aws:iam::*:role/OrganizationAccountAccessRole",
+            "arn:aws:iam::*:role/EncryptionKeyMgmtAdmin",
+            "arn:aws:iam::*:user/KeyMgmt_01"
+          ]
+        }
+      }
+    }
+```    
 
 <br>
 

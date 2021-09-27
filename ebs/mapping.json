@@ -138,6 +138,26 @@
             },
             "control_mapping": [],
             "implementations": []
-        }
+        },
+        {
+            "requirement_name": "Restricting the disabling of default EBS encryption",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "high",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "scp",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/CGBaseSecControl/CGBaseSecControlPolicy.json"
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        }        
     ]
 }

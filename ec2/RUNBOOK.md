@@ -19,7 +19,9 @@ Tony DeMarco
   - [1. Enforce strict boundaries for access to _and_ from EC2 instances](#1-enforce-strict-boundaries-for-access-to-and-from-ec2-instances)
   - [2. Data Protection standards are enforced](#2-data-protection-standards-are-enforced)
   - [3. Network access to EC2 instances and API is restricted](#3-network-access-to-ec2-instances-and-api-is-restricted)
-  - [4. Close unnecessary administrative access ports to instances](#4-close-unnecessary-administrative-access-ports-to-instances)
+  - [4. Close unnecessary administrative access ports to instances]
+  (#4-close-unnecessary-administrative-access-ports-to-instances)
+  - [5.Denying ec2 from public network access]
 - [Detective](#detective)
   - [1. Monitor EC2 instance activity](#1-monitor-ec2-instance-activity)
   - [2. Log Amazon EC2 and Amazon EBS API calls](#2-log-amazon-ec2-and-amazon-ebs-api-calls)
@@ -432,6 +434,35 @@ NIST CSF:
 **How** Refer to Internal Documentation on the setup of Capital Group's vulnerability management software. If you are deploying an EC2 instance from an image that does not already have this software installed and configured, you will need to include it in the initial deployment.
 
 For patch management, the best way to manage a fleet of instances is using AWS Systems Manager. Systems Manager offers options for performing patch management on individual, or multiple, instances. In order for AWS Systems Manager to communicate with your instance, you will need to install the SSM Agent on the instance. Refer to [Endnote 3](#endnote-3) for details on setting up patch management on specific types of instances. Refer to the previous section for instructions on installing the SSM Agent.
+
+### 5. Denying EC2 from public network access
+Denying following actions for ec2 to have public internet access through internet gateway and also restricting vpc peering connection. The following policy will do the restriction of creating & attaching the internet gateway and creating & accpeting the vpc peering connection.This policy will restrict the users except "NetworkAdmin,SysAdmin,Automation-Ansible-Network" these roles.
+
+```
+{
+      "Effect": "Deny",
+      "Action": [
+        "ec2:AttachInternetGateway",
+        "ec2:CreateInternetGateway",
+        "ec2:CreateEgressOnlyInternetGateway",
+        "ec2:CreateVpcPeeringConnection",
+        "ec2:AcceptVpcPeeringConnection"
+      ],
+      "Resource": [
+        "*"
+      ],
+      "Condition": {
+        "ForAnyValue:StringNotLike": {
+          "aws:PrincipalArn": [
+            "arn:aws:iam::*:role/NetworkAdmin",
+            "arn:aws:iam::*:role/SysAdmin",
+            "arn:aws:iam::*:user/Automation-Ansible-Network"
+          ]
+        }
+      }
+    }
+    
+```
 
 ## Detective
 ### 1. Monitor EC2 instance activity

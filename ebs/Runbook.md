@@ -20,6 +20,7 @@ Security Engineering
   - [5. EBS Utilizes VPC Endpoints to Prevent Public Access](#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [6. CloudTrail logging enabled for EBS](#6-CloudTrail-logging-enabled-for-EBS)
   - [7. CloudWatch logging enabled for EBS](#7-CloudWatch-logging-enabled-for-EBS)
+  - [8. Restricting the disabling of default EBS encryption]
 - [Operational Best Practices](#Other-Operational-Expectations)
   - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
   - [2. EBS Volumes should be removed if unattached or no longer required](#2-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
@@ -187,6 +188,29 @@ Event Notification to consider enabling for EBS:
 - EBS fast snapshot restore events
 
 Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
+
+### 8. Restricting the disabling of default EBS encryption
+Here we are restricting the users to not to disable the EBS default encryption except these users "SysAdmin", "ComputeStorageAdmin", "OrganizationAccountAccessRole" :
+
+```
+{
+      "Sid": "RestrictionDisableDefaultEBSEncryption",
+      "Effect": "Deny",
+      "Action": [
+        "ec2:DisableEbsEncryptionByDefault"
+      ],
+      "Resource": "*",
+      "Condition": {
+        "ForAnyValue:StringNotLike": {
+          "aws:PrincipalArn": [
+            "arn:aws:iam::*:role/SysAdmin",
+            "arn:aws:iam::*:role/ComputeStorageAdmin",
+            "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+          ]
+        }
+      }
+    }
+```
 
 ## Other Operational Expectations
 <img src="/docs/img/Operations.png" width="50">

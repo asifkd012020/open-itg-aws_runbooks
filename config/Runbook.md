@@ -20,6 +20,7 @@ Security Engineering
   - [5. Config is enabled only for specific US Regions](#5-Config-is-enabled-only-for-specific-US-Regions)
   - [6. Config cannot be disabled by Member Account Owners](#6-Config-cannot-be-disabled-by-Member-Account-Owners)
   - [7. Config is automatically enabled at the member account level](#7-Config-is-automatically-enabled-at-the-member-account-level)
+  - [8. Restricting the deletion of config-configuration recorder]
 - [Detective Controls](#Detective-Controls)
   - [1. Config Resources are tagged according to CG standards](#1-DataSync-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -109,6 +110,21 @@ Interface VPC endpoints are powered by AWS PrivateLink, an AWS technology that e
 
 ### 7. Config is automatically enabled at the member account level
 `This Section will be updated soon.`
+### 8. Restricting the deletion of config-configuration recorder
+Here it will restrict the stopping or deletion of configuration recorder and delivery channel.The implementation done through the following policy
+```
+{
+      "Effect": "Deny",
+      "Action": [
+        "config:DeleteConfigurationRecorder",
+        "config:DeleteDeliveryChannel",
+        "config:StopConfigurationRecorder"
+      ],
+      "Resource": [
+        "*"
+      ]
+    }
+```    
 <br><br>
 
 ## Detective Controls

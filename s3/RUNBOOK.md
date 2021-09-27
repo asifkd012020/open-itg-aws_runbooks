@@ -203,6 +203,19 @@ More info on enforcing TLS: https://docs.aws.amazon.com/cli/latest/userguide/cli
   }
 }
 ```
+**Denying the access to s3 Get Object if the connection is not made through TLS**
+The following policy will deny the above condition:
+```
+{
+    "Sid": "DenyAccessIfNoTLS",
+    "Effect": "Deny",
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::/*",
+    "Condition": { "Bool": { "aws:SecureTransport": "false" } }
+  }
+  ]
+}
+```
 <br><br>
 
 ### 4. Deny public access by default utilizing bucket policy

@@ -34,6 +34,27 @@
             },
             "control_mapping": [],
             "implementations": []
+        },
+        {
+            "requirement_name": "Restricting the scheduling of KMS key deletion",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kms/Runbook.md",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "scp",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/CGBaseSecControl/CGBaseSecControlPolicy.json"
+                    ],
+                    "type": "prevent"
+                }
+            ]
+                
         }
     ]
 }
