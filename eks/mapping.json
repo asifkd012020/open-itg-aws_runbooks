@@ -55,7 +55,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/broad_policies/privacy_standards/eks_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/broad_policies/privacy_standards_policies/eks_standards.sentinel"
                     ],
                     "type": "prevent"
                 }
