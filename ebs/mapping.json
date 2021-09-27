@@ -25,7 +25,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/encryption_policies/encryption_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/encryption_policies/encryption_standards.sentinel"
                     ],
                     "type": "prevent"
                 }
@@ -102,7 +102,7 @@
             },
             "control_mapping": [],
             "implementations": []
-        }
+        },
         {
             "requirement_name": "EBS Resources are tagged according to CG standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ebs/Runbook.md#1-EBS-Resources-are-tagged-according-to-CG-standards",

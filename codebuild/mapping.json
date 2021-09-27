@@ -49,7 +49,7 @@
                 {
                     "provider": "sentinel",
                     "implementation": [
-                        "https://bitbucket.capgroup.com/projects/FSA/repos/sentinel_policies/browse/broad_policies/privacy_standards/codebuild_standards.sentinel"
+                        "https://github.com/open-itg/sentinel_policies/blob/master/broad_policies/privacy_standards_policies/codebuild_standards.sentinel"
                     ],
                     "type": "prevent"
                 }
