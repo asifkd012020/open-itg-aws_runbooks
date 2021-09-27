@@ -12,8 +12,10 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Config is automatically enabled at the member account level.",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "requirement_name": "Config Utilizes VPC Endpoints to Prevent Public Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#1-DataSync-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -24,8 +26,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Cannot be disabled by member account owner.",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "requirement_name": "Config leverages IAM Users and Roles Enforce Least Priviledge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#2-DataSync-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -36,8 +40,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Only enabled for the US regions (us-west-1, us-west-2, us-east-1, us-east-2)",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "requirement_name": "Config connections are protected with TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#3-DataSync-connections-are-protected-with-TLS-1-2",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -48,8 +54,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Logs forwarded to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "requirement_name": "Config data is encrypted using CG managed KMS Keys",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#4-DataSync-data-is-encrypted-using-CG-managed-KMS-Keys",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -60,8 +68,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Enable TLS 1.2 or higher for log forwarding sessions",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "requirement_name": "Config is enabled only for specific US Regions",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#6-Config-cannot-be-disabled-by-Member-Account-Owners",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -72,8 +82,66 @@
             "implementations": []
         },
         {
-            "requirement_name": "Logs at rest on CG managed S3 buckets are encrypted by default",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md",
+            "requirement_name": "Config cannot be disabled by Member Account Owners",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#6-Config-cannot-be-disabled-by-Member-Account-Owners",
+            "category": "IAM",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Config is automatically enabled at the member account level",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#7-Config-is-automatically-enabled-at-the-member-account-level",
+            "category": "IAM",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Config Resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#1-DataSync-Resources-are-tagged-according-to-CG-standards",
+            "category": "Tagging",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/config/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",

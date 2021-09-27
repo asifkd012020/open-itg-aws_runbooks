@@ -13,7 +13,9 @@
     "mapping": [
         {
             "requirement_name": "Service Catalog utilizes Private Endpoint to prevent public access",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#1-Service-Catalog-utilizes-Private-VPC-Endpoint-to-prevent-public-access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#1-service-catalog-utilizes-private-vpc-endpoint-to-prevent-public-access",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -25,7 +27,9 @@
         },
         {
             "requirement_name": "IAM Users and Roles Enforce Least Priviledge for Service Catalog",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-for-Service-Catalog",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#2-iam-users-and-roles-enforce-least-priviledge-for-service-catalog",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -37,7 +41,9 @@
         },
         {
             "requirement_name": "Data Protection standards enforced in Service Catalog",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#3-Data-Protection-standards-enforced-in-Service-Catalog",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#3-data-protection-standards-enforced-in-service-catalog",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -49,7 +55,9 @@
         },
         {
             "requirement_name": "Service Catalog resources are tagged according to CG standards",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#1-Service-Catalog-resources-are-tagged-according-to-CG-standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#1-service-catalog-resources-are-tagged-according-to-cg-standards",
+            "category": "Tagging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -61,7 +69,9 @@
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#2-cloudtrail-logging-enabled-and-sent-to-splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -73,7 +83,9 @@
         },
         {
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/servicecatalog/Runbook.md#3-cloudwatch-logging-enabled-and-sent-to-splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",

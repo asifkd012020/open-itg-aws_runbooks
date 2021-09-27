@@ -12,8 +12,80 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Follow SSM guidance",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Systems-Manager/Runbook.md",
+            "requirement_name": "Permissions within the service are established in line with individual need and least-privilege is enforced",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Systems-Manager/RUNBOOK.md#1-permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced",
+            "category": "IAM",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data is protected",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Systems-Manager/RUNBOok.md#2-data-is-protected",
+            "category": "Encryption",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Infrastructure must be secured for monitoring, audit, availability, and access control",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Systems-Manager/RUNBOOK.md#3-infrastructure-must-be-secured-for-monitoring,-audit,-availability,-and-access-control",
+            "category": "Best Practice",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Establish network/application monitoring controls",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Systems-Manager/RUNBOOK.md#1-establish-networkapplication-monitoring-controls",
+            "category": "Logging",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "AWS Systems Manager Patch Manager",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Systems-Manager/RUNBOOK.md#2-run-vulnerability-scans-on-images-stored-in-ecr",
+            "category": "Best Practice",
+            "ticket_enabled": false,
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize Amazon EventBridge for automated incident response",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/Systems-Manager/RUNBOOK.md#1-utilize-amazon-eventbridge-for-automated-incident-response",
+            "category": "Best Practice",
+            "ticket_enabled": false,
             "tags": [],
             "severity": {
                 "Prod": "medium",

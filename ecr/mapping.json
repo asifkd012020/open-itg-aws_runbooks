@@ -14,6 +14,8 @@
         {
             "requirement_name": "Implement strict IAM policies around who/what is allowed to use the service",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#1-implement-strict-iam-policies-around-whowhat-is-allowed-to-use-the-service",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -24,8 +26,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Data is protected",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#2-data-is-protected",
+            "requirement_name": "Take measures to ensure data is protected",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#2-take-measures-to-ensure-data-is-protected",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -36,8 +40,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Infrastructure must be secured for monitoring, audit, availability, and access control",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#3-infrastructure-must-be-secured-for-monitoring-audit-availability-and-access-control",
+            "requirement_name": "Implement strong infrastructure controls using VPC Endpoints, data management, and monitoring",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#3-implement-strong-infrastructure-controls-using-vpc-endpoints-data-management-and-monitoring",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -50,6 +56,8 @@
         {
             "requirement_name": "Establish network/application monitoring controls",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#1-establish-networkapplication-monitoring-controls",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -62,6 +70,8 @@
         {
             "requirement_name": "Run vulnerability scans on images stored in ECR",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#2-run-vulnerability-scans-on-images-stored-in-ecr",
+            "category": "Best Practice",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -72,8 +82,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Utilize an event-based solution for automated incident response",
+            "requirement_name": "Utilize Amazon EventBridge for automated incident response",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ecr/PLAYBOOK.md#1-utilize-amazon-eventbridge-for-automated-incident-response",
+            "category": "Best Practice",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",

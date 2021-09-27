@@ -12,19 +12,19 @@ Security Engineering
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
-- [Preventative Controls](#Preventative-Controls)
-  - [1. SecurityHub Users and Roles defined following least privilege model](#1-SecurityHub-Users-and-Roles-defined-following-least-privilege-model)
-  - [2. SecurityHub access limited to Security Teams](#2-SecurityHub-access-limited-to-Security-Teams)
-  - [3. SecurityHub data is Encrypted at rest](#3-SecurityHub-data-is-Encrypted-at-rest)
-  - [4. SecurityHub connections are Encrypted in transit using TLS 1.2](#4-SecurityHub-connections-are-Encrypted-in-transit-using-TLS-1-2)
-  - [5. SecurityHub contains no sensitive data](#5-SecurityHub-contains-no-sensitive-data)
-- [Detective Controls](#Detective-Controls)
-  - [1. SecurityHub Resources are tagged according to CG standards](#1-SecurityHub-Resources-are-tagged-according-to-CG-standards)
-  - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
-  - [3. CloudWatch logging enabled and sent to Splunk](#3-CloudWatch-logging-enabled-and-sent-to-Splunk)
-- [Respond & Recover](#Respond/Recover)
-- [Endnotes](#Endnotes)
-- [Capital Group Glossory](#Capital-Group-Glossory) 
+- [Preventative Controls](#preventative-controls)
+  - [1. SecurityHub Users and Roles defined following least privilege model](#1-securityhub-users-and-roles-defined-following-least-privilege-model)
+  - [2. SecurityHub access limited to Security Teams](#2-securityhub-access-limited-to-security-teams)
+  - [3. SecurityHub data is Encrypted at rest](#3-securityhub-data-is-encrypted-at-rest)
+  - [4. SecurityHub connections are Encrypted in transit using TLS 1.2](#4-securityhub-connections-are-encrypted-in-transit-using-tls-1-2)
+  - [5. SecurityHub contains no sensitive data](#5-securityhub-contains-no-sensitive-data)
+- [Detective Controls](#detective-controls)
+  - [1. SecurityHub Resources are tagged according to CG standards](#1-securityhub-resources-are-tagged-according-to-cg-standards)
+  - [2. CloudTrail logging enabled and sent to Splunk](#2-cloudtrail-logging-enabled-and-sent-to-splunk)
+  - [3. CloudWatch logging enabled and sent to Splunk](#3-cloudwatch-logging-enabled-and-sent-to-splunk)
+- [Respond & Recover](#respond/recover)
+- [Endnotes](#endnotes)
+- [Capital Group Glossory](#capital-group-glossory) 
 <br><br>
 
 ## Overview

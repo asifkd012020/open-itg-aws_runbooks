@@ -22,6 +22,7 @@ Tony DeMarco
   - [1. Log AWS Lambda API Calls with AWS CloudTrail](#1-log-aws-lambda-api-calls-with-aws-cloudtrail)
   - [2. Utilize Amazon CloudWatch logs for AWS Lambda](#2-utilize-amazon-cloudwatch-logs-for-aws-lambda)
   - [3. Monitor AWS Lambda Function metrics in AWS CLoudwatch](#3-monitor-aws-lambda-function-metrics-in-aws-cloudwatch)
+  - [4. Attach Lambda to VPC](#4-attach-lambda-to-vpc)
 - [Endnotes](#endnotes)
 - [Capital Group Control Statements](#capital-group-control-statements)
 - [Glossary](#glossary)

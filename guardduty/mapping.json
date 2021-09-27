@@ -14,6 +14,8 @@
         {
             "requirement_name": "GuardDuty Users and Roles defined following least privilege model",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/guardduty/Runbook.md#1-GuardDuty-Users-and-Roles-defined-following-least-privilege-model",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -26,6 +28,8 @@
         {
             "requirement_name": "GuardDuty access limited to Security Teams",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/guardduty/Runbook.md#2-GuardDuty-access-limited-to-Security-Teams",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -38,6 +42,8 @@
         {
             "requirement_name": "GuardDuty resources are Encrypted using CG Managed KMS Keys",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/guardduty/Runbook.md#3-GuardDuty-reources-are-Encrypted-using-CG-Managed-KMS-Keys",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -50,6 +56,8 @@
         {
             "requirement_name": "GuardDuty connections are Encrypted in transitusing TLS 1.2",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/guardduty/Runbook.md#4-GuardDuty-connections-are-Encrypted-in-transitusing-TLS-1-2",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -62,6 +70,8 @@
         {
             "requirement_name": "GuardDuty Resources are tagged according to CG standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/guardduty/Runbook.md#1-GuardDuty-Resources-are-tagged-according-to-CG-standards",
+            "category": "Tagging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -74,6 +84,8 @@
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/guardduty/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -86,6 +98,8 @@
         {
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/guardduty/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",

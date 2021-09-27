@@ -14,6 +14,8 @@
         {
             "requirement_name": "Enforce least privilege for all DynamoDB users and roles",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#1-enforce-least-privilege-for-all-dynamodb-users-and-roles",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -26,6 +28,8 @@
         {
             "requirement_name": "Tables are encrypted using CG CMK",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#3-Tables-are-encrypted-using-CG-CMK",
+            "category": "Encryption",
+            "ticket_enabled": true,
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -53,6 +57,8 @@
         {
             "requirement_name": "Data in Transit is encrypted using TLS 1.2",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#3-Data-in-Transit-is-encrypted-using-TLS-1.2",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -63,8 +69,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "Create a VPC Endpoint for DynamoDB",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#3-create-a-vpc-endpoint-for-dynamodb",
+            "requirement_name": "DynamoDB Utilizes VPC Endpoints to Prevent Public Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#DynamoDB-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -75,8 +83,10 @@
             "implementations": []
         },
         {
-            "requirement_name": "CloudTrail logging enabled for DynamoDB",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#2-CloudTrail-logging-enabled-for-DynamoDB",
+            "requirement_name": "Log DynamoDB Operations with AWS CloudTrail",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#Log-DynamoDB-Operations-with-AWS-CloudTrail",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -89,6 +99,8 @@
         {
             "requirement_name": "Create CloudWatch Alarms to monitor DynamoDB",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#1-create-cloudwatch-alarms-to-monitor-dynamodb",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -101,6 +113,8 @@
         {
             "requirement_name": "DynamoDB Continuous Backups",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#2-DynamoDB-Continuous-Backups",
+            "category": "Backup",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -113,10 +127,54 @@
         {
             "requirement_name": "DynamoDB Backup / Restore setup",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#1-DynamoDB-Backup-/-Restore-setup",
+            "category": "Backup",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "high",
                 "SNP": "high",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012142"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Tagging",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#Tagging",
+            "category": "Tagging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012142"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Unused Tables should be removed",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#Unused-Tables-should-be-removed",
+            "category": "Best Practice",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012142"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize DynamoDB streams to support data-plane logging",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dynamodb/RUNBOOK.md#Utilize-DynamoDB-streams-to-support-data-plane-logging",
+            "category": "Logging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
                 "NP": "medium"
             },
             "control_mapping": ["CS0012142"],

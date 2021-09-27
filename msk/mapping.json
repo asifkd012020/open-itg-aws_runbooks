@@ -12,8 +12,80 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/dms/Runbook.md",
+            "requirement_name": "MSK Deployed in Private VPC",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/msk/Runbook.md#1-MSK-Deployed-in-Private-VPC",
+            "category": "Public Access",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Encrypt all data in the Cloud",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/msk/Runbook.md#2-Encrypt-all-data-in-the-Cloud",
+            "category": "Encryption",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "IAM Users and Roles Enforce Least Priviledge",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/msk/Runbook.md#-IAM-Users-and-Roles-Enforce-Least-Priviledge",
+            "category": "IAM",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "MSK resources are tagged according to CG standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/msk/Runbook.md#1-Application-Load-Balancing-resources-are-tagged-according-to-CG-standards",
+            "category": "Tagging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled and sent to Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/msk/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
+            "tags":[],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudWatch logging enabled",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/msk/Runbook.md#2-CloudWatch-logging-enabled",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",

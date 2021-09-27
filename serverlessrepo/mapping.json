@@ -13,7 +13,9 @@
     "mapping": [
         {
             "requirement_name": "Publishers must set application permissions to private or privately shared with CG organization accounts",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#1-Publishers-must-set-application-permissions-to-private-or-privately-shared-with-CG-organization-accounts",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#1-publishers-must-set-application-permissions-to-private-or-privately-shared-with-cg-organization-accounts",
+            "category": "Public Access",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -25,7 +27,9 @@
         },
         {
             "requirement_name": "SAR Data is protected at-rest",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#2-SAR-Data-is-protected-at-rest",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#2-sar-data-is-protected-at-rest",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -37,7 +41,9 @@
         },
         {
             "requirement_name": "SAR Utilizes TLS 1.2 to secure data in transit",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#3-SAR-Utilizes-TLS-1-2-to-secure-data-in-transit",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#3-sar-utilizes-tls-1-2-to-secure-data-in-transit",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -49,7 +55,9 @@
         },
         {
             "requirement_name": "SAR Resources are tagged according to CG standards",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#1-SAR-Resources-are-tagged-according-to-CG-standards",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#1-sar-resources-are-tagged-according-to-cg-standards",
+            "category": "Tagging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -61,7 +69,9 @@
         },
         {
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#2-cloudtrail-logging-enabled-and-sent-to-splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -73,7 +83,9 @@
         },
         {
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/serverlessrepo/Runbook.md#3-cloudwatch-logging-enabled-and-sent-to-splunk",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "medium",

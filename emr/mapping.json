@@ -14,6 +14,8 @@
         {
             "requirement_name": "Permissions within the service are established in line with individual need and least-privilege is enforced",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#1-Permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced",
+            "category": "IAM",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -26,6 +28,8 @@
         {
             "requirement_name": "Data must be encrypted at all times using a CG BYOK for encryption where possible",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#2-Data-must-be-encrypted-at-all-times-using-a-CG-BYOK-for-encryption-where-possible",
+            "category": "Encryption",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -38,6 +42,8 @@
         {
             "requirement_name": "Infrastructure must be secured for monitoring, audit, availability, and access control",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#3-Infrastructure-must-be-secured-for-monitoring,-audit,-availability,-and-access-control",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -50,6 +56,8 @@
         {
             "requirement_name": "Patch Management and Vulnerability Management",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#4-Patch-Management-and-Vulnerability-Management",
+            "category": "Best Practice",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -62,6 +70,8 @@
         {
             "requirement_name": "Establish Config rules to monitor for deviations from normal configuration",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#1-Establish-Config-rules-to-monitor-for-deviations-from-normal-configuration",
+            "category": "Best Practice",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -74,6 +84,8 @@
         {
             "requirement_name": "Utilize Amazon EventBridge for automated incident response",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/emr/Runbook.md#1-Utilize-Amazon-EventBridge-for-automated-incident-response",
+            "category": "Logging",
+            "ticket_enabled": false,
             "tags":[],
             "severity": {
                 "Prod": "critical",

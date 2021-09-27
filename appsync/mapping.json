@@ -12,13 +12,13 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Discovery in progress",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/appsync/Runbook.md",
+            "requirement_name": "Service Denied",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/appsync/Runbook.md#Service-Denial-Explanation",
             "tags":[],
             "severity": {
-                "Prod": "medium",
-                "SNP": "medium",
-                "NP": "medium"
+                "Prod": "emergency",
+                "SNP": "emergency",
+                "NP": "emergency"
             },
             "control_mapping": [],
             "implementations": []
