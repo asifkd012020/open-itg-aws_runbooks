@@ -15,7 +15,7 @@
             "requirement_name": "Cloudtrail IAM Roles Enforce Least Priviledge for Cloudtrail Logs",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudtrail/Runbook.md#1-Cloudtrail-IAM-Roles-Enforce-Least-Priviledge-tforo-Cloudtrail-Logs",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -29,7 +29,7 @@
             "requirement_name": "Cloudtrail Logs are Centrally Managed",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudtrail/Runbook.md#2-Cloudtrail-Logs-are-Centrally-Managed",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -51,7 +51,7 @@
             "requirement_name": "Cloudtrail S3 Central Bucket Policy ensures Least Priviledge",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudtrail/Runbook.md#3-Cloudtrail-S3-Central-Bucket-Policy-ensures-Least-Priviledge",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -65,7 +65,7 @@
             "requirement_name": "Cloudtrail Logs encrypted using CG KMS",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudtrail/Runbook.md#4-Cloudtrail-Logs-encrypted-using-CG-KMS",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -79,7 +79,7 @@
             "requirement_name": "Cloudtrail Logs enabled for all AWS Services",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudtrail/Runbook.md#5-Cloudtrail-Logs-enabled-for-all-AWS-Services",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -103,7 +103,7 @@
             "requirement_name": "Cloudtrail Logs forwarded to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudtrail/Runbook.md#6-Cloudtrail-Logs-forwarded-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",

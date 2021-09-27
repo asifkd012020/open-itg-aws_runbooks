@@ -15,7 +15,7 @@
             "requirement_name": "Establish Fine-Grained Access Controls",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lakeformation/Runbook.md#1-establish-fine-grained-access-controls",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -29,7 +29,7 @@
             "requirement_name": "Register Encrypted S3 Locations for Underlying Data",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lakeformation/Runbook.md#2-register-encrypted-s3-locations-for-underlying-data",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -43,7 +43,7 @@
             "requirement_name": "Log AWS CLoudformation API Calls with AWS CloudTrail",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lakeformation/RUNBOOK.md#1-log-aws-cloudformation-api-calls-with-aws-cloudtrail",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",

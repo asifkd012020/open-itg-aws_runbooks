@@ -15,7 +15,7 @@
             "requirement_name": "Cloud9 deployed in Private VPC with no-ingress EC2 Instances",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#1-Cloud9-deployed-in-Private-VPC-with-no-ingress-EC2-Instances",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -29,7 +29,7 @@
             "requirement_name": "Cloud9 deployed with Private Endpoint for SSM Integration",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#2-Cloud9-deployed-with-Private-Endpoint-for-SSM-Integration",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -43,7 +43,7 @@
             "requirement_name": "Cloud9 utilizes Managed Resource Policy to enforce least priviledge",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#3-Cloud9-utilizes-Managed-Resource-Policy-to-enforce-least-priviledge",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -57,7 +57,7 @@
             "requirement_name": "Cloud9 utilizes IAM Roles to enforce least priviledge",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#4-Cloud9-utilizes-IAM-Roles-to-enforce-least-priviledged",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -71,7 +71,7 @@
             "requirement_name": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#5-Cloud9-connections-are-protected-with-TLS-1-2",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -85,7 +85,7 @@
             "requirement_name": "Cloud9 data is encrypted using CG managed KMS Keys",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#6-Cloud9-data-is-encrypted-using-CG-managed-KMS-Keys",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "high",
@@ -99,7 +99,7 @@
             "requirement_name": "Cloud9 Resources are tagged according to CG standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#1-Cloud9-Resources-are-tagged-according-to-CG-standards",
             "category": "Tagging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -113,7 +113,7 @@
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -127,7 +127,7 @@
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloud9/Runbook.md#2-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",

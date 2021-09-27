@@ -15,7 +15,7 @@
             "requirement_name": "Implement access controls to enforce least privilege",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#1-implement-access-controls-to-enforce-least-privilege",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -29,7 +29,7 @@
             "requirement_name": "Data is protected at-rest and in-transit",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#2-data-is-protected-at-rest-and-in-transit",
             "category": "Encryption",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -58,7 +58,7 @@
             "requirement_name": "Database instances are configured for high-availability",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#3-database-instances-are-configured-for-high-availability",
             "category": "Best Practice",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -72,7 +72,7 @@
             "requirement_name": "Network controls are restrictive",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#4-network-controls-are-restrictive",
             "category": "Public Access",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -109,7 +109,7 @@
             "requirement_name": "Store database secrets in a vault for automatic rotation",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#5-store-database-secrets-in-a-vault-for-automatic-rotation",
             "category": "Best Practice",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -123,7 +123,7 @@
             "requirement_name": "Monitor RDS DB instances status",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#1-monitor-rds-db-instances-status",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -137,7 +137,7 @@
             "requirement_name": "Log Amazon RDS API calls",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#2-log-amazon-rds-api-calls",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -151,7 +151,7 @@
             "requirement_name": "Utilize Amazon RDS Event Notifications utilizing Amazon SNS",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#3-utilize-amazon-rds-event-notifications-utilizing-amazon-sns",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -165,7 +165,7 @@
             "requirement_name": "Utilize AWS Config rules to monitor RDS for control compliance",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#4-utilize-aws-config-rules-to-monitor-rds-for-control-compliance",
             "category": "Best Practice",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -179,7 +179,7 @@
             "requirement_name": "Utilize Amazon CloudWatch Events and Amazon EventBridge Events for Amazon RDS",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#1-utilize-amazon-cloudwatch-events-and-amazon-eventbridge-events-for-amazon-rds",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -193,7 +193,7 @@
             "requirement_name": "AWS RDS auto minor version upgrade is enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/rds/RUNBOOK.md#5-aws-rds-auto-minor-version-upgrade-is-enabled",
             "category": "Best Practice",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",

@@ -15,7 +15,7 @@
             "requirement_name": "Enforce least privilege for all S3 users and roles",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#1-Enforce-least-privilege-for-all-S3-users-and-roles",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -37,7 +37,7 @@
             "requirement_name": "Buckets are encrypted using CG CMK",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#2-Buckets-are-encrypted-using-CG-CMK",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -67,7 +67,7 @@
             "requirement_name": "Data in Transit is encrypted using TLS 1.2",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#3-Data-in-Transit-is-encrypted-using-TLS-1.2",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -81,7 +81,7 @@
             "requirement_name": "Deny public access by default utilizing bucket policy",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#4-Deny-public-access-by-default-utilizing-bucket-policy",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -95,7 +95,7 @@
             "requirement_name": "S3 Utilizes VPC Endpoints to Prevent Public Access",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#5-S3-Utilizes-VPC-Endpoints-to-Prevent-Public-Access",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "critical",
@@ -117,7 +117,7 @@
             "requirement_name": "Enable Amazon S3 server access logging",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#6-Enable-Server-Access-Logs",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "high",
@@ -146,7 +146,7 @@
             "requirement_name": "Buckets backups are in accordance with CG Standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#7-Buckets-backups-are-in-accordance-with-CG-Standards",
             "category": "Backup",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "critical",
@@ -160,7 +160,7 @@
             "requirement_name": "CloudTrail logging enabled for S3",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#8-CloudTrail-logging-enabled-for-S3",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "critical",
@@ -174,7 +174,7 @@
             "requirement_name": "CloudWatch alarms enabled for S3",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/s3/RUNBOOK.md#9-CloudWatch-alarms-enabled-for-S3",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "critical",

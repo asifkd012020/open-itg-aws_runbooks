@@ -15,7 +15,7 @@
             "requirement_name": "Kinesis utilizes Interface VPC Endpoints",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md#1-Kinesis-utilizes-Interface-VPC-Endpoints",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "critical",
@@ -29,7 +29,7 @@
             "requirement_name": "Kinesis utilizes IAM Roles to enforce least priviledge",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md#2-Kinesis-utilizes-IAM-Roles-to-enforce-least-priviledged",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "critical",
@@ -43,7 +43,7 @@
             "requirement_name": "Kinesis connections are protected with TLS 1.2",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md#3-Kinesis-connections-are-protected-with-TLS-1-2",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -65,7 +65,7 @@
             "requirement_name": "Kinesis data is encrypted using CG managed KMS Keys",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/kinesis/Runbook.md#4-Kinesis-data-is-encrypted-using-CG-managed-KMS-Keys",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",

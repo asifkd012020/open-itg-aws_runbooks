@@ -15,7 +15,7 @@
             "requirement_name": "Use CodeDeploy Identity-based policies to ensure least-privilege is enforced to create, delete, or update deployment configurations and deployment groups.",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codedeploy/RUNBOOK.md#1-use-codedeploy-identity-based-policies-to-ensure-least-privilege-is-enforced-to-create-delete-or-update-deployment-configurations-and-deployment-groups",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -29,7 +29,7 @@
             "requirement_name": "Audit and monitor all interactions with AWS CodeDeploy using AWS Cloudtrail",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codedeploy/RUNBOOK.md#1-audit-and-monitor-all-interactions-with-aws-codedeploy-using-aws-cloudtrail",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -43,7 +43,7 @@
             "requirement_name": "Centrailaize and View AWS CodeDeploy logs in Amazon CloudWatch utilizing Cloudwatch Events",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codedeploy/RUNBOOK.md#2-centrailaize-and-view-aws-codedeploy-logs-in-amazon-cloudwatch-utilizing-cloudwatch-events",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -57,7 +57,7 @@
             "requirement_name": "Utilize AWS CloudWatch alarm actions to automatically stop, terminate, reboot, or recover EC2 instances when a deployment or instance event you specify occurs",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codedeploy/RUNBOOK.md#1-utilize-aws-cloudwatch-alarm-actions-to-automatically-stop-terminate-reboot-or-recover-ec2-instances-when-a-deployment-or-instance-event-you-specify-occurs",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",

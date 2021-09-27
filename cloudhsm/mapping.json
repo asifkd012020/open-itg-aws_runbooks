@@ -15,7 +15,7 @@
             "requirement_name": "CloudHSM Deployed within Private VPC",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudhsm/Runbook.md#1-CloudHSM-Deployed-within-Private-VPC",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -29,7 +29,7 @@
             "requirement_name": "IAM Users and Roles Enforce Least Priviledge to CloudHSM Service",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudhsm/Runbook.md#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-to-CloudHSM-Service",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -43,7 +43,7 @@
             "requirement_name": "CloudHSM User accounts Enforce Least Priviledge within HSM Service",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudhsm/Runbook.md#3-CloudHSM-User-accounts-Enforce-Least-Priviledge-within-HSM-Service",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -57,7 +57,7 @@
             "requirement_name": "Data Protection in AWS CloudHSM Service",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudhsm/Runbook.md#4-Data-Protection-in-AWS-CloudHSM-Service",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -71,7 +71,7 @@
             "requirement_name": "CloudHSM resources are tagged according to CG standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudhsm/Runbook.md#1-CloudHSM-resources-are-tagged-according-to-CG-standards",
             "category": "Tagging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -85,7 +85,7 @@
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudhsm/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -99,7 +99,7 @@
             "requirement_name": "CloudWatch logging enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudhsm/Runbook.md#3-CloudWatch-logging-enabled",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",

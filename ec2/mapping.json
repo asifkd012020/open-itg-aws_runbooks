@@ -15,7 +15,7 @@
             "requirement_name": "Enforce strict boundaries for access to and from EC2 instances",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#1-enforce-strict-boundaries-for-access-to-and-from-ec2-instances",
             "category": "IAM",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -43,7 +43,7 @@
             "requirement_name": "Data Protection standards are enforced",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-data-protection-standards-are-enforced",
             "category": "Encryption",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -81,7 +81,7 @@
             "requirement_name": "Network access to EC2 instances and API is restricted",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#3-network-access-to-ec2-instances-and-api-is-restricted",
             "category": "Public Access",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -123,7 +123,7 @@
             "requirement_name": "Close unnecessary administrative access ports to instances",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#4-close-unnecessary-administrative-access-ports-to-instances",
             "category": "Public Access",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -150,7 +150,7 @@
             "requirement_name": "Monitor EC2 instance activity",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#1-monitor-ec2-instance-activity",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -164,7 +164,7 @@
             "requirement_name": "Log Amazon EC2 and Amazon EBS API calls",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#2-log-amazon-ec2-and-amazon-ebs-api-calls",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -178,7 +178,7 @@
             "requirement_name": "Monitor EC2 Instance metrics for anomalous behavior",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#3-monitor-ec2-instance-metrics-for-anomalous-behavior",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -192,7 +192,7 @@
             "requirement_name": "Utilize Amazon cloudWatch alarm actions",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#1-utilize-amazon-cloudwatch-alarm-actions",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -206,7 +206,7 @@
             "requirement_name": "EC2 instance should have SSM Managed",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#4-ec2-instance-should-have-ssm-managed",
             "category": "Best Practice",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -228,7 +228,7 @@
             "requirement_name": "EC2 instance should have Qualys agent installed",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/ec2/RUNBOOK.md#5-ec2-instance-should-have-qualys-agent-installed",
             "category": "Best Practice",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "medium",

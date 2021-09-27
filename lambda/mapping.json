@@ -15,7 +15,7 @@
             "requirement_name": "Enforce Strict Access Policies for Lambda Users and Roles",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#1-enforce-strict-access-policies-for-lambda-users-and-roles",
             "category": "IAM",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -44,7 +44,7 @@
             "requirement_name": "Data Protection",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#2-data-protection",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -58,7 +58,7 @@
             "requirement_name": "Log AWS Lambda API Calls with AWS CloudTrail",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#1-log-aws-lambda-api-calls-with-aws-cloudtrail",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -72,7 +72,7 @@
             "requirement_name": "Utilize Amazon CloudWatch logs for AWS Lambda",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#2-utilize-amazon-cloudwatch-logs-for-aws-lambda",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -86,7 +86,7 @@
             "requirement_name": "Monitor AWS Lambda Function metrics in AWS CLoudwatch",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#3-monitor-aws-lambda-function-metrics-in-aws-cloudwatch",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -100,7 +100,7 @@
             "requirement_name": "Attach Lambda to VPC",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#4-attach-lambda-to-vpc",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",

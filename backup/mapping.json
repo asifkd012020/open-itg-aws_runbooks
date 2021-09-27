@@ -15,7 +15,7 @@
             "requirement_name": "Organizational level SCP controls enforce strict access controls to backup vaults",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#1-Organizational-level-SCP-controls-enforce-strict-access-controls-to-backup-vaults",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -29,7 +29,7 @@
             "requirement_name": "IAM Users and Roles Enforce Least Priviledge for AWS Backup Service",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-for-AWS-Backup-Service",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -43,7 +43,7 @@
             "requirement_name": "AWS Backup IAM User account has appropriate access to services",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#3-AWS-Backup-IAM-User-account-has-appropriate-access-to-services",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -57,7 +57,7 @@
             "requirement_name": "Data Protection standards enforced in AWS Backup Service",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#4-Data-Protection-standards-enforced-in-AWS-Backup-Service",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -71,7 +71,7 @@
             "requirement_name": "Backup resources are tagged according to CG standards",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#1-Backup-resources-are-tagged-according-to-CG-standards",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -85,7 +85,7 @@
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#2-CloudTrail-logging-enabled-and-sent-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -99,7 +99,7 @@
             "requirement_name": "CloudWatch logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#3-CloudWatch-logging-enabled-and-sent-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -113,7 +113,7 @@
             "requirement_name": "Backup activity monitoring enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#4-Backup-activity-monitoring-enabled",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
