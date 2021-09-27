@@ -17,6 +17,8 @@ Security Engineering
   - [2. IAM Users and Roles Enforce Least Priviledge for AWS Backup Service](#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-for-AWS-Backup-Service)
   - [3. AWS Backup IAM User account has appropriate access to services](#3-AWS-Backup-IAM-User-account-has-appropriate-access-to-services)
   - [4. Data Protection standards enforced in AWS Backup Service](#4-Data-Protection-standards-enforced-in-AWS-Backup-Service)
+  - [5. Restrict access to delete recovery points for AWS Backup Service](#5-Restrict-access-to-delete-recovery-points-for-AWS-Backup-Service)
+  - [6. Restrict IAM BackupRoleAccess for AWS Backup Service](#6-Restrict-IAM-BackupRoleAccess-for-AWS-Backup-Service)
 - [Detective Controls](#Detective-Controls)
   - [1. Backup resources are tagged according to CG standards](#1-Backup-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -68,6 +70,64 @@ Below is an example organizational level deployment of AWS backup:<br>
 `This Section will be updated soon.`
 <br><br>
 
+### 5. Restrict access to delete recovery points for AWS Backup Service
+
+ *Policy  resticts the access to delete RecoveryPoint from backup on resouces like Backup,RDS,DynamoDB,Ec2.*
+'''
+	{
+      "Sid": "RestrictRecoveryPointAccess",
+      "Effect": "Deny",
+      "Action": [
+        "backup:DeleteRecoveryPoint"
+      ],
+      "Resource": [
+        "arn:aws:backup:*:*:recovery-point:*",
+        "arn:aws:rds:*:*:snapshot:awsbackup:*",
+        "arn:aws:rds:*:*:cluster-snapshot:awsbackup:*",
+        "arn:aws:dynamodb:*:*::table/*/backup/*",
+        "arn:aws:ec2:*::snapshot/*",
+        "arn:aws:ec2:*::image/*"
+      ]
+    }
+'''
+### 6. Restrict IAM BackupRoleAccess for AWS Backup Service
+
+* Restricts the IAM access to the roles AWSBackupRole & GRCRestrictedBackupVaultRole on all the resources and whitelisting the role 'AWSCloudFormationStackSetExecutionRole' *
+'''
+	 {
+      "Sid": "RestrictIAMBackupRoleAccess",
+      "Effect": "Deny",
+      "Action": [
+        "iam:AttachRolePolicy",
+        "iam:AttachUserPolicy",
+        "iam:CreatePolicy",
+        "iam:CreatePolicyVersion",
+        "iam:DeletePolicy",
+        "iam:DeletePolicyVersion",
+        "iam:DeleteRolePermissionsBoundary",
+        "iam:DeleteRolePolicy",
+        "iam:DeleteUserPermissionsBoundary",
+        "iam:DeleteUserPolicy",
+        "iam:PutRolePermissionsBoundary",
+        "iam:PutRolePolicy",
+        "iam:PutUserPermissionsBoundary",
+        "iam:PutUserPolicy",
+        "iam:SetDefaultPolicyVersion",
+        "iam:UpdateAssumeRolePolicy"
+      ],
+      "Resource": [
+        "arn:aws:iam::*:role/AWSBackupRole",
+        "arn:aws:iam::*:role/GRCRestrictedBackupVaultRole"
+      ],
+      "Condition": {
+        "ForAnyValue:StringNotLike": {
+          "aws:PrincipalArn": [
+            "arn:aws:iam::*:role/AWSCloudFormationStackSetExecutionRole"
+          ]
+        }
+      }
+    }
+'''
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 

@@ -106,6 +106,46 @@
             },
             "control_mapping": ["CS0012233"],
             "implementations": []
+        },
+        {
+            "requirement_name": "Deny access to delete recovery points in a backup vault",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#5-Restrict-access-to-delete-recovery-points-for-AWS-Backup-Service",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "SCP",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/BackupAccess/BackupAccessPolicy.json"
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        },
+		{
+            "requirement_name": "Restrict IAM BackupRoleAccess",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#6-Restrict-IAM-BackupRoleAccess-for-AWS-Backup-Service",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "SCP",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/BackupAccess/BackupAccessPolicy.json"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         }
     ]
 }
