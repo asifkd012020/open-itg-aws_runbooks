@@ -72,8 +72,8 @@ Below is an example organizational level deployment of AWS backup:<br>
 
 ### 5. Restrict access to delete recovery points for AWS Backup Service
 
- *Policy  resticts the access to delete RecoveryPoint from backup on resouces like Backup,RDS,DynamoDB,Ec2.*
-'''
+ *Policy resticts the access to delete RecoveryPoint from backup on resouces  Backup,RDS,DynamoDB,Ec2.*
+```
 	{
       "Sid": "RestrictRecoveryPointAccess",
       "Effect": "Deny",
@@ -89,11 +89,11 @@ Below is an example organizational level deployment of AWS backup:<br>
         "arn:aws:ec2:*::image/*"
       ]
     }
-'''
+```
 ### 6. Restrict IAM BackupRoleAccess for AWS Backup Service
 
-* Restricts the IAM access to the roles AWSBackupRole & GRCRestrictedBackupVaultRole on all the resources and whitelisting the role 'AWSCloudFormationStackSetExecutionRole' *
-'''
+ * Restricts the IAM access to the roles 'AWSBackupRole' & 'GRCRestrictedBackupVaultRole' on all the resources and allowing the role 'AWSCloudFormationStackSetExecutionRole' *
+ ```
 	 {
       "Sid": "RestrictIAMBackupRoleAccess",
       "Effect": "Deny",
@@ -127,7 +127,8 @@ Below is an example organizational level deployment of AWS backup:<br>
         }
       }
     }
-'''
+```
+
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 
