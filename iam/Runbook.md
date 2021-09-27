@@ -8,20 +8,22 @@
 <br>
 Security Engineering
 
-**Last Update:** *01/01/2022*
+**Last Update:** *09/27/2021*
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
 - [Cloud Security Requirements](#cloud-security-requirements)
-  - [1. **To Discuss:** Local IAM Users may only be operated via the CG network](#1-to-discuss-local-iam-users-may-only-be-operated-via-the-cg-network)
+  - [1. Local IAM Users may only be operated via the CG network](#1-local-iam-users-may-only-be-operated-via-the-cg-network)
   - [2. Local IAM User provision requests are made through Access Central](#2-local-iam-user-provision-requests-are-made-through-access-central)
-  - [3. **To Discuss:** Local IAM Users are reviewed semi-annually and removed when there is no longer a business need](#3-to-discuss-local-iam-users-are-reviewed-semi-annually-and-removed-when-there-is-no-longer-a-business-need)
-  - [4. Local IAM Users are not provisioned AWS Management Console access](#4-local-iam-users-are-not-provisioned-aws-management-console-access)
-  - [5. Credentials are stored within an enterprise approved password vaulting tool](#5-credentials-are-stored-within-an-enterprise-approved-password-vaulting-tool)
-  - [6. Programmatic access keys are handed off according to CG enterprise requirements](#6-programmatic-access-keys-are-handed-off-according-to-cg-enterprise-requirements)
-  - [7. Programmatic access keys are rotated every 90 days](#7-programmatic-access-keys-are-rotated-every-90-days)
-  - [8. **LAB Accounts Only:** Console passwords must align to CG Enterprise Password Management standards](#8-lab-accounts-only-console-passwords-must-align-to-cg-enterprise-password-management-standards)
-  - [9. **To Discuss:** **LAB Accounts Only:** User accounts must be secured with Multi-Factor Authentication](#9-to-discuss-lab-accounts-only-user-accounts-must-be-secured-with-multi-factor-authentication)
+  - [3. Local IAM Users are reviewed semi-annually and removed when there is no longer a business need](#3-local-iam-users-are-reviewed-semi-annually-and-removed-when-there-is-no-longer-a-business-need)
+  - [4. Local IAM Users are only provisioned AWS Management Console access when enterprise SSO is not available](#4-local-iam-users-are-only-provisioned-aws-management-console-access-when-enterprise-sso-is-not-available)
+  - [5. Local IAM Users are given access granting least privilege](#5-local-iam-users-are-given-access-granting-least-privilege)
+  - [6. Credentials are stored within an enterprise approved password vaulting tool](#6-credentials-are-stored-within-an-enterprise-approved-password-vaulting-tool)
+  - [7. Local IAM Users are operated only by the intended recipient](#7-local-iam-users-are-operated-only-by-the-intended-recipient)
+  - [8. Programmatic access keys are handed off according to CG enterprise requirements](#8-programmatic-access-keys-are-handed-off-according-to-cg-enterprise-requirements)
+  - [9. Programmatic access keys are rotated every 90 days](#9-programmatic-access-keys-are-rotated-every-90-days)
+  - [10. Local IAM Users with console passwords must align to CG Enterprise Password Management standards](#10-local-iam-users-with-console-passwords-must-align-to-cg-enterprise-password-management-standards)
+  - [11. Local IAM Users with console passwords must be secured with Multi-Factor Authentication](#11-local-iam-users-with-console-passwords-must-be-secured-with-multi-factor-authentication)
 - [Other Operational Expectations](#other-operational-expectations)
   - [1. Operational Item 1](#1-operational-item-1)
   - [2. Operational Item 2](#2-operational-item-2)
@@ -36,12 +38,12 @@ A brief overview of the AWS service being reviewed, including a deployment examp
 
 ## Cloud Security Requirements
 
-### 1. **To Discuss:** Local IAM Users may only be operated via the CG network 
+### 1. Local IAM Users may only be operated via the CG network 
 
 **Capital Group Controls:** 
 |Control Statement|Description|
 |------|----------------------|
-|[CS0012318 No longer valid](https://capitalgroup.service-now.com/cg_grc?sys_id=d8ef55521b5a8050da4bdca4bd4bcb04&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones.|
+|[CS0012318](https://capitalgroup.service-now.com/cg_grc?sys_id=534f8d4b1bea6850371277741a4bcbc2&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Direct external connectivity to and from internal CG systems is not permitted. Connectivity to external networks must traverse traffic control devices in the perimeter network zones.|
 
 **Why?** 
 
@@ -86,7 +88,7 @@ To make the provision request, complete the following steps:
 8. Once submitted, the request will be appropriately reviewed and, once approved, will then be provisioned by the Cloud IAM Services team.
 <br><br>
 
-### 3. **To Discuss:** Local IAM Users are reviewed semi-annually and removed when there is no longer a business need
+### 3. Local IAM Users are reviewed semi-annually and removed when there is no longer a business need
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -102,7 +104,7 @@ CG's Cloud Security standards require unnecessary access and accounts be disable
 It is the responsibility of the application or product's team which owns the local IAM user to identify when such user is no longer needed. A request for deletion can be made via ServiceNow.
 <br><br>
 
-### 4. Local IAM Users are not provisioned AWS Management Console access
+### 4. Local IAM Users are only provisioned AWS Management Console access when enterprise SSO is not available
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -120,7 +122,27 @@ Upon provisioning, local IAM users are only setup with programmatic access keys.
 
 <br><br>
 
-### 5. Credentials are stored within an enterprise approved password vaulting tool
+
+### 5. Local IAM Users are given access granting least privilege
+
+**Capital Group Controls:** 
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012181](https://capitalgroup.service-now.com/cg_grc?sys_id=57df91521b5a8050da4bdca4bd4bcb51&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Logical and physical access must be approved based on legitimate business/IT needs, least privilege and segregation of duties requirements.|
+
+**Why?** 
+
+Why
+
+**How?** 
+
+How
+
+
+<br><br>
+
+
+### 6. Credentials are stored within an enterprise approved password vaulting tool
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -147,7 +169,27 @@ To vault local IAM user access key(s) in CyberArk, complete the following steps:
 7. Confirm the ServiceNow Ticket and close it.
 <br><br>
 
-### 6. Programmatic access keys are handed off according to CG enterprise requirements
+
+### 7. Local IAM Users are operated only by the intended recipient
+
+**Capital Group Controls:** 
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012192](https://capitalgroup.service-now.com/cg_grc?sys_id=57df91521b5a8050da4bdca4bd4bcb51&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Usage of generic account(s) is authorized and is traceable to an individual or system. (Statement of Direction)|
+
+**Why?** 
+
+Why
+
+**How?** 
+
+How
+
+
+<br><br>
+
+
+### 8. Programmatic access keys are handed off according to CG enterprise requirements
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -170,7 +212,7 @@ As the user who made the local IAM user provision request:
 3. Once in the 'SECRETS RETRIEVAL' section, you will see any secrets shared with you. Click on the secret containing the desired access key to retrieve it.
 <br><br>
 
-### 7. Programmatic access keys are rotated every 90 days
+### 9. Programmatic access keys are rotated every 90 days
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -199,7 +241,7 @@ As local IAM users do not have console access, there are two methods available t
 
 <br><br>
 
-### 8. **LAB Accounts Only:** Console passwords must align to CG Enterprise Password Management standards
+### 10. Local IAM Users with console passwords must align to CG Enterprise Password Management standards
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -231,7 +273,7 @@ Console passwords must meet all of the following requirements:
 5. Passwords are rotated every 90 days.
 <br><br>
 
-### 9. **To Discuss:** **LAB Accounts Only:** User accounts must be secured with Multi-Factor Authentication
+### 11. Local IAM Users with console passwords must be secured with Multi-Factor Authentication
 
 **Capital Group Controls:** 
 |Control Statement|Description|
