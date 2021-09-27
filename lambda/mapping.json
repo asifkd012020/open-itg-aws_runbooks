@@ -12,15 +12,15 @@
     "phase": "discovery",
     "mapping": [
         {
-            "requirement_name": "Enforce Strict Access Policies for Lambda Users and Roles",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#1-enforce-strict-access-policies-for-lambda-users-and-roles",
+            "requirement_name": "Enforce least privilege for all Lambda users, roles, and policies",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#1-Enforce-least-privilege-for-all-Lambda-users,-roles,-and-policies",
             "tags":[],
             "severity": {
                 "Prod": "critical",
                 "SNP": "critical",
                 "NP": "medium"
             },
-            "control_mapping": ["cs0012299"],
+            "control_mapping": ["cs0012298"],
             "implementations": [
                 {
                     "provider": "dome9",
@@ -39,8 +39,44 @@
             ]
         },
         {
-            "requirement_name": "Data Protection",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#2-data-protection",
+            "requirement_name": "Environment variables are encrypted using CG CMK",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#2-Environment-variables-are-encrypted-using-CG-CMK",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012168"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Data in Transit is encrypted using TLS 1.2",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#1-Data-in-Transit-is-encrypted-using-TLS-12",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012261"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "Utilize Secrets Management for sensitive data",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#2-Utilize-Secrets-Management-for-sensitive-data",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "medium"
+            },
+            "control_mapping": ["CS0012301"],
+            "implementations": []
+        },
+        {
+            "requirement_name": "CloudTrail logging enabled for Lambda",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#3-CloudTrail-logging-enabled-for-Lambda",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -51,8 +87,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Log AWS Lambda API Calls with AWS CloudTrail",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#1-log-aws-lambda-api-calls-with-aws-cloudtrail",
+            "requirement_name": "CloudWatch alarms enabled for lambda",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#3-CloudWatch-alarms-enabled-for-lambda",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -63,32 +99,8 @@
             "implementations": []
         },
         {
-            "requirement_name": "Utilize Amazon CloudWatch logs for AWS Lambda",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#2-utilize-amazon-cloudwatch-logs-for-aws-lambda",
-            "tags":[],
-            "severity": {
-                "Prod": "critical",
-                "SNP": "critical",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "Monitor AWS Lambda Function metrics in AWS CLoudwatch",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#3-monitor-aws-lambda-function-metrics-in-aws-cloudwatch",
-            "tags":[],
-            "severity": {
-                "Prod": "critical",
-                "SNP": "critical",
-                "NP": "medium"
-            },
-            "control_mapping": [],
-            "implementations": []
-        },
-        {
-            "requirement_name": "Attach Lambda to VPC",
-            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#4-attach-lambda-to-vpc",
+            "requirement_name": "Lambda deployed in VPC and utilizes VPC Endpoints to Prevent Public Access",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/lambda/RUNBOOK.md#4-Lambda-deployed-in-VPC-and-utilizes-VPC-Endpoints-to-Prevent-Public-Access",
             "tags":[],
             "severity": {
                 "Prod": "critical",
