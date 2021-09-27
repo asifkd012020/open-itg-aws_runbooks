@@ -6,13 +6,33 @@
     "servicedisplay_name": "Amazon Managed Workflows for Apache Airflow",
     "serviceapproval_status": {
         "Prod": "",
-        "SNP": "",
+        "SNP": "approved",
         "NP": "approved"
     },
-    "phase": "General Availability (GA)",
+    "phase": "Service Production Ready",
     "mapping": [
         {
-            "requirement_name": "MWAA is Encrypted using CG Managed KMS Keys",
+            "requirement_name": "MWAA data is encrypted at rest using CG CMK",
+            "policy": "",
+            "tags": [],
+            "severity": {
+                "Prod": "medium",
+                "SNP": "medium",
+                "NP": "medium"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "sentinel",
+                    "implementation": [
+                        ""
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "MWAA connections are Encrypted in transit using TLS 1.2",
             "policy": "",
             "tags": [],
             "severity": {
@@ -43,12 +63,39 @@
             "control_mapping": [],
             "implementations": [
                 {
+                    "provider": "sentinel",
+                    "implementation": [
+                        ""
+                    ],
+                    "type": "prevent"
+                }
+            ]
+        },
+        {
+            "requirement_name": "MWAA Webserver Access is set to Private",
+            "policy": "",
+            "tags": [],
+            "severity": {
+                "Prod": "high",
+                "SNP": "high",
+                "NP": "high"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
                     "provider": "aws config",
                     "implementation": [
                         "https://github.com/open-itg/aws-conformance-packs/tree/master/SecurityConformancePack/PermissionBoundaryPipeline/AirflowConfigRuleLambda"
                     ],
                     "type": "detect"
-                }                
+                },
+                {
+                    "provider": "cloudformation guard",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-cloudformation-guard/tree/master/cfn/airflow/public-access-scan"
+                    ],
+                    "type": "prevent"                    
+                }         
             ]
         },
         {
