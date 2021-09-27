@@ -15,7 +15,7 @@
             "requirement_name": "Leverage AWS managed Policies for CodePipeline",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#1-leverage-aws-managed-policies-for-codepipeline",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity":{
                 "Prod": "critical",
@@ -29,7 +29,7 @@
             "requirement_name": "Grant Approval permissions to an IAM User in CodePipeline",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#2-grant-approval-permissions-to-an-iam-user-in-codepipeline",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -43,7 +43,7 @@
             "requirement_name": "Leverage tags to restrict user access based on tag value",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#3-leverage-tags-to-restrict-user-access-based-on-tag-value",
             "category": "Tagging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -57,7 +57,7 @@
             "requirement_name": "Configure Server-Side Encryption for Artifacts Stored in Amazon S3 for CodePipeline",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#4-configure-server-side-encryption-for-artifacts-stored-in-amazon-s3-for-codepipeline",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -71,7 +71,7 @@
             "requirement_name": "Limit sensitive functions (for both console and CLI access) to authorized individuals",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#6-limit-sensitive-functions-for-both-console-and-cli-access-to-authorized-individuals",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -85,7 +85,7 @@
             "requirement_name": "Employ MFA for sensitive S3 resources repositories.",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#6-employ-mfa-for-sensitive-s3-resources-repositories",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -99,7 +99,7 @@
             "requirement_name": "Implement versioning for Code Respositories and implement MFA Delete.",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#7-implement-versioning-for-code-respositories-and-implement-mfa-delete",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -113,7 +113,7 @@
             "requirement_name": "Connect your VPC to CodePipeline by defining an interface VPC endpoint for CodePipeline.",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#8-connect-your-vpc-to-codepipeline-by-defining-an-interface-vpc-endpoint-for-codepipeline",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -127,7 +127,7 @@
             "requirement_name": "Use file Integrity validation",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#1-use-file-integrity-validation",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -141,7 +141,7 @@
             "requirement_name": "Leverage S3 Access Logging",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#2-leverage-s3-access-logging",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -155,7 +155,7 @@
             "requirement_name": "Log CodePipeline API calls with AWS CloudTrail",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#3-log-codepipeline-api-calls-with-aws-cloudtrail",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -169,7 +169,7 @@
             "requirement_name": "Detect and React to changes in Pipeline State with Amazon CloudWatch Events",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#1-detect-and-react-to-changes-in-pipeline-state-with-amazon-cloudwatch-events",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -183,7 +183,7 @@
             "requirement_name": "Detect and React to use of non CG organization GitHub repositories for Source",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/codepipeline/RUNBOOK.MD#4-detect-and-react-to-use-of-non-cg-organization-github-repositories-for-source",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",

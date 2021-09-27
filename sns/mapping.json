@@ -15,7 +15,7 @@
             "requirement_name": "SNS Deployed with VPC Endpoints",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sns/runbook.md#1-sns-deployed-with-vpc-endpoints",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -29,7 +29,7 @@
             "requirement_name": "SNS Deployed with Encryption using CG Managed Keys",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sns/Runbook.md#2-sns-deployed-with-encryption-using-cg-managed-keys",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -43,7 +43,7 @@
             "requirement_name": "SNS Deployed with appropriate permissions to enforce least priviledge",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sns/Runbook.md#3-sns-deployed-with-appropriate-permissions-to-enforce-least-priviledge",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -57,7 +57,7 @@
             "requirement_name": "CloudTrail logging enabled and sent to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sns/Runbook.md#1-cloudtrail-logging-enabled-and-sent-to-splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",
@@ -71,7 +71,7 @@
             "requirement_name": "CloudWatch logging enabled",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/sns/Runbook.md#2-cloudwatch-logging-enabled",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags": [],
             "severity": {
                 "Prod": "medium",

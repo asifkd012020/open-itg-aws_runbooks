@@ -15,7 +15,7 @@
             "requirement_name": "Use VPC Endpoints to restrict traffic to the CG Network",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/autoscaling/Runbook.md#1-use-vpc-endpoints-to-restrict-traffic-to-the-cg-network",
             "category": "Public Access",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",

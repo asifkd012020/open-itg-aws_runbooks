@@ -15,7 +15,7 @@
             "requirement_name": "Encrypt all data in the Cloud",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/acm/Runbook.md#2-Encrypt-all-data-in-the-Cloud",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -30,7 +30,7 @@
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/acm/Runbook.md#3-Certificate-Best-Practices-Used",
             "tags":[],
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "severity": {
                 "Prod": "medium",
                 "SNP": "medium",
@@ -43,7 +43,7 @@
             "requirement_name": "IAM Users and Roles Enforce Least Priviledge",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/acm/Runbook.md#1-IAM-Users-and-Roles-Enforce-Least-Priviledge",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",

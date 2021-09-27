@@ -16,7 +16,7 @@
             "requirement_name": "CloudWatch IAM Policy Enforce Least Priviledge for CloudWatch Resources",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md#1-CloudWatch-IAM-Policy-Enforce-Least-Priviledge-for-CloudWatch-Resources",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -30,7 +30,7 @@
             "requirement_name": "Log groups for new services will be submitted to the SIRI team to be enabled and forwarded to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md#2-Log-groups-for-new-services-will-be-submitted-to-the-SIRI-team-to-be-enabled-and-forwarded-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -44,7 +44,7 @@
             "requirement_name": "CloudWatch enforces TLS 1.2 for all communication",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md#3-CloudWatch-enforces-TLS-1-2-for-all-communication",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -58,7 +58,7 @@
             "requirement_name": "CloudWatch log groups encrypted using CG KMS",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md#4-Cloudtrail-log-groups-encrypted-using-CG-KMS",
             "category": "Encryption",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -72,7 +72,7 @@
             "requirement_name": "Pre-defined log groups are enabled and forwarded to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md#5-Pre-defined-log-groups-are-enabled-and-forwarded-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -86,7 +86,7 @@
             "requirement_name": "Pre-defined services are enabled and forwarded to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md#6-Pre-defined-services-are-enabled-and-forwarded-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",
@@ -100,7 +100,7 @@
             "requirement_name": "Metrics for new services are submitted to the SIRI team, enabled and forwarded to Splunk",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/cloudwatch/Runbook.md#7-Metrics-for-new-services-are-submitted-to-the-SIRI-team-enabled-and-forwarded-to-Splunk",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "medium",

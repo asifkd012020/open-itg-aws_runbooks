@@ -15,7 +15,7 @@
             "requirement_name": "Implement strict IAM policies around who/what is allowed to use the service",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#1-implement-strict-iam-policies-around-whowhat-is-allowed-to-use-the-service",
             "category": "IAM",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -29,7 +29,7 @@
             "requirement_name": "Data is protected",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#2-data-is-protected",
             "category": "Encrypted",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -43,7 +43,7 @@
             "requirement_name": "Disable public API access",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#3-disable-public-api-access",
             "category": "Public Access",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -65,7 +65,7 @@
             "requirement_name": "Establish configuration management rules to monitor for deviations from normal configuration",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#1-establish-configuration-management-rules-to-monitor-for-deviations-from-normal-configuration",
             "category": "Best Practice",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -79,7 +79,7 @@
             "requirement_name": "Utilize vulnerability scanning on EC2 worker nodes",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#2-utilize-vulnerability-scanning-on-ec2-worker-nodes",
             "category": "Best Practice",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -93,7 +93,7 @@
             "requirement_name": "Auditing of all interactions with Amazon EKS",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#3-auditing-of-all-interactions-with-amazon-eks",
             "category": "Logging",
-            "ticket_enabled": true,
+            "ticket_enabled": "true",
             "tags":[],
             "severity": {
                 "Prod": "critical",
@@ -115,7 +115,7 @@
             "requirement_name": "Utilize an event-based solution for automated incident response",
             "policy": "https://github.com/open-itg/aws_runbooks/blob/master/eks/RUNBOOK.md#1-utilize-an-event-based-solution-for-automated-incident-response",
             "category": "Logging",
-            "ticket_enabled": false,
+            "ticket_enabled": "false",
             "tags":[],
             "severity": {
                 "Prod": "critical",
