@@ -56,7 +56,7 @@ MWAA is a service that allows for the storage and processing of data from multip
 <br>
 
 **How?**<br>
-https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-vpe-create-access.html#vpc-vpe-create-view-endpoints-examples
+https://docs.aws.amazon.com/mwaa/latest/userguide/vpc-vpe-create-access.html#vpc-vpe-create-view-endpoints-examples <br>
 To establish a private connection between your virtual private cloud (VPC), MWAA and other integrated services you should create VPC private endpoints. You can use these connections to call the services from your VPC without sending traffic over the Internet. The endpoint provides secure connectivity to the APIs without requiring an Internet gateway (IGW), NAT instance, or virtual private network (VPN) connection.
 
 Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables private communication between AWS services using private IP addresses. To use AWS PrivateLink, create an interface VPC endpoint for supported services in your VPC using the Amazon VPC console, API, or CLI. Doing this creates an elastic network interface in your subnet with a private IP address that serves requests. You can also access a VPC endpoint from on-premises environments or from other VPCs using AWS VPN, AWS Direct Connect, or VPC peering. Below are the steps to implement Interface VPC Endpoints for requires for MWAA: 
@@ -70,7 +70,7 @@ Before deploying a private MWAA , you'll need to create all of the required VPC 
 <br><br>
 
 **Creation of VPC Endpoints via Cloud Formation**
-1. Here's a CloudFormation template you can use to create all the required VPC endpoints & security group.  You will have to select your VPC and subnets during the stack deployment.  If you already have existing VPC endpoints for the services defined in the template, feel free to remove duplicates. 
+1. Here's a CloudFormation template you can use to create all the required VPC endpoints & security group.  You will have to select your VPC and subnets during the stack deployment.  If you already have existing VPC endpoints for the services defined in the template, update the templates to remove duplicates.
 <br>
 
 ```yaml <br>
@@ -257,7 +257,7 @@ Logs will be stored in CloudWatch Logs, reference the Cloudwatch runbook to ensu
 
 
 [AWS Docs regarding MWAA Encryption](https://docs.aws.amazon.com/mwaa/latest/userguide/encryption-at-rest.html) <br>
-CMK Requirement -  MWAA requires you use the same KMS encryption key used for S3 bucket to encrypt the MWAA environment.  CG's default S3 KMS Key Policy only allows the key to be used to encrypt s3 objects, so you will have to update the s3 kms key policy to allow encryption of the MWAA Environment.
+CMK Requirement -  MWAA requires you use the same KMS encryption key used for S3 bucket to encrypt the MWAA environment and other AWS services.  CG's default S3 KMS Key Policy only allows the key to be used to encrypt s3 objects, so you will have to update the s3 kms key policy to allow encryption of the MWAA Environment and Cloudwatch Logs.
 
 ```
 {
@@ -392,8 +392,7 @@ During provisioning of MWAA via the AWS Management Console:
 3. Select your CMK ARN for S3
 <br>
 <img src="/docs/img/mwaa/mwaa_cmk.png" width="800"><br>
-<br> <br>
-
+<br>
 
 ### 4. MWAA connections are Encrypted in transit using TLS 1.2
 
@@ -403,12 +402,10 @@ During provisioning of MWAA via the AWS Management Console:
 |------|----------------------|
 |Control ID |Control Description|
 
-**Why?**<br>
+**What, Why & How?** 
 At CG we require that all data and services in the cloud are encrypted both at rest and in-transit and as such, the best mechanism to securly provide in-transit encryption is TLS 1.2.
-
-**How?**<br>
-https://docs.aws.amazon.com/mwaa/latest/userguide/encryption-in-transit.html 
-Transport Layer Security (TLS) encrypts the Amazon MWAA objects in transit between Fargate containers and Amazon S3. For in-depth information about Amazon S3 encryption, see Protecting Data Using Encryption. You can specify a CG CMK for the encryption artifacts used for in-transit encryption. 
+By default, Transport Layer Security (TLS) encrypts the Amazon MWAA objects in transit between Fargate containers and Amazon S3. <br>
+https://docs.aws.amazon.com/mwaa/latest/userguide/encryption-in-transit.html  <br>
 
 ### 5. Configure MWAA execution roles to assume enforce least priviledge
 
@@ -426,7 +423,7 @@ To the extent that it's practical, define the conditions under which your identi
 **How?**<br>
 MWAA is fully integrated with AWS IAM for authentication and access control.  You can leverage MWAA execution role with iam permissions policy that grants MWAA permission to invoke other AWS Resources on your behalf.  Craft your IAM Policies to assign exact IAM permissions that you need. 
 
-For example, in order to access your s3 bucket and publish logs to cloudwatch logs, you'll need to add the following IAM Permissions to your MWAA execution role. 
+For example, in order to access your s3 bucket and publish logs to cloudwatch logs, you'll need to add the following IAM Permissions to your MWAA execution[https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html#mwaa-create-role-how] role.  <br>
 ```json
         {
             "Effect": "Allow",
@@ -463,12 +460,10 @@ For example, you can have two different iam roles for two different airflow task
 1) 1 Airflow Task with attached IAM Role to only PutObject in S3 Bucket TestA
 2) 1 Airflow Task with attached IAM Role to only DeleteObject from S3 Bucket TestB
 
-AWS Docs Reference 
-[1] https://docs.aws.amazon.com/mwaa/latest/userguide/mwaa-create-role.html#mwaa-create-role-how
-[2] https://aws.amazon.com/blogs/big-data/bolster-security-with-role-based-access-control-in-amazon-mwaa/ 
-[3] https://github.com/aws-samples/mwaa-rbac-task/tree/main/dags/rbac_dag 
+Step Reference: <br>
+https://aws.amazon.com/blogs/big-data/bolster-security-with-role-based-access-control-in-amazon-mwaa/ <br >
+https://github.com/aws-samples/mwaa-rbac-task/tree/main/dags/rbac_dag  <br>
 
-Steps:
 1. Create IAM Role & Policy to Put Object in only S3 Bucket 
 ```json
 {
