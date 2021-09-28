@@ -15,17 +15,17 @@ Security Engineering
 - [Cloud Security Requirements](#cloud-security-requirements)
   - [1. Local IAM Users may only be operated via the CG network](#1-local-iam-users-may-only-be-operated-via-the-cg-network)
   - [2. Local IAM User provision requests are made through Access Central](#2-local-iam-user-provision-requests-are-made-through-access-central)
-  - [3. Local IAM Users are reviewed semi-annually and removed when there is no longer a business need](#3-local-iam-users-are-reviewed-semi-annually-and-removed-when-there-is-no-longer-a-business-need)
-  - [4. Local IAM Users are only provisioned AWS Management Console access when enterprise SSO is not available](#4-local-iam-users-are-only-provisioned-aws-management-console-access-when-enterprise-sso-is-not-available)
-  - [5. Local IAM Users are given access granting least privilege](#5-local-iam-users-are-given-access-granting-least-privilege)
-  - [6. Credentials are stored within an enterprise approved password vaulting tool](#6-credentials-are-stored-within-an-enterprise-approved-password-vaulting-tool)
-  - [7. Local IAM Users are operated only by the intended recipient](#7-local-iam-users-are-operated-only-by-the-intended-recipient)
-  - [8. Programmatic access keys are handed off according to CG enterprise requirements](#8-programmatic-access-keys-are-handed-off-according-to-cg-enterprise-requirements)
+  - [3. Programmatic access keys are handed off according to CG enterprise requirements](#3-programmatic-access-keys-are-handed-off-according-to-cg-enterprise-requirements)
+  - [4. Local IAM Users are reviewed semi-annually and removed when there is no longer a business need](#4-local-iam-users-are-reviewed-semi-annually-and-removed-when-there-is-no-longer-a-business-need)
+  - [5. Local IAM Users are only provisioned AWS Management Console access when enterprise SSO is not available](#5-local-iam-users-are-only-provisioned-aws-management-console-access-when-enterprise-sso-is-not-available)
+  - [6. Local IAM Users are given access granting least privilege](#6-local-iam-users-are-given-access-granting-least-privilege)
+  - [7. Credentials are stored within an enterprise approved password vaulting tool](#7-credentials-are-stored-within-an-enterprise-approved-password-vaulting-tool)
+  - [8. Local IAM Users are operated only by the intended recipient](#8-local-iam-users-are-operated-only-by-the-intended-recipient)
   - [9. Programmatic access keys are rotated every 90 days](#9-programmatic-access-keys-are-rotated-every-90-days)
   - [10. Local IAM Users with console passwords must align to CG Enterprise Password Management standards](#10-local-iam-users-with-console-passwords-must-align-to-cg-enterprise-password-management-standards)
   - [11. Local IAM Users with console passwords must be secured with Multi-Factor Authentication](#11-local-iam-users-with-console-passwords-must-be-secured-with-multi-factor-authentication)
 - [Other Operational Expectations](#other-operational-expectations)
-  - [1. Operational Item 1](#1-operational-item-1)
+  - [1. IAM Resources are tagged according to CG standards](#1-iam-resources-are-tagged-according-to-cg-standards)
   - [2. Operational Item 2](#2-operational-item-2)
   - [3. Operational Item 3](#3-operational-item-3)
 - [Endnotes](#endnotes)
@@ -47,13 +47,13 @@ A brief overview of the AWS service being reviewed, including a deployment examp
 
 **Why?** 
 
-Local IAM users are non-federated users, meaning they are not managed by CG's enterprise user system.
+Local IAM users do not login using CG's SSO. If a local user's credentials were obtained by an unintended party, all resources and services would be accessible from anywhere in the world. To protect against this, access is restricted to IP addresses originating from the CG network.
 
 **How?** 
 
-An IAM user group allows you to specify permissions for a collection of users. A user group can contain many users and a user can belong to multiple user groups.
+An IAM user group allows you to specify permissions for a collection of users. A user group can contain many users and a user can belong to multiple user groups. During the provisioning process, local IAM users are added to the IAM user group **CGIPRestricted**, which permits access only to source IP's on the CG network.
 
-During the provisioning process, local IAM users are added to the IAM user group **CGIPRestricted**, which permits access only to source IP's on the CG network.
+To access a local user, you must be logged into the CG approved VPN installed on your CG laptop or be in the office.
 <br><br>
 
 ### 2. Local IAM User provision requests are made through Access Central
@@ -83,12 +83,41 @@ To make the provision request, complete the following steps:
 6. 'Access Item Description' must include the following information:
    - AWS Account ID
    - ATM ID to associate with user
+      >  **Note:** This should be the ATM ID of the team who will be using the Local IAM User, not necessarily the team who owns the AWS Account. This team will be responsible for any Soteria violations and adhering to security requirements.  *i.e. A request for MFT integration would provide the MFT ATM ID, not the team ID*
    - Justification (why you need a local IAM user instead of leveraging an IAM role)
 7. For the 'Assignment Group' enter "Sec Eng - Cloud IAM Services".
 8. Once submitted, the request will be appropriately reviewed and, once approved, will then be provisioned by the Cloud IAM Services team.
 <br><br>
 
-### 3. Local IAM Users are reviewed semi-annually and removed when there is no longer a business need
+
+### 3. Programmatic access keys are handed off according to CG enterprise requirements
+
+**Capital Group Controls:** 
+|Control Statement|Description|
+|------|----------------------|
+|[CS0012182](https://capitalgroup.service-now.com/cg_grc?sys_id=9fdf91521b5a8050da4bdca4bd4bcb6a&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Password(s) must be encrypted at rest and in transit in alignment with enterprise requirements.|
+
+**Why?** 
+
+Every time a secret is communicated, there is an opportunity for interception. To reduce the risk of an unintended party obtaining your credentials, access keys are handed off during provisioning using the [SecEng Secrets Management Portal](https://seceng.capgroup.com/app/secrets).
+
+**How?** 
+
+In order to access Secrets Management, you need to have MFA set up through OKTA for your user account. Navigate to http://cgoktaportal.capgroup.com/ to set up your MFA if you haven't done so yet.
+
+**Retrieving the Access Key:**
+
+Once the Local IAM User has been provisioned, the Cloud IAM Services team will provide a link to the person who submitted the request. This link is only accessible by the requestor. Follow the link to securely retrieve the access key.
+
+Alternatively, as the user who made the local IAM user provision request:
+1. Navigate to https://seceng.capgroup.com/app/secrets.
+2. Click on 'SECRETS RETRIEVAL' on the Secrets Management menu bar.
+3. Once in the 'SECRETS RETRIEVAL' section, you will see any secrets shared with you
+4. Click on the secret containing the desired access key to retrieve it.
+<br><br>
+
+
+### 4. Local IAM Users are reviewed semi-annually and removed when there is no longer a business need
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -101,10 +130,11 @@ CG's Cloud Security standards require unnecessary access and accounts be disable
 
 **How?** 
 
-It is the responsibility of the application or product's team which owns the local IAM user to identify when such user is no longer needed. A request for deletion can be made via ServiceNow.
+It is the responsibility of the application or product's team which owns the local IAM user to identify when such user is no longer needed. The owner will also receive a Soteria violation when an account is inactive for 180 days. A request for deletion can be made via ServiceNow. 
 <br><br>
 
-### 4. Local IAM Users are only provisioned AWS Management Console access when enterprise SSO is not available
+
+### 5. Local IAM Users are only provisioned AWS Management Console access when enterprise SSO is not available
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -117,13 +147,13 @@ As generic/service accounts, local IAM users should never need console access. I
 
 **How?** 
 
-Upon provisioning, local IAM users are only setup with programmatic access keys. A console password is never created. Individuals should not attempt to enable console access for these accounts. No further steps are required to enforce this standard.
+Upon provisioning, local IAM users are only set up with programmatic access keys. A console password is never created. Individuals should not attempt to enable console access for these accounts. No further steps are required to enforce this standard.
 
 
 <br><br>
 
 
-### 5. Local IAM Users are given access granting least privilege
+### 6. Local IAM Users are given access granting least privilege
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -142,7 +172,7 @@ How
 <br><br>
 
 
-### 6. Credentials are stored within an enterprise approved password vaulting tool
+### 7. Credentials are stored within an enterprise approved password vaulting tool
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -155,22 +185,12 @@ According to current regulatory requirements, all generic/non-identity accounts 
 
 **How?** 
 
-To vault local IAM user access key(s) in CyberArk, complete the following steps:
+Before you can begin the vaulting process, you will need to have a CyberArk safe provisioned, which is detailed in [this guide.](https://confluence.capgroup.com/pages/viewpage.action?pageId=90346293)
 
-1. If your team does not already have a CyberArk safe, follow [this guide](https://confluence.capgroup.com/pages/viewpage.action?pageId=90346293) to request one be provisioned.
-2. Fill out the details requested in the [CyberArk account onboarding wrapper form](https://confluence.capgroup.com/download/attachments/241115789/CyberArk_AWS_API_End_User_Questionnaire_V2.0.xlsx?version=1&modificationDate=1608672201513&api=v2).
-3. Submit an IT Request in ServiceNow:
-   1. Navigate to the [Service Request for ITG Use](https://capitalgroup.service-now.com/nav_to.do?uri=%2Fcom.glideapp.servicecatalog_cat_item_view.do%3Fv%3D1%26sysparm_id%3D1162700edbb813408ef07c1ebf9619af%26sysparm_link_parent%3D453087b4db123b008ef07c1ebf9619eb%26sysparm_catalog%3De0d08b13c3330100c8b837659bba8fb4%26sysparm_catalog_view%3Dcatalog_default) form.
-   2. Assign this to "Sec Eng - CyberArk Services".
-   3. In order for Sec Eng L2 to create the account, the current access key will need to be securely handed off via the [SecEng Secrets Management Portal](https://seceng.capgroup.com/app/secrets).
-4. CyberArk L2 Team will validate the request and if everything is provided correctly, send it to Directory Services for policy enablement. In case of missing or incorrect values, team will revert on the same request. 
-5. Directory Services team to Enable Policy Settings for AWS IAM Users and confirm to CyberArk L2 team.
-6. CyberArk L2 team will proceed with the account onboarding into new safe.
-7. Confirm the ServiceNow Ticket and close it.
+For account onboarding, you may follow [this guide for AWS Account Onboarding in CyberArk.](https://confluence.capgroup.com/pages/viewpage.action?pageId=241115789)
 <br><br>
 
-
-### 7. Local IAM Users are operated only by the intended recipient
+### 8. Local IAM Users are operated only by the intended recipient
 
 **Capital Group Controls:** 
 |Control Statement|Description|
@@ -179,38 +199,13 @@ To vault local IAM user access key(s) in CyberArk, complete the following steps:
 
 **Why?** 
 
-Why
+When a Local IAM User is requested, approval is considered and given only for the team associated with the ATM ID provided. Sharing users undermines the approval process and can pose additional security risks.
 
 **How?** 
 
-How
-
-
+Only the team of the provided ATM ID or the Cloud IAM Services team should access or operate the Local IAM User in any way.
 <br><br>
 
-
-### 8. Programmatic access keys are handed off according to CG enterprise requirements
-
-**Capital Group Controls:** 
-|Control Statement|Description|
-|------|----------------------|
-|[CS0012182](https://capitalgroup.service-now.com/cg_grc?sys_id=9fdf91521b5a8050da4bdca4bd4bcb6a&table=sn_compliance_policy_statement&id=cg_grc_action_item_details&view=sp)|Password(s) must be encrypted at rest and in transit in alignment with enterprise requirements.|
-
-**Why?** 
-
-Every time a secret is communicated, there is an opportunity for interception. To reduce the risk of an unintended party obtaining your credentials, access keys are handed off during provisioning using the [SecEng Secrets Management Portal](https://seceng.capgroup.com/app/secrets).
-
-**How?** 
-
-In order to access Secrets Management, you need to have MFA set up through OKTA for your user account. Navigate to http://cgoktaportal.capgroup.com/ to set up your MFA if you haven't done so yet.
-
-**Retrieving the Access Key:**
-
-As the user who made the local IAM user provision request:
-1. Navigate to https://seceng.capgroup.com/app/secrets.
-2. Click on 'SECRETS RETRIEVAL' on the Secrets Management menu bar.
-3. Once in the 'SECRETS RETRIEVAL' section, you will see any secrets shared with you. Click on the secret containing the desired access key to retrieve it.
-<br><br>
 
 ### 9. Programmatic access keys are rotated every 90 days
 
@@ -225,14 +220,14 @@ Rotating access keys regularly is a safeguard against unknowingly compromised ac
 
 **How?** 
 
-AWS allows an IAM user to have 2 access keys at any given time. This is so a new key can be generated and the old key can then be disabled, then deleted. If the old deactivated key is not deleted, no new keys can be generated thus preventing future rotation. 
+AWS allows an IAM user to have up to 2 access keys at any given time. This is so a new key can be generated and the old key can be disabled, then deleted. If the old deactivated key is not deleted, no new keys can be generated thus preventing future rotation. 
 
 As local IAM users do not have console access, there are two methods available to rotate AWS programmatic access keys:
 
-- Automatic rotation through CyberArk 
+- **Recommended**: Automatic rotation through CyberArk 
 
-  1. Step 1 https://confluence.capgroup.com/pages/viewpage.action?pageId=241115789
-  2. Step 2
+   Follow this guide for [AWS Setting Key Rotation in CyberArk.](https://confluence.capgroup.com/pages/viewpage.action?pageId=241115789)
+
    
 - Manual rotation via scripts
 
@@ -295,21 +290,18 @@ How this requirement should be met, and how an engineer build to adhere to the r
 
 ## Other Operational Expectations
 
-### 1. Operational Item 1
-
+### 1. IAM Resources are tagged according to CG standards
 **Capital Group:** <br>
 
 |Control Statement|Description|
 |------|----------------------|
-|Control statement not always needed|Control definition description if needed|
+|N/A| No security control currently defined.|
 
 **What, Why & How?**
 
-Brief overview of what the operational item is, why CG needs it and how to find further information related to service owner, internal documentation and contacts.
+Tagging resources in the cloud is an easy way for teams to provide information related to who owns the resource, what the resource is used for, as well as other important information related to the deployment lifecycle of the resource. CG has mandated that all cloud resources are to be tagged with certain important for cross-team use. Although most of the mandatory tags will be added through automation, one should still check to make sure that all newly deployed recources have the appropriate tags attached. please see the documentation below for the latest tagging standards.
 
-[Link 1 to Internal Documentation for further reading.](https://link1)<br>
-[Link 2 to Internal Documentation for further reading.](https://link2)<br>
-[Link 3 to Internal Documentation for further reading.](https://link3)
+[CG Cloud Tagging Strategy](https://confluence.capgroup.com/display/HCEA/Resource+Tagging+standards)
 <br><br>
 
 ### 2. Operational Item 2
