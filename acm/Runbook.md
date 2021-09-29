@@ -16,6 +16,7 @@ Security Engineering
   - [1. IAM Users and Roles Enforce Least Priviledge](#1-IAM-Users-and-Roles-Enforce-Least-Priviledge)
   - [2. Encrypt all data in the Cloud](#2-Encrypt-all-data-in-the-Cloud)
   - [3. Certificate Best Practices Used](#3-Certificate-Best-Practices-Used)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
@@ -167,6 +168,9 @@ This role will allow a user full administrative access to the ACM service, inclu
 3. Certificate Pinning
 4. Certificate Removal for Old / Unsused
 
+`This Section will be updated soon.`
+### 4. Restrict Access to Deny Regions Outside US region.
+*Policy resticts the access to Deny any resources outside of US Region*
 `This Section will be updated soon.`
 
 ## Detective Controls

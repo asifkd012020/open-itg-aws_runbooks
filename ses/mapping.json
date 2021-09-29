@@ -108,6 +108,26 @@
             },
             "control_mapping": [],
             "implementations": []
+        },
+        {
+            "requirement_name": "Deny All Regions Outside of US",
+            "policy": "https://github.com/open-itg/aws_runbooks/blob/master/backup/Runbook.md#6-Restrict-Access-to-Deny-Regions-Outside-US",
+            "tags":[],
+            "severity": {
+                "Prod": "critical",
+                "SNP": "critical",
+                "NP": "critical"
+            },
+            "control_mapping": [],
+            "implementations": [
+                {
+                    "provider": "SCP",
+                    "implementation": [
+                        "https://github.com/open-itg/aws-security/blob/master/SCP/DenyAllRegionsOutsideUS/DenyAllRegionsOutsideUS.json"
+                    ],
+                    "type": "prevent"
+                }
+            ]
         }
     ]
 }

@@ -23,6 +23,7 @@ Security Engineering
   - [8. SageMaker workloads execute within CG private network](#8-SageMaker-workloads-execute-within-CG-private-network)
   - [9. CloudTrail logging enabled and sent to Splunk](#9-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [10. CloudWatch logging enabled and sent to Splunk](#10-CloudWatch-logging-enabled-and-sent-to-Splunk)
+  - [11. Restrict Access to Deny Regions Outside US](#11-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Operational Best Practices](#Other-Operational-Expectations)
   - [1. SageMaker Resources are tagged according to CG standards](#1-SageMaker-Resources-are-tagged-according-to-CG-standards)
 - [Endnotes](#Endnotes)
@@ -213,6 +214,35 @@ Make sure to not choose studiovpc-endpoint-private-subnet.
 
 ### 10. CloudWatch logging enabled and sent to Splunk
 `This Section will be updated soon.`
+
+### 11. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 <br><br>
 
 ## Operational Best Practices

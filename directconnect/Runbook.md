@@ -16,6 +16,7 @@ Security Engineering
   - [1. DirectConnect Provisioned in Private VPC Connectivity model only](#1-DirectConnect-Provisioned-in-Private-VPC-Connectivity-model-only)
   - [2. Provisioning of DirectConnect restricted to Network Engineering Team](#2-Provisioning-of-DirectConnect-restricted-to-Network-Engineering-Team)
   - [3. DirectConnect is Encrypted End-to-End thereby adhering to CG Standards](#3-DirectConnect-is-Encrypted-End-to-End-thereby-adhering-to-CG-Standards)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. DirectConnect Resources are tagged according to CG standards](#1-DirectConnect-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -96,6 +97,36 @@ Controlling public accessibility to CG cloud resources is one of our core tenets
 
 ### 3. DirectConnect is Encrypted End-to-End thereby adhering to CG Standards
 `This Section will be updated soon.`
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-5",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 ## Detective Controls

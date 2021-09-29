@@ -15,6 +15,7 @@ Security Engineering
   - [1. Publishers must set application permissions to private or privately shared with CG organization accounts](#1-Publishers-must-set-application-permissions-to-private-or-privately-shared-with-CG-organization-accounts)
   - [2. SAR Data is protected at-rest](#2-SAR-Data-is-protected-at-rest)
   - [3. SAR Utilizes TLS 1.2 to secure data in transit](#3-SAR-Utilizes-TLS-1-2-to-secure-data-in-transit)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. SAR Resources are tagged according to CG standards](#1-SAR-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -141,6 +142,34 @@ https://docs.aws.amazon.com/serverlessrepo/latest/devguide/security_iam_resource
 
 <br>
 
+### 7. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 

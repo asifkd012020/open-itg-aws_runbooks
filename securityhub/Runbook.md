@@ -18,6 +18,7 @@ Security Engineering
   - [3. SecurityHub data is Encrypted at rest](#3-securityhub-data-is-encrypted-at-rest)
   - [4. SecurityHub connections are Encrypted in transit using TLS 1.2](#4-securityhub-connections-are-encrypted-in-transit-using-tls-1-2)
   - [5. SecurityHub contains no sensitive data](#5-securityhub-contains-no-sensitive-data)
+  - [6. Restrict Access to Deny Regions Outside US](#6-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#detective-controls)
   - [1. SecurityHub Resources are tagged according to CG standards](#1-securityhub-resources-are-tagged-according-to-cg-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-cloudtrail-logging-enabled-and-sent-to-splunk)
@@ -55,6 +56,36 @@ AWS Security Hub gives you a comprehensive view of your security alerts and secu
 
 ### 5. SecurityHub contains no sensitive data
 `This Section will be updated soon.`
+
+### 6. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 ## Detective Controls

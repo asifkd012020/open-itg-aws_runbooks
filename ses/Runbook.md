@@ -18,6 +18,7 @@ Security Engineering
   - [3. Deployed using the appropriate email sub-domain only](#3-Deployed-using-the-appropriate-email-sub-domain-only)
   - [4. Deployed using a Dedicated AWS Sender Source Address](#4-Deployed-using-a-Dedicated-AWS-Sender-Source-Address)
   - [5. Enable TLS 1.2 or higher for communication](#5-Enable-TLS-1-2-or-higher-for-communication)
+  - [6. Restrict Access to Deny Regions Outside US](#6-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
   - [2. CloudWatch logging enabled](#3-CloudWatch-logging-enabled)
@@ -181,6 +182,35 @@ When you create a new Amazon SES account, your emails are sent from IP addresses
 
 ### 5. Enable TLS 1.2 or higher for communication
 `This Section will be updated soon.`
+
+### 6. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 <br>
 

@@ -17,6 +17,8 @@ Security Engineering
   - [2. IAM roles for access to Athena defined following least privilege model](#2-IAM-roles-for-access-to-Athena-defined-following-least-privilege-model)
   - [3. Enforce Enryption at Rest for Athena](#3-Enforce-Encryption-at-Rest-for-Athena) 
   - [4. Enforce Enryption in Transit for Athena](#4-Enforce-Encryption-in-Transit-for-Athena) 
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
+
 - [Detective Controls](#Detective-Controls)
   - [1. Athena resources are tagged according to CG standards](#1-Athena-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -168,6 +170,9 @@ An example VPC Endpoint Policy that should be attached to a VPC Endpoint limitin
 ### 4. Enforce Enryption in Transit for Athena
  - Encrypt data in transit using TLS 1.2<br>
 `This Section will be updated soon.`
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>

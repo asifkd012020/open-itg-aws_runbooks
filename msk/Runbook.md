@@ -16,6 +16,7 @@ Security Engineering
   - [1. MSK Deployed in Private VPC](#1-MSK-Deployed-in-Private-VPC)
   - [2. Encrypt all data in the Cloud](#2-Encrypt-all-data-in-the-Cloud)
   - [3. IAM Users and Roles Enforce Least Priviledge](#-IAM-Users-and-Roles-Enforce-Least-Priviledge)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. MSK resources are tagged according to CG standards](#1-Application-Load-Balancing-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -114,6 +115,34 @@ We first need to click on create security group, after the appropriate VPC has b
 `This Section will be updated soon.`
 <br>
 
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 

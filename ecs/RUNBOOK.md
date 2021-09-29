@@ -25,6 +25,7 @@ Tony DeMarco
 - [9. Utilizing AWS CloudWatch Container Insights](#9-utilizing-aws-cloudwatch-container-insights)
 - [10. Utilize Amazon ECS Events and Eventbridge](#10-utilize-amazon-ecs-events-and-eventbridge)
 - [11. Enable VPC Flow Logs for ECS Cluster VPC (EC2 Launch Types Only)](#11-enable-vpc-flow-logs-for-ecs-cluster-vpc-ec2-launch-types-only)
+- [12. Restrict Access to Deny Regions Outside US](#12-Restrict-Access-to-Deny-Regions-Outside-US)
 
 ## Overview
 AWS provides a number of security features for Amazon Elastic Container Service (ECS) which help you comply with the NIST Cybersecurity Framework. The following Runbook will Provide implementation details to deploy the Amazon Elastic Conatainer service in accordance with NIST CSF and service applicable security controls.This runbook in its contiued developmenmt will provide support to the automated configuration of hardening workloads an processes. 
@@ -2843,6 +2844,34 @@ You can perform the tasks described on this page using the command line or API\.
 + [Remove\-EC2FlowLog](https://docs.aws.amazon.com/powershell/latest/reference/items/Remove-EC2FlowLog.html) \(AWS Tools for Windows PowerShell\)
 + [DeleteFlowLogs](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteFlowLogs.html) \(Amazon EC2 Query API\)
 
+### 12. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Capital Group Security Controls
 1. All Data at rest must be encrypted and use a CG BYOK encryption key.

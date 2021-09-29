@@ -24,6 +24,7 @@ Tony DeMarco
   - [6. Employ MFA for sensitive S3 resources repositories](#6-employ-mfa-for-sensitive-s3-resources-repositories)
   - [7. Implement versioning for Code Respositories and implement MFA Delete](#7-implement-versioning-for-code-respositories-and-implement-mfa-delete)
   - [8. Connect your VPC to CodePipeline by defining an interface VPC endpoint for CodePipeline](#8-connect-your-vpc-to-codepipeline-by-defining-an-interface-vpc-endpoint-for-codepipeline)
+  - [9. Restrict Access to Deny Regions Outside US](#9-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Use file Integrity validation](#1-use-file-integrity-validation)
   - [2. Leverage S3 Access Logging2](#2-leverage-s3-access-logging)
@@ -980,6 +981,35 @@ Use [New\-EC2VpcEndpointServiceConfiguration](https://docs.aws.amazon.com/powers
 Use [CreateVpcEndpointServiceConfiguration](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-CreateVpcEndpointServiceConfiguration.html)\.
 
 ------
+
+### 9. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Use file Integrity validation

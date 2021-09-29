@@ -17,6 +17,7 @@ Security Engineering
   - [1. PHD IAM Users and Roles Enforce Least Priviledge](#1-PHD-IAM-Users-and-Roles-Enforce-Least-Priviledge)
   - [2. PHD data is Encrypted using CG managed KMS Keys](#2-PHD-data-is-Encrypted-using-CG-managed-KMS-Keys)
   - [3. PHD data is encrypted in transit using TLS 1.2](#3-PHD-data-is-encrypted-in-transit-using-TLS-1-2)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. PHD Resources are tagged according to CG standards](#1-PHD-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -43,6 +44,36 @@ The dashboard displays relevant and timely information to help you manage events
 
 ### 3. PHD data is encrypted in transit using TLS 1.2
 `This Section will be updated soon.`
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 ## Detective Controls

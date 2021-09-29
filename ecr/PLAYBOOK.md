@@ -19,6 +19,7 @@ Tony DeMarco
   - [1. Implement strict IAM policies around who/what is allowed to use the service](#1-implement-strict-iam-policies-around-whowhat-is-allowed-to-use-the-service)
   - [2. Take measures to ensure data is protected](#2-take-measures-to-ensure-data-is-protected)
   - [3. Implement strong infrastructure controls using VPC Endpoints, data management, and monitoring](#3-implement-strong-infrastructure-controls-using-vpc-endpoints-data-management-and-monitoring)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Establish network/application monitoring controls](#1-establish-networkapplication-monitoring-controls)
   - [2. Run vulnerability scans on images stored in ECR](#2-run-vulnerability-scans-on-images-stored-in-ecr)
@@ -79,6 +80,35 @@ NIST CSF:
 **How?** AWS PrivateLink endpoints allow your ECS instances to pull images without traversing through the public internet. Amazon Elastic Container Registry (ECR) now supports PrivateLink Endpoint Policies, a capability that enables customers to better control access to Amazon ECR repositories and images using private endpoints. For more information on setting up VPC Endpoints on ECR, see [Endnote 2](#endnote-2).  
 Use AWS Config to track for any configuration drift to VPC Subnet ACL's.  
 CloudTrail captures all API calls for Amazon ECR as events, including calls from the Amazon ECR console and from code calls to the Amazon ECR APIs. These logs should be monitored regularly to ensure no changes are made to Config or ECR.
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Establish network/application monitoring controls

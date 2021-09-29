@@ -13,6 +13,7 @@ Josh Lutrell
   - [1. Permissions within the service are established in line with individual need and least-privilege is enforced](#1-Permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced)
   - [2. Data is protected](#2-Data-is-protected)
   - [3. Infrastructure must be secured for monitoring, audit, availability, and access control](#3-Infrastructure-must-be-secured-for-monitoring,-audit,-availability,-and-access-control)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Establish network/application monitoring controls](#1-establish-networkapplication-monitoring-controls)
   - [2. AWS Systems Manager Patch Manager](#2-run-vulnerability-scans-on-images-stored-in-ecr)
@@ -754,6 +755,35 @@ aws ssm create-patch-baseline --cli-input-json file://my-patch-repository.json
 ```
 
 For additional Patch Manager examples, see [Working with Patch Manager (AWS CLI)](https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-cli-commands.html) or [Working with Patch Manager (console)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-patch-working.html). 
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Establish Config rules to monitor for deviations from normal configuration

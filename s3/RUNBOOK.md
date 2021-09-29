@@ -22,6 +22,7 @@ Table of Contents
   - [7. Buckets backups are in accordance with CG Standards](#7-Buckets-backups-are-in-accordance-with-CG-Standards)
   - [8. CloudTrail logging enabled for S3](#8-CloudTrail-logging-enabled-for-S3)
   - [9. CloudWatch alarms enabled for S3](#9-CloudWatch-alarms-enabled-for-S3)
+  - [10. Restrict Access to Deny Regions Outside US](#10-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Operational Best Practices](#operational-best-practices)
   - [1. Resource Tags](#1-Resource-Tags)
   - [2. Enable AWS Config](#Enable-AWS-Config)
@@ -369,6 +370,34 @@ More info on monitoring: https://docs.aws.amazon.com/AmazonS3/latest/userguide/c
 
 <br><br> 
 
+### 10. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 ## Operational Best Practices
 ### 1. Resource Tags
 **What, Why & How?**  

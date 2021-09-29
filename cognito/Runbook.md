@@ -14,6 +14,7 @@ Security Engineering
 - [Overview](#overview)
 - [Preventative Controls](#Preventative-Controls)
   - [1. Cognito User Pools utilize OKTA as Identity Provider](#1-Cognito-User-Pools-utilize-OKTA-as-Identity-Provider)
+  - [2. Restrict Access to Deny Regions Outside US](#2-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. Cognito resources are tagged according to CG standards](#1-Cognito-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -79,6 +80,35 @@ As mentioned previously one can integrate OKTA directly from a user pool.
 The following diagram shows the authentication flow for this process:
 
 <img src="/docs/img/cognito/auth_flow.png" width="800">
+
+### 2. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-2",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 <br>
 

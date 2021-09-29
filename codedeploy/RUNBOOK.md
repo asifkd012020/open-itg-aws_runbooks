@@ -17,6 +17,7 @@ Tony DeMarco
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
   - [1.Use CodeDeploy Identity-based policies to ensure least-privilege is enforced to create, delete, or update deployment configurations and deployment groups.](#1-use-codedeploy-identity-based-policies-to-ensure-least-privilege-is-enforced-to-create-delete-or-update-deployment-configurations-and-deployment-groups)
+  - [2. Restrict Access to Deny Regions Outside US](#2-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Audit and monitor all interactions with AWS CodeDeploy using AWS Cloudtrail](#1-Audit-and-monitor-all-interactions-with-AWS-CodeDeploy-using-AWS-Cloudtrail)
   - [2. Centrailaize and View AWS CodeDeploy logs in Amazon CloudWatch utilizing Cloudwatch Events](#2-centrailaize-and-view-aws-codedeploy-logs-in-amazon-cloudWatch-utilizing-cloudwatch-events)
@@ -460,6 +461,34 @@ Use the scroll bars to see the rest of the table\.
 
 For more information on IAM identity-based policies for CodeDeploy, including examples, see [Endnote 2](#endnote-2).
 
+### 2. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-2",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 

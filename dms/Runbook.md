@@ -16,6 +16,7 @@ Security Engineering
   - [1. DMS deployed using VPC Endpoints to prevent public access](#1-DMS-deployed-using-VPC-Endpoints-to-prevent-public-access)
   - [2. DMS Data is Encrypted using CG Managed KMS Keys](#2-DMS-Data-is-Encrypted-using-CG-Managed-KMS-Keys)
   - [3. DMS Utilizes TLS 1.2 to secure data in transit](#3-DMS-Utilizes-TLS-1-2-to-secure-data-in-transit)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. DMS Resources are tagged according to CG standards](#1-DMS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -90,6 +91,36 @@ Below are the steps to implement Interface VPC Endpoints for DMS:
 
 ### 3. DMS Utilizes TLS 1.2 to secure data in transit
 `This Section will be updated soon.`
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-5",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 ## Detective Controls

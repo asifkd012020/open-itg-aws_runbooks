@@ -17,6 +17,7 @@ Security Engineering
   - [2. DataSync leverages IAM Users and Roles Enforce Least Priviledge](#2-DataSync-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge)
   - [3. DataSync connections are protected with TLS 1.2](#3-DataSync-connections-are-protected-with-TLS-1-2)
   - [4. DataSync data is encrypted using CG managed KMS Keys](#4-DataSync-data-is-encrypted-using-CG-managed-KMS-Keys)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. DataSync Resources are tagged according to CG standards](#1-DataSync-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -121,6 +122,36 @@ This section assumes the agent is being deployed to VMWare, which is currently C
 
 ### 4. DataSync data is encrypted using CG managed KMS Keys
 `This Section will be updated soon.`
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-5",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 ## Detective Controls

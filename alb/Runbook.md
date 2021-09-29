@@ -17,6 +17,7 @@ Security Engineering
   - [2. ALB Deployed with appropriate Security Groups](#2-ALB-Deployed-with-appropriate-Security-Groups)
   - [3. Enforce TLS 1.2 using cert signed by CG CA](#3-Enforce-TLS-1-2-using-cert-signed-by-CG-CA)
   - [4. HTTP requests will be redirected to HTTP/S](#4-HTTP-requests-will-be-redirected-to-HTTP/S)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. Application Load Balancing resources are tagged according to CG standards](#1-Application-Load-Balancing-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -124,6 +125,9 @@ When building a new ALB, once HTTPS has been selected and Certificate uploaded, 
 
 ### 4. HTTP requests will be redirected to HTTP/S
 `This Section will be updated soon.`
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">

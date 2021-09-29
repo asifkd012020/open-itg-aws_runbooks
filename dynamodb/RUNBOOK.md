@@ -20,6 +20,7 @@ Security Engineering
   - [6. Create CloudWatch Alarms to monitor DynamoDB](#Create-CloudWatch-Alarms-to-monitor-DynamoDB)
   - [7. DynamoDB Continuous Backups](#DynamoDB-Continuous-Backups)
   - [8. DynamoDB Backup / Restore setup](#DynamoDB-Backup-/-Restore-setup)
+  - [9. Restrict Access to Deny Regions Outside US](#9-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Operational Best Practices](#Operational-Best-Practices)
     - [1. Tagging](#Tagging)
     - [2. Unused Tables should be removed](#Unused-Tables-should-be-removed)
@@ -320,6 +321,36 @@ Restore Backup
 3. In the list of backups, choose you desired backup
 4. Choose Restore backup.
 5. Enter the new table name. Confirm the backup name and other backup details. Then choose Restore table to start the restore process.
+
+### 9. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 
 <br><br>
 

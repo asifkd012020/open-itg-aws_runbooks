@@ -16,6 +16,7 @@ Security Engineering
   - [1. SNS Deployed with VPC Endpoints](#1-sns-deployed-with-vpc-endpoints)
   - [2. SNS Deployed with Encryption using CG Managed Keys](#2-sns-deployed-with-encryption-using-cg-managed-keys)
   - [3. SNS Deployed with appropriate permissions to enforce least priviledge](#3-sns-deployed-with-appropriate-permissions-to-enforce-least-priviledge)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. CloudTrail logging enabled and sent to Splunk](#1-cloudtrail-logging-enabled-and-sent-to-splunk)
   - [2. CloudWatch logging enabled](#2-cloudwatch-logging-enabled)
@@ -185,6 +186,34 @@ Below is some example IAM Policy for limiting SNS access:
   }]
 }
 ```
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50"><br>

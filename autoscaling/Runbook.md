@@ -5,6 +5,7 @@
 - [Overview](#overview)
 - [Preventative Controls](#preventative-controls)
   - [1. Use VPC Endpoints to restrict traffic to the CG Network](#1-use-vpc-endpoints-to-restrict-traffic-to-the-cg-network)
+  - [2. Restrict Access to Deny Regions Outside US](#2-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Respond/Recover](#respondrecover)
 - [Endnotes](#endnotes)
 - [Capital Group Glossory](#capital-group-glossory)
@@ -21,6 +22,34 @@ AWS Auto Scaling is best viewed as an orchestrator, and has minimal inherent cap
 
 ### 1. Use VPC Endpoints to restrict traffic to the CG Network
 AWS DataPipeline as with many AWS PaaS services by nature do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Management (IAM) controls may be the only true option for securing access to the service and the data stored within.
+
+### 1. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-2",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ ```
 <br>
 
 **Capital Group:** <br>

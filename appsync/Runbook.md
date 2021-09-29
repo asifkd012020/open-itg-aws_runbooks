@@ -14,6 +14,9 @@ Security Engineering
 
 ## Table of Contents <!-- omit in toc -->
 - [Overview](#overview)
+-[Preventative Controls](#Preventative-Controls)
+ - [1. Restrict Access to Deny Regions Outside US](#1-Restrict-Access-to-Deny-Regions-Outside-US)
+
 - [Service Denial Explanation](#Service-Denial-Explanation)
 - [Endnotes](#Endnotes)
 - [Capital Group Glossory](#Capital-Group-Glossory) 
@@ -31,6 +34,12 @@ AWS AppSync is a fully managed service that makes it easy to develop GraphQL API
 
 
 <br>
+
+## Preventative Controls
+<img src="/docs/img/Prevent.png" width="50">
+
+### 1. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
 
 ## Service Denial Explanation
 Three of the Core Tenets of our migration to and use of cloud technologies are as follows: 

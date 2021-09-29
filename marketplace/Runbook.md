@@ -16,6 +16,7 @@ Security Engineering
   - [1. Private Marketplace administrative rights only assigned to Platform Design Team](#1-Private-Marketplace-administrative-rights-only-assigned-to-Platform-Design-Team)
   - [2. IAM Policy Enforces Least Priviledge for Private Marketplace Resources](#2-IAM-Policy-Enforces-Least-Priviledge-for-Private-Marketplace-Resources)
   - [3. CloudTrail logging enabled for Private Marketplace](#3-CloudTrail-logging-enabled-for-Private-Marketplace)
+  - [4. Restrict Access to Deny Regions Outside US](#3-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Other Operational Expectations](#Other-Operational-Expectations)
   - [1. Private Marketplace Resources are tagged according to CG standards](#1-Private-Marketplace-Resources-are-tagged-according-to-CG-standards)
 - [Endnotes](#Endnotes)
@@ -152,6 +153,35 @@ The Marketplace direct APIs service is integrated with AWS CloudTrail. CloudTrai
 - A `default trail` should have been enabled through automation to allow for the continuous delivery of CloudTrail events to an Amazon Simple Storage Service (Amazon S3) bucket, including events for the Marketplace APIs. This will enable the forwarding of logs into Splunk for long term archival and reporting.
 - Creation of non-default Cloud Trails should be avoided where possible as all EBS data should be logged and monitored though the aforementioned default trail.
 <br><br>
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Other Operational Expectations
 <img src="/docs/img/Operations.png" width="50">

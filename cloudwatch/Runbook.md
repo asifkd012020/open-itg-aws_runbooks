@@ -20,6 +20,7 @@ Security Engineering
   - [5. Pre-defined log groups are enabled and forwarded to Splunk](#5-Pre-defined-log-groups-are-enabled-and-forwarded-to-Splunk)
   - [6. Pre-defined services are enabled and forwarded to Splunk](#6-Pre-defined-services-are-enabled-and-forwarded-to-Splunk)
   - [7. Metrics for new services are submitted to the SIRI team, enabled and forwarded to Splunk](#7-Metrics-for-new-services-are-submitted-to-the-SIRI-team-enabled-and-forwarded-to-Splunk)
+  - [8. Restrict Access to Deny Regions Outside US](#8-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
@@ -122,6 +123,34 @@ Users who require read-only access to the CloudWatch service will only have acce
   ]
 }
 ```
+### 8. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-2",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 <br>
 
 ## Detective Controls

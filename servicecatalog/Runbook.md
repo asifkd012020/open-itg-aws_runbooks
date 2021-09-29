@@ -16,6 +16,7 @@ Security Engineering
   - [1. Service Catalog utilizes Private Endpoint to prevent public access](#1-Service-Catalog-utilizes-Private-VPC-Endpoint-to-prevent-public-access)
   - [2. IAM Users and Roles Enforce Least Priviledge for Service Catalog](#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-for-Service-Catalog)
   - [3. Data Protection standards enforced in Service Catalog](#3-Data-Protection-standards-enforced-in-Service-Catalog)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. Service Catalog resources are tagged according to CG standards](#1-Service-Catalog-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -75,6 +76,36 @@ Interface VPC endpoints are powered by AWS PrivateLink, an AWS technology that e
 
 ### 3. Data Protection standards enforced in Service Catalog
 `This Section will be updated soon.`
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 

@@ -17,6 +17,7 @@ Security Engineering
   - [2. IAM Users and Roles Enforce Least Priviledge to CloudHSM Service](#2-IAM-Users-and-Roles-Enforce-Least-Priviledge-to-CloudHSM-Service)
   - [3. CloudHSM User accounts Enforce Least Priviledge within HSM Service](#3-CloudHSM-User-accounts-Enforce-Least-Priviledge-within-HSM-Service)
   - [4. Data Protection in AWS CloudHSM Service](#4-Data-Protection-in-AWS-CloudHSM-Service)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. CloudHSM resources are tagged according to CG standards](#1-CloudHSM-resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -121,6 +122,37 @@ By default when one creates a new CloudHSM cluster, AWS creates an ENI (Elastic 
 ### 4. Data Protection in AWS CloudHSM Service
 `This Section will be updated soon.`
 <br>
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-2",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+ <br>
+
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">

@@ -20,6 +20,7 @@ Security Engineering
   - [5. Config is enabled only for specific US Regions](#5-Config-is-enabled-only-for-specific-US-Regions)
   - [6. Config cannot be disabled by Member Account Owners](#6-Config-cannot-be-disabled-by-Member-Account-Owners)
   - [7. Config is automatically enabled at the member account level](#7-Config-is-automatically-enabled-at-the-member-account-level)
+  - [8. Restrict Access to Deny Regions Outside US](#8-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. Config Resources are tagged according to CG standards](#1-DataSync-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -109,6 +110,36 @@ Interface VPC endpoints are powered by AWS PrivateLink, an AWS technology that e
 
 ### 7. Config is automatically enabled at the member account level
 `This Section will be updated soon.`
+
+### 8. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-8",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 ## Detective Controls

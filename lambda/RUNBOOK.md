@@ -18,6 +18,7 @@ Tony DeMarco
 - [Preventative Controls](#preventative-controls)
   - [1. Enforce Strict Access Policies for Lambda Users and Roles](#1-enforce-strict-access-policies-for-lambda-users-and-roles)
   - [2. Data Protection](#2-data-protection)
+  - [3. Restrict Access to Deny Regions Outside US](#3-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Log AWS Lambda API Calls with AWS CloudTrail](#1-log-aws-lambda-api-calls-with-aws-cloudtrail)
   - [2. Utilize Amazon CloudWatch logs for AWS Lambda](#2-utilize-amazon-cloudwatch-logs-for-aws-lambda)
@@ -134,6 +135,34 @@ aws xray put-encryption-config --type KMS --key-id alias/aws/xray
 #### Consider purging /tmp after every invocation <!-- omit in toc -->
 Each Lambda execution environment also includes a writeable file system, available at `/tmp`. This storage is not accessible to other execution environments. As with the process state, files written to `/tmp` remain for the lifetime of the execution environment. This allows expensive transfer operations—such as downloading machine learning (ML) models—to be amortized across multiple invocations. Functions that do not want to persist data between invocations should either not write to `/tmp`, or delete their files from `/tmp` after each invocation. While `/tmp` is only accessible to a single invocation environment, it should be purged between invocations to help prevent disclosure or persistence of potentially sensitive data.
 
+### 3. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 ## Detective
 ### 1. Log AWS Lambda API Calls with AWS CloudTrail 
 NIST CSF:

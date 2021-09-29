@@ -20,6 +20,7 @@ Tony DeMarco
   - [2. Enforce Data Protection Standards](#2-enforce-data-protection-standards)
   - [3. Change the Default Security Group for the VPC](#3-change-the-default-security-group-for-the-vpc)
   - [4. Control Access to VPC Endpoints](#4-control-access-to-vpc-endpoints)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Utilize VPC Flow logs with Amazon CloudWatch](#1-utilize-vpc-flow-logs-with-amazon-cloudwatch)
   - [2. Monitor NAT gateway metrics using Amazon CloudWatch](#2-monitor-nat-gateway-metrics-using-amazon-cloudwatch)
@@ -319,6 +320,35 @@ It is possible to further restrict the actions available to the principal, and w
     ]
 }
 ```
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Utilize VPC Flow logs with Amazon CloudWatch

@@ -20,6 +20,7 @@ Security Engineering
   - [5. EBS Utilizes VPC Endpoints to Prevent Public Access](#5-EBS-Utilizes-VPC-Endpoints-to-Prevent-Public-Access)
   - [6. CloudTrail logging enabled for EBS](#6-CloudTrail-logging-enabled-for-EBS)
   - [7. CloudWatch logging enabled for EBS](#7-CloudWatch-logging-enabled-for-EBS)
+  - [8. Restrict Access to Deny Regions Outside US](#8-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Operational Best Practices](#Other-Operational-Expectations)
   - [1. EBS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
   - [2. EBS Volumes should be removed if unattached or no longer required](#2-EBS-Volumes-should-be-removed-if-unattached-or-no-longer-required)
@@ -187,6 +188,36 @@ Event Notification to consider enabling for EBS:
 - EBS fast snapshot restore events
 
 Utilizing CloudWatch event notifications for EBS can be useful in detecting anomolous activity and patterns in data access within the EBS storage service. It is recommended that CloudWatch is used to monitor any critical EBS volumes in use at CG.
+
+### 8. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 
 ## Other Operational Expectations
 <img src="/docs/img/Operations.png" width="50">

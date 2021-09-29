@@ -17,6 +17,7 @@ Security Engineering
   - [2. GuardDuty access limited to Security Teams](#2-GuardDuty-access-limited-to-Security-Teams)
   - [3. GuardDuty resources are Encrypted using CG Managed KMS Keys](#3-GuardDuty-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
   - [4. GuardDuty connections are Encrypted in transitusing TLS 1.2](#4-GuardDuty-connections-are-Encrypted-in-transitusing-TLS-1-2)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. GuardDuty Resources are tagged according to CG standards](#1-GuardDuty-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -50,6 +51,35 @@ Amazon GuardDuty is a continuous security monitoring service that analyzes and p
 
 ### 4. GuardDuty connections are Encrypted in transitusing TLS 1.2
 `This Section will be updated soon.`
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 <br><br>
 
 ## Detective Controls

@@ -19,6 +19,7 @@ Tony DeMarco
   - [1. Permissions within the service are established in line with individual need and least-privilege is enforced](#1-permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced)
   - [2. Data is protected All Data at rest must be encrypted and use a CG BYOK encryption key|](#2-data-is-protected-all-data-at-rest-must-be-encrypted-and-use-a-cg-byok-encryption-key)
   - [3. Inter-network traffic privacy](#3-inter-network-traffic-privacy)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Auditing of all interactions with AWS CodeBuild](#1-auditing-of-all-interactions-with-aws-codebuild)
 - [Respond/Recover](#respondrecover)
@@ -193,6 +194,35 @@ To limit use of the gateway endpoint to a specific principal, you must use the `
 ```
 
 For more information on setting up VPC Endpoints for CodeBuild, see [Endnote 3](#endnote-3).
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-2",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Auditing of all interactions with AWS CodeBuild

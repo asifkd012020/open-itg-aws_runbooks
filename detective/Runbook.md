@@ -17,6 +17,7 @@ Security Engineering
   - [2. Detective access limited to Security Teams](#2-Detective-access-limited-to-Security-Teams)
   - [3. Detective resources are Encrypted](#3-Detective-reources-are-Encrypted)
   - [4. Detective connections are Encrypted in transit using TLS 1.2](#4-Detective-connections-are-Encrypted-in-transit-using-TLS-1-2)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. Detective Resources are tagged according to CG standards](#1-Detective-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -56,6 +57,36 @@ You can get started with Amazon Detective in just a few clicks in the AWS Consol
 
 ### 4. Detective connections are Encrypted in transitusing TLS 1.2
 `This Section will be updated soon.`
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-5",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 ## Detective Controls

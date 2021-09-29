@@ -17,6 +17,7 @@ Security Engineering
   - [2. EventBridge Users and Roles defined following least privilege model](#2-EventBridge-Users-and-Roles-defined-following-least-privilege-model)
   - [3. EventBridge resources are Encrypted using CG Managed KMS Keys](#3-EventBridge-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
   - [4. EventBridge connections are Encrypted in transitusing TLS 1.2](#4-EventBridge-connections-are-Encrypted-in-transitusing-TLS-1-2)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. EventBridge Resources are tagged according to CG standards](#1-EventBridge-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -87,6 +88,35 @@ Interface VPC endpoints are powered by AWS PrivateLink, a feature that enables p
 
 ### 4. EventBridge connections are Encrypted in transitusing TLS 1.2
 `This Section will be updated soon.`
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 <br><br>
 
 ## Detective Controls

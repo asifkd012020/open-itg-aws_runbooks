@@ -17,6 +17,7 @@ Security Engineering
   - [2. SQS Users and Roles defined following least privilege model](#2-SQS-Users-and-Roles-defined-following-least-privilege-model)
   - [3. SQS resources are Encrypted using CG Managed KMS Keys](#3-SQS-reources-are-Encrypted-using-CG-Managed-KMS-Keys)
   - [4. SQS connections are Encrypted in transit using TLS 1.2](#4-SQS-connections-are-Encrypted-in-transit-using-TLS-1-2)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. SQS Resources are tagged according to CG standards](#1-SQS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -90,7 +91,7 @@ Once we have setup a VPC Endpoint, we still need to mandate the use of the VPC E
   3. Click on the `Policy Tab`, and edit the policy.
   4. Enter the policy information in the policy field, based on the example below, with the appropriate modifications. where `11111111111` is the AWS account and `vpce-2222222` is the VPC Endpoint.
 
-  ```
+```
   {
    "Version": "2012-10-17",
    "Id": "BlockNonEndpointTraffic",
@@ -126,7 +127,9 @@ Once we have setup a VPC Endpoint, we still need to mandate the use of the VPC E
    ]
 }
 ```
+
 <br>
+
 
 ### 2. SQS Users and Roles defined following least privilege model
 `This Section will be updated soon.`
@@ -136,6 +139,34 @@ Once we have setup a VPC Endpoint, we still need to mandate the use of the VPC E
 
 ### 4. SQS connections are Encrypted in transit using TLS 1.2
 `This Section will be updated soon.`
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 <br><br>
 
 ## Detective Controls

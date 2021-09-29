@@ -21,6 +21,7 @@ Tony DeMarco
   - [3. Database instances are configured for high-availability](#3-database-instances-are-configured-for-high-availability)
   - [4. Network controls are restrictive](#4-network-controls-are-restrictive)
   - [5. Store database secrets in a vault for automatic rotation](#5-store-database-secrets-in-a-vault-for-automatic-rotation)
+  - [6. Restrict Access to Deny Regions Outside US](#6-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Monitor RDS DB instances status](#1-monitor-rds-db-instances-status)
   - [2. Log Amazon RDS API calls](#2-log-amazon-rds-api-calls)
@@ -325,6 +326,34 @@ aws ec2 create-vpc-endpoint  --vpc-id <vpc id> \
                              --security-group-id <security group id>
 ```
 
+### 6. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 ## Detective
 ### 1. Monitor RDS DB instances status
 NIST CSF:

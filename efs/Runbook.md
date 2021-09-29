@@ -19,6 +19,7 @@ Security Engineering
   - [4. EFS connections are protected with TLS 1.2](#4-EFS-connections-are-protected-with-TLS-1-2)
   - [5. EFS access points created following least privileged model](#5-EFS-access-points-created-following-least-privileged-model)
   - [6. EFS root access disabled by default](#6-EFS-root-access-disabled-by-default)
+  - [7. Restrict Access to Deny Regions Outside US](#7-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. EFS Resources are tagged according to CG standards](#1-EBS-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -127,6 +128,36 @@ The policy specifies the following:
 
 ### 6. EFS root access disabled by default
 `This Section will be updated soon.`
+
+### 7. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
 
 ## Detective Controls

@@ -19,6 +19,7 @@ Security Engineering
     - [2. Redshift resources are Encrypted using CG Managed KMS Keys](#2-Redshift-resources-are-Encrypted-using-CG-Managed-KMS-Keys)
     - [3. Redshift connections are Encrypted in transitusing TLS 1.2](#3-Redshift-connections-are-Encrypted-in-transitusing-TLS-1-2)
     - [4. Redshift implements access controls to enforce least privilege](#4-Redshift-implement-access-controls-to-enforce-least-privilege)
+    - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#Detective)
     - [1. Amazon Redshift should have automatic upgrades to major versions enabled](#1-amazon-redshift-should-have-automatic-upgrades-to-major-versions-enabled)
     - [2. Redshift Resources are tagged according to CG standards](#2-Redshift-Resources-are-tagged-according-to-CG-standards)
@@ -322,7 +323,34 @@ For more information on setting up temporary credentials to access your Redshift
 ##### Identity provider federation - 
 - You can use Okta as an identity provider (IdP) to access your Amazon Redshift cluster.  The following is an example of how to setup MFA for Redshift via Okta [AWS Redshift Okta MFA Setup](https://aws.amazon.com/blogs/big-data/federate-amazon-redshift-access-with-okta-as-an-identity-provider/)
 
-
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 <br>

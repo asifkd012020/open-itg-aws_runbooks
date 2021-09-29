@@ -16,6 +16,7 @@ Security Engineering
   - [1. DataPipeline leverages IAM Users and Roles Enforce Least Priviledge](#1-DataPipeline-leverages-IAM-Users-and-Roles-Enforce-Least-Priviledge)
   - [2. DataPipeline connections are protected with TLS 1.2](#2-DataPipeline-connections-are-protected-with-TLS-1.2)
   - [3. DataPipeline data is encrypted using CG managed KMS Keys](#3-DataPipeline-data-is-encrypted-using-CG-managed-KMS-Keys)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. DataPipeline Resources are tagged according to CG standards](#1-DataPipeline-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -135,6 +136,34 @@ The following policy allows users to use all the AWS Data Pipeline API actions, 
 
 ### 3. DataPipeline data is encrypted using CG managed KMS Keys
 `This Section will be updated soon.`
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-4",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 <br><br>
 
 ## Detective Controls

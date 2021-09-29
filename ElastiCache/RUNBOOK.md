@@ -14,6 +14,7 @@ Ken Jeanis
   - [1. Permissions within the service are established in line with individual need and least-privilege is enforced 1](#1-permissions-within-the-service-are-established-in-line-with-individual-need-and-least-privilege-is-enforced)
   - [2. Enable Security Groups to limit access to ElastiCache instances](#2-enable-security-groups-to-limit-access-to-elasticache-instances)
   - [3. Data must be encrypted using CG BYOK for encyprtion](#3-data-must-be-encrypted-using-cg-byok-for-encyprtion)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Establish Config rules to monitor for deviations from normal configuration](#1-establish-config-rules-to-monitor-for-deviations-from-normal-configuration)
 - [Respond/Recover](#respondrecover)
@@ -238,7 +239,34 @@ Include the following pieces of information
        --at-rest-encryption-enabled \
        --cache-parameter-group default.redis4.0.cluster.on
 
-
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Establish Config rules to monitor for deviations from normal configuration

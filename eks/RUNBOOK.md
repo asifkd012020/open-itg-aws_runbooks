@@ -19,6 +19,7 @@ Tony DeMarco
   - [1. Implement strict IAM policies around who/what is allowed to use the service](#1-implement-strict-iam-policies-around-whowhat-is-allowed-to-use-the-service)
   - [2. Data is protected](#2-data-is-protected)
   - [3. Disable public API access](#3-disable-public-api-access)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Establish configuration management rules to monitor for deviations from normal configuration](#1-establish-configuration-management-rules-to-monitor-for-deviations-from-normal-configuration)
   - [2. Utilize vulnerability scanning on EC2 worker nodes](#2-utilize-vulnerability-scanning-on-ec2-worker-nodes)
@@ -113,6 +114,35 @@ aws eks update-cluster-config \
 </pre>
 
 To prevent clusters from being created or updated to allow public access, there are two options: (1) EventBridge rule when `create_cluster()` is called and `endpointPublicAccess` is set to `True`; reaction to Lambda to delete the cluster or set `endpointPublicAccess` to `False`; and, (2) EventBridge rule when `update_cluster_config()` is called and `endpointPublicAccess` is set to `True`; reaction to Lambda to set `endpointPublicAccess` to `False`.
+
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Establish configuration management rules to monitor for deviations from normal configuration

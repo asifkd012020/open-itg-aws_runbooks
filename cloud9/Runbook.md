@@ -20,6 +20,7 @@ Security Engineering
   - [4. Cloud9 utilizes IAM Roles to enforce least priviledge](#4-Cloud9-utilizes-IAM-Roles-to-enforce-least-priviledged)
   - [5. Cloud9 connections are protected with TLS 1.2](#5-Cloud9-connections-are-protected-with-TLS-1-2)
   - [6. Cloud9 data is encrypted using CG managed KMS Keys](#6-Cloud9-data-is-encrypted-using-CG-managed-KMS-Keys)
+  - [7. Restrict Access to Deny Regions Outside US](#7-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. Cloud9 Resources are tagged according to CG standards](#1-Cloud9-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -166,7 +167,39 @@ To set up interface VPC endpoints for Session Manager
 ### 6. Cloud9 data is encrypted using CG managed KMS Keys
 
 `This Section will be updated soon.`
+
+### 7. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-2",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
+
 <br><br>
+
+
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">

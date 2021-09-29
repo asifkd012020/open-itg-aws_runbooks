@@ -20,6 +20,7 @@ Security Engineering
   - [3. Private VPC Access for QuickSight](#3.-Private-VPC-Access-for-QuickSight)
   - [4. Encrypt data at rest](#4.-Encrypt-data-at-rest)
   - [5. Encrypt data in transit](#5.-Encrypt-data-in-transit)
+  - [6. Restrict Access to Deny Regions Outside US](#6-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
 - [Respond & Recover](#Respond/Recover)
 - [Endnotes](#Endnotes)
@@ -156,6 +157,34 @@ Amazon QuickSight supports encryption for all data transfers. This includes tran
 
 Whenever data is transmitted over the internet or public networks such as AWS, encryption of these connections must take place. All encrypted connections should utilize TLS 1.2 or above, as previous versions have know security flaws.
 
+### 6. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">
 

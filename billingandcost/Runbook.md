@@ -15,6 +15,7 @@ Security Engineering
 - [Preventative Controls](#Preventative-Controls)
   - [1. IAM Policies for Billing and Cost Management](#1-IAM-policies-for-Billing-and-Cost-Management)
   - [2. Data Protection of Billing and Cost Management](#2-Data-Protection-of-Billing-and-Cost-Management)
+  - [3. Restrict Access to Deny Regions Outside US](#3-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. Resources are tagged according to CG standards](#1-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -38,6 +39,34 @@ AWS Billing and Cost Management is the service that you use to pay your AWS bill
 
 ### 1. IAM Policies for Billing and Cost Management
 Billing and Cost Management as with many AWS PaaS and SaaS services do not usually allow for the service to be built within a Private VPC, and therefore Identity and Access Management (IAM) controls may be the only true option for securing access to the service and the data stored within.
+
+### 3. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-2",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ ```
 
 **NIST CSF:** <br>
 

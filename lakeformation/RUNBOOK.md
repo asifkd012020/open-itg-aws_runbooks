@@ -18,6 +18,7 @@ Tony DeMarco
 - [Preventative Controls](#preventative-controls)
   - [1. Establish Fine-Grained Access Controls](#1-establish-fine-grained-access-controls)
   - [2. Register Encrypted S3 Locations for Underlying Data](#2-register-encrypted-s3-locations-for-underlying-data)
+  - [3. Restrict Access to Deny Regions Outside US](#3-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Log AWS CLoudformation API Calls with AWS CloudTrail](#1-log-aws-cloudformation-api-calls-with-aws-cloudtrail)
 - [Endnotes](#endnotes)
@@ -161,6 +162,35 @@ If that object is missing, add it with the permissions shown in the example. The
    Registering the selected location might result in your Lake Formation users gaining access to data already at that location. Viewing this list helps you ensure that existing data remains secure.
 5. For **IAM role**, choose either the `AWSServiceRoleForLakeFormationDataAccess` service-linked role (the default) or your custom role that meets the Requirements for Roles Used to Register Locations, layed out in [Endnote 2](#endnote-2).
 6. Choose **Register location**.
+
+### 3. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Monitor for Changes to Data Lake Administrators

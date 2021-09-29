@@ -17,6 +17,7 @@ Security Engineering
   - [2. API Gateway Deployed with IAM Access Policies](#2-API-Gateway-Deployed-with-IAM-Access-Policies)
   - [3. Encrypt all data in the Cloud](#3-Encrypt-all-data-in-the-Cloud)
   - [4. Deploy NLB with PrivateLink for Access to Internal Resources](#4-Deploy-NLB-with-PrivateLink-for-Access-to-Internal-Resources)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. API Gateway Resources are tagged according to CG standards](#1-API-Gateway-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -149,6 +150,8 @@ API Gateway does not run on the CG Managed VPC, even when a private endpoint is 
 3. Go to API Gateway, and go to the 'VPC Links' and create a new VPC Link targeting that Load Balancer
 <img src="/docs/img/apigw/vpclinkcreate.png" width="800"> 
 
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
 
 ## Detective Controls
 <img src="/docs/img/Detect.png" width="50">

@@ -19,6 +19,7 @@ Security Engineering
   - [4. Secrets Manager hosted secrets will be generated, vaulted and managed securely](#4-Secrets-Manager-hosted-secrets-will-be-generated-vaulted-and-managed-securely)
   - [5. Secrets Manager will enforce the Enterprise Password Management requirements](#5-Secrets-Manager-will-enforce-the-Enterprise-Password-Management-requirements)
   - [6. Secrets Manager has cross account access disabled](#6-Secrets-Manager-has-cross-account-access-disabled)
+  - [7. Restrict Access to Deny Regions Outside US](#7-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective Controls](#Detective-Controls)
   - [1. Secrets Manager Resources are tagged according to CG standards](#1-Secrets-Manager-Resources-are-tagged-according-to-CG-standards)
   - [2. CloudTrail logging enabled and sent to Splunk](#2-CloudTrail-logging-enabled-and-sent-to-Splunk)
@@ -114,6 +115,35 @@ Below are the steps to implement Interface VPC Endpoints for Secrets Manager:
 
 ### 6. Secrets Manager has cross account access disabled
 `This Section will be updated soon.`
+
+### 7. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 <br><br>
 
 ## Detective Controls

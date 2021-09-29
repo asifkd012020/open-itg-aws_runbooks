@@ -19,6 +19,7 @@ Tony DeMarco
   - [1. Enforce least privilege for all Glue users and roles](#1-enforce-least-privilege-for-all-glue-users-and-roles)
   - [2. Data Protection Standards are Enforced](#2-data-protection-standards-are-enforced)
   - [3. Isolate Glue Access from the Internet Using VPC Endpoint](#3-isolate-glue-access-from-the-internet-using-vpc-endpoint)
+  - [4. Restrict Access to Deny Regions Outside US](#4-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Enable continuous logging for AWS Glue jobs](#1-enable-continuous-logging-for-aws-glue-jobs)
   - [2. Utilize CloudWatch to monitor AWS Glue metrics](#2-utilize-cloudwatch-to-monitor-aws-glue-metrics)
@@ -313,6 +314,34 @@ After you've created an interface endpoint, you can view information about it. R
 ```
 aws ec2 describe-vpc-endpoints --vpc-endpoint-ids vpce-088d25a4bbf4a7abc
 ```
+### 4. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Enable continuous logging for AWS Glue jobs

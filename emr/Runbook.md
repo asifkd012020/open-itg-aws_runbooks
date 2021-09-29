@@ -13,6 +13,7 @@ Ken Jeanis
   - [2. Data must be encrypted at all times using a CG BYOK for encryption where possible](#2-Data-must-be-encrypted-at-all-times-using-a-CG-BYOK-for-encryption-where-possible)
   - [3. Infrastructure must be secured for monitoring, audit, availability, and access control](#3-Infrastructure-must-be-secured-for-monitoring,-audit,-availability,-and-access-control)
   - [4. Patch Management and Vulnerability Management](#4-Patch-Management-and-Vulnerability-Management)
+  - [5. Restrict Access to Deny Regions Outside US](#5-Restrict-Access-to-Deny-Regions-Outside-US)
 - [Detective](#detective)
   - [1. Establish Config rules to monitor for deviations from normal configuration](#1-Establish-Config-rules-to-monitor-for-deviations-from-normal-configuration)
 - [Respond/Recover](#respondrecover)
@@ -547,6 +548,35 @@ NIST CSF:
 **How** Refer to [Endnote 5](#endnote-5) for details on installing the Qualys Cloud-Agent (Capital Group's vulnerability management software). If you are deploying an EC2 instance from an image that does not already have this software installed and configured, you will need to include it in the initial deployment.
 
 For patch management, the best way to manage a fleet of instances is using AWS Systems Manager. Systems Manager offers options for performing patch management on individual, or multiple, instances. In order for AWS Systems Manager to communicate with your instance, you will need to install the SSM Agent on the instance. Refer to [Endnote 3](#endnote-3) for details on setting up patch management on specific types of instances. Refer to the previous section for instructions on installing the SSM Agent.
+
+### 5. Restrict Access to Deny Regions Outside US region
+ *Policy resticts the access to Deny any resources outside of US Region*
+ ```
+ {
+            "Sid": "DenyAllOutsideUS",
+            "Effect": "Deny",
+            "NotAction": [
+                "support:*",
+                "sts:*"
+            ],
+            "Resource": "*",
+            "Condition": {
+                "StringNotEquals": {
+                    "aws:RequestedRegion": [
+                        "us-west-1",
+                        "us-west-9",
+                        "us-east-1",
+                    ]
+                },
+                "StringNotLike": {
+                    "aws:PrincipalArn": [
+                        "arn:aws:iam::*:role/OrganizationAccountAccessRole"
+                    ]
+                }
+            }
+        },
+ 
+ ```
 
 ## Detective
 ### 1. Establish Config rules to monitor for deviations from normal configuration
